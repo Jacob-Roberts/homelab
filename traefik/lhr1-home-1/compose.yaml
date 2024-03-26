@@ -25,7 +25,9 @@ services:
       - frontend
       - backend
     restart: unless-stopped
-  
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
   whoami:
     image: traefik/whoami
     networks:
@@ -38,4 +40,3 @@ services:
       # traefik.http.routers.whoami-http.rule: "Host(`192.168.0.97`)"
       # traefik.http.routers.whoami-https.entrypoints: "websecure"
       # traefik.http.routers.whoami-https.rule: "Host(`192.168.0.97`)"
-
