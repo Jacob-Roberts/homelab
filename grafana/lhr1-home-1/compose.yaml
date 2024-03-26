@@ -1,0 +1,24 @@
+---
+networks:
+  frontend:
+    external: true
+volumes:
+  grafana-data:
+    driver: local
+services:
+  grafana:
+    image: grafana/grafana-oss:10.1.1
+    container_name: grafana-lhr1-home-1
+    volumes:
+      - grafana-data:/var/lib/grafana
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana-lhr1-home-1-http.entrypoints=web
+      - traefik.http.routers.grafana-lhr1-home-1-http.rule=Host(`grafana-lhr1-home-1.srv-lhr1-home-1.home.jakerob.pro`)
+      - traefik.http.routers.grafana-lhr1-home-1-https.entrypoints=websecure
+      - traefik.http.routers.grafana-lhr1-home-1-https.rule=Host(`grafana-lhr1-home-1.srv-lhr1-home-1.home.jakerob.pro`)
+      - traefik.http.routers.grafana-lhr1-home-1-https.tls=true
+      - traefik.http.routers.grafana-lhr1-home-1-https.tls.certresolver=cloudflare
+    networks:
+      - frontend
+    restart: unless-stopped

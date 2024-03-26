@@ -1,0 +1,42 @@
+---
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+services:
+  traefik:
+    image: traefik:v2.11.0
+    container_name: traefik
+    ports:
+      - 80:80
+      - 443:443
+      # -- (Optional) Enable Dashboard, don't do in production
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ./config/conf/:/etc/traefik/conf/
+      - ./config/certs/:/etc/traefik/certs/
+    # -- (Optional) When using Cloudflare as Cert Resolver
+    # environment:
+    #   - CF_DNS_API_TOKEN=your-cloudflare-api-token
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  whoami:
+    image: traefik/whoami
+    networks:
+      - frontend
+      - backend
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.whoami.rule: Host(`whoami.docker.localhost`)
+      # traefik.http.routers.whoami-http.entrypoints: "web"
+      # traefik.http.routers.whoami-http.rule: "Host(`192.168.0.97`)"
+      # traefik.http.routers.whoami-https.entrypoints: "websecure"
+      # traefik.http.routers.whoami-https.rule: "Host(`192.168.0.97`)"
