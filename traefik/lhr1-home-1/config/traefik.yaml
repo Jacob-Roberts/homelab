@@ -5,8 +5,8 @@ global:
 # -- (Optional) Change Log Level and Format here...
 #     - loglevels [DEBUG, INFO, WARNING, ERROR, CRITICAL]
 #     - format [common, json, logfmt]
-# log:
-#  level: ERROR
+log:
+  level: ERROR
 #  format: common
 #  filePath: /var/log/traefik/traefik.log
 
@@ -22,20 +22,20 @@ api:
   insecure: true
 
 # -- Change EntryPoints here...
-# entryPoints:
-#   web:
-#     address: :80
-#     # -- (Optional) Redirect all HTTP to HTTPS
-#     # http:
-#     #   redirections:
-#     #     entryPoint:
-#     #       to: websecure
-#     #       scheme: https
-#   websecure:
-#     address: :443
-#   # -- (Optional) Add custom Entrypoint
-#   # custom:
-#   #   address: :8080
+entryPoints:
+  web:
+    address: :80
+    # -- (Optional) Redirect all HTTP to HTTPS
+    # http:
+    #   redirections:
+    #     entryPoint:
+    #       to: websecure
+    #       scheme: https
+  websecure:
+    address: :443
+  # -- (Optional) Add custom Entrypoint
+  # custom:
+  #   address: :8080
 
 # -- Configure your CertificateResolver here...
 # certificatesResolvers:
@@ -88,6 +88,8 @@ providers:
   docker:
     # -- (Optional) Enable this, if you want to expose all containers automatically
     exposedByDefault: false
+    endpoint: "unix:///var/run/docker.sock"
+    watch: true
   file:
     directory: /etc/traefik
     watch: true
