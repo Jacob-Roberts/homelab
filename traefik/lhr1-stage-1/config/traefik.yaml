@@ -43,7 +43,7 @@ certificatesResolvers:
     acme:
       email: jroberts.g1ql8@simplelogin.com
       storage: /etc/traefik/certs/cloudflare-acme.json
-      caServer: "https://acme-v02.api.letsencrypt.org/directory"
+      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       dnsChallenge:
         provider: namecheap
         resolvers:

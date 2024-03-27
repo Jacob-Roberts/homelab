@@ -9,8 +9,8 @@ services:
     image: traefik:v2.11.0
     container_name: traefik
     ports:
-      - 80:80
-      - 443:443
+      - 81:80 # Demo is one higher
+      - 444:443 # Demo is one higher
       # -- (Optional) Enable Dashboard, don't do in production
       - 8080:8080
     volumes:
@@ -37,7 +37,7 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: "true"
-      traefik.http.routers.whoami-prod-1-http.entrypoints: web
-      traefik.http.routers.whoami-prod-1-http.rule: Host(`whoami.lhr1.jakerob.pro`)
-      traefik.http.routers.whoami-prod-1-https.entrypoints: websecure
-      traefik.http.routers.whoami-prod-1-https.rule: Host(`whoami.lhr1.jakerob.pro`)
+      traefik.http.routers.whoami-demo-1-http.entrypoints: web
+      traefik.http.routers.whoami-demo-1-http.rule: Host(`whoami.stage.lhr1.jakerob.pro`)
+      traefik.http.routers.whoami-demo-1-https.entrypoints: websecure
+      traefik.http.routers.whoami-demo-1-https.rule: Host(`whoami.stage.lhr1.jakerob.pro`)
