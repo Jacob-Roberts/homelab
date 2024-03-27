@@ -7,7 +7,7 @@ networks:
 services:
   traefik:
     image: traefik:v2.11.0
-    container_name: traefik
+    container_name: traefik-prod-1
     ports:
       - 80:80
       - 443:443
@@ -30,7 +30,7 @@ services:
 
   whoami:
     image: traefik/whoami
-    container_name: whoami
+    container_name: whoami-prod-1
     networks:
       - frontend
       - backend

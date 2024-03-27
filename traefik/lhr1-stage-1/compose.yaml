@@ -7,12 +7,12 @@ networks:
 services:
   traefik:
     image: traefik:v2.11.0
-    container_name: traefik
+    container_name: traefik-stage-1
     ports:
       - 81:80 # Demo is one higher
       - 444:443 # Demo is one higher
       # -- (Optional) Enable Dashboard, don't do in production
-      - 8080:8080
+      - 8081:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
@@ -30,7 +30,7 @@ services:
 
   whoami:
     image: traefik/whoami
-    container_name: whoami
+    container_name: whoami-stage-1
     networks:
       - frontend
       - backend
