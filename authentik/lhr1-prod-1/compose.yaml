@@ -66,9 +66,9 @@ services:
       traefik.enable: true
       traefik.http.services.authentik.loadBalancer.server.port: 9000
       traefik.http.routers.authentik-prod-1-http.entrypoints: web
-      traefik.http.routers.authentik-prod-1-http.rule: Host(`authentik.home.jakerob.pro`)
+      traefik.http.routers.authentik-prod-1-http.rule: Host(`authentik.lhr1.jakerob.pro`)
       traefik.http.routers.authentik-prod-1-https.entrypoints: websecure
-      traefik.http.routers.authentik-prod-1-https.rule: Host(`authentik.home.jakerob.pro`)
+      traefik.http.routers.authentik-prod-1-https.rule: Host(`authentik.lhr1.jakerob.pro`)
       # "traefik.http.routers.authentik.tls: true
       # "traefik.http.routers.authentik.tls.certresolver: letsencrypt
     depends_on:
