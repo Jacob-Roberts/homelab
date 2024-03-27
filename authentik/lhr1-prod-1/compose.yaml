@@ -69,8 +69,8 @@ services:
       traefik.http.routers.authentik-prod-1-http.rule: Host(`authentik.lhr1.jakerob.pro`)
       traefik.http.routers.authentik-prod-1-https.entrypoints: websecure
       traefik.http.routers.authentik-prod-1-https.rule: Host(`authentik.lhr1.jakerob.pro`)
-      # "traefik.http.routers.authentik.tls: true
-      # "traefik.http.routers.authentik.tls.certresolver: letsencrypt
+      traefik.http.routers.authentik-prod-1-https.tls: true
+      traefik.http.routers.authentik-prod-1-https.tls.certresolver: cloudflare
     depends_on:
       - postgres
       - redis
