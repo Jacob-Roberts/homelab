@@ -25,8 +25,6 @@ services:
       - frontend
       - backend
     restart: unless-stopped
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
 
   whoami:
     image: traefik/whoami
