@@ -57,3 +57,11 @@ labels:
   traefik.http.routers.uptimekuma-stage-1-https.entrypoints: websecure
   traefik.http.routers.uptimekuma-stage-1-https.rule: Host(`uptime.stage.lhr1.jakerob.pro`)
 ```
+
+## Network Diagram
+
+| Host          | DHCP Reservation |
+| ------------- | ---------------- |
+| proxmox       | 192.168.42.10    |
+| pi-hole       | 192.168.42.11    |
+| docker-node-2 | 192.168.42.15    |
