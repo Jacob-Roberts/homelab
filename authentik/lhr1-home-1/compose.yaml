@@ -1,28 +1,29 @@
 ---
 services:
-  postgresql:
-    image: docker.io/library/postgres:12-alpine
-    restart: unless-stopped
-    container_name: authentik-postgres
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
-      start_period: 20s
-      interval: 30s
-      retries: 5
-      timeout: 5s
-    volumes:
-      - database:/var/lib/postgresql/data
+  postgres:
+    image: postgres:16.2
+    container_name: authentik-db
     environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_DB: ${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - TZ=${TZ:-UTC}
+    healthcheck:
+      test:
+        ["CMD-SHELL", 'pg_isready -d "${POSTGRES_DB}" -U "${POSTGRES_USER}"']
+      start_period: 30s
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
     networks:
       - backend
   redis:
-    image: docker.io/library/redis:alpine
+    image: redis:7.2.4
     container_name: authentik-redis
     command: --save 60 1 --loglevel warning
-    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
       start_period: 20s
@@ -30,71 +31,98 @@ services:
       retries: 5
       timeout: 3s
     volumes:
-      - redis:/data
+      - redis_data:/data
+    restart: unless-stopped
     networks:
       - backend
   server:
     image: ghcr.io/goauthentik/server:2024.2.2
     container_name: authentik-server
-    restart: unless-stopped
     command: server
     environment:
-      AUTHENTIK_REDIS__HOST: redis
-      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_REDIS__HOST: authentik-redis
+      AUTHENTIK_POSTGRESQL__HOST: authentik-db
       AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_USER}
       AUTHENTIK_POSTGRESQL__NAME: ${POSTGRES_DB}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
+      # (Required)  To generate a secret key run the following command:
+      #             echo $(openssl rand -base64 32)
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+      # (Optional)  Enable Error Reporting
+      # - AUTHENTIK_ERROR_REPORTING__ENABLED=${AUTHENTIK_ERROR_REPORTING:-false}
+      # (Optional)  Enable Email Sending
+      # - AUTHENTIK_EMAIL__HOST=${EMAIL_HOST:?error}
+      # - AUTHENTIK_EMAIL__PORT=${EMAIL_PORT:-25}
+      # - AUTHENTIK_EMAIL__USERNAME=${EMAIL_USERNAME:?error}
+      # - AUTHENTIK_EMAIL__PASSWORD=${EMAIL_PASSWORD:?error}
+      # - AUTHENTIK_EMAIL__USE_TLS=${EMAIL_USE_TLS:-false}
+      # - AUTHENTIK_EMAIL__USE_SSL=${EMAIL_USE_SSL:-false}
+      # - AUTHENTIK_EMAIL__TIMEOUT=${EMAIL_TIMEOUT:-10}
+      # - AUTHENTIK_EMAIL__FROM=${EMAIL_FROM:?error}
     volumes:
       - ./media:/media
       - ./custom-templates:/templates
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.authentik.rule=Host(`authentik.jakerob.internal`)"
-      - "traefik.http.routers.authentik.entrypoints=websecure"
-      - "traefik.http.routers.authentik.tls=true"
-      - "traefik.http.routers.authentik.tls.certresolver=letsencrypt"
-      - "traefik.http.services.authentik.loadBalancer.server.port=9000"
+      traefik.enable: true
+      traefik.http.services.authentik.loadBalancer.server.port: 9000
+      traefik.http.routers.authentik-prod-1-http.entrypoints: web
+      traefik.http.routers.authentik-prod-1-http.rule: Host(`authentik.home.jakerob.pro`)
+      traefik.http.routers.authentik-prod-1-https.entrypoints: websecure
+      traefik.http.routers.authentik-prod-1-https.rule: Host(`authentik.home.jakerob.pro`)
+      # "traefik.http.routers.authentik.tls: true
+      # "traefik.http.routers.authentik.tls.certresolver: letsencrypt
     depends_on:
-      - postgresql
+      - postgres
       - redis
     networks:
       - frontend
       - backend
+    restart: unless-stopped
   worker:
     image: ghcr.io/goauthentik/server:2024.2.2
     container_name: authentik-worker
-    restart: unless-stopped
     command: worker
     environment:
-      AUTHENTIK_REDIS__HOST: redis
-      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_REDIS__HOST: authentik-redis
+      AUTHENTIK_POSTGRESQL__HOST: authentik-db
       AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_USER}
       AUTHENTIK_POSTGRESQL__NAME: ${POSTGRES_DB}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
-    # `user: root` and the docker socket volume are optional.
-    # See more for the docker socket integration here:
-    # https://goauthentik.io/docs/outposts/integrations/docker
-    # Removing `user: root` also prevents the worker from fixing the permissions
-    # on the mounted folders, so when removing this make sure the folders have the correct UID/GID
-    # (1000:1000 by default)
-    user: root
+      # (Required)  To generate a secret key run the following command:
+      #             echo $(openssl rand -base64 32)
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+      # (Optional)  Enable Error Reporting
+      # AUTHENTIK_ERROR_REPORTING__ENABLED=${AUTHENTIK_ERROR_REPORTING:-false}
+      # (Optional)  Enable Email Sending
+      # - AUTHENTIK_EMAIL__HOST=${EMAIL_HOST:?error}
+      # - AUTHENTIK_EMAIL__PORT=${EMAIL_PORT:-25}
+      # - AUTHENTIK_EMAIL__USERNAME=${EMAIL_USERNAME:?error}
+      # - AUTHENTIK_EMAIL__PASSWORD=${EMAIL_PASSWORD:?error}
+      # - AUTHENTIK_EMAIL__USE_TLS=${EMAIL_USE_TLS:-false}
+      # - AUTHENTIK_EMAIL__USE_SSL=${EMAIL_USE_SSL:-false}
+      # - AUTHENTIK_EMAIL__TIMEOUT=${EMAIL_TIMEOUT:-10}
+      # - AUTHENTIK_EMAIL__FROM=${EMAIL_FROM:?error}
+    # (Optional)  When using the docker socket integration
+    #             See more for the docker socket integration here:
+    #             https://goauthentik.io/docs/outposts/integrations/docker
+    # user: root
+    networks:
+      - backend
     volumes:
+      # (Optional)  When using the docker socket integration
       - /var/run/docker.sock:/var/run/docker.sock
       - ./media:/media
       - ./certs:/certs
       - ./custom-templates:/templates
-    env_file:
-      - .env
     depends_on:
-      - postgresql
+      - postgres
       - redis
-    networks:
-      - backend
+    restart: unless-stopped
 
 volumes:
-  database:
+  postgres_data:
     driver: local
-  redis:
+  redis_data:
     driver: local
 
 networks:
