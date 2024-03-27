@@ -37,7 +37,9 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: "true"
-      traefik.http.routers.whoami-demo-1-http.entrypoints: web
-      traefik.http.routers.whoami-demo-1-http.rule: Host(`whoami.stage.lhr1.jakerob.pro`)
-      traefik.http.routers.whoami-demo-1-https.entrypoints: websecure
-      traefik.http.routers.whoami-demo-1-https.rule: Host(`whoami.stage.lhr1.jakerob.pro`)
+      traefik.http.routers.whoami-stage-1-http.entrypoints: web
+      traefik.http.routers.whoami-stage-1-http.rule: Host(`whoami.stage.lhr1.jakerob.pro`)
+      traefik.http.routers.whoami-stage-1-https.entrypoints: websecure
+      traefik.http.routers.whoami-stage-1-https.rule: Host(`whoami.stage.lhr1.jakerob.pro`)
+      traefik.http.routers.whoami-stage-1-https.tls: true
+      traefik.http.routers.whoami-stage-1-https.tls.certresolver: cloudflare

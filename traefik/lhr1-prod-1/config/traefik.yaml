@@ -45,7 +45,7 @@ certificatesResolvers:
       storage: /etc/traefik/certs/cloudflare-acme.json
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       dnsChallenge:
-        provider: namecheap
+        provider: cloudflare
         resolvers:
           - "1.1.1.1:53"
           - "8.8.8.8:53"
