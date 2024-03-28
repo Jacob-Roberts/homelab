@@ -1,0 +1,41 @@
+---
+
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+
+services:
+  server:
+    image: yooooomi/your_spotify_server
+    container_name: spotify-analytics
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      API_ENDPOINT: http://localhost:8080 # This MUST be included as a valid URL in the spotify dashboard
+      CLIENT_ENDPOINT: http://localhost:3000
+      SPOTIFY_PUBLIC: $SPOTIFY_PUBLIC
+      SPOTIFY_SECRET: $SPOTIFY_SECRET
+      CORS: http://localhost:3000,http://localhost:3001 # "all" if you want to allow every origin
+
+  mongo:
+    container_name: mongo
+    restart: unless-stopped
+    image: mongo:6
+    volumes:
+      - ./your_spotify_db:/data/db
+
+  web:
+    image: yooooomi/your_spotify_client
+    container_name: spotify-analytics-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    networks:
+      - frontend
+    environment:
+      API_ENDPOINT: http://localhost:8080
