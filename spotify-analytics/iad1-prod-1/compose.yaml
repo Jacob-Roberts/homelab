@@ -1,0 +1,61 @@
+---
+
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+
+services:
+  server:
+    image: yooooomi/your_spotify_server
+    container_name: spotify-analytics
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    networks:
+      - backend
+      - frontend
+    environment:
+      API_ENDPOINT: https://api.spotify.iad1.jakerob.pro # This MUST be included as a valid URL in the spotify dashboard
+      CLIENT_ENDPOINT: https://spotify.jakerob.pro
+      SPOTIFY_PUBLIC: $SPOTIFY_PUBLIC
+      SPOTIFY_SECRET: $SPOTIFY_SECRET
+      CORS: https://spotify.jakerob.pro # "all" if you want to allow every origin
+    labels:
+      traefik.enable: true
+      traefik.http.services.spotifyapi-prod-1.loadBalancer.server.port: 8080
+      traefik.http.routers.spotifyapi-prod-1-http.entrypoints: web
+      traefik.http.routers.spotifyapi-prod-1-http.rule: Host(`api.spotify.iad1.jakerob.pro`)
+      traefik.http.routers.spotifyapi-prod-1-https.entrypoints: websecure
+      traefik.http.routers.spotifyapi-prod-1-https.rule: Host(`api.spotify.iad1.jakerob.pro`)
+      traefik.http.routers.spotifyapi-prod-1-https.tls: true
+      traefik.http.routers.spotifyapi-prod-1-https.tls.certresolver: production
+
+  mongo:
+    container_name: mongo
+    restart: unless-stopped
+    image: mongo:6
+    volumes:
+      - ./your_spotify_db:/data/db
+    networks:
+      - backend
+
+  web:
+    image: yooooomi/your_spotify_client
+    container_name: spotify-analytics-web
+    restart: unless-stopped
+    networks:
+      - frontend
+    environment:
+      API_ENDPOINT: https://api.spotify.iad1.jakerob.pro
+    labels:
+      traefik.enable: true
+      traefik.http.services.spotifyweb-prod-1.loadBalancer.server.port: 3000
+      traefik.http.routers.spotifyweb-prod-1-http.entrypoints: web
+      traefik.http.routers.spotifyweb-prod-1-http.rule: Host(`spotify.jakerob.pro`)
+      traefik.http.routers.spotifyweb-prod-1-https.entrypoints: websecure
+      traefik.http.routers.spotifyweb-prod-1-https.rule: Host(`spotify.jakerob.pro`)
+      traefik.http.routers.spotifyweb-prod-1-https.tls: true
+      traefik.http.routers.spotifyweb-prod-1-https.tls.certresolver: production
+
