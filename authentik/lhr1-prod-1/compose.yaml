@@ -20,6 +20,8 @@ services:
     restart: unless-stopped
     networks:
       - backend
+    security_opt:
+      - no-new-privileges:true
   redis:
     image: redis:7.2.4
     container_name: authentik-redis
@@ -35,6 +37,8 @@ services:
     restart: unless-stopped
     networks:
       - backend
+    security_opt:
+      - no-new-privileges:true
   server:
     image: ghcr.io/goauthentik/server:2024.2.2
     container_name: authentik-server
@@ -78,6 +82,8 @@ services:
       - frontend
       - backend
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
   worker:
     image: ghcr.io/goauthentik/server:2024.2.2
     container_name: authentik-worker
@@ -118,6 +124,8 @@ services:
       - postgres
       - redis
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
 
 volumes:
   postgres_data:
