@@ -1,15 +1,28 @@
 ---
+name: portainer
 networks:
   backend:
+    external: true
+  frontend:
     external: true
 services:
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
     command: -H unix:///var/run/docker.sock
-    ports:
-      - 9000:9000
+    networks:
+      - frontend
+      - backend
     volumes:
-      - $DOCKERDIR/appdata/portainer:/data
+      - ./data:/data
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
+    labels:
+      traefik.enable: true
+      traefik.internal: true
+      traefik.http.routers.portainer-prod-1-http.entrypoints: web
+      traefik.http.routers.portainer-prod-1-http.rule: Host(`portainer.iad1vpn.jakerob.pro`)
+      traefik.http.routers.portainer-prod-1-https.entrypoints: websecure
+      traefik.http.routers.portainer-prod-1-https.rule: Host(`portainer.iad1vpn.jakerob.pro`)
+      # traefik.http.routers.portainer-prod-1-https.tls: true
+      # traefik.http.routers.portainer-prod-1-https.tls.certresolver: cloudflare

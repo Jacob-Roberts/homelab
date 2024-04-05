@@ -1,41 +1,121 @@
 ---
+name: traefik
 networks:
   frontend:
     external: true
   backend:
     external: true
 services:
-  traefik:
+  traefik-external:
     image: traefik:v2.11.0
-    container_name: traefik-prod-1
+    container_name: traefik-external
     ports:
-      - 80:80
-      - 443:443
+      - 10.0.0.13:80:80
+      - 10.0.0.13:443:443
       # -- (Optional) Enable Dashboard, don't do in production
-      - 8080:8080
-
+      - 100.108.112.55:8080:8080
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - ./config/conf/:/etc/traefik/conf/
-      - ./config/certs/:/etc/traefik/certs/
-    networks:
-      - frontend
-      - backend
-    restart: unless-stopped
-
-  whoami:
-    image: traefik/whoami
-    container_name: whoami-prod-1
+      - ./config-external/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ./config-external/conf/:/etc/traefik/conf/
+      - ./config-external/certs/:/etc/traefik/certs/
     networks:
       - frontend
       - backend
     restart: unless-stopped
     labels:
+      traefik.enable: true
+      # Management only exposed internally
+      traefik.internal: true
+      traefik.http.routers.traefikexternal-prod-1-http.entrypoints: web
+      traefik.http.routers.traefikexternal-prod-1-http.rule: Host(`traefik-external-dashboard.iad1vpn.jakerob.pro`)
+      # traefik.http.middlewares.traefik-internal-https-redirect.redirectscheme.scheme=https"
+      # - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+      # - "traefik.http.routers.traefik-internal.middlewares=traefik-internal-https-redirect"
+      traefik.http.routers.traefikexternal-prod-1-https.entrypoints: websecure
+      traefik.http.routers.traefikexternal-prod-1-https.rule: Host(`traefik-external-dashboard.iad1vpn.jakerob.pro`)
+      # traefik.http.routers.traefik-internal-secure.middlewares: traefik-internal-auth
+      # - "traefik.http.routers.traefik-internal-secure.tls=true"
+      # - "traefik.http.routers.traefik-internal-secure.tls.certresolver=cloudflare"
+      # - "traefik.http.routers.traefik-internal-secure.tls.domains[0].main=local.my.tld"
+      # - "traefik.http.routers.traefik-internal-secure.tls.domains[0].sans=*.local.my.tld"
+      # - "traefik.http.routers.traefik-internal-secure.service=api@internal"
+
+  traefik-internal:
+    image: traefik:v2.11.0
+    container_name: traefik-internal
+    ports:
+      # Bind on secure IP (local, VPN) only
+      - 100.108.112.55:80:80
+      - 100.108.112.55:443:443
+      # -- (Optional) Enable Dashboard, don't do in production
+      - 100.108.112.55:8081:8080
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config-internal/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ./config-internal/conf/:/etc/traefik/conf/
+      - ./config-internal/certs/:/etc/traefik/certs/
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+    labels:
+      # Expose Internally
+      traefik.enable: true
+      traefik.internal: true
+      traefik.http.routers.traefikinternal-prod-1-http.entrypoints: web
+      traefik.http.routers.traefikinternal-prod-1-http.rule: Host(`traefik-internal-dashboard.iad1vpn.jakerob.pro`)
+      # traefik.http.middlewares.traefik-internal-https-redirect.redirectscheme.scheme=https"
+      # - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+      # - "traefik.http.routers.traefik-internal.middlewares=traefik-internal-https-redirect"
+      traefik.http.routers.traefikinternal-prod-1-https.entrypoints: websecure
+      traefik.http.routers.traefikinternal-prod-1-https.rule: Host(`traefik-internal-dashboard.iad1vpn.jakerob.pro`)
+      # traefik.http.routers.traefik-internal-secure.middlewares: traefik-internal-auth
+      # - "traefik.http.routers.traefik-internal-secure.tls=true"
+      # - "traefik.http.routers.traefik-internal-secure.tls.certresolver=cloudflare"
+      # - "traefik.http.routers.traefik-internal-secure.tls.domains[0].main=local.my.tld"
+      # - "traefik.http.routers.traefik-internal-secure.tls.domains[0].sans=*.local.my.tld"
+      # - "traefik.http.routers.traefik-internal-secure.service=api@internal"
+
+
+  whoami-external:
+    image: traefik/whoami
+    container_name: whoami-external
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    labels:
       traefik.enable: "true"
-      traefik.http.routers.whoami-prod-1-http.entrypoints: web
-      traefik.http.routers.whoami-prod-1-http.rule: Host(`whoami.iad1.jakerob.pro`)
-      traefik.http.routers.whoami-prod-1-https.entrypoints: websecure
-      traefik.http.routers.whoami-prod-1-https.rule: Host(`whoami.iad1.jakerob.pro`)
-      # traefik.http.routers.whoami-prod-1-https.tls: true
-      # traefik.http.routers.whoami-prod-1-https.tls.certresolver: cloudflare
+      traefik.external: true
+      traefik.http.routers.whoamiexternal-prod-1-http.entrypoints: web
+      traefik.http.routers.whoamiexternal-prod-1-http.rule: Host(`whoami.iad1.jakerob.pro`)
+      traefik.http.routers.whoamiexternal-prod-1-https.entrypoints: websecure
+      traefik.http.routers.whoamiexternal-prod-1-https.rule: Host(`whoami.iad1.jakerob.pro`)
+      # traefik.http.routers.whoamiexternal-prod-1-https.tls: true
+      # traefik.http.routers.whoamiexternal-prod-1-https.tls.certresolver: cloudflare
+
+  whoami-internal:
+    image: traefik/whoami
+    container_name: whoami-internal
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      traefik.enable: "true"
+      traefik.internal: "true"
+      traefik.http.routers.whoamiinternal-prod-1-http.entrypoints: web
+      traefik.http.routers.whoamiinternal-prod-1-http.rule: Host(`whoami.iad1vpn.jakerob.pro`)
+      traefik.http.routers.whoamiinternal-prod-1-https.entrypoints: websecure
+      traefik.http.routers.whoamiinternal-prod-1-https.rule: Host(`whoami.iad1vpn.jakerob.pro`)
+      # traefik.http.routers.whoamiinternal-prod-1-https.tls: true
+      # traefik.http.routers.whoamiinternal-prod-1-https.tls.certresolver: cloudflare

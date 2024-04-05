@@ -1,4 +1,5 @@
 ---
+name: homebox
 
 networks:
   frontend:
@@ -19,6 +20,7 @@ services:
       - homebox-data:/data/
     labels:
       traefik.enable: true
+      traefik.external: true
       traefik.http.services.homebox-prod-1.loadBalancer.server.port: 7745
       traefik.http.routers.homebox-prod-1-http.entrypoints: web
       traefik.http.routers.homebox-prod-1-http.rule: Host(`homebox.jakerob.pro`)
