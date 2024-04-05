@@ -54,6 +54,8 @@ services:
       - 100.108.112.55:8081:8080
     security_opt:
       - no-new-privileges:true
+    environment:
+      - CF_DNS_API_TOKEN=$CF_DNS_API_TOKEN
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config-internal/traefik.yaml:/etc/traefik/traefik.yaml:ro
