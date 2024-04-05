@@ -1,4 +1,5 @@
 ---
+name: spotify-analytics
 
 networks:
   frontend:
@@ -24,6 +25,7 @@ services:
       CORS: https://spotify.jakerob.pro # "all" if you want to allow every origin
     labels:
       traefik.enable: true
+      traefik.external: true
       traefik.http.services.spotifyapi-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.spotifyapi-prod-1-http.entrypoints: web
       traefik.http.routers.spotifyapi-prod-1-http.rule: Host(`api.spotify.iad1.jakerob.pro`)
@@ -33,7 +35,7 @@ services:
       traefik.http.routers.spotifyapi-prod-1-https.tls.certresolver: production
 
   mongo:
-    container_name: mongo
+    container_name: spotify-analytics-db
     restart: unless-stopped
     image: mongo:6
     volumes:
@@ -51,6 +53,7 @@ services:
       API_ENDPOINT: https://api.spotify.iad1.jakerob.pro
     labels:
       traefik.enable: true
+      traefik.external: true
       traefik.http.services.spotifyweb-prod-1.loadBalancer.server.port: 3000
       traefik.http.routers.spotifyweb-prod-1-http.entrypoints: web
       traefik.http.routers.spotifyweb-prod-1-http.rule: Host(`spotify.jakerob.pro`)

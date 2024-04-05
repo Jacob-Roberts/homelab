@@ -1,0 +1,34 @@
+---
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:v0.8.9
+    container_name: homepage-prod-1
+    environment:
+      PUID: 1000
+      PGID: 1000
+      LOG_LEVEL: debug
+      HOMEPAGE_VAR_PORTAINER_KEY: ${HOMEPAGE_VAR_PORTAINER_KEY}
+      HOMEPAGE_VAR_AUTHENTIK_KEY: ${HOMEPAGE_VAR_AUTHENTIK_KEY}
+      HOMEPAGE_VAR_HOMEASSISTANT_KEY: ${HOMEPAGE_VAR_HOMEASSISTANT_KEY}
+    volumes:
+      - ./config:/app/config
+      - ./images:/app/public/images
+      - ./icons:/app/public/icons
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.homepage-prod-1-http.entrypoints: "web"
+      traefik.http.routers.homepage-prod-1-http.rule: "Host(`homepage.lhr1.jakerob.pro`)"
+      traefik.http.routers.homepage-prod-1-https.entrypoints: "websecure"
+      traefik.http.routers.homepage-prod-1-https.rule: "Host(`homepage.lhr1.jakerob.pro`)"
+      traefik.http.routers.homepage-prod-1-https.tls: "true"
+      traefik.http.routers.homepage-prod-1-https.tls.certresolver: "cloudflare"
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped

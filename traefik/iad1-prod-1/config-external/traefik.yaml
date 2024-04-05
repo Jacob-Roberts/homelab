@@ -1,3 +1,5 @@
+# Public Facing Traefik
+
 global:
   checkNewVersion: false
   sendAnonymousUsage: false
@@ -74,6 +76,7 @@ providers:
   docker:
     # -- (Optional) Enable this, if you want to expose all containers automatically
     exposedByDefault: false
+    constraints: "Label(`traefik.external`,`true`)"
     endpoint: "unix:///var/run/docker.sock"
     watch: true
   file:
