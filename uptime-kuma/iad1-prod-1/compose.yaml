@@ -1,4 +1,5 @@
 ---
+name: uptimekuma
 networks:
   frontend:
     external: true
