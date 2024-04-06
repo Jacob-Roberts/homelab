@@ -1,0 +1,47 @@
+---
+name: mealie
+
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+
+services:
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:v1.4.0
+    container_name: mealie
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1000M
+    volumes:
+      - ./data:/app/data/
+    networks:
+      - frontend
+      - backend
+    environment:
+      OIDC_AUTH_ENABLED: true
+      OIDC_SIGNUP_ENABLED: true
+      OIDC_CONFIGURATION_URL: https://authentik.iad1.jakerob.pro/application/o/mealie/.well-known/openid-configuration
+      OIDC_CLIENT_ID: ${OIDC_CLIENT_ID}
+      OIDC_USER_CLAIM: preferred_username
+      OIDC_ADMIN_GROUP: "mealie-admin"
+      OIDC_AUTO_REDIRECT: true
+      ALLOW_SIGNUP: false
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/London
+      MAX_WORKERS: 1
+      WEB_CONCURRENCY: 1
+      BASE_URL: http://mealie.jakerob.pro
+    labels:
+      traefik.enable: true
+      traefik.external: true
+      traefik.http.routers.mealie-prod-1-http.entrypoints: web
+      traefik.http.routers.mealie-prod-1-http.rule: Host(`mealie.jakerob.pro`)
+      traefik.http.routers.mealie-prod-1-https.entrypoints: websecure
+      traefik.http.routers.mealie-prod-1-https.rule: Host(`mealie.jakerob.pro`)
+      traefik.http.routers.mealie-prod-1-https.tls: true
+      traefik.http.routers.mealie-prod-1-https.tls.certresolver: production

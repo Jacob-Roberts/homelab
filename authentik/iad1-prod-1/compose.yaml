@@ -69,16 +69,16 @@ services:
       - ./custom-templates:/templates
     labels:
       traefik.enable: "true"
-      traefik.internal: "true"
+      traefik.external: "true"
       traefik.http.middlewares.authentik-prod-1-websecure-redirect.redirectscheme.scheme: https
       traefik.http.services.authentik-prod-1.loadBalancer.server.port: 9000
       traefik.http.routers.authentik-prod-1-http.entrypoints: web
-      traefik.http.routers.authentik-prod-1-http.rule: Host(`authentik.iad1vpn.jakerob.pro`)
+      traefik.http.routers.authentik-prod-1-http.rule: Host(`authentik.iad1.jakerob.pro`)
       traefik.http.routers.authentik-prod-1-http.middlewares: authentik-prod-1-websecure-redirect
       traefik.http.routers.authentik-prod-1-https.entrypoints: websecure
-      traefik.http.routers.authentik-prod-1-https.rule: Host(`authentik.iad1vpn.jakerob.pro`)
+      traefik.http.routers.authentik-prod-1-https.rule: Host(`authentik.iad1.jakerob.pro`)
       traefik.http.routers.authentik-prod-1-https.tls: true
-      traefik.http.routers.authentik-prod-1-https.tls.certresolver: cloudflare
+      traefik.http.routers.authentik-prod-1-https.tls.certresolver: production
     depends_on:
       - postgres
       - redis
