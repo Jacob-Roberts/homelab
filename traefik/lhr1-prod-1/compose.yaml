@@ -1,9 +1,12 @@
 ---
+name: traefik
+
 networks:
   frontend:
     external: true
   backend:
     external: true
+
 services:
   traefik:
     image: traefik:v2.11.0
