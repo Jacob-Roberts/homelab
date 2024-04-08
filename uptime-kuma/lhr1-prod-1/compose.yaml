@@ -1,7 +1,10 @@
 ---
+name: uptimekuma
+
 networks:
   frontend:
     external: true
+
 services:
   uptimekuma:
     image: louislam/uptime-kuma:1.23.2-alpine

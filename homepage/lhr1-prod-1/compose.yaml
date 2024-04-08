@@ -1,9 +1,12 @@
 ---
+name: homepage
+
 networks:
   frontend:
     external: true
   backend:
     external: true
+
 services:
   homepage:
     image: ghcr.io/gethomepage/homepage:v0.8.9
