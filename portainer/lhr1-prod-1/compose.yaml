@@ -1,20 +1,23 @@
 ---
+name: portainer
+
 networks:
+  backend:
+    external: true
   frontend:
     external: true
-
-volumes:
-  portainer-data:
-    driver: local
 
 services:
   portainer:
     image: portainer/portainer-ce:2.19.4-alpine
     container_name: portainer
     command: -H unix:///var/run/docker.sock
+    networks:
+      - frontend
+      - backend
     volumes:
+      - ./data:/data
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer-data:/data
     restart: unless-stopped
     labels:
       traefik.enable: "true"
@@ -26,5 +29,3 @@ services:
       traefik.http.routers.portainer-prod-1-https.rule: "Host(`portainer.lhr1.jakerob.pro`)"
       traefik.http.routers.portainer-prod-1-https.tls: "true"
       traefik.http.routers.portainer-prod-1-https.tls.certresolver: "cloudflare"
-    networks:
-      - frontend
