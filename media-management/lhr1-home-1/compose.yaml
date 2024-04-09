@@ -1,2 +1,215 @@
 ---
-# TODO
+name: media-management
+
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+
+services:
+  radarr:
+    container_name: radarr
+    image: lscr.io/linuxserver/radarr:5.3.6
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - frontend
+      - backend
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /app/docker/radarr:/config
+      - /data:/data
+      - /jakeusb:/jakeusb
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.radarr-prod-1-http.entrypoints: web
+      traefik.http.routers.radarr-prod-1-http.rule: Host(`radarr.lhr1.jakerob.pro`)
+      traefik.http.routers.radarr-prod-1-https.entrypoints: websecure
+      traefik.http.routers.radarr-prod-1-https.rule: Host(`radarr.lhr1.jakerob.pro`)
+      traefik.http.routers.radarr-prod-1-https.tls: true
+      traefik.http.routers.radarr-prod-1-https.tls.certresolver: cloudflare
+
+  sonarr:
+    container_name: sonarr
+    image: lscr.io/linuxserver/sonarr:4.0.3
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - frontend
+      - backend
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /app/docker/sonarr:/config
+      - /data:/data
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.sonarr-prod-1-http.entrypoints: web
+      traefik.http.routers.sonarr-prod-1-http.rule: Host(`sonarr.lhr1.jakerob.pro`)
+      traefik.http.routers.sonarr-prod-1-https.entrypoints: websecure
+      traefik.http.routers.sonarr-prod-1-https.rule: Host(`sonarr.lhr1.jakerob.pro`)
+      traefik.http.routers.sonarr-prod-1-https.tls: true
+      traefik.http.routers.sonarr-prod-1-https.tls.certresolver: cloudflare
+
+  bazarr:
+    container_name: bazarr
+    image: lscr.io/linuxserver/bazarr:1.4.2
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - frontend
+      - backend
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /app/docker/bazarr:/config
+      - /data/media:/data/media
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.bazarr-prod-1-http.entrypoints: web
+      traefik.http.routers.bazarr-prod-1-http.rule: Host(`bazarr.lhr1.jakerob.pro`)
+      traefik.http.routers.bazarr-prod-1-https.entrypoints: websecure
+      traefik.http.routers.bazarr-prod-1-https.rule: Host(`bazarr.lhr1.jakerob.pro`)
+      traefik.http.routers.bazarr-prod-1-https.tls: true
+      traefik.http.routers.bazarr-prod-1-https.tls.certresolver: cloudflare
+
+  prowlarr:
+    container_name: prowlarr
+    image: lscr.io/linuxserver/prowlarr:1.15.0
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /app/docker/prowlarr:/config
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - frontend
+      - backend
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.prowlarr-prod-1-http.entrypoints: web
+      traefik.http.routers.prowlarr-prod-1-http.rule: Host(`prowlarr.lhr1.jakerob.pro`)
+      traefik.http.routers.prowlarr-prod-1-https.entrypoints: websecure
+      traefik.http.routers.prowlarr-prod-1-https.rule: Host(`prowlarr.lhr1.jakerob.pro`)
+      traefik.http.routers.prowlarr-prod-1-https.tls: true
+      traefik.http.routers.prowlarr-prod-1-https.tls.certresolver: cloudflare
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_HTML=${LOG_HTML:-false}
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+      - TZ=Europe/London
+    networks:
+      - backend
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "8191:8191" # TODO: can I do this fully internally
+    restart: unless-stopped
+
+  # VPN
+  gluetun:
+    image: qmcgaw/gluetun:v3.38.0
+    container_name: gluetun
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - "8888:8888/tcp" # Gluetun Local Network HTTP proxy
+      - "8388:8388/tcp" # Gluetun Local Network Shadowsocks
+      - "8388:8388/udp" # Gluetun Local Network Shadowsocks
+      - "8200:8200" # WebUI Portal: qBittorrent
+      - "6881:6881/tcp" # qBittorrent Torrent Port TCP
+      - "6881:6881/udp" # qBittorrent Torrent Port UDP
+    volumes:
+      - /app/docker/gluetun:/gluetun
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
+      - frontend
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - VPN_SERVICE_PROVIDER=custom
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PUBLIC_KEY=${WIREGUARD_PUBLIC_KEY}
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+      - VPN_ENDPOINT_IP=${VPN_ENDPOINT_IP}
+      - VPN_ENDPOINT_PORT=${VPN_ENDPOINT_PORT}
+      - VPN_PORT_FORWARDING=off
+      - FIREWALL_OUTBOUND_SUBNETS=${FIREWALL_OUTBOUND_SUBNETS}
+      - HTTPPROXY=off
+      - SHADOWSOCKS=off
+      # Server list updater
+      # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
+      - UPDATER_PERIOD=24h
+
+  # sabnzbd:
+  #   container_name: sabnzbd
+  #   image: ghcr.io/hotio/sabnzbd:latest
+  #   restart: unless-stopped
+  #   logging:
+  #     driver: json-file
+  #   ports:
+  #     - 8080:8080
+  #     - 9090:9090
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/London
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - /app/docker/sabnzbd:/config
+  #     - /data/usenet:/data/usenet:rw
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:4.6.4
+    container_name: qbittorrent
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - WEBUI_PORT=8200
+    volumes:
+      - /app/docker/qbittorrent:/config
+      - /data/torrents:/data/torrents:rw
+
+    ## Do Not Change Network for qBittorrent
+    ## qBittorrent MUST always use a VPN / Secure Internet connection
+
+    network_mode: "service:gluetun"
