@@ -9,6 +9,8 @@ services:
     container_name: uptimekuma
     volumes:
       - ./data:/app/data
+    security_opt:
+      - no-new-privileges:true
     labels:
       traefik.enable: true
       traefik.external: true

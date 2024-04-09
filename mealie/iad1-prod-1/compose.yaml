@@ -21,6 +21,8 @@ services:
     networks:
       - frontend
       - backend
+    security_opt:
+      - no-new-privileges:true
     environment:
       OIDC_AUTH_ENABLED: true
       OIDC_SIGNUP_ENABLED: true

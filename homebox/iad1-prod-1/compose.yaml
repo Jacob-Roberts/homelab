@@ -13,11 +13,13 @@ services:
     networks:
       - frontend
     environment:
-    - HBOX_LOG_LEVEL=info
-    - HBOX_LOG_FORMAT=text
-    - HBOX_WEB_MAX_UPLOAD_SIZE=10
+      - HBOX_LOG_LEVEL=info
+      - HBOX_LOG_FORMAT=text
+      - HBOX_WEB_MAX_UPLOAD_SIZE=10
     volumes:
       - homebox-data:/data/
+    security_opt:
+      - no-new-privileges:true
     labels:
       traefik.enable: true
       traefik.external: true
