@@ -25,9 +25,8 @@ services:
       - TZ=Europe/London
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /app/docker/radarr:/config
-      - /data:/data
-      - /jakeusb:/jakeusb
+      - ./radarr-config:/config
+      - /jellydata:/jellydata
     labels:
       traefik.enable: "true"
       traefik.http.routers.radarr-prod-1-http.entrypoints: web
@@ -54,8 +53,8 @@ services:
       - TZ=Europe/London
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /app/docker/sonarr:/config
-      - /data:/data
+      - ./sonarr-config:/config
+      - /jellydata:/jellydata
     labels:
       traefik.enable: "true"
       traefik.http.routers.sonarr-prod-1-http.entrypoints: web
@@ -82,8 +81,8 @@ services:
       - TZ=Europe/London
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /app/docker/bazarr:/config
-      - /data/media:/data/media
+      - ./bazarr-config:/config
+      - /jellydata:/jellydata
     labels:
       traefik.enable: "true"
       traefik.http.routers.bazarr-prod-1-http.entrypoints: web
@@ -99,7 +98,7 @@ services:
     restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /app/docker/prowlarr:/config
+      - ./prowlarr-config:/config
     security_opt:
       - no-new-privileges:true
     networks:
@@ -119,7 +118,7 @@ services:
       traefik.http.routers.prowlarr-prod-1-https.tls.certresolver: cloudflare
 
   flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:latest
+    image: ghcr.io/flaresolverr/flaresolverr:v3.3.17@sha256:5f5661db1e69a6f80ac24d47d9fa5580f6f741ee5ec967818396ae0dacecd7ea
     container_name: flaresolverr
     environment:
       - LOG_LEVEL=${LOG_LEVEL:-info}
@@ -134,7 +133,6 @@ services:
       - "8191:8191" # TODO: can I do this fully internally
     restart: unless-stopped
 
-  # VPN
   gluetun:
     image: qmcgaw/gluetun:v3.38.0
     container_name: gluetun
@@ -151,7 +149,7 @@ services:
       - "6881:6881/tcp" # qBittorrent Torrent Port TCP
       - "6881:6881/udp" # qBittorrent Torrent Port UDP
     volumes:
-      - /app/docker/gluetun:/gluetun
+      - ./gluetun-config:/gluetun
     security_opt:
       - no-new-privileges:true
     networks:
@@ -176,23 +174,23 @@ services:
       # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
       - UPDATER_PERIOD=24h
 
-  # sabnzbd:
-  #   container_name: sabnzbd
-  #   image: ghcr.io/hotio/sabnzbd:latest
-  #   restart: unless-stopped
-  #   logging:
-  #     driver: json-file
-  #   ports:
-  #     - 8080:8080
-  #     - 9090:9090
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=Europe/London
-  #   volumes:
-  #     - /etc/localtime:/etc/localtime:ro
-  #     - /app/docker/sabnzbd:/config
-  #     - /data/usenet:/data/usenet:rw
+  sabnzbd:
+    container_name: sabnzbd
+    image: ghcr.io/hotio/sabnzbd:release-4.2.3
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    ports:
+      - 8080:8080
+      - 9090:9090
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./sabnzbd-config:/config
+      - /jellydata/usenet:/jellydata/usenet:rw
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:4.6.4
@@ -206,10 +204,8 @@ services:
       - TZ=Europe/London
       - WEBUI_PORT=8200
     volumes:
-      - /app/docker/qbittorrent:/config
-      - /data/torrents:/data/torrents:rw
-
+      - ./qbittorrent-config:/config
+      - /jellydata/torrents:/jellydata/torrents:rw
     ## Do Not Change Network for qBittorrent
     ## qBittorrent MUST always use a VPN / Secure Internet connection
-
     network_mode: "service:gluetun"
