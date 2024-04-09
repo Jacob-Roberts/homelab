@@ -17,6 +17,8 @@ services:
     networks:
       - backend
       - frontend
+    security_opt:
+      - no-new-privileges:true
     environment:
       API_ENDPOINT: https://api.spotify.iad1.jakerob.pro # This MUST be included as a valid URL in the spotify dashboard
       CLIENT_ENDPOINT: https://spotify.jakerob.pro
@@ -42,6 +44,8 @@ services:
       - ./your_spotify_db:/data/db
     networks:
       - backend
+    security_opt:
+      - no-new-privileges:true
 
   web:
     image: yooooomi/your_spotify_client
@@ -51,6 +55,8 @@ services:
       - frontend
     environment:
       API_ENDPOINT: https://api.spotify.iad1.jakerob.pro
+    security_opt:
+      - no-new-privileges:true
     labels:
       traefik.enable: true
       traefik.external: true
@@ -61,4 +67,3 @@ services:
       traefik.http.routers.spotifyweb-prod-1-https.rule: Host(`spotify.jakerob.pro`)
       traefik.http.routers.spotifyweb-prod-1-https.tls: true
       traefik.http.routers.spotifyweb-prod-1-https.tls.certresolver: production
-
