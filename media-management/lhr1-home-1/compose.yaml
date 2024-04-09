@@ -145,7 +145,6 @@ services:
       - "8888:8888/tcp" # Gluetun Local Network HTTP proxy
       - "8388:8388/tcp" # Gluetun Local Network Shadowsocks
       - "8388:8388/udp" # Gluetun Local Network Shadowsocks
-      - "8200:8200" # WebUI Portal: qBittorrent
       - "6881:6881/tcp" # qBittorrent Torrent Port TCP
       - "6881:6881/udp" # qBittorrent Torrent Port UDP
     volumes:
@@ -173,6 +172,15 @@ services:
       # Server list updater
       # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
       - UPDATER_PERIOD=24h
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.qbittorrent-prod-1.loadBalancer.server.port: 8200
+      traefik.http.routers.qbittorrent-prod-1-http.entrypoints: web
+      traefik.http.routers.qbittorrent-prod-1-http.rule: Host(`qbittorrent.lhr1.jakerob.pro`)
+      traefik.http.routers.qbittorrent-prod-1-https.entrypoints: websecure
+      traefik.http.routers.qbittorrent-prod-1-https.rule: Host(`qbittorrent.lhr1.jakerob.pro`)
+      traefik.http.routers.qbittorrent-prod-1-https.tls: true
+      traefik.http.routers.qbittorrent-prod-1-https.tls.certresolver: cloudflare
 
   sabnzbd:
     container_name: sabnzbd
