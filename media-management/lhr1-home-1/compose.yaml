@@ -82,7 +82,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./bazarr-config:/config
-      - /jellydata:/jellydata
+      - /jellydata/media:/jellydata/media
     labels:
       traefik.enable: "true"
       traefik.http.routers.bazarr-prod-1-http.entrypoints: web
@@ -181,8 +181,10 @@ services:
     logging:
       driver: json-file
     ports:
-      - 8080:8080
+      # - 8080:8080
       - 9090:9090
+    networks:
+      - backend
     environment:
       - PUID=1000
       - PGID=1000
