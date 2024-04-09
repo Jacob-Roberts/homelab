@@ -129,8 +129,6 @@ services:
       - backend
     security_opt:
       - no-new-privileges:true
-    ports:
-      - "8191:8191" # TODO: can I do this fully internally
     restart: unless-stopped
 
   gluetun:
