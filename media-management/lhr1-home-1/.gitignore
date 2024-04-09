@@ -1,0 +1,7 @@
+sonarr-config/*
+radarr-config/*
+prowlarr-config/*
+gluetun-config/*
+bazarr-config/*
+qbittorrent-config/*
+sabnzbd-config/*
