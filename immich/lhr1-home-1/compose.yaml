@@ -28,7 +28,7 @@ services:
       - frontend
       - backend
     restart: unless-stopped
-    security_opts:
+    security_opt:
       - no-new-privileges:true
     labels:
       traefik.enable: "true"
@@ -58,10 +58,10 @@ services:
     networks:
       - backend
     depends_on:
-      - redis
+      - cache
       - database
     restart: unless-stopped
-    security_opts:
+    security_opt:
       - no-new-privileges:true
 
   immich-machine-learning:
@@ -83,7 +83,7 @@ services:
       - DB_DATABASE_NAME=${DB_DATABASE_NAME}
       - REDIS_HOSTNAME=${REDIS_HOSTNAME}
     restart: unless-stopped
-    security_opts:
+    security_opt:
       - no-new-privileges:true
 
   cache:
