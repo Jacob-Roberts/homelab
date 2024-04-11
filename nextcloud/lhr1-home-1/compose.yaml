@@ -1,2 +1,57 @@
 ---
-# TODO
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+
+services:
+  app:
+    image: lscr.io/linuxserver/nextcloud:28.0.4
+    container_name: nextcloud-app
+    volumes:
+      - ./data:/var/www/html
+    networks:
+      - frontend
+      - backend
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_HOST=nextcloud-db
+    restart: unless-stopped
+    labels:
+      traefik.enable: true
+      traefik.http.routers.nextcloud-prod-1-http.entrypoints: web
+      traefik.http.routers.nextcloud-prod-1-http.rule: Host(`nextcloud.lhr1.jakerob.pro`)
+      traefik.http.routers.nextcloud-prod-1-https.entrypoints: websecure
+      traefik.http.routers.nextcloud-prod-1-https.rule: Host(`nextcloud.lhr1.jakerob.pro`)
+      traefik.http.routers.nextcloud-prod-1-https.tls: true
+      traefik.http.routers.nextcloud-prod-1-https.tls.certresolver: cloudflare
+
+  database:
+    # See compatibility matrix for Nextcloud 28
+    # https://docs.nextcloud.com/server/28/admin_manual/installation/system_requirements.html
+    image: docker.io/library/mariadb:11.3.2
+    container_name: nextcloud-db
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    networks:
+      - backend
+    volumes:
+      - ./nextcloud-db:/var/lib/mysql
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USER=$MYSQL_USER
+    restart: unless-stopped
+
+  cache:
+    image: redis:alpine
+    container_name: nextcloud-dbcache
+    networks:
+      - backend
+    restart: unless-stopped
