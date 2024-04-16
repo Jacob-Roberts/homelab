@@ -30,6 +30,7 @@ services:
       OIDC_CLIENT_ID: ${OIDC_CLIENT_ID}
       OIDC_USER_CLAIM: preferred_username
       OIDC_ADMIN_GROUP: "mealie-admin"
+      OIDC_USER_GROUP: "mealie-users"
       OIDC_AUTO_REDIRECT: true
       ALLOW_SIGNUP: false
       PUID: 1000
@@ -37,7 +38,7 @@ services:
       TZ: Europe/London
       MAX_WORKERS: 1
       WEB_CONCURRENCY: 1
-      BASE_URL: http://mealie.jakerob.pro
+      BASE_URL: https://mealie.jakerob.pro
     labels:
       traefik.enable: true
       traefik.external: true
