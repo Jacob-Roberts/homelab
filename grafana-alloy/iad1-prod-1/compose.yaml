@@ -1,0 +1,28 @@
+---
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+
+services:
+  alloy:
+    image: grafana/alloy:latest
+    container_name: alloy
+    command: run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy
+    networks:
+      - frontend
+      - backend
+    ports:
+      - 12345:12345
+    volumes:
+      - ./config/config.alloy:/etc/alloy/config.alloy
+    labels:
+      traefik.enable: true
+      traefik.internal: true
+      traefik.http.routers.grafana-alloy-prod-1-http.entrypoints: web
+      traefik.http.routers.grafana-alloy-prod-1-http.rule: Host(`grafana-alloy.iad1vpn.jakerob.pro`)
+      traefik.http.routers.grafana-alloy-prod-1-https.entrypoints: websecure
+      traefik.http.routers.grafana-alloy-prod-1-https.rule: Host(`grafana-alloy.iad1vpn.jakerob.pro`)
+      # traefik.http.routers.grafana-alloy-prod-1-https.tls: true
+      # traefik.http.routers.grafana-alloy-prod-1-https.tls.certresolver: production
