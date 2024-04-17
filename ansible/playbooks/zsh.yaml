@@ -1,5 +1,5 @@
 - name: install latest zsh on all hosts
-  hosts: "{{ hosts }}"
+  hosts: all
   tasks:
     - name: install zsh
       apt:
@@ -7,3 +7,19 @@
         state: present
         update_cache: yes
       become: true
+    - name: Ensure zsh is the default shell
+      user:
+        name: "jacobroberts"
+        shell: /usr/bin/zsh
+      become: true
+
+    - name: Download Oh My Zsh installation script
+      get_url:
+        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+        dest: /tmp/install-oh-my-zsh.sh
+        mode: 0755
+
+    - name: Run Oh My Zsh installation script
+      command: /tmp/install-oh-my-zsh.sh --unattended
+      register: ohmyzsh_result
+      failed_when: "'FAILED' in ohmyzsh_result.stderr"
