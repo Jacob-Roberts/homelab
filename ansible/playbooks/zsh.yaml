@@ -27,6 +27,13 @@
       args:
         creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
 
+    - name: Add zsh-autosuggestions
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions.git
+        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        clone: yes
+        update: yes
+
     - name: Clone a github repository
       ansible.builtin.git:
         repo: https://github.com/Jacob-Roberts/dotfiles.git
