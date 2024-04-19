@@ -2,15 +2,31 @@ provider "cloudflare" {
   api_token = var.cloudflare_api_token
 }
 
-resource "cloudflare_record" "terraform_managed_resource_8f4491bf3b1eb79836a27f58704d2b67" {
-  comment = "Oracle Cloud Node 1 (wandering-laine-infrastructure)"
-  name    = "iad1-docker-node-1"
+////////////////////////
+//  Vercel Records    //
+////////////////////////
+
+resource "cloudflare_record" "terraform_managed_resource_d7dd04751a0ce4fec9a93c28054b6263" {
+  name    = "jakerob.pro"
   proxied = false
   ttl     = 1
   type    = "A"
-  value   = "150.136.144.201"
+  value   = "76.76.21.21"
   zone_id = var.cloudflare_zone_id
 }
+
+resource "cloudflare_record" "terraform_managed_resource_129d4277deb9a6e0e4713b8416f449de" {
+  name    = "www"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  value   = "76.76.21.21"
+  zone_id = var.cloudflare_zone_id
+}
+
+////////////////////////
+//    Cloud Records   //
+////////////////////////
 
 resource "cloudflare_record" "terraform_managed_resource_be58b2724028c860cf809cae7367b045" {
   name    = "iad1-node-1"
@@ -39,15 +55,18 @@ resource "cloudflare_record" "terraform_managed_resource_a666b469b4cd3654941c5f0
   zone_id = var.cloudflare_zone_id
 }
 
-resource "cloudflare_record" "terraform_managed_resource_9695c7a2b3d1138b985496be503e1c9d" {
-  comment = "Tailscale iad1 node"
-  name    = "iad1-vpn-docker-node-1"
+resource "cloudflare_record" "terraform_managed_resource_678dba86b434029923d4aa39e62394b7" {
+  name    = "*.iad1"
   proxied = false
   ttl     = 1
-  type    = "A"
-  value   = "100.108.112.55"
+  type    = "CNAME"
+  value   = "iad1-node-1.jakerob.pro"
   zone_id = var.cloudflare_zone_id
 }
+
+////////////////////////
+// Cloud VPN Records  //
+////////////////////////
 
 resource "cloudflare_record" "terraform_managed_resource_d3aed3a001d9a30edf4a2bf22b09bb7a" {
   name    = "iad1-vpn-node-1"
@@ -55,60 +74,6 @@ resource "cloudflare_record" "terraform_managed_resource_d3aed3a001d9a30edf4a2bf
   ttl     = 1
   type    = "A"
   value   = "100.108.112.55"
-  zone_id = var.cloudflare_zone_id
-}
-
-resource "cloudflare_record" "terraform_managed_resource_8e0bb891a02fd2f0744f695140bdaba0" {
-  name    = "infrastructure"
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  value   = "150.136.144.201"
-  zone_id = var.cloudflare_zone_id
-}
-
-resource "cloudflare_record" "terraform_managed_resource_d7dd04751a0ce4fec9a93c28054b6263" {
-  name    = "jakerob.pro"
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  value   = "76.76.21.21"
-  zone_id = var.cloudflare_zone_id
-}
-
-resource "cloudflare_record" "terraform_managed_resource_62223054cc6f14b22f45a3b797e2e2c5" {
-  name    = "lhr1-docker-node-2"
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  value   = "192.168.42.15"
-  zone_id = var.cloudflare_zone_id
-}
-
-resource "cloudflare_record" "terraform_managed_resource_2ccf64b369328fed61e66f150105e242" {
-  name    = "lhr1-proxmox-node-1"
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  value   = "192.168.42.10"
-  zone_id = var.cloudflare_zone_id
-}
-
-resource "cloudflare_record" "terraform_managed_resource_129d4277deb9a6e0e4713b8416f449de" {
-  name    = "www"
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  value   = "76.76.21.21"
-  zone_id = var.cloudflare_zone_id
-}
-
-resource "cloudflare_record" "terraform_managed_resource_678dba86b434029923d4aa39e62394b7" {
-  name    = "*.iad1"
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  value   = "iad1-node-1.jakerob.pro"
   zone_id = var.cloudflare_zone_id
 }
 
@@ -121,13 +86,25 @@ resource "cloudflare_record" "terraform_managed_resource_886b761c56d612056bb4c23
   zone_id = var.cloudflare_zone_id
 }
 
-// TODO: Remove this record
-resource "cloudflare_record" "terraform_managed_resource_033f7e0597cff00a10c22ccd358c1ae9" {
-  name    = "*"
+////////////////////////
+//     Homelab        //
+////////////////////////
+
+resource "cloudflare_record" "terraform_managed_resource_2ccf64b369328fed61e66f150105e242" {
+  name    = "lhr1-proxmox-node-1"
   proxied = false
   ttl     = 1
-  type    = "CNAME"
-  value   = "infrastructure.jakerob.pro"
+  type    = "A"
+  value   = "192.168.42.10"
+  zone_id = var.cloudflare_zone_id
+}
+
+resource "cloudflare_record" "terraform_managed_resource_62223054cc6f14b22f45a3b797e2e2c5" {
+  name    = "lhr1-node-2"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  value   = "192.168.42.15"
   zone_id = var.cloudflare_zone_id
 }
 
@@ -136,17 +113,7 @@ resource "cloudflare_record" "terraform_managed_resource_cf974556d63574d6fb945ec
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  value   = "lhr1-docker-node-2.jakerob.pro"
-  zone_id = var.cloudflare_zone_id
-}
-
-// TODO: Remove
-resource "cloudflare_record" "terraform_managed_resource_9c1d6dcaed4ac46a83d24987216a1808" {
-  name    = "lhr1"
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  value   = "lhr1-docker-node-2.jakerob.pro"
+  value   = "lhr1-node-2.jakerob.pro"
   zone_id = var.cloudflare_zone_id
 }
 
@@ -158,6 +125,10 @@ resource "cloudflare_record" "terraform_managed_resource_ae656a93eaabac08ce6ce20
   value   = "lhr1-proxmox-node-1.jakerob.pro"
   zone_id = var.cloudflare_zone_id
 }
+
+////////////////////////
+//     Email          //
+////////////////////////
 
 resource "cloudflare_record" "terraform_managed_resource_0cd962e47bda3ed9c7437073ec661c6e" {
   name    = "_dmarc"
