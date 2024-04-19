@@ -31,6 +31,7 @@ services:
       traefik.enable: "true"
       traefik.http.routers.radarr-prod-1-http.entrypoints: web
       traefik.http.routers.radarr-prod-1-http.rule: Host(`radarr.lhr1.jakerob.pro`)
+      traefik.http.routers.radarr-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.radarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.radarr-prod-1-https.rule: Host(`radarr.lhr1.jakerob.pro`)
       traefik.http.routers.radarr-prod-1-https.tls: true
@@ -59,6 +60,7 @@ services:
       traefik.enable: "true"
       traefik.http.routers.sonarr-prod-1-http.entrypoints: web
       traefik.http.routers.sonarr-prod-1-http.rule: Host(`sonarr.lhr1.jakerob.pro`)
+      traefik.http.routers.sonarr-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.sonarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.sonarr-prod-1-https.rule: Host(`sonarr.lhr1.jakerob.pro`)
       traefik.http.routers.sonarr-prod-1-https.tls: true
@@ -87,6 +89,7 @@ services:
       traefik.enable: "true"
       traefik.http.routers.bazarr-prod-1-http.entrypoints: web
       traefik.http.routers.bazarr-prod-1-http.rule: Host(`bazarr.lhr1.jakerob.pro`)
+      traefik.http.routers.bazarr-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.bazarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.bazarr-prod-1-https.rule: Host(`bazarr.lhr1.jakerob.pro`)
       traefik.http.routers.bazarr-prod-1-https.tls: true
@@ -112,6 +115,7 @@ services:
       traefik.enable: "true"
       traefik.http.routers.prowlarr-prod-1-http.entrypoints: web
       traefik.http.routers.prowlarr-prod-1-http.rule: Host(`prowlarr.lhr1.jakerob.pro`)
+      traefik.http.routers.prowlarr-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.prowlarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.prowlarr-prod-1-https.rule: Host(`prowlarr.lhr1.jakerob.pro`)
       traefik.http.routers.prowlarr-prod-1-https.tls: true
@@ -175,6 +179,7 @@ services:
       traefik.http.services.qbittorrent-prod-1.loadBalancer.server.port: 8200
       traefik.http.routers.qbittorrent-prod-1-http.entrypoints: web
       traefik.http.routers.qbittorrent-prod-1-http.rule: Host(`qbittorrent.lhr1.jakerob.pro`)
+      traefik.http.routers.qbittorrent-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.qbittorrent-prod-1-https.entrypoints: websecure
       traefik.http.routers.qbittorrent-prod-1-https.rule: Host(`qbittorrent.lhr1.jakerob.pro`)
       traefik.http.routers.qbittorrent-prod-1-https.tls: true
