@@ -47,6 +47,7 @@
           - vim
           - git
           - jq
+          - stow
         state: latest
         update_cache: true
 
