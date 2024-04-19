@@ -1,4 +1,4 @@
-- hosts: "{{ hosts }}"
+- hosts: "all"
 
   vars:
     discord_webhook_url: "{{ lookup('bitwarden.secrets.lookup', 'a69f907a-8767-494a-8de1-b154010b4832') }}"
