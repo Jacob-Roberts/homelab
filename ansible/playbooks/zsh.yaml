@@ -9,7 +9,7 @@
       become: true
     - name: Ensure zsh is the default shell
       user:
-        name: "jacobroberts"
+        name: "{{ ansible_user_id }}"
         shell: /usr/bin/zsh
       become: true
 
@@ -23,3 +23,10 @@
       command: /tmp/install-oh-my-zsh.sh --unattended
       register: ohmyzsh_result
       failed_when: "'FAILED' in ohmyzsh_result.stderr"
+
+    - name: Clone a github repository
+      git:
+        repo: https://github.com/Jacob-Roberts/dotfiles.git
+        dest: "{{ ansible_env.HOME }}"/.dotfiles
+        clone: yes
+        update: yes

@@ -27,6 +27,7 @@ services:
       traefik.http.services.portainer-prod-1.loadbalancer.server.scheme: "http"
       traefik.http.routers.portainer-prod-1-http.entrypoints: "web"
       traefik.http.routers.portainer-prod-1-http.rule: "Host(`portainer.lhr1.jakerob.pro`)"
+      traefik.http.routers.portainer-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.portainer-prod-1-https.entrypoints: "websecure"
       traefik.http.routers.portainer-prod-1-https.rule: "Host(`portainer.lhr1.jakerob.pro`)"
       traefik.http.routers.portainer-prod-1-https.tls: "true"
