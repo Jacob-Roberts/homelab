@@ -1,3 +1,4 @@
+---
 - name: install latest zsh on all hosts
   hosts: all
   tasks:
@@ -23,10 +24,29 @@
       command: /tmp/install-oh-my-zsh.sh --unattended
       register: ohmyzsh_result
       failed_when: "'FAILED' in ohmyzsh_result.stderr"
+      args:
+        creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
 
     - name: Clone a github repository
-      git:
+      ansible.builtin.git:
         repo: https://github.com/Jacob-Roberts/dotfiles.git
-        dest: "{{ ansible_env.HOME }}"/.dotfiles
+        dest: "{{ ansible_env.HOME }}/.dotfiles"
         clone: yes
         update: yes
+
+    - name: Build directories list
+      ansible.builtin.find:
+        paths: ["{{ ansible_env.HOME }}/.dotfiles"]
+        recurse: no
+        file_type: directory
+      register: files
+      become: false
+
+    - name: Deploy dotfiles
+      with_items: "{{ files.files }}"
+      ansible.builtin.command:
+        cmd: stow --target={{ ansible_env.HOME }} {{ item.path | basename }} --verbose=2
+        chdir: "{{ ansible_env.HOME }}/.dotfiles"
+      register: result
+      changed_when: 'result.stderr is search("LINK: ")'
+      become: false
