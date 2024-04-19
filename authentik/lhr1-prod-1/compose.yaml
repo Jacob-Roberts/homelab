@@ -76,11 +76,10 @@ services:
       - ./custom-templates:/templates
     labels:
       traefik.enable: true
-      traefik.http.middlewares.authentik-prod-1-websecure-redirect.redirectscheme.scheme: https
       traefik.http.services.authentik-prod-1.loadBalancer.server.port: 9000
       traefik.http.routers.authentik-prod-1-http.entrypoints: web
       traefik.http.routers.authentik-prod-1-http.rule: Host(`authentik.lhr1.jakerob.pro`)
-      traefik.http.routers.authentik-prod-1-http.middlewares: authentik-prod-1-websecure-redirect
+      traefik.http.routers.authentik-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.authentik-prod-1-https.entrypoints: websecure
       traefik.http.routers.authentik-prod-1-https.rule: Host(`authentik.lhr1.jakerob.pro`)
       traefik.http.routers.authentik-prod-1-https.tls: true
