@@ -100,8 +100,8 @@ services:
       traefik.http.routers.whoamiexternal-prod-1-http.rule: Host(`whoami.iad1.jakerob.pro`)
       traefik.http.routers.whoamiexternal-prod-1-https.entrypoints: websecure
       traefik.http.routers.whoamiexternal-prod-1-https.rule: Host(`whoami.iad1.jakerob.pro`)
-      # traefik.http.routers.whoamiexternal-prod-1-https.tls: true
-      # traefik.http.routers.whoamiexternal-prod-1-https.tls.certresolver: cloudflare
+      traefik.http.routers.whoamiexternal-prod-1-https.tls: true
+      traefik.http.routers.whoamiexternal-prod-1-https.tls.certresolver: production
 
   whoami-internal:
     image: traefik/whoami
@@ -119,5 +119,5 @@ services:
       traefik.http.routers.whoamiinternal-prod-1-http.rule: Host(`whoami.iad1vpn.jakerob.pro`)
       traefik.http.routers.whoamiinternal-prod-1-https.entrypoints: websecure
       traefik.http.routers.whoamiinternal-prod-1-https.rule: Host(`whoami.iad1vpn.jakerob.pro`)
-      # traefik.http.routers.whoamiinternal-prod-1-https.tls: true
-      # traefik.http.routers.whoamiinternal-prod-1-https.tls.certresolver: cloudflare
+      traefik.http.routers.whoamiinternal-prod-1-https.tls: true
+      traefik.http.routers.whoamiinternal-prod-1-https.tls.certresolver: cloudflare
