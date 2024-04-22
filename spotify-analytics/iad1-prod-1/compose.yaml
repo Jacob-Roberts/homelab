@@ -9,7 +9,7 @@ networks:
 
 services:
   server:
-    image: yooooomi/your_spotify_server
+    image: yooooomi/your_spotify_server:1.10.1
     container_name: spotify-analytics
     restart: unless-stopped
     depends_on:
@@ -31,15 +31,16 @@ services:
       traefik.http.services.spotifyapi-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.spotifyapi-prod-1-http.entrypoints: web
       traefik.http.routers.spotifyapi-prod-1-http.rule: Host(`api.spotify.iad1.jakerob.pro`)
+      traefik.http.routers.spotifyapi-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.spotifyapi-prod-1-https.entrypoints: websecure
       traefik.http.routers.spotifyapi-prod-1-https.rule: Host(`api.spotify.iad1.jakerob.pro`)
       traefik.http.routers.spotifyapi-prod-1-https.tls: true
       traefik.http.routers.spotifyapi-prod-1-https.tls.certresolver: production
 
   mongo:
+    image: mongo:6
     container_name: spotify-analytics-db
     restart: unless-stopped
-    image: mongo:6
     volumes:
       - ./your_spotify_db:/data/db
     networks:
@@ -48,7 +49,7 @@ services:
       - no-new-privileges:true
 
   web:
-    image: yooooomi/your_spotify_client
+    image: yooooomi/your_spotify_client:1.10.1
     container_name: spotify-analytics-web
     restart: unless-stopped
     networks:
@@ -63,6 +64,7 @@ services:
       traefik.http.services.spotifyweb-prod-1.loadBalancer.server.port: 3000
       traefik.http.routers.spotifyweb-prod-1-http.entrypoints: web
       traefik.http.routers.spotifyweb-prod-1-http.rule: Host(`spotify.jakerob.pro`)
+      traefik.http.routers.spotifyweb-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.spotifyweb-prod-1-https.entrypoints: websecure
       traefik.http.routers.spotifyweb-prod-1-https.rule: Host(`spotify.jakerob.pro`)
       traefik.http.routers.spotifyweb-prod-1-https.tls: true
