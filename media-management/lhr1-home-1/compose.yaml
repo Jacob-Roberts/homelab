@@ -147,6 +147,7 @@ services:
       - "8888:8888/tcp" # Gluetun Local Network HTTP proxy
       - "8388:8388/tcp" # Gluetun Local Network Shadowsocks
       - "8388:8388/udp" # Gluetun Local Network Shadowsocks
+      - "8000:8000"     # Gluetun control server
       - "6881:6881/tcp" # qBittorrent Torrent Port TCP
       - "6881:6881/udp" # qBittorrent Torrent Port UDP
     volumes:
@@ -160,17 +161,10 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - VPN_SERVICE_PROVIDER=custom
-      - VPN_TYPE=wireguard
-      - WIREGUARD_PUBLIC_KEY=${WIREGUARD_PUBLIC_KEY}
-      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
-      - VPN_ENDPOINT_IP=${VPN_ENDPOINT_IP}
-      - VPN_ENDPOINT_PORT=${VPN_ENDPOINT_PORT}
-      - VPN_PORT_FORWARDING=off
-      - FIREWALL_OUTBOUND_SUBNETS=${FIREWALL_OUTBOUND_SUBNETS}
-      - HTTPPROXY=off
-      - SHADOWSOCKS=off
+      - VPN_SERVICE_PROVIDER=protonvpn
+      - OPENVPN_USER=${OPENVPN_USER}
+      - OPENVPN_PASSWORD=${OPENVPN_PASSWORD}
+      - FREE_ONLY=on
       # Server list updater
       # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
       - UPDATER_PERIOD=24h
@@ -204,6 +198,13 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./sabnzbd-config:/config
       - /jellydata/usenet:/jellydata/usenet:rw
+
+  debug:
+    image: jonlabelle/network-tools
+    container_name: debug
+    stdin_open: true
+    tty: true
+    network_mode: "service:gluetun"
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:4.6.4
