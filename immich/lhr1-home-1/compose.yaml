@@ -35,6 +35,7 @@ services:
       traefik.enable: "true"
       traefik.http.routers.immich-prod-1-http.entrypoints: web
       traefik.http.routers.immich-prod-1-http.rule: Host(`immich.lhr1.jakerob.pro`)
+      traefik.http.routers.immich-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.immich-prod-1-https.entrypoints: websecure
       traefik.http.routers.immich-prod-1-https.rule: Host(`immich.lhr1.jakerob.pro`)
       traefik.http.routers.immich-prod-1-https.tls: true
