@@ -122,7 +122,7 @@ services:
       traefik.http.routers.prowlarr-prod-1-https.tls.certresolver: cloudflare
 
   flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:v3.3.17@sha256:5f5661db1e69a6f80ac24d47d9fa5580f6f741ee5ec967818396ae0dacecd7ea
+    image: ghcr.io/flaresolverr/flaresolverr:v3.3.17
     container_name: flaresolverr
     environment:
       - LOG_LEVEL=${LOG_LEVEL:-info}
