@@ -4,7 +4,10 @@
     "config:recommended"
   ],
   "labels": ["dependencies"],
-  "packageRules": [],
+  "packageRules": [{
+    "matchDepPrefixes": ["ghcr.io/immich-app"],
+    "groupName": "immich"
+  }],
   "minimumReleaseAge": "7 days",
   "prCreation": "not-pending"
 }
