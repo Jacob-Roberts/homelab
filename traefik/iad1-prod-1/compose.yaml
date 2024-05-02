@@ -7,7 +7,7 @@ networks:
     external: true
 services:
   traefik-external:
-    image: traefik:v2.11.0
+    image: traefik:v2.11.2
     container_name: traefik-external
     ports:
       - 10.0.0.13:80:80
@@ -44,7 +44,7 @@ services:
       # - "traefik.http.routers.traefik-internal-secure.service=api@internal"
 
   traefik-internal:
-    image: traefik:v2.11.0
+    image: traefik:v2.11.2
     container_name: traefik-internal
     ports:
       # Bind on secure IP (local, VPN) only
