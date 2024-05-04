@@ -1,20 +1,32 @@
 ---
 name: plausible
 
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+
 services:
   plausible_db:
     # Plausible v2.0.0 was tested against PostgreSQL versions 12, 13, and 14
     # https://github.com/plausible/analytics/blob/v2.0.0/.github/workflows/elixir.yml#L16
     image: postgres:14-alpine
-    restart: always
+    container_name: plausible-db
+    restart: unless-stopped
+    networks:
+      - backend
     volumes:
       - ./db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
 
   plausible_events_db:
     image: clickhouse/clickhouse-server:23.3.7.5-alpine
-    restart: always
+    container_name: plausible-events-db
+    restart: unless-stopped
+    networks:
+      - backend
     volumes:
       - ./event-data:/var/lib/clickhouse
       - ./event-logs:/var/log/clickhouse-server
@@ -27,15 +39,20 @@ services:
 
   plausible:
     image: plausible/analytics:v2.0
+    container_name: plausible
     restart: unless-stopped
     command: sh -c "sleep 10 && /entrypoint.sh db createdb && /entrypoint.sh db migrate && /entrypoint.sh run"
     depends_on:
       - plausible_db
       - plausible_events_db
-      - mail
+    networks:
+      - backend
+      - frontend
     environment:
       - BASE_URL=https://plausible.iad1.jakerob.pro
       - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - DATABASE_URL=postgres://postgres:${DATABASE_PASSWORD}@plausible_db:5432/plausible_db
+      - CLICKHOUSE_DATABASE_URL=http://plausible_events_db:8123/plausible_events_db
       - MAILER_EMAIL=${MAILER_EMAIL}
       - MAILER_NAME=plausible-analytics
       - SMTP_HOST_ADDR=${SMTP_HOST_ADDR}
@@ -43,7 +60,6 @@ services:
       - SMTP_USER_NAME=${SMTP_USER_NAME}
       - SMTP_USER_PWD=${SMTP_USER_PWD}
       - SMTP_HOST_SSL_ENABLED=${SMTP_HOST_SSL_ENABLED}
-
     labels:
       traefik.enable: "true"
       traefik.external: true
