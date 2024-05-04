@@ -22,7 +22,7 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
 
   plausible_events_db:
-    image: clickhouse/clickhouse-server:23.3.7.5-alpine
+    image: clickhouse/clickhouse-server:23.12.6.19-alpine
     container_name: plausible-events-db
     restart: unless-stopped
     networks:
