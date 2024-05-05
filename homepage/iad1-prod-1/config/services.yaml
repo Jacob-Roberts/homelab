@@ -1,0 +1,83 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+
+- Infrastructure and Data:
+    - Traefik External:
+        href: traefik-external-dashboard.iad1vpn.jakerob.pro
+        icon: traefik.png
+        description: traefik external on iad1-node-1
+        widget:
+          type: traefik
+          url: traefik-external-dashboard.iad1vpn.jakerob.pro
+    - Traefik Internal:
+        href: traefik-internal-dashboard.iad1vpn.jakerob.pro
+        icon: traefik.png
+        description: traefik internal on iad1-node-1
+        widget:
+          type: traefik
+          url: traefik-internal-dashboard.iad1vpn.jakerob.pro
+
+- Management:
+    - Portainer:
+        href: https://portainer.iad1vpn.jakerob.pro
+        icon: portainer.png
+        description: portainer on iad1-node-1
+        widget:
+          type: portainer
+          url: https://portainer.iad1vpn.jakerob.pro
+          env: 1
+          key: "{{HOMEPAGE_VAR_PORTAINER_KEY}}"
+
+- Monitoring:
+    - UptimeKuma:
+        href: https://uptime.iad1.jakerob.pro
+        description: uptimekuma on iad1-node-1
+        icon: uptime-kuma.png
+        widget:
+          type: uptimekuma
+          url: https://uptime.iad1.jakerob.pro
+          slug: default
+    # - Prometheus:
+    #     href: https://prometheus-prod-1.srv-prod-1.home.clcreative.de
+    #     description: prometheus-prod-1 on srv-prod-1
+    #     icon: prometheus.png
+    #     server: srv-prod-1
+    #     container: prometheus-prod-1
+    #     widget:
+    #         type: prometheus
+    #         url: https://prometheus-prod-1.srv-prod-1.home.clcreative.de
+    # - Grafana:
+    #     href: https://grafana-prod-1.srv-prod-1.home.clcreative.de
+    #     description: grafana-prod-1 on srv-prod-1
+    #     icon: grafana.png
+    #     server: srv-prod-1
+    #     container: grafana-prod-1
+
+- Security and Identity:
+    - Authentik:
+        href: https://authentik.iad1.jakerob.pro
+        description: authentik-prod-1 on iad1-node-1
+        icon: authentik.png
+        widget:
+          type: authentik
+          url: https://authentik.iad1.jakerob.pro
+          key: "{{HOMEPAGE_VAR_AUTHENTIK_KEY}}"
+    - Bitwarden:
+        href: https://vault.bitwarden.com
+        description: Cloud Bitwarden
+        icon: bitwarden.png
+# - Automation:
+#     - Kestra:
+#         href: https://kestra-demo-1.srv-prod-1.home.clcreative.de
+#         description: kestra-demo-1 on srv-prod-1
+#         icon: https://kestra-io.gallerycdn.vsassets.io/extensions/kestra-io/kestra/0.0.1/1692285562923/Microsoft.VisualStudio.Services.Icons.Default
+
+#     - Ansible Semaphore:
+#         href: https://ansiblesemaphore-prod-1.srv-prod-1.home.clcreative.de
+#         description: ansiblesemaphore-prod-1 on srv-prod-1
+#         icon: si-ansible-#EE0000
+#     - ArgoCD:
+#         href: https://argocd-prod-1.kube-prod-1.home.clcreative.de
+#         description: argocd-prod-1 on kube-prod-1
+#         icon: si-argo-#EF7B4D
