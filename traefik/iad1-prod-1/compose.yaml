@@ -3,6 +3,8 @@ name: traefik
 networks:
   frontend:
     external: true
+  backend:
+    external: true
 services:
   traefik-external:
     image: traefik:v3.0
@@ -24,6 +26,7 @@ services:
       TRAEFIK_DASHBOARD_CREDENTIALS: ${TRAEFIK_DASHBOARD_CREDENTIALS}
     networks:
       - frontend
+      - backend
     restart: unless-stopped
     labels:
       traefik.enable: true
@@ -64,6 +67,7 @@ services:
       - ./config-internal/certs/:/etc/traefik/certs/
     networks:
       - frontend
+      - backend
     restart: unless-stopped
     labels:
       # Expose Internally
