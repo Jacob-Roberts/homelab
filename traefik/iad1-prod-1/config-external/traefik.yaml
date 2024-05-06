@@ -56,6 +56,17 @@ certificatesResolvers:
       httpChallenge:
         entryPoint: web
 
+http:
+  middlewares:
+    # -- (Optional) Redirect HTTP to HTTPS
+    websecure-redirect:
+      redirectScheme:
+        scheme: https
+    websecure-redirect-permanent:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
 # -- (Optional) Disable TLS Cert verification check
 # serversTransport:
 #   insecureSkipVerify: true

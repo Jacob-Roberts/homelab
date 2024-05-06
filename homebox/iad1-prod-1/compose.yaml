@@ -26,6 +26,7 @@ services:
       traefik.http.services.homebox-prod-1.loadBalancer.server.port: 7745
       traefik.http.routers.homebox-prod-1-http.entrypoints: web
       traefik.http.routers.homebox-prod-1-http.rule: Host(`homebox.jakerob.pro`)
+      traefik.http.routers.homebox-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.homebox-prod-1-https.entrypoints: websecure
       traefik.http.routers.homebox-prod-1-https.rule: Host(`homebox.jakerob.pro`)
       traefik.http.routers.homebox-prod-1-https.tls: true
