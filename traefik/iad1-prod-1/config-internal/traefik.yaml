@@ -52,6 +52,17 @@ certificatesResolvers:
           - "1.1.1.1:53"
           - "8.8.8.8:53"
 
+http:
+  middlewares:
+    # -- (Optional) Redirect HTTP to HTTPS
+    websecure-redirect:
+      redirectScheme:
+        scheme: https
+    websecure-redirect-permanent:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
 # -- (Optional) Disable TLS Cert verification check
 # serversTransport:
 #   insecureSkipVerify: true
