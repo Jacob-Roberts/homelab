@@ -3,11 +3,9 @@ name: traefik
 networks:
   frontend:
     external: true
-  backend:
-    external: true
 services:
   traefik-external:
-    image: traefik:v2.11.2
+    image: traefik:v3.0
     container_name: traefik-external
     ports:
       - 10.0.0.13:80:80
@@ -17,34 +15,35 @@ services:
     security_opt:
       - no-new-privileges:true
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config-external/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config-external/conf/:/etc/traefik/conf/
       - ./config-external/certs/:/etc/traefik/certs/
+    environment:
+      TRAEFIK_DASHBOARD_CREDENTIALS: ${TRAEFIK_DASHBOARD_CREDENTIALS}
     networks:
       - frontend
-      - backend
     restart: unless-stopped
     labels:
       traefik.enable: true
+      # Custom middlewares
+      traefik.http.middlewares.traefik-auth.basicauth.users: ${TRAEFIK_DASHBOARD_CREDENTIALS}
+      traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: https
       # Management only exposed internally
       traefik.internal: true
       traefik.http.routers.traefikexternal-prod-1-http.entrypoints: web
       traefik.http.routers.traefikexternal-prod-1-http.rule: Host(`traefik-external-dashboard.iad1vpn.jakerob.pro`)
-      # traefik.http.middlewares.traefik-internal-https-redirect.redirectscheme.scheme=https"
-      # - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
-      # - "traefik.http.routers.traefik-internal.middlewares=traefik-internal-https-redirect"
+      traefik.http.routers.traefikexternal-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.traefikexternal-prod-1-https.entrypoints: websecure
       traefik.http.routers.traefikexternal-prod-1-https.rule: Host(`traefik-external-dashboard.iad1vpn.jakerob.pro`)
-      # traefik.http.routers.traefik-internal-secure.middlewares: traefik-internal-auth
-      # - "traefik.http.routers.traefik-internal-secure.tls=true"
-      # - "traefik.http.routers.traefik-internal-secure.tls.certresolver=cloudflare"
-      # - "traefik.http.routers.traefik-internal-secure.tls.domains[0].main=local.my.tld"
-      # - "traefik.http.routers.traefik-internal-secure.tls.domains[0].sans=*.local.my.tld"
-      # - "traefik.http.routers.traefik-internal-secure.service=api@internal"
+      traefik.http.routers.traefikexternal-prod-1-https.middlewares: traefik-auth
+      traefik.http.routers.traefikexternal-prod-1-https.tls: true
+      traefik.http.routers.traefikexternal-prod-1-https.tls.certresolver: cloudflare
+      traefik.http.routers.traefikexternal-prod-1-https.service: api@internal
 
   traefik-internal:
-    image: traefik:v2.11.2
+    image: traefik:v3.0
     container_name: traefik-internal
     ports:
       # Bind on secure IP (local, VPN) only
@@ -55,41 +54,40 @@ services:
     security_opt:
       - no-new-privileges:true
     environment:
-      - CF_DNS_API_TOKEN=$CF_DNS_API_TOKEN
+      CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
+      TRAEFIK_DASHBOARD_CREDENTIALS: ${TRAEFIK_DASHBOARD_CREDENTIALS}
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config-internal/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config-internal/conf/:/etc/traefik/conf/
       - ./config-internal/certs/:/etc/traefik/certs/
     networks:
       - frontend
-      - backend
     restart: unless-stopped
     labels:
       # Expose Internally
       traefik.enable: true
+      # Custom middlewares
+      traefik.http.middlewares.traefik-auth.basicauth.users: ${TRAEFIK_DASHBOARD_CREDENTIALS}
+      traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: https
+      # Management only exposed internally
       traefik.internal: true
       traefik.http.routers.traefikinternal-prod-1-http.entrypoints: web
       traefik.http.routers.traefikinternal-prod-1-http.rule: Host(`traefik-internal-dashboard.iad1vpn.jakerob.pro`)
-      # traefik.http.middlewares.traefik-internal-https-redirect.redirectscheme.scheme=https"
-      # - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
-      # - "traefik.http.routers.traefik-internal.middlewares=traefik-internal-https-redirect"
+      traefik.http.routers.traefikinternal-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.traefikinternal-prod-1-https.entrypoints: websecure
       traefik.http.routers.traefikinternal-prod-1-https.rule: Host(`traefik-internal-dashboard.iad1vpn.jakerob.pro`)
-      # traefik.http.routers.traefik-internal-secure.middlewares: traefik-internal-auth
-      # - "traefik.http.routers.traefik-internal-secure.tls=true"
-      # - "traefik.http.routers.traefik-internal-secure.tls.certresolver=cloudflare"
-      # - "traefik.http.routers.traefik-internal-secure.tls.domains[0].main=local.my.tld"
-      # - "traefik.http.routers.traefik-internal-secure.tls.domains[0].sans=*.local.my.tld"
-      # - "traefik.http.routers.traefik-internal-secure.service=api@internal"
-
+      traefik.http.routers.traefikinternal-prod-1-https.middlewares: traefik-auth
+      traefik.http.routers.traefikinternal-prod-1-https.tls: true
+      traefik.http.routers.traefikinternal-prod-1-https.tls.certresolver: cloudflare
+      traefik.http.routers.traefikinternal-prod-1-https.service: api@internal
 
   whoami-external:
     image: traefik/whoami
     container_name: whoami-external
     networks:
       - frontend
-      - backend
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -108,7 +106,6 @@ services:
     container_name: whoami-internal
     networks:
       - frontend
-      - backend
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
