@@ -1,0 +1,88 @@
+---
+name: nextcloud
+
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+
+services:
+  app:
+    image: nextcloud:28.0.5
+    container_name: nextcloud-app
+    volumes:
+      - ./data:/var/www/html
+      - ./app-hooks/post-installation:/docker-entrypoint-hooks.d/post-installation
+    depends_on:
+      - netxcloud-db
+      - nextcloud-cache
+    networks:
+      - frontend
+      - backend
+    environment:
+      - TZ=Europe/London
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_HOST=netxcloud-db
+      - REDIS_HOST=nextcloud-cache
+      - OVERWRITEPROTOCOL=https
+      - OVERWRITECLIURL=https://nextcloud.slc1.jakerob.pro
+      - TRUSTED_PROXIES=172.17.0.0/16 172.18.0.0/16 172.19.0.0/16
+      - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.slc1.jakerob.pro
+      - SMTP_HOST=$SMTP_HOST
+      - SMTP_SECURE=$SMTP_SECURE
+      - SMTP_PORT=$SMTP_PORT
+      - SMTP_NAME=$SMTP_NAME
+      - SMTP_PASSWORD=$SMTP_PASSWORD
+      - MAIL_FROM_ADDRESS=$MAIL_FROM_ADDRESS
+      - MAIL_DOMAIN=$MAIL_DOMAIN
+      - NEXTCLOUD_ADMIN_USER=admin
+      - NEXTCLOUD_ADMIN_PASSWORD=$NEXTCLOUD_ADMIN_PASSWORD
+      - OIDC_CLIENT_ID=$OIDC_CLIENT_ID
+      - OIDC_CLIENT_SECRET=$OIDC_CLIENT_SECRET
+    restart: unless-stopped
+    labels:
+      traefik.enable: true
+      traefik.http.routers.nextcloud-prod-1-http.entrypoints: web
+      traefik.http.routers.nextcloud-prod-1-http.rule: Host(`nextcloud.slc1.jakerob.pro`)
+      traefik.http.routers.nextcloud-prod-1-http.middlewares: nc-header,websecure-redirect-permanent@file
+      traefik.http.routers.nextcloud-prod-1-https.entrypoints: websecure
+      traefik.http.routers.nextcloud-prod-1-https.rule: Host(`nextcloud.slc1.jakerob.pro`)
+      traefik.http.middlewares.nc-rep.redirectregex.regex: https://(.*)/.well-known/(card|cal)dav
+      traefik.http.middlewares.nc-rep.redirectregex.replacement: https://$$1/remote.php/dav/
+      traefik.http.middlewares.nc-rep.redirectregex.permanent: true
+      traefik.http.middlewares.nc-header.headers.customFrameOptionsValue: SAMEORIGIN
+      traefik.http.middlewares.nc-header.headers.customResponseHeaders.Strict-Transport-Security: 15552000
+      traefik.http.routers.nextcloud-prod-1-https.middlewares: nc-rep,nc-header
+      traefik.http.routers.nextcloud-prod-1-https.tls: true
+      traefik.http.routers.nextcloud-prod-1-https.tls.certresolver: cloudflare
+      traefik.http.routers.nextcloud-prod-1-https.service: nextcloud-prod-1
+      traefik.http.services.nextcloud-prod-1.loadbalancer.server.port: 80
+      traefik.http.services.nextcloud-prod-1.loadbalancer.passHostHeader: true
+
+  netxcloud-db:
+    # See compatibility matrix for Nextcloud 28
+    # https://docs.nextcloud.com/server/28/admin_manual/installation/system_requirements.html
+    image: docker.io/library/mariadb:11.3.2
+    container_name: nextcloud-db
+    command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
+    networks:
+      - backend
+    user: "1000:1000"
+    volumes:
+      - ./nextcloud-db:/var/lib/mysql
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USER=$MYSQL_USER
+    restart: unless-stopped
+
+  nextcloud-cache:
+    image: redis:alpine3.19
+    container_name: nextcloud-cache
+    networks:
+      - backend
+    restart: unless-stopped
