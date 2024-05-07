@@ -1,0 +1,18 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/bookmarks
+
+- Developer:
+    - Github:
+        - icon: si-github-#FFFFFF
+          name: Homelab
+          description: github.com/Jacob-Roberts/homelab
+          href: https://github.com/Jacob-Roberts/homelab
+
+- Cloud Services:
+    - Cloudflare:
+        - icon: cloudflare.png
+          href: https://dash.cloudflare.com
+    - Oracle Cloud:
+        - icon: oracle-cloud.png
+          href: https://cloud.oracle.com
