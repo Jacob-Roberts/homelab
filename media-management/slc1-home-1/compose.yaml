@@ -4,3 +4,36 @@
 # Plan:
 # SLC1 won't have any management services running on it. It will just sync files from LHR1.
 # https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories
+
+name: media-management
+
+networks:
+  frontend:
+    external: true
+
+services:
+  syncthing:
+    image: lscr.io/linuxserver/syncthing
+    container_name: syncthing
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./config:/config
+      - /jellydata:/jellydata
+    ports:
+      - 22000:22000/tcp # TCP file transfers
+      - 22000:22000/udp # QUIC file transfers
+    restart: unless-stopped
+    networks:
+      - frontend
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.syncthing-prod-1.loadbalancer.server.port: "8384"
+      traefik.http.routers.syncthing-prod-1-http.entrypoints: web
+      traefik.http.routers.syncthing-prod-1-http.rule: Host(`syncthing.slc1.jakerob.pro`)
+      traefik.http.routers.syncthing-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.syncthing-prod-1-https.entrypoints: websecure
+      traefik.http.routers.syncthing-prod-1-https.rule: Host(`syncthing.slc1.jakerob.pro`)
+      traefik.http.routers.syncthing-prod-1-https.tls: true
+      traefik.http.routers.syncthing-prod-1-https.tls.certresolver: cloudflare
