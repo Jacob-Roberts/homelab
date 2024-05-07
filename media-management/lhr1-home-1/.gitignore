@@ -5,3 +5,4 @@ gluetun-config/*
 bazarr-config/*
 qbittorrent-config/*
 sabnzbd-config/*
+syncthing-config/*

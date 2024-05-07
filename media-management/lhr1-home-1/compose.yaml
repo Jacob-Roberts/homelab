@@ -231,7 +231,7 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - ./config:/config
+      - ./syncthing-config:/config
       - /jellydata:/jellydata
     ports:
       - 22000:22000/tcp # TCP file transfers
