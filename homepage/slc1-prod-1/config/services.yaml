@@ -1,0 +1,141 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+
+- Infrastructure and Data:
+    - Proxmox:
+        href: https://proxmox.slc1.jakerob.pro:8006
+        icon: proxmox.png
+        description: proxmox on slc1-node-1
+        siteMonitor: https://proxmox.slc1.jakerob.pro:8006
+        widget:
+          type: proxmox
+          url: https://proxmox.slc1.jakerob.pro:8006
+          username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
+          password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
+    - TrueNAS Scale:
+        href: https://truenas.slc1.jakerob.pro
+        icon: truenas-scale.png
+        siteMonitor: https://truenas.slc1.jakerob.pro
+        widget:
+            type: truenas
+            url: https://truenas.slc1.jakerob.pro
+            key: "{{HOMEPAGE_VAR_TRUENAS_KEY}}"
+            enablePools: false
+    # - InfluxDB:
+    #     href: https://ixdb-prod-1.srv-prod-2.home.clcreative.de/
+    #     icon: influxdb.png
+    #     description: ixdb-prod-1 on srv-prod-2
+
+    - Traefik:
+        href: https://traefik.slc1.jakerob.pro
+        icon: traefik.png
+        description: traefik on slc1-node-1
+        widget:
+          type: traefik
+          url: https://traefik.slc1.jakerob.pro
+
+- Management:
+    - Portainer:
+        href: https://portainer.slc1.jakerob.pro
+        icon: portainer.png
+        description: portainer on slc1-node-1
+        widget:
+          type: portainer
+          url: https://portainer.slc1.jakerob.pro
+          env: 1
+          key: "{{HOMEPAGE_VAR_PORTAINER_KEY}}"
+
+- Monitoring:
+    - UptimeKuma:
+        href: https://uptime.slc1.jakerob.pro
+        description: uptimekuma on slc1-node-1
+        icon: uptime-kuma.png
+        widget:
+          type: uptimekuma
+          url: https://uptime.slc1.jakerob.pro
+          slug: default
+    # - Prometheus:
+    #     href: https://prometheus-prod-1.srv-prod-1.home.clcreative.de
+    #     description: prometheus-prod-1 on srv-prod-1
+    #     icon: prometheus.png
+    #     server: srv-prod-1
+    #     container: prometheus-prod-1
+    #     widget:
+    #         type: prometheus
+    #         url: https://prometheus-prod-1.srv-prod-1.home.clcreative.de
+    # - Grafana:
+    #     href: https://grafana-prod-1.srv-prod-1.home.clcreative.de
+    #     description: grafana-prod-1 on srv-prod-1
+    #     icon: grafana.png
+    #     server: srv-prod-1
+    #     container: grafana-prod-1
+
+- Security and Identity:
+    - Authentik:
+        href: https://authentik.slc1.jakerob.pro
+        description: authentik-prod-1 on slc1-node-2
+        icon: authentik.png
+        widget:
+          type: authentik
+          url: https://authentik.slc1.jakerob.pro
+          key: "{{HOMEPAGE_VAR_AUTHENTIK_KEY}}"
+    - Bitwarden:
+        href: https://vault.bitwarden.com
+        description: Cloud Bitwarden
+        icon: bitwarden.png
+# - Automation:
+#     - Kestra:
+#         href: https://kestra-demo-1.srv-prod-1.home.clcreative.de
+#         description: kestra-demo-1 on srv-prod-1
+#         icon: https://kestra-io.gallerycdn.vsassets.io/extensions/kestra-io/kestra/0.0.1/1692285562923/Microsoft.VisualStudio.Services.Icons.Default
+
+#     - Ansible Semaphore:
+#         href: https://ansiblesemaphore-prod-1.srv-prod-1.home.clcreative.de
+#         description: ansiblesemaphore-prod-1 on srv-prod-1
+#         icon: si-ansible-#EE0000
+#     - ArgoCD:
+#         href: https://argocd-prod-1.kube-prod-1.home.clcreative.de
+#         description: argocd-prod-1 on kube-prod-1
+#         icon: si-argo-#EF7B4D
+
+# - IoT and Smarthome:
+#     - Home Assistant:
+#         href: https://homeassistant-prod-1.srv-prod-7.home.clcreative.de
+#         icon: home-assistant.png
+#         description: homeassistant-prod-1 on srv-prod-7
+#         widget:
+#             type: homeassistant
+#             url: https://homeassistant-prod-1.srv-prod-7.home.clcreative.de
+#             key: {{HOMEPAGE_VAR_HOMEASSISTANT_KEY}}
+#             custom:
+
+- Services:
+    - Immich:
+        icon: immich.png
+        href: https://immich.slc1.jakerob.pro/
+        description: Immich on slc1-node-1
+        widget:
+          type: immich
+          url: https://immich.slc1.jakerob.pro
+          key: "{{HOMEPAGE_VAR_IMMICH_KEY}}"
+
+    - Jellyfin:
+        icon: jellyfin.png
+        href: https://jellyfin.slc1.jakerob.pro/
+        description: Jellyfin on slc1-node-1
+        widget:
+          type: jellyfin
+          url: https://jellyfin.slc1.jakerob.pro
+          key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
+          enableBlocks: true # optional, defaults to false
+          enableNowPlaying: true # optional, defaults to true
+
+    - Nextcloud:
+        icon: nextcloud.png
+        href: https://nextcloud.slc1.jakerob.pro/
+        description: Nextcloud on slc1-node-1
+        widget:
+          type: nextcloud
+          url: https://nextcloud.slc1.jakerob.pro
+          key: "{{HOMEPAGE_VAR_NEXTCLOUD_KEY}}"
