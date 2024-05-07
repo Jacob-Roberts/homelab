@@ -1,40 +1,61 @@
 ---
+name: traefik
+
 networks:
   frontend:
     external: true
   backend:
     external: true
+    
 services:
   traefik:
-    image: traefik:v2.11.2
-    container_name: traefik
+    image: traefik:v3.0
+    container_name: traefik-prod-1
     ports:
       - 80:80
       - 443:443
       # -- (Optional) Enable Dashboard, don't do in production
       - 8080:8080
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config/conf/:/etc/traefik/conf/
       - ./config/certs/:/etc/traefik/certs/
-    # -- (Optional) When using Cloudflare as Cert Resolver
-    # environment:
-    #   - CF_DNS_API_TOKEN=your-cloudflare-api-token
-    networks:
-      - frontend
-      - backend
-    restart: unless-stopped
-
-  whoami:
-    image: traefik/whoami
+    environment:
+      - CF_DNS_API_TOKEN=$CF_DNS_API_TOKEN
     networks:
       - frontend
       - backend
     labels:
+      traefik.enable: true
+      traefik.http.services.traefik-prod-1.loadBalancer.server.port: 8080
+      traefik.http.routers.traefik-prod-1-http.entrypoints: web
+      traefik.http.routers.traefik-prod-1-http.rule: Host(`traefik.slc1.jakerob.pro`)
+      traefik.http.routers.traefik-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.traefik-prod-1-https.entrypoints: websecure
+      traefik.http.routers.traefik-prod-1-https.rule: Host(`traefik.slc1.jakerob.pro`)
+      traefik.http.routers.traefik-prod-1-https.tls: true
+      traefik.http.routers.traefik-prod-1-https.tls.certresolver: cloudflare
+    restart: unless-stopped
+
+  whoami:
+    image: traefik/whoami
+    container_name: whoami-prod-1
+    networks:
+      - frontend
+      - backend
+    security_opt:
+      - no-new-privileges:true
+    command: --verbose
+    restart: unless-stopped
+    labels:
       traefik.enable: "true"
-      traefik.http.routers.whoami.rule: Host(`whoami.docker.localhost`)
-      # traefik.http.routers.whoami-http.entrypoints: "web"
-      # traefik.http.routers.whoami-http.rule: "Host(`192.168.0.97`)"
-      # traefik.http.routers.whoami-https.entrypoints: "websecure"
-      # traefik.http.routers.whoami-https.rule: "Host(`192.168.0.97`)"
+      traefik.http.routers.whoami-prod-1-http.entrypoints: web
+      traefik.http.routers.whoami-prod-1-http.rule: Host(`whoami.slc1.jakerob.pro`)
+      traefik.http.routers.whoami-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.whoami-prod-1-https.entrypoints: websecure
+      traefik.http.routers.whoami-prod-1-https.rule: Host(`whoami.slc1.jakerob.pro`)
+      traefik.http.routers.whoami-prod-1-https.tls: true
+      traefik.http.routers.whoami-prod-1-https.tls.certresolver: cloudflare
