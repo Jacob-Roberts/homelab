@@ -7,7 +7,7 @@
     default_container_image: ubuntu
     default_container_command: sleep 1
 
-tasks:
+  tasks:
     - name: Install required system packages
       apt:
         pkg:
