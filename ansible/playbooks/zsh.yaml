@@ -34,7 +34,7 @@
         clone: yes
         update: yes
 
-    - name: Clone a github repository
+    - name: Clone my dotfiles
       ansible.builtin.git:
         repo: https://github.com/Jacob-Roberts/dotfiles.git
         dest: "{{ ansible_env.HOME }}/.dotfiles"
