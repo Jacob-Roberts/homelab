@@ -158,8 +158,6 @@ services:
       - backend
       - frontend
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=Europe/London
       - VPN_SERVICE_PROVIDER=protonvpn
       - OPENVPN_USER=${OPENVPN_USER}
@@ -181,7 +179,7 @@ services:
 
   sabnzbd:
     container_name: sabnzbd
-    image: ghcr.io/hotio/sabnzbd:release-4.2.3
+    image: lscr.io/linuxserver/sabnzbd:4.3.1
     restart: unless-stopped
     logging:
       driver: json-file

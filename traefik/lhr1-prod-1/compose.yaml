@@ -86,7 +86,6 @@ services:
   whoami:
     image: traefik/whoami
     container_name: whoami-prod-1
-    user: 1000:1000
     networks:
       - frontend
       - backend
