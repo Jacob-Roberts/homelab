@@ -2,10 +2,7 @@
 - hosts: all
   become: true
   vars:
-    container_count: 4
-    default_container_name: docker
-    default_container_image: ubuntu
-    default_container_command: sleep 1
+    created_username: jacobroberts
 
   tasks:
     - name: Install required system packages
@@ -33,3 +30,9 @@
         name: docker-ce
         state: latest
         update_cache: true
+
+    - name: Add the user "{{ created_username }}" to group 'docker'
+      ansible.builtin.user:
+        name: "{{ created_username }}"
+        groups: docker
+        append: yes
