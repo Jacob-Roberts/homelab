@@ -6,7 +6,7 @@ networks:
     external: true
   backend:
     external: true
-  traefik-internal:
+  internal:
     external: false
 
 services:
@@ -30,7 +30,7 @@ services:
     networks:
       - frontend
       - backend
-      - traefik-internal
+      - internal
     labels:
       traefik.enable: true
       traefik.http.services.traefik-prod-1.loadBalancer.server.port: 8080
@@ -45,9 +45,9 @@ services:
 
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
-    container_name: socket-proxy
+    container_name: traefik-socket-proxy
     networks:
-      - traefik-internal
+      - internal
     environment:
       - ALLOW_START=0 #optional
       - ALLOW_STOP=0 #optional

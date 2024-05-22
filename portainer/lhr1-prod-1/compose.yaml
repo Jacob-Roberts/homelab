@@ -6,18 +6,21 @@ networks:
     external: true
   frontend:
     external: true
+  internal:
+    external: false
 
 services:
   portainer:
     image: portainer/portainer-ce:2.19.4-alpine
     container_name: portainer
-    command: -H unix:///var/run/docker.sock
+    command: -H tcp://socket-proxy:2375
+    user: 1000:1000
     networks:
       - frontend
       - backend
+      - internal
     volumes:
       - ./data:/data
-      - /var/run/docker.sock:/var/run/docker.sock
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
@@ -32,3 +35,43 @@ services:
       traefik.http.routers.portainer-prod-1-https.rule: "Host(`portainer.lhr1.jakerob.pro`)"
       traefik.http.routers.portainer-prod-1-https.tls: "true"
       traefik.http.routers.portainer-prod-1-https.tls.certresolver: "cloudflare"
+  
+  socket-proxy:
+    image: lscr.io/linuxserver/socket-proxy:latest
+    container_name: portainer-socket-proxy
+    networks:
+      - internal
+    environment:
+      - ALLOW_START=1 #optional
+      - ALLOW_STOP=1 #optional
+      - ALLOW_RESTARTS=1 #optional
+      - AUTH=0 #optional
+      - BUILD=0 #optional
+      - COMMIT=0 #optional
+      - CONFIGS=0 #optional
+      - CONTAINERS=1 #optional
+      - DISABLE_IPV6=0 #optional
+      - DISTRIBUTION=0 #optional
+      - EVENTS=1 #optional
+      - EXEC=0 #optional
+      - IMAGES=1 #optional
+      - INFO=1 #optional
+      - NETWORKS=1 #optional
+      - NODES=0 #optional
+      - PING=1 #optional
+      - POST=0 #optional
+      - PLUGINS=0 #optional
+      - SECRETS=0 #optional
+      - SERVICES=1 #optional
+      - SESSION=0 #optional
+      - SWARM=0 #optional
+      - SYSTEM=0 #optional
+      - TASKS=1 #optional
+      - VERSION=1 #optional
+      - VOLUMES=1 #optional
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /run
