@@ -51,6 +51,7 @@ services:
     image: ghcr.io/goauthentik/server:2024.4.1
     container_name: authentik-server
     command: server
+    user: 1000:1000
     environment:
       AUTHENTIK_REDIS__HOST: authentik-redis
       AUTHENTIK_POSTGRESQL__HOST: authentik-db
@@ -96,6 +97,7 @@ services:
   worker:
     image: ghcr.io/goauthentik/server:2024.4.1
     container_name: authentik-worker
+    user: 1000:1000
     command: worker
     environment:
       AUTHENTIK_REDIS__HOST: authentik-redis
