@@ -65,3 +65,9 @@ labels:
 | proxmox       | 192.168.42.10    |
 | pi-hole       | 192.168.42.11    |
 | docker-node-2 | 192.168.42.15    |
+
+## Why do I commit all folders with a .gitkeep?
+
+This ensures that when you clone it, the folders are created with the right ownership.
+
+If they are auto created by the docker containers, sometimes they are still created with ownership of `root`
