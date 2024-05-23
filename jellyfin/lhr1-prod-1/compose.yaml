@@ -9,8 +9,9 @@ networks:
 
 services:
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:10.8.13
+    image: jellyfin/jellyfin:10.9.2
     container_name: jellyfin
+    user: 1000:1000
     volumes:
       - ./config:/config
       - ./cache:/cache
@@ -18,6 +19,8 @@ services:
     restart: 'unless-stopped'
     devices:
       - /dev/dri:/dev/dri
+    group_add:
+      - 999
     networks:
       - frontend
       - backend
