@@ -16,6 +16,8 @@ services:
       - ./cache:/cache
       - /jellydata:/jellydata
     restart: 'unless-stopped'
+    devices:
+      - /dev/dri:/dev/dri
     networks:
       - frontend
       - backend
