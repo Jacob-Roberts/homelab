@@ -1,8 +1,16 @@
 sonarr-config/*
+!/sonarr-config/.gitkeep
 radarr-config/*
+!/radarr-config/.gitkeep
 prowlarr-config/*
+!/prowlarr-config/.gitkeep
 gluetun-config/*
+!/gluetun-config/.gitkeep
 bazarr-config/*
+!/bazarr-config/.gitkeep
 qbittorrent-config/*
+!/qbittorrent-config/.gitkeep
 sabnzbd-config/*
+!/sabnzbd-config/.gitkeep
 syncthing-config/*
+!/syncthing-config/.gitkeep
