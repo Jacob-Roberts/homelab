@@ -9,7 +9,7 @@ networks:
 
 services:
   mealie:
-    image: ghcr.io/mealie-recipes/mealie:v1.5.1
+    image: ghcr.io/mealie-recipes/mealie:v1.7.0
     container_name: mealie
     restart: unless-stopped
     deploy:
@@ -31,8 +31,8 @@ services:
       OIDC_USER_CLAIM: preferred_username
       OIDC_ADMIN_GROUP: "mealie-admin"
       OIDC_USER_GROUP: "mealie-users"
-      OIDC_AUTO_REDIRECT: true
-      ALLOW_SIGNUP: false
+      OIDC_AUTO_REDIRECT: false
+      ALLOW_SIGNUP: true
       PUID: 1000
       PGID: 1000
       TZ: Europe/London
