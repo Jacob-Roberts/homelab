@@ -26,6 +26,13 @@ And env is one of:
 
 > Do not use a mix of "full" words and "short" words, such as `prod`, `staging`, `dev`, `development`. Always use the short form.
 
+### Why are there multiple nodes in a region?
+
+If a service is a "data" service, ie: nextcloud or immich, then we want the data to be stored on a NAS
+rather than directly on the service. When we run a backup job, we don't want the data to be backed up
+twice. The only way this works is if the node is a VM rather than an LXC, but I'd rather work with
+LXC containers for most services. So there are generally two nodes, a service-only LXC node, and a VM.
+
 ## Traefik Labels
 
 When adding traefik labels, add the full `region-env-node` name to the key, but the actual host can be short.
