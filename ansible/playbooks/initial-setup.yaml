@@ -42,6 +42,7 @@
           - git
           - jq
           - stow
+          - ping
         state: latest
         update_cache: true
 
