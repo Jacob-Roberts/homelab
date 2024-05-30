@@ -42,7 +42,7 @@
           - git
           - jq
           - stow
-          - ping
+          - iputils-ping
         state: latest
         update_cache: true
 
