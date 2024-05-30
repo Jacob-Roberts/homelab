@@ -84,3 +84,9 @@ If they are auto created by the docker containers, sometimes they are still crea
 
 - How can I fix the locales issue?
   `sudo dpkg-reconfigure locales`
+
+- I get an error running that, locales is not installed
+   `sudo apt install locales`
+
+- My Dialog is broken
+    `sudo apt install dialog`
