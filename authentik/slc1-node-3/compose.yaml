@@ -7,6 +7,14 @@ networks:
   backend:
     external: true
 
+volumes:
+  database:
+    driver: local
+    name: authentik-db
+  redis:
+    driver: local
+    name: authentik-redis
+
 services:
   postgres:
     image: postgres:16.2
@@ -19,12 +27,12 @@ services:
     healthcheck:
       test:
         ["CMD-SHELL", 'pg_isready -d "${POSTGRES_DB}" -U "${POSTGRES_USER}"']
-      start_period: 30s
-      interval: 10s
-      timeout: 10s
+      start_period: 20s
+      interval: 30s
       retries: 5
+      timeout: 5s
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - database:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
       - backend
@@ -41,7 +49,7 @@ services:
       retries: 5
       timeout: 3s
     volumes:
-      - ./redis-data:/data
+      - redis:/data
     restart: unless-stopped
     networks:
       - backend
@@ -51,9 +59,10 @@ services:
     image: ghcr.io/goauthentik/server:2024.4.1
     container_name: authentik-server
     command: server
+    user: 1000:1000
     environment:
-      AUTHENTIK_REDIS__HOST: authentik-redis
-      AUTHENTIK_POSTGRESQL__HOST: authentik-db
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgres
       AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_USER}
       AUTHENTIK_POSTGRESQL__NAME: ${POSTGRES_DB}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
@@ -96,10 +105,11 @@ services:
   worker:
     image: ghcr.io/goauthentik/server:2024.4.1
     container_name: authentik-worker
+    user: 1000:1000
     command: worker
     environment:
-      AUTHENTIK_REDIS__HOST: authentik-redis
-      AUTHENTIK_POSTGRESQL__HOST: authentik-db
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgres
       AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_USER}
       AUTHENTIK_POSTGRESQL__NAME: ${POSTGRES_DB}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
