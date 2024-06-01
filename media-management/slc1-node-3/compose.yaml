@@ -1,10 +1,4 @@
 ---
-# TODO
-
-# Plan:
-# SLC1 won't have any management services running on it. It will just sync files from LHR1.
-# https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories
-
 name: media-management
 
 networks:
@@ -20,7 +14,7 @@ services:
       - PGID=1000
     volumes:
       - ./config:/config
-      - /jellydata:/jellydata
+      - /nfs/jellydata:/jellydata
     ports:
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers
