@@ -17,8 +17,22 @@ locations:
     to:
       - truenas
     cron: '0 2 * * *' # Every day at 2 AM
-    options:
-      restore:
-        target: ~/homelab/media-management/slc1-node-3
-        include: /config
 
+  authentik-config:
+    from:
+      - ~/homelab/authentik/slc1-node-3/certs
+      - ~/homelab/authentik/slc1-node-3/custom-templates
+      - ~/homelab/authentik/slc1-node-3/media
+    to:
+      - truenas
+    cron: '0 2 * * *'
+
+  authentik-data:
+    from:
+      - ~/homelab/authentik/slc1-node-3/backups
+    to:
+      - truenas
+    cron: '0 2 * * *'
+    options:
+      forget:
+        keep-last: 5 # always keep at least 5 snapshots
