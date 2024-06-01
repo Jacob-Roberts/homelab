@@ -14,7 +14,7 @@ else
     echo "restore succeeded"
 fi
 
-fn_restore_homelab "slc1-node-3" "$HOMELAB_ROOT/authentik/slc1-node-3" "model-cache" "immich"
+fn_restore_homelab "slc1-node-3" "$HOMELAB_ROOT/immich/slc1-node-3" "model-cache" "immich"
 result=$?
 
 if [ $result -ne 0 ]; then
