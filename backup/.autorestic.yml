@@ -1,0 +1,24 @@
+version: 2
+
+global:
+  forget:
+    keep-monthly: 2 # keep 2 last monthly snapshots
+
+backends:
+  truenas:
+    type: local
+    path: /nfs/backups/restic
+    key: stored_in_.autorestic.env
+
+locations:
+  media-management-config:
+    from:
+      - ~/homelab/media-management/slc1-node-3/config
+    to:
+      - truenas
+    cron: '0 2 * * *' # Every day at 2 AM
+    options:
+      restore:
+        target: ~/homelab/media-management/slc1-node-3
+        include: /config
+
