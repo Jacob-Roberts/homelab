@@ -5,7 +5,7 @@ HOMELAB_ROOT="${HOMELAB_ROOT:-$HOME/homelab}"
 # Source the function from manage_folder.sh
 . $HOMELAB_ROOT/backup/fn_restore_homelab.sh
 
-fn_restore_homelab "$HOMELAB_ROOT/media-management/slc1-node-3" "config" "media-management-config"
+fn_restore_homelab "slc1-node-3" "$HOMELAB_ROOT/media-management/slc1-node-3" "config" "media-management-config"
 result=$?
 
 if [ $result -ne 0 ]; then

@@ -13,7 +13,7 @@ services:
     image: ghcr.io/immich-app/immich-server:v1.103.1
     command: ["start.sh", "immich"]
     volumes:
-      - ./immich:/usr/src/app/upload
+      - /nfs/immich:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     user: 1000:1000
     environment:
@@ -49,7 +49,7 @@ services:
     #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
     command: ["start.sh", "microservices"]
     volumes:
-      - ./immich:/usr/src/app/upload
+      - /nfs/immich:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     user: 1000:1000
     environment:

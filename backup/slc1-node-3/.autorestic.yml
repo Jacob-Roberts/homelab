@@ -36,3 +36,11 @@ locations:
     options:
       forget:
         keep-last: 5 # always keep at least 5 snapshots
+
+  immich:
+    from:
+      - ~/homelab/immich/slc1-node-3/database
+      - ~/homelab/immich/slc1-node-3/model-cache
+    to:
+      - truenas
+    cron: '0 2 * * *'
