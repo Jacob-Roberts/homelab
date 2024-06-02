@@ -14,26 +14,6 @@
         shell: /usr/bin/zsh
       become: true
 
-    - name: Download Oh My Zsh installation script
-      get_url:
-        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-        dest: /tmp/install-oh-my-zsh.sh
-        mode: 0755
-
-    - name: Run Oh My Zsh installation script
-      command: /tmp/install-oh-my-zsh.sh --unattended
-      register: ohmyzsh_result
-      failed_when: "'FAILED' in ohmyzsh_result.stderr"
-      args:
-        creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
-
-    - name: Add zsh-autosuggestions
-      ansible.builtin.git:
-        repo: https://github.com/zsh-users/zsh-autosuggestions.git
-        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-        clone: yes
-        update: yes
-
     - name: Clone my dotfiles
       ansible.builtin.git:
         repo: https://github.com/Jacob-Roberts/dotfiles.git
@@ -57,3 +37,23 @@
       register: result
       changed_when: 'result.stderr is search("LINK: ")'
       become: false
+
+    - name: Download Oh My Zsh installation script
+      get_url:
+        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+        dest: /tmp/install-oh-my-zsh.sh
+        mode: 0755
+
+    - name: Run Oh My Zsh installation script
+      command: /tmp/install-oh-my-zsh.sh --unattended
+      register: ohmyzsh_result
+      failed_when: "'FAILED' in ohmyzsh_result.stderr"
+      args:
+        creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
+
+    - name: Add zsh-autosuggestions
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions.git
+        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        clone: yes
+        update: yes
