@@ -7,6 +7,10 @@ networks:
   backend:
     external: true
 
+volumes:
+  nextcloud-db:
+    driver: local
+
 services:
   app:
     image: nextcloud:28.0.5
@@ -70,9 +74,8 @@ services:
     command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
     networks:
       - backend
-    user: "1000:1000"
     volumes:
-      - ./nextcloud-db:/var/lib/mysql
+      - nextcloud-db:/var/lib/mysql
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=true
       - MYSQL_PASSWORD=$MYSQL_PASSWORD
