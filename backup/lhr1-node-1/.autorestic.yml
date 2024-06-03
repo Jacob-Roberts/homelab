@@ -1,0 +1,54 @@
+version: 2
+
+global:
+  forget:
+    keep-monthly: 2 # keep 2 last monthly snapshots
+
+backends:
+  truenas-slc:
+    type: sftp
+    path: truenas.slc1.jakerob.pro:/remote/path/on/the/server
+    key: stored_in_.autorestic.env
+
+locations:
+  media-management-config:
+    from:
+      - ~/homelab/media-management/lhr1-node-1/bazarr-config
+      - ~/homelab/media-management/lhr1-node-1/gluetun-config
+      - ~/homelab/media-management/lhr1-node-1/prowlarr-config
+      - ~/homelab/media-management/lhr1-node-1/qbittorrent-config
+      - ~/homelab/media-management/lhr1-node-1/radarr-config
+      - ~/homelab/media-management/lhr1-node-1/sabnzbd-config
+      - ~/homelab/media-management/lhr1-node-1/sonarr-config
+      - ~/homelab/media-management/lhr1-node-1/syncthing-config
+    to:
+      - truenas-slc
+    cron: '0 2 * * *' # Every day at 2 AM
+
+  authentik-config:
+    from:
+      - ~/homelab/authentik/lhr1-node-1/certs
+      - ~/homelab/authentik/lhr1-node-1/custom-templates
+      - ~/homelab/authentik/lhr1-node-1/media
+    to:
+      - truenas-slc
+    cron: '0 2 * * *'
+
+  authentik-data:
+    from:
+      - ~/homelab/authentik/lhr1-node-1/backups
+    to:
+      - truenas-slc
+    cron: '0 2 * * *'
+    options:
+      forget:
+        keep-last: 5 # always keep at least 5 snapshots
+
+  immich:
+    from:
+      - ~/homelab/immich/lhr1-node-1/database
+      - ~/homelab/immich/lhr1-node-1/immich
+      - ~/homelab/immich/lhr1-node-1/model-cache
+    to:
+      - truenas-slc
+    cron: '0 2 * * *'
