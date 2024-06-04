@@ -5,10 +5,12 @@ global:
     keep-monthly: 2 # keep 2 last monthly snapshots
 
 backends:
-  # truenas-slc:
-  #   type: sftp
-  #   path: truenas.slc1.jakerob.pro:/remote/path/on/the/server
-  #   key: stored_in_.autorestic.env
+  slctruenas:
+    type: s3
+    path: minio.slc1.jakerob.pro/lhr1-backups
+    env:
+      AWS_ACCESS_KEY_ID: stored_in_.autorestic.env
+      AWS_SECRET_ACCESS_KEY: stored_in_.autorestic.env
 
   backblaze:
     type: s3
@@ -29,7 +31,7 @@ locations:
       - ~/homelab/media-management/lhr1-node-1/sonarr-config
       - ~/homelab/media-management/lhr1-node-1/syncthing-config
     to:
-      # - truenas-slc
+      - slctruenas
       - backblaze
     cron: '0 2 * * *' # Every day at 2 AM
 
@@ -39,7 +41,7 @@ locations:
       - ~/homelab/authentik/lhr1-node-1/custom-templates
       - ~/homelab/authentik/lhr1-node-1/media
     to:
-      # - truenas-slc
+      # - slctruenas
       - backblaze
     cron: '0 2 * * *'
 
@@ -47,7 +49,7 @@ locations:
     from:
       - ~/homelab/authentik/lhr1-node-1/backups
     to:
-      # - truenas-slc
+      # - slctruenas
       - backblaze
     cron: '0 2 * * *'
     options:
@@ -60,5 +62,5 @@ locations:
   #     - ~/homelab/immich/lhr1-node-1/immich
   #     - ~/homelab/immich/lhr1-node-1/model-cache
   #   to:
-  #     - truenas-slc
+  #     - slctruenas
   #   cron: '0 2 * * *'
