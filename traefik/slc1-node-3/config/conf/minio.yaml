@@ -1,0 +1,20 @@
+http:
+  routers:
+    minio-prod-1-http:
+      entrypoints: web
+      rule: "Host(`minio.slc1.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: minio-prod-1
+    minio-prod-1-https:
+      entrypoints: websecure
+      rule: "Host(`minio.slc1.jakerob.pro`)"
+      service: minio-prod-1
+      tls:
+        certresolver: cloudflare
+
+  services:
+    minio-prod-1:
+      loadBalancer:
+        servers:
+          - url: http://192.168.97.27:9002
