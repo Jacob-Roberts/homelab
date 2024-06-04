@@ -5,10 +5,17 @@ global:
     keep-monthly: 2 # keep 2 last monthly snapshots
 
 backends:
-  truenas-slc:
-    type: sftp
-    path: truenas.slc1.jakerob.pro:/remote/path/on/the/server
-    key: stored_in_.autorestic.env
+  # truenas-slc:
+  #   type: sftp
+  #   path: truenas.slc1.jakerob.pro:/remote/path/on/the/server
+  #   key: stored_in_.autorestic.env
+
+  backblaze:
+    type: s3
+    path: s3.us-west-002.backblazeb2.com/lhr1-backups
+    env:
+      AWS_ACCESS_KEY_ID: stored_in_.autorestic.env
+      AWS_SECRET_ACCESS_KEY: stored_in_.autorestic.env
 
 locations:
   media-management-config:
@@ -22,7 +29,8 @@ locations:
       - ~/homelab/media-management/lhr1-node-1/sonarr-config
       - ~/homelab/media-management/lhr1-node-1/syncthing-config
     to:
-      - truenas-slc
+      # - truenas-slc
+      - backblaze
     cron: '0 2 * * *' # Every day at 2 AM
 
   authentik-config:
@@ -31,24 +39,26 @@ locations:
       - ~/homelab/authentik/lhr1-node-1/custom-templates
       - ~/homelab/authentik/lhr1-node-1/media
     to:
-      - truenas-slc
+      # - truenas-slc
+      - backblaze
     cron: '0 2 * * *'
 
   authentik-data:
     from:
       - ~/homelab/authentik/lhr1-node-1/backups
     to:
-      - truenas-slc
+      # - truenas-slc
+      - backblaze
     cron: '0 2 * * *'
     options:
       forget:
         keep-last: 5 # always keep at least 5 snapshots
 
-  immich:
-    from:
-      - ~/homelab/immich/lhr1-node-1/database
-      - ~/homelab/immich/lhr1-node-1/immich
-      - ~/homelab/immich/lhr1-node-1/model-cache
-    to:
-      - truenas-slc
-    cron: '0 2 * * *'
+  # immich:
+  #   from:
+  #     - ~/homelab/immich/lhr1-node-1/database
+  #     - ~/homelab/immich/lhr1-node-1/immich
+  #     - ~/homelab/immich/lhr1-node-1/model-cache
+  #   to:
+  #     - truenas-slc
+  #   cron: '0 2 * * *'
