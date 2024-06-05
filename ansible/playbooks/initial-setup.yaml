@@ -43,6 +43,7 @@
           - jq
           - stow
           - iputils-ping
+          - dnsutils
         state: latest
         update_cache: true
 
