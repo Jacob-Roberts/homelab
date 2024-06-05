@@ -7,7 +7,7 @@ global:
 backends:
   slctruenas:
     type: s3
-    path: minio.slc1.jakerob.pro/lhr1-backups
+    path: https://minioapi.slc1.jakerob.pro/lhr1-backups
     env:
       AWS_ACCESS_KEY_ID: stored_in_.autorestic.env
       AWS_SECRET_ACCESS_KEY: stored_in_.autorestic.env
