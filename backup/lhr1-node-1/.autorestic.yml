@@ -41,7 +41,7 @@ locations:
       - ~/homelab/authentik/lhr1-node-1/custom-templates
       - ~/homelab/authentik/lhr1-node-1/media
     to:
-      # - slctruenas
+      - slctruenas
       - backblaze
     cron: '0 2 * * *'
 
@@ -49,18 +49,18 @@ locations:
     from:
       - ~/homelab/authentik/lhr1-node-1/backups
     to:
-      # - slctruenas
+      - slctruenas
       - backblaze
     cron: '0 2 * * *'
     options:
       forget:
         keep-last: 5 # always keep at least 5 snapshots
 
-  # immich:
-  #   from:
-  #     - ~/homelab/immich/lhr1-node-1/database
-  #     - ~/homelab/immich/lhr1-node-1/immich
-  #     - ~/homelab/immich/lhr1-node-1/model-cache
-  #   to:
-  #     - slctruenas
-  #   cron: '0 2 * * *'
+  immich:
+    from:
+      - ~/homelab/immich/lhr1-node-1/database
+      - ~/homelab/immich/lhr1-node-1/immich
+      - ~/homelab/immich/lhr1-node-1/model-cache
+    to:
+      - slctruenas
+    cron: '0 2 * * *'
