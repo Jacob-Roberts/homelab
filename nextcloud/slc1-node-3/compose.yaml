@@ -15,7 +15,7 @@ services:
       - ./data:/var/www/html
       - ./app-hooks/post-installation:/docker-entrypoint-hooks.d/post-installation
     depends_on:
-      - netxcloud-db
+      - nextcloud-db
       - nextcloud-cache
     networks:
       - frontend
@@ -25,7 +25,7 @@ services:
       - MYSQL_DATABASE=$MYSQL_DATABASE
       - MYSQL_USER=$MYSQL_USER
       - MYSQL_PASSWORD=$MYSQL_PASSWORD
-      - MYSQL_HOST=netxcloud-db
+      - MYSQL_HOST=nextcloud-db
       - REDIS_HOST=nextcloud-cache
       - OVERWRITEPROTOCOL=https
       - OVERWRITECLIURL=https://nextcloud.slc1.jakerob.pro
@@ -62,7 +62,7 @@ services:
       traefik.http.services.nextcloud-prod-1.loadbalancer.server.port: 80
       traefik.http.services.nextcloud-prod-1.loadbalancer.passHostHeader: true
 
-  netxcloud-db:
+  nextcloud-db:
     # See compatibility matrix for Nextcloud 28
     # https://docs.nextcloud.com/server/28/admin_manual/installation/system_requirements.html
     image: docker.io/library/mariadb:11.3.2

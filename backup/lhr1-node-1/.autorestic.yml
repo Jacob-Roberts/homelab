@@ -64,3 +64,9 @@ locations:
     to:
       - slctruenas
     cron: '0 2 * * *'
+
+  nextcloud:
+    from: nextcloud_nextcloud-db
+    type: volume
+    to:
+      - slctruenas
