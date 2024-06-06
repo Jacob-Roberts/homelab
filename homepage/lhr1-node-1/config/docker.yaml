@@ -9,5 +9,5 @@
 # my-docker:
 #   socket: /var/run/docker.sock
 
-lhr1-node-2:
+lhr1-node-1:
   socket: /var/run/docker.sock
