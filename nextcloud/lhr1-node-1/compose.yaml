@@ -8,8 +8,9 @@ networks:
     external: true
 
 volumes:
-  nextcloud-db:
-    driver: local
+  nextcloud-database:
+    name: nextcloud-database
+    external: true
 
 services:
   app:
@@ -75,7 +76,7 @@ services:
     networks:
       - backend
     volumes:
-      - nextcloud-db:/var/lib/mysql
+      - nextcloud-database:/var/lib/mysql
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=true
       - MYSQL_PASSWORD=$MYSQL_PASSWORD
