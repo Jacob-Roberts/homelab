@@ -65,8 +65,14 @@ locations:
       - slctruenas
     cron: '0 2 * * *'
 
-  nextcloud:
-    from: nextcloud_nextcloud-db
+  nextcloud-db:
+    from: nextcloud-database
     type: volume
+    to:
+      - slctruenas
+
+  nextcloud-files:
+    from:
+      - ~/homelab/nextcloud/lhr1-node-1/data
     to:
       - slctruenas
