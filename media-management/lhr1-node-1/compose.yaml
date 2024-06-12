@@ -26,7 +26,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./radarr-config:/config
-      - /jellydata:/jellydata
+      - /mnt/jellydata:/jellydata
     labels:
       traefik.enable: "true"
       traefik.http.routers.radarr-prod-1-http.entrypoints: web
@@ -55,7 +55,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./sonarr-config:/config
-      - /jellydata:/jellydata
+      - /mnt/jellydata:/jellydata
     labels:
       traefik.enable: "true"
       traefik.http.routers.sonarr-prod-1-http.entrypoints: web
@@ -84,7 +84,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./bazarr-config:/config
-      - /jellydata/media:/jellydata/media
+      - /mnt/jellydata/media:/jellydata/media
     labels:
       traefik.enable: "true"
       traefik.http.routers.bazarr-prod-1-http.entrypoints: web
@@ -195,7 +195,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./sabnzbd-config:/config
-      - /jellydata/usenet:/jellydata/usenet:rw
+      - /mnt/jellydata/usenet:/jellydata/usenet:rw
 
   debug:
     image: jonlabelle/network-tools
@@ -217,7 +217,7 @@ services:
       - WEBUI_PORT=8200
     volumes:
       - ./qbittorrent-config:/config
-      - /jellydata/torrents:/jellydata/torrents:rw
+      - /mnt/jellydata/torrents:/jellydata/torrents:rw
     ## Do Not Change Network for qBittorrent
     ## qBittorrent MUST always use a VPN / Secure Internet connection
     network_mode: "service:gluetun"
@@ -230,7 +230,7 @@ services:
       - PGID=1000
     volumes:
       - ./syncthing-config:/config
-      - /jellydata:/jellydata
+      - /mnt/jellydata:/jellydata
     ports:
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers
