@@ -15,7 +15,7 @@ services:
     volumes:
       - ./config:/config
       - ./cache:/cache
-      - /jellydata:/jellydata
+      - /mnt/jellydata:/jellydata
     restart: 'unless-stopped'
     devices:
       - /dev/dri:/dev/dri
