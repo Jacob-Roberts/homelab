@@ -10,7 +10,7 @@ networks:
 services:
   radarr:
     container_name: radarr
-    image: lscr.io/linuxserver/radarr:5.4.6
+    image: lscr.io/linuxserver/radarr:5.6.0
     restart: unless-stopped
     logging:
       driver: json-file
@@ -97,7 +97,7 @@ services:
 
   prowlarr:
     container_name: prowlarr
-    image: lscr.io/linuxserver/prowlarr:1.16.2
+    image: lscr.io/linuxserver/prowlarr:1.18.0
     restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -122,7 +122,7 @@ services:
       traefik.http.routers.prowlarr-prod-1-https.tls.certresolver: cloudflare
 
   flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:v3.3.17
+    image: ghcr.io/flaresolverr/flaresolverr:v3.3.19
     container_name: flaresolverr
     environment:
       - LOG_LEVEL=${LOG_LEVEL:-info}
