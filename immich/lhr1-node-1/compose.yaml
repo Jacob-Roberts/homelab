@@ -10,8 +10,9 @@ networks:
 services:
   immich-server:
     container_name: immich-server
-    image: ghcr.io/immich-app/immich-server:v1.105.1
-    command: ["start.sh", "immich"]
+    image: ghcr.io/immich-app/immich-server:v1.106.4
+    devices:
+      - /dev/dri:/dev/dri
     volumes:
       - ./immich:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
@@ -41,37 +42,11 @@ services:
       traefik.http.routers.immich-prod-1-https.tls: true
       traefik.http.routers.immich-prod-1-https.tls.certresolver: cloudflare
 
-  immich-microservices:
-    container_name: immich-microservices
-    image: ghcr.io/immich-app/immich-server:v1.105.1
-    # extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/hardware-transcoding
-    #   file: hwaccel.transcoding.yml
-    #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
-    command: ["start.sh", "microservices"]
-    volumes:
-      - ./immich:/usr/src/app/upload
-      - /etc/localtime:/etc/localtime:ro
-    user: 1000:1000
-    environment:
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_HOSTNAME=database
-      - DB_DATABASE_NAME=${DB_DATABASE_NAME}
-      - REDIS_HOSTNAME=cache
-    networks:
-      - backend
-    depends_on:
-      - cache
-      - database
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
-
   immich-machine-learning:
     container_name: immich-machine-learning
     # For hardware acceleration, add one of -[armnn, cuda, openvino] to the image tag.
     # Example tag: ${IMMICH_VERSION:-release}-cuda
-    image: ghcr.io/immich-app/immich-machine-learning:v1.105.1
+    image: ghcr.io/immich-app/immich-machine-learning:v1.106.4
     # extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/ml-hardware-acceleration
     #   file: hwaccel.ml.yml
     #   service: cpu # set to one of [armnn, cuda, openvino, openvino-wsl] for accelerated inference - use the `-wsl` version for WSL2 where applicable
