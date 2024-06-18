@@ -20,7 +20,7 @@ services:
     devices:
       - /dev/dri:/dev/dri
     group_add:
-      - 999
+      - 993
     networks:
       - frontend
       - backend
