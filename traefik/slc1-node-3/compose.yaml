@@ -17,8 +17,6 @@ services:
     ports:
       - 80:80
       - 443:443
-      # -- (Optional) Enable Dashboard, don't do in production
-      - 8080:8080
     security_opt:
       - no-new-privileges:true
     volumes:
