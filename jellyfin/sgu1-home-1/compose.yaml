@@ -9,7 +9,7 @@ networks:
 
 services:
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:10.8.13
+    image: lscr.io/linuxserver/jellyfin:2021.12.16
     container_name: jellyfin
     volumes:
       - ./config:/config
