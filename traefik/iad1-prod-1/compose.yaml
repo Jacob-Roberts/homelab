@@ -22,8 +22,6 @@ services:
       - ./config-external/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config-external/conf/:/etc/traefik/conf/
       - ./config-external/certs/:/etc/traefik/certs/
-    environment:
-      TRAEFIK_DASHBOARD_CREDENTIALS: ${TRAEFIK_DASHBOARD_CREDENTIALS}
     networks:
       - frontend
       - backend
@@ -31,7 +29,6 @@ services:
     labels:
       traefik.enable: true
       # Custom middlewares
-      traefik.http.middlewares.traefik-auth.basicauth.users: ${TRAEFIK_DASHBOARD_CREDENTIALS}
       traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: https
       # Management only exposed internally
       traefik.internal: true
@@ -40,7 +37,6 @@ services:
       traefik.http.routers.traefikexternal-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.traefikexternal-prod-1-https.entrypoints: websecure
       traefik.http.routers.traefikexternal-prod-1-https.rule: Host(`traefik-external-dashboard.iad1vpn.jakerob.pro`)
-      traefik.http.routers.traefikexternal-prod-1-https.middlewares: traefik-auth
       traefik.http.routers.traefikexternal-prod-1-https.tls: true
       traefik.http.routers.traefikexternal-prod-1-https.tls.certresolver: cloudflare
       traefik.http.routers.traefikexternal-prod-1-https.service: api@internal
@@ -58,7 +54,6 @@ services:
       - no-new-privileges:true
     environment:
       CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
-      TRAEFIK_DASHBOARD_CREDENTIALS: ${TRAEFIK_DASHBOARD_CREDENTIALS}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -73,7 +68,6 @@ services:
       # Expose Internally
       traefik.enable: true
       # Custom middlewares
-      traefik.http.middlewares.traefik-auth.basicauth.users: ${TRAEFIK_DASHBOARD_CREDENTIALS}
       traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: https
       # Management only exposed internally
       traefik.internal: true
@@ -82,7 +76,6 @@ services:
       traefik.http.routers.traefikinternal-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.traefikinternal-prod-1-https.entrypoints: websecure
       traefik.http.routers.traefikinternal-prod-1-https.rule: Host(`traefik-internal-dashboard.iad1vpn.jakerob.pro`)
-      traefik.http.routers.traefikinternal-prod-1-https.middlewares: traefik-auth
       traefik.http.routers.traefikinternal-prod-1-https.tls: true
       traefik.http.routers.traefikinternal-prod-1-https.tls.certresolver: cloudflare
       traefik.http.routers.traefikinternal-prod-1-https.service: api@internal
