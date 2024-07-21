@@ -90,3 +90,9 @@ If they are auto created by the docker containers, sometimes they are still crea
 
 - My Dialog is broken
     `sudo apt install dialog`
+
+## Git Pre commit hooks
+
+```zsh
+infisical scan install --pre-commit-hook
+```
