@@ -1,6 +1,6 @@
 ---
 
-name: celia
+name: personal-wordpress
 
 networks:
   frontend:
@@ -11,7 +11,7 @@ networks:
 services:
   db:
     image: mysql:8.0
-    container_name: celia-db
+    container_name: personal-wordpress-db
     restart: unless-stopped
     environment:
       - MYSQL_DATABASE=wordpress
@@ -28,7 +28,7 @@ services:
     depends_on:
       - db
     image: wordpress
-    container_name: celia-wordpress
+    container_name: personal-wordpress
     restart: unless-stopped
     environment:
       - WORDPRESS_DB_HOST=db:3306
@@ -40,14 +40,14 @@ services:
     labels:
       traefik.enable: true
       traefik.external: true
-      traefik.http.services.celia-prod-1.loadBalancer.server.port: 80
-      traefik.http.routers.celia-prod-1-http.entrypoints: web
-      traefik.http.routers.celia-prod-1-http.rule: Host(`celia.jakerob.pro`)
-      traefik.http.routers.celia-prod-1-http.middlewares: websecure-redirect-permanent@file
-      traefik.http.routers.celia-prod-1-https.entrypoints: websecure
-      traefik.http.routers.celia-prod-1-https.rule: Host(`celia.jakerob.pro`)
-      traefik.http.routers.celia-prod-1-https.tls: true
-      traefik.http.routers.celia-prod-1-https.tls.certresolver: production
+      traefik.http.services.personalwordpress-prod-1.loadBalancer.server.port: 80
+      traefik.http.routers.personalwordpress-prod-1-http.entrypoints: web
+      traefik.http.routers.personalwordpress-prod-1-http.rule: Host(`wordpress.jakerob.pro`)
+      traefik.http.routers.personalwordpress-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.personalwordpress-prod-1-https.entrypoints: websecure
+      traefik.http.routers.personalwordpress-prod-1-https.rule: Host(`wordpress.jakerob.pro`)
+      traefik.http.routers.personalwordpress-prod-1-https.tls: true
+      traefik.http.routers.personalwordpress-prod-1-https.tls.certresolver: production
     networks:
       - backend
       - frontend
