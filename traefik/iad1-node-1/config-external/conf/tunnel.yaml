@@ -31,16 +31,3 @@ http:
       service: lhr1-tunnel
       tls:
         certresolver: production
-
-    wordpress-celia-lhr1-http:
-      entrypoints: web
-      rule: "Host(`celia.jakerob.pro`)"
-      middlewares:
-        - websecure-redirect-permanent@file
-      service: lhr1-tunnel
-    wordpress-celia-lhr1-https:
-      entrypoints: websecure
-      rule: "Host(`celia.jakerob.pro`)"
-      service: lhr1-tunnel
-      tls:
-        certresolver: production
