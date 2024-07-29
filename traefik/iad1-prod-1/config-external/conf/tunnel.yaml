@@ -1,0 +1,20 @@
+http:
+  routers:
+    personal-wordpress-lhr1-http:
+      entrypoints: web
+      rule: "Host(`wordpress.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: pihole-prod-1
+    personal-wordpress-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`wordpress.jakerob.pro`)"
+      service: pihole-prod-1
+      tls:
+        certresolver: production
+
+  services:
+    personal-wordpress-lhr1-http:
+      loadBalancer:
+        servers:
+          - url: http://100.89.27.79
