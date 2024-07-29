@@ -27,17 +27,17 @@ api:
 entryPoints:
   web:
     address: :80
-#     # -- (Optional) Redirect all HTTP to HTTPS
-#     # http:
-#     #   redirections:
-#     #     entryPoint:
-#     #       to: websecure
-#     #       scheme: https
+    # -- (Optional) Redirect all HTTP to HTTPS
+    # http:
+    #   redirections:
+    #     entryPoint:
+    #       to: websecure
+    #       scheme: https
   websecure:
     address: :443
-#   # -- (Optional) Add custom Entrypoint
-#   # custom:
-#   #   address: :8080
+    # -- (Optional) Add custom Entrypoint
+    # custom:
+    #   address: :8080
 
 # -- Configure your CertificateResolver here...
 certificatesResolvers:
@@ -55,17 +55,6 @@ certificatesResolvers:
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
-
-http:
-  middlewares:
-    # -- (Optional) Redirect HTTP to HTTPS
-    websecure-redirect:
-      redirectScheme:
-        scheme: https
-    websecure-redirect-permanent:
-      redirectScheme:
-        scheme: https
-        permanent: true
 
 # -- (Optional) Disable TLS Cert verification check
 # serversTransport:
