@@ -14,12 +14,12 @@ volumes:
 services:
   wordpress:
     depends_on:
-      - db
+      - wordpress-celia-db
     image: docker.io/wordpress
     container_name: wordpress-celia
     restart: unless-stopped
     environment:
-      - WORDPRESS_DB_HOST=db:3306
+      - WORDPRESS_DB_HOST=wordpress-celia-db:3306
       - WORDPRESS_DB_USER=${MYSQL_USER}
       - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
       - WORDPRESS_DB_NAME=wordpress
@@ -35,7 +35,7 @@ services:
       - backend
       - frontend
 
-  db:
+  wordpress-celia-db:
     image: docker.io/mysql:8.0
     container_name: wordpress-celia-db
     restart: unless-stopped
