@@ -1,0 +1,71 @@
+---
+
+name: wordpress-celia
+
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+
+volumes:
+  db:
+
+services:
+  wordpress:
+    depends_on:
+      - db
+    image: docker.io/wordpress
+    container_name: wordpress-celia
+    restart: unless-stopped
+    environment:
+      - WORDPRESS_DB_HOST=db:3306
+      - WORDPRESS_DB_USER=${MYSQL_USER}
+      - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
+      - WORDPRESS_DB_NAME=wordpress
+    volumes:
+      - ./data:/var/www/html
+    labels:
+      traefik.enable: true
+      traefik.tunnel-external: true
+      traefik.http.services.wordpresscelia-prod-1.loadBalancer.server.port: 80
+      traefik.http.routers.wordpresscelia-prod-1-http.entrypoints: web
+      traefik.http.routers.wordpresscelia-prod-1-http.rule: Host(`celia.jakerob.pro`)
+    networks:
+      - backend
+      - frontend
+
+  db:
+    image: docker.io/mysql:8.0
+    container_name: wordpress-celia-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u", "root", "-p$$DATABASE_ROOT_PASSWORD" ]
+      timeout: 20s
+      retries: 10
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - backend
+
+  phpmyadmin:
+    container_name: wordpress-celia-phpmyadmin
+    image: docker.io/adminer
+    labels:
+      traefik.enable: true
+      traefik.http.services.wordpressceliapma-prod-1.loadBalancer.server.port: 8080
+      traefik.http.routers.wordpressceliapma-prod-1-http.entrypoints: web
+      traefik.http.routers.wordpressceliapma-prod-1-http.rule: Host(`pma-celia.lhr1.jakerob.pro`)
+      traefik.http.routers.wordpressceliapma-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.wordpressceliapma-prod-1-https.entrypoints: websecure
+      traefik.http.routers.wordpressceliapma-prod-1-https.rule: Host(`pma-celia.lhr1.jakerob.pro`)
+      traefik.http.routers.wordpressceliapma-prod-1-https.tls: true
+      traefik.http.routers.wordpressceliapma-prod-1-https.tls.certresolver: cloudflare
+    networks:
+      - frontend
+      - backend
