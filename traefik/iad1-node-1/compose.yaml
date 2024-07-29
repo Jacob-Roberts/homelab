@@ -12,8 +12,6 @@ services:
     ports:
       - 10.0.0.13:80:80
       - 10.0.0.13:443:443
-      # -- (Optional) Enable Dashboard, don't do in production
-      - 100.109.65.68:8080:8080
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -48,8 +46,6 @@ services:
       # Bind on secure IP (local, VPN) only
       - 100.109.65.68:80:80
       - 100.109.65.68:443:443
-      # -- (Optional) Enable Dashboard, don't do in production
-      - 100.109.65.68:8081:8080
     security_opt:
       - no-new-privileges:true
     environment:
