@@ -27,7 +27,7 @@ services:
       - ./data:/var/www/html
     labels:
       traefik.enable: true
-      traefik.tunnel-external: true
+      traefik.external: true
       traefik.http.services.wordpresscelia-prod-1.loadBalancer.server.port: 80
       traefik.http.routers.wordpresscelia-prod-1-http.entrypoints: web
       traefik.http.routers.wordpresscelia-prod-1-http.rule: Host(`celia.jakerob.pro`)
