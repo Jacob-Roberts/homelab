@@ -18,3 +18,16 @@ http:
       service: lhr1-tunnel
       tls:
         certresolver: production
+    
+    wordpress-personal-lhr1-http:
+      entrypoints: web
+      rule: "Host(`wordpress.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: lhr1-tunnel
+    wordpress-personal-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`wordpress.jakerob.pro`)"
+      service: lhr1-tunnel
+      tls:
+        certresolver: production
