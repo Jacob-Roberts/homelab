@@ -15,14 +15,12 @@ networks:
 
 services:
   traefik:
-    image: traefik:v2.11.2
+    image: traefik:v3.0
     container_name: traefik-prod-1
     user: 1000:1000
     ports:
       - 192.168.42.16:80:80
       - 192.168.42.16:443:443
-      # -- (Optional) Enable Dashboard, don't do in production
-      - 192.168.42.16:8080:8080
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -30,7 +28,7 @@ services:
       - ./config/conf/:/etc/traefik/conf/
       - ./config/certs/:/etc/traefik/certs/
     environment:
-      - CF_DNS_API_TOKEN=$CF_DNS_API_TOKEN
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
     networks:
       - frontend
       - backend
@@ -53,7 +51,6 @@ services:
     ports:
       # Bind on Tailscale interface only
       - 100.89.27.79:80:80
-      - 192.168.42.16:8081:8080
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -62,6 +59,19 @@ services:
     networks:
       - tunnel
       - tunnel_internal
+      - internal
+      - frontend
+      - backend
+    labels:
+      traefik.enable: true
+      traefik.http.services.traefiktunnel-prod-1.loadBalancer.server.port: 8080
+      traefik.http.routers.traefiktunnel-prod-1-http.entrypoints: web
+      traefik.http.routers.traefiktunnel-prod-1-http.rule: Host(`traefik-tunnel.lhr1.jakerob.pro`)
+      traefik.http.routers.traefiktunnel-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.traefiktunnel-prod-1-https.entrypoints: websecure
+      traefik.http.routers.traefiktunnel-prod-1-https.rule: Host(`traefik-tunnel.lhr1.jakerob.pro`)
+      traefik.http.routers.traefiktunnel-prod-1-https.tls: true
+      traefik.http.routers.traefiktunnel-prod-1-https.tls.certresolver: cloudflare
     restart: unless-stopped
     
   socket-proxy:
