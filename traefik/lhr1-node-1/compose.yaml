@@ -57,7 +57,6 @@ services:
     security_opt:
       - no-new-privileges:true
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - ./config-tunnel/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config-tunnel/conf/:/etc/traefik/conf/
     networks:
@@ -134,7 +133,7 @@ services:
     image: traefik/whoami
     container_name: whoami-tunnel
     networks:
-      - frontend
+      - tunnel
     security_opt:
       - no-new-privileges:true
     command: --verbose
