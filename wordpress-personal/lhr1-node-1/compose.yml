@@ -5,8 +5,8 @@ name: personal-wordpress
 networks:
   frontend:
     external: true
-  backend:
-    external: true
+  internal:
+    external: false
 
 volumes:
   db:
@@ -32,7 +32,7 @@ services:
       traefik.http.routers.personalwordpress-prod-1-http.entrypoints: web
       traefik.http.routers.personalwordpress-prod-1-http.rule: Host(`wordpress.jakerob.pro`)
     networks:
-      - backend
+      - internal
       - frontend
 
   db:
@@ -51,7 +51,7 @@ services:
     volumes:
       - db:/var/lib/mysql
     networks:
-      - backend
+      - internal
 
   phpmyadmin:
     container_name: personal-wordpress-phpmyadmin
@@ -68,4 +68,4 @@ services:
       traefik.http.routers.personalwordpresspma-prod-1-https.tls.certresolver: cloudflare
     networks:
       - frontend
-      - backend
+      - internal
