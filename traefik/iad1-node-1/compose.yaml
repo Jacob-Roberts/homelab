@@ -11,7 +11,7 @@ services:
   traefik-external:
     image: traefik:v3.0
     container_name: traefik-external
-    user: 1000:1000
+    user: 1002:1002
     ports:
       - 10.0.0.13:80:80
       - 10.0.0.13:443:443
@@ -39,7 +39,7 @@ services:
   traefik-internal:
     image: traefik:v3.0
     container_name: traefik-internal
-    user: 1000:1000
+    user: 1002:1002
     ports:
       # Bind on secure IP (local, VPN) only
       - 100.109.65.68:80:80
