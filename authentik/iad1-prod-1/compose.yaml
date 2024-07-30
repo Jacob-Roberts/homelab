@@ -75,8 +75,8 @@ services:
       - ./media:/media
       - ./custom-templates:/templates
     labels:
-      traefik.enable: "true"
-      traefik.external: "true"
+      traefik.enable: true
+      traefik.external: true
       traefik.http.services.authentik-prod-1.loadBalancer.server.port: 9000
       traefik.http.routers.authentik-prod-1-http.entrypoints: web
       traefik.http.routers.authentik-prod-1-http.rule: Host(`authentik.iad1.jakerob.pro`)

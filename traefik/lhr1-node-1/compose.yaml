@@ -117,7 +117,7 @@ services:
     command: --verbose
     restart: unless-stopped
     labels:
-      traefik.enable: "true"
+      traefik.enable: true
       traefik.http.routers.whoami-prod-1-http.entrypoints: web
       traefik.http.routers.whoami-prod-1-http.rule: Host(`whoami.lhr1.jakerob.pro`)
       traefik.http.routers.whoami-prod-1-http.middlewares: websecure-redirect-permanent@file
@@ -136,7 +136,7 @@ services:
     command: --verbose
     restart: unless-stopped
     labels:
-      traefik.enable: "true"
-      traefik.tunnel-external: "true"
+      traefik.enable: true
+      traefik.tunnel-external: true
       traefik.http.routers.whoamitunnel-prod-1-http.entrypoints: web
       traefik.http.routers.whoamitunnel-prod-1-http.rule: Host(`whoami-tunnel-lhr1.jakerob.pro`)

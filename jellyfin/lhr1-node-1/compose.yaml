@@ -27,7 +27,7 @@ services:
       - TZ=Europe/London
       - JELLYFIN_PublishedServerUrl=https://jellyfin.lhr1.jakerob.pro
     labels:
-      traefik.enable: "true"
+      traefik.enable: true
       traefik.http.services.jellyfin-prod-1.loadBalancer.server.port: 8096
       traefik.http.routers.jellyfin-prod-1-http.entrypoints: web
       traefik.http.routers.jellyfin-prod-1-http.rule: Host(`jellyfin.lhr1.jakerob.pro`)
