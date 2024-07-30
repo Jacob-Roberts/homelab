@@ -61,7 +61,7 @@ services:
       - SMTP_USER_PWD=${SMTP_USER_PWD}
       - SMTP_HOST_SSL_ENABLED=${SMTP_HOST_SSL_ENABLED}
     labels:
-      traefik.enable: "true"
+      traefik.enable: true
       traefik.external: true
       traefik.http.routers.plausible-prod-1-http.entrypoints: web
       traefik.http.routers.plausible-prod-1-http.rule: "Host(`plausible.iad1.jakerob.pro`)"

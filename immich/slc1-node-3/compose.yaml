@@ -32,7 +32,7 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      traefik.enable: "true"
+      traefik.enable: true
       traefik.http.routers.immich-prod-1-http.entrypoints: web
       traefik.http.routers.immich-prod-1-http.rule: Host(`immich.slc1.jakerob.pro`)
       traefik.http.routers.immich-prod-1-http.middlewares: websecure-redirect-permanent@file

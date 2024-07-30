@@ -88,7 +88,7 @@ services:
     command: --verbose
     restart: unless-stopped
     labels:
-      traefik.enable: "true"
+      traefik.enable: true
       traefik.http.routers.whoami-prod-1-http.entrypoints: web
       traefik.http.routers.whoami-prod-1-http.rule: Host(`whoami.sgu1.jakerob.pro`)
       traefik.http.routers.whoami-prod-1-http.middlewares: websecure-redirect-permanent@file

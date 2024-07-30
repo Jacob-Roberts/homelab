@@ -28,7 +28,7 @@ services:
     networks:
       - frontend
     labels:
-      traefik.enable: "true"
+      traefik.enable: true
       traefik.http.services.syncthing-prod-1.loadbalancer.server.port: "8384"
       traefik.http.routers.syncthing-prod-1-http.entrypoints: web
       traefik.http.routers.syncthing-prod-1-http.rule: Host(`syncthing.sgu1.jakerob.pro`)
