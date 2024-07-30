@@ -4,8 +4,8 @@ name: spotify-analytics
 networks:
   frontend:
     external: true
-  backend:
-    external: true
+  internal:
+    external: false
 
 services:
   server:
@@ -15,7 +15,7 @@ services:
     depends_on:
       - mongo
     networks:
-      - backend
+      - internal
       - frontend
     security_opt:
       - no-new-privileges:true
@@ -44,7 +44,7 @@ services:
     volumes:
       - ./your_spotify_db:/data/db
     networks:
-      - backend
+      - internal
     security_opt:
       - no-new-privileges:true
 

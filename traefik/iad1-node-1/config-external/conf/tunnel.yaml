@@ -11,6 +11,7 @@ http:
           - url: http://100.95.11.23
 
   routers:
+    # WHOAMI LHR1
     whoami-lhr1-http:
       entrypoints: web
       rule: "Host(`whoami-tunnel-lhr1.jakerob.pro`)"
@@ -24,6 +25,7 @@ http:
       tls:
         certresolver: production
 
+    # WHOAMI SLC1
     whoami-slc1-http:
       entrypoints: web
       rule: "Host(`whoami-tunnel-slc1.jakerob.pro`)"
@@ -36,7 +38,8 @@ http:
       service: slc1-tunnel
       tls:
         certresolver: production
-    
+
+    # WORDPRESS PERSONAL LHR1
     wordpress-personal-lhr1-http:
       entrypoints: web
       rule: "Host(`wordpress.jakerob.pro`)"

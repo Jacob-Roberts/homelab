@@ -5,8 +5,8 @@ name: wordpress-celia
 networks:
   frontend:
     external: true
-  backend:
-    external: true
+  internal:
+    external: false
 
 volumes:
   db:
@@ -37,7 +37,7 @@ services:
       traefik.http.routers.wordpresscelia-prod-1-https.tls: true
       traefik.http.routers.wordpresscelia-prod-1-https.tls.certresolver: production
     networks:
-      - backend
+      - internal
       - frontend
 
   db:
@@ -56,7 +56,7 @@ services:
     volumes:
       - db:/var/lib/mysql
     networks:
-      - backend
+      - internal
 
   phpmyadmin:
     container_name: wordpress-celia-phpmyadmin
@@ -73,4 +73,4 @@ services:
       traefik.http.routers.wordpressceliapma-prod-1-https.tls.certresolver: cloudflare
     networks:
       - frontend
-      - backend
+      - internal

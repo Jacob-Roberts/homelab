@@ -27,17 +27,17 @@ api:
 entryPoints:
   web:
     address: :80
-#     # -- (Optional) Redirect all HTTP to HTTPS
-#     # http:
-#     #   redirections:
-#     #     entryPoint:
-#     #       to: websecure
-#     #       scheme: https
+    # -- (Optional) Redirect all HTTP to HTTPS
+    # http:
+    #   redirections:
+    #     entryPoint:
+    #       to: websecure
+    #       scheme: https
   websecure:
     address: :443
-#   # -- (Optional) Add custom Entrypoint
-#   # custom:
-#   #   address: :8080
+  # -- (Optional) Add custom Entrypoint
+  # custom:
+  #   address: :8080
 
 # -- Configure your CertificateResolver here...
 certificatesResolvers:
@@ -51,17 +51,6 @@ certificatesResolvers:
         resolvers:
           - "1.1.1.1:53"
           - "8.8.8.8:53"
-
-http:
-  middlewares:
-    # -- (Optional) Redirect HTTP to HTTPS
-    websecure-redirect:
-      redirectScheme:
-        scheme: https
-    websecure-redirect-permanent:
-      redirectScheme:
-        scheme: https
-        permanent: true
 
 # -- (Optional) Disable TLS Cert verification check
 # serversTransport:
@@ -83,9 +72,9 @@ providers:
   docker:
     # -- (Optional) Enable this, if you want to expose all containers automatically
     exposedByDefault: false
-    constraints: "Label(`traefik.internal`,`true`)"
-    endpoint: "unix:///var/run/docker.sock"
+    constraints: "!Label(`traefik.external`,`true`)"
+    endpoint: "tcp://socket-proxy:2375"
     watch: true
   file:
-    directory: /etc/traefik
-    watch: true
+    directory: /etc/traefik/conf/
+    watch: false

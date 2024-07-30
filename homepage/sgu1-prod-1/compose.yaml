@@ -4,8 +4,6 @@ name: homepage
 networks:
   frontend:
     external: true
-  backend:
-    external: true
 
 services:
   homepage:
@@ -36,7 +34,6 @@ services:
       traefik.http.routers.homepage-prod-1-https.tls.certresolver: "cloudflare"
     networks:
       - frontend
-      - backend
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true

@@ -4,8 +4,6 @@ name: homepage
 networks:
   frontend:
     external: true
-  backend:
-    external: true
 
 services:
   homepage:
@@ -24,7 +22,6 @@ services:
       # - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       traefik.enable: "true"
-      traefik.internal: "true"
       traefik.http.routers.homepage-prod-1-http.entrypoints: "web"
       traefik.http.routers.homepage-prod-1-http.rule: "Host(`homepage.iad1vpn.jakerob.pro`)"
       traefik.http.routers.homepage-prod-1-http.middlewares: "websecure-redirect-permanent@file"
@@ -34,7 +31,6 @@ services:
       traefik.http.routers.homepage-prod-1-https.tls.certresolver: "cloudflare"
     networks:
       - frontend
-      - backend
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true

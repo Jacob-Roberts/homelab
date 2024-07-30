@@ -1,7 +1,4 @@
 ---
-networks:
-  backend:
-    external: true
 
 services:
   loki:
@@ -9,13 +6,9 @@ services:
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
-    networks:
-      - backend
 
   promtail:
     image: grafana/promtail:2.9.7
     volumes:
       - /var/log:/var/log
     command: -config.file=/etc/promtail/config.yml
-    networks:
-      - backend
