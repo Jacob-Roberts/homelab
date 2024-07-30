@@ -5,17 +5,35 @@ http:
         servers:
           - url: http://100.89.27.79
 
+    slc1-tunnel:
+      loadBalancer:
+        servers:
+          - url: http://100.95.11.23
+
   routers:
     whoami-lhr1-http:
       entrypoints: web
-      rule: "Host(`whoami-tunnel.jakerob.pro`)"
+      rule: "Host(`whoami-tunnel-lhr1.jakerob.pro`)"
       middlewares:
         - websecure-redirect-permanent@file
       service: lhr1-tunnel
     whoami-lhr1-https:
       entrypoints: websecure
-      rule: "Host(`whoami-tunnel.jakerob.pro`)"
+      rule: "Host(`whoami-tunnel-lhr1.jakerob.pro`)"
       service: lhr1-tunnel
+      tls:
+        certresolver: production
+
+    whoami-slc1-http:
+      entrypoints: web
+      rule: "Host(`whoami-tunnel-slc1.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: slc1-tunnel
+    whoami-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`whoami-tunnel-slc1.jakerob.pro`)"
+      service: slc1-tunnel
       tls:
         certresolver: production
     

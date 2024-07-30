@@ -138,4 +138,4 @@ services:
       traefik.enable: "true"
       traefik.tunnel-external: "true"
       traefik.http.routers.whoamitunnel-prod-1-http.entrypoints: web
-      traefik.http.routers.whoamitunnel-prod-1-http.rule: Host(`whoami-tunnel.jakerob.pro`)
+      traefik.http.routers.whoamitunnel-prod-1-http.rule: Host(`whoami-tunnel-lhr1.jakerob.pro`)
