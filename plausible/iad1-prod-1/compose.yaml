@@ -4,8 +4,8 @@ name: plausible
 networks:
   frontend:
     external: true
-  backend:
-    external: true
+  internal:
+    external: false
 
 services:
   plausible_db:
@@ -15,7 +15,7 @@ services:
     container_name: plausible-db
     restart: unless-stopped
     networks:
-      - backend
+      - internal
     volumes:
       - ./db-data:/var/lib/postgresql/data
     environment:
@@ -26,7 +26,7 @@ services:
     container_name: plausible-events-db
     restart: unless-stopped
     networks:
-      - backend
+      - internal
     volumes:
       - ./event-data:/var/lib/clickhouse
       - ./event-logs:/var/log/clickhouse-server
@@ -46,8 +46,8 @@ services:
       - plausible_db
       - plausible_events_db
     networks:
-      - backend
       - frontend
+      - internal
     environment:
       - BASE_URL=https://plausible.iad1.jakerob.pro
       - SECRET_KEY_BASE=${SECRET_KEY_BASE}

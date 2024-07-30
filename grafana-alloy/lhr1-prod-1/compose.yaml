@@ -2,8 +2,6 @@
 networks:
   frontend:
     external: true
-  backend:
-    external: true
 
 services:
   alloy:
@@ -12,7 +10,6 @@ services:
     command: run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy
     networks:
       - frontend
-      - backend
     ports:
       - 12345:12345
     volumes:

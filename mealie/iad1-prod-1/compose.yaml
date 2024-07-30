@@ -4,8 +4,6 @@ name: mealie
 networks:
   frontend:
     external: true
-  backend:
-    external: true
 
 services:
   mealie:
@@ -20,7 +18,6 @@ services:
       - ./data:/app/data/
     networks:
       - frontend
-      - backend
     security_opt:
       - no-new-privileges:true
     environment:

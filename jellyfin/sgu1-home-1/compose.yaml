@@ -4,8 +4,6 @@ name: jellyfin
 networks:
   frontend:
     external: true
-  backend:
-    external: true
 
 services:
   jellyfin:
@@ -18,7 +16,6 @@ services:
     restart: 'unless-stopped'
     networks:
       - frontend
-      - backend
     environment:
       - PUID=1000
       - PGID=1000
