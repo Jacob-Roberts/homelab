@@ -27,6 +27,7 @@ services:
     labels:
       # Management only exposed internally
       traefik.enable: true
+      traefik.http.services.traefikexternal-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.traefikexternal-prod-1-http.entrypoints: web
       traefik.http.routers.traefikexternal-prod-1-http.rule: Host(`traefik-external.iad1vpn.jakerob.pro`)
       traefik.http.routers.traefikexternal-prod-1-http.middlewares: "websecure-redirect-permanent@file"
@@ -58,6 +59,7 @@ services:
     labels:
       # Management only exposed internally
       traefik.enable: true
+      traefik.http.services.traefikinternal-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.traefikinternal-prod-1-http.entrypoints: web
       traefik.http.routers.traefikinternal-prod-1-http.rule: Host(`traefik-internal.iad1vpn.jakerob.pro`)
       traefik.http.routers.traefikinternal-prod-1-http.middlewares: websecure-redirect-permanent@file
