@@ -4,8 +4,8 @@ name: authentik
 networks:
   frontend:
     external: true
-  backend:
-    external: true
+  internal:
+    external: false
 
 volumes:
   database:
@@ -33,7 +33,7 @@ services:
       - database:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
-      - backend
+      - internal
     security_opt:
       - no-new-privileges:true
   redis:
@@ -50,7 +50,7 @@ services:
       - redis:/data
     restart: unless-stopped
     networks:
-      - backend
+      - internal
     security_opt:
       - no-new-privileges:true
   server:
@@ -96,7 +96,7 @@ services:
       - redis
     networks:
       - frontend
-      - backend
+      - internal
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -130,7 +130,7 @@ services:
     #             https://goauthentik.io/docs/outposts/integrations/docker
     # user: root
     networks:
-      - backend
+      - internal
     volumes:
       # (Optional)  When using the docker socket integration
       # - /var/run/docker.sock:/var/run/docker.sock

@@ -2,8 +2,6 @@
 name: portainer
 
 networks:
-  backend:
-    external: true
   frontend:
     external: true
   internal:
@@ -17,7 +15,6 @@ services:
     user: 1000:1000
     networks:
       - frontend
-      - backend
       - internal
     volumes:
       - ./data:/data
