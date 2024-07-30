@@ -5,6 +5,8 @@ name: personal-wordpress
 networks:
   frontend:
     external: true
+  tunnel:
+    external: true
   internal:
     external: false
 
@@ -33,7 +35,7 @@ services:
       traefik.http.routers.personalwordpress-prod-1-http.rule: Host(`wordpress.jakerob.pro`)
     networks:
       - internal
-      - frontend
+      - tunnel
 
   db:
     image: docker.io/mysql:8.0
