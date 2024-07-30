@@ -10,8 +10,8 @@ services:
     image: ghcr.io/gethomepage/homepage:v0.9.3
     container_name: homepage-prod-1
     environment:
-      PUID: 1000
-      PGID: 1000
+      PUID: 1002
+      PGID: 1002
       LOG_LEVEL: debug
       HOMEPAGE_VAR_PORTAINER_KEY: ${HOMEPAGE_VAR_PORTAINER_KEY}
       HOMEPAGE_VAR_AUTHENTIK_KEY: ${HOMEPAGE_VAR_AUTHENTIK_KEY}
