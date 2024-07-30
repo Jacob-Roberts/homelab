@@ -4,14 +4,10 @@ name: traefik
 networks:
   frontend:
     external: true
-  backend:
-    external: true
   internal:
     external: false
   tunnel:
     external: true
-  tunnel_internal:
-    external: false
 
 services:
   traefik:
@@ -31,7 +27,6 @@ services:
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
     networks:
       - frontend
-      - backend
       - internal
     labels:
       traefik.enable: true
@@ -58,10 +53,7 @@ services:
       - ./config-tunnel/conf/:/etc/traefik/conf/
     networks:
       - tunnel
-      - tunnel_internal
       - internal
-      - frontend
-      - backend
     labels:
       traefik.enable: true
       traefik.http.services.traefiktunnel-prod-1.loadBalancer.server.port: 8080
@@ -79,7 +71,6 @@ services:
     container_name: traefik-socket-proxy
     networks:
       - internal
-      - tunnel_internal
     environment:
       - ALLOW_START=0 #optional
       - ALLOW_STOP=0 #optional
@@ -120,15 +111,10 @@ services:
     container_name: whoami-prod-1
     networks:
       - frontend
-      - backend
     security_opt:
       - no-new-privileges:true
     command: --verbose
     restart: unless-stopped
-    # logging:
-    #   driver: "loki"
-    #   options:
-    #     loki-url: $LOKI_URL
     labels:
       traefik.enable: "true"
       traefik.http.routers.whoami-prod-1-http.entrypoints: web
