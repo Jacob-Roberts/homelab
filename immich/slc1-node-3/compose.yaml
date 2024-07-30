@@ -4,8 +4,8 @@ name: immich
 networks:
   frontend:
     external: true
-  backend:
-    external: true
+  internal:
+    external: false
 
 services:
   immich-server:
@@ -27,7 +27,7 @@ services:
       - database
     networks:
       - frontend
-      - backend
+      - internal
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -59,7 +59,7 @@ services:
       - DB_DATABASE_NAME=${DB_DATABASE_NAME}
       - REDIS_HOSTNAME=cache
     networks:
-      - backend
+      - internal
     depends_on:
       - cache
       - database
@@ -78,7 +78,7 @@ services:
     volumes:
       - ./model-cache:/cache
     networks:
-      - backend
+      - internal
     user: 1000:1000
     environment:
       - DB_PASSWORD=${DB_PASSWORD}
@@ -95,7 +95,7 @@ services:
     image: registry.hub.docker.com/library/redis:6.2-alpine
     restart: unless-stopped
     networks:
-      - backend
+      - internal
 
   database:
     container_name: immich-database
@@ -108,5 +108,5 @@ services:
     volumes:
       - ./database:/var/lib/postgresql/data
     networks:
-      - backend
+      - internal
     restart: unless-stopped

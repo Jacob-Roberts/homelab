@@ -111,15 +111,10 @@ services:
     container_name: whoami-prod-1
     networks:
       - frontend
-      - backend
     security_opt:
       - no-new-privileges:true
     command: --verbose
     restart: unless-stopped
-    # logging:
-    #   driver: "loki"
-    #   options:
-    #     loki-url: $LOKI_URL
     labels:
       traefik.enable: "true"
       traefik.http.routers.whoami-prod-1-http.entrypoints: web
