@@ -4,8 +4,8 @@ name: unifi
 networks:
   frontend:
     external: true
-  backend:
-    external: true
+  internal:
+    external: false
 
 services:
   unifi-network-application:
@@ -22,7 +22,7 @@ services:
       - MONGO_DBNAME=unifi
     networks:
       - frontend
-      - backend
+      - internal
     volumes:
       - ./config:/config
     ports:
@@ -57,4 +57,4 @@ services:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     restart: unless-stopped
     networks:
-      - backend
+      - internal

@@ -4,8 +4,8 @@ name: nextcloud
 networks:
   frontend:
     external: true
-  backend:
-    external: true
+  internal:
+    external: false
 
 services:
   app:
@@ -19,7 +19,7 @@ services:
       - nextcloud-cache
     networks:
       - frontend
-      - backend
+      - internal
     environment:
       - TZ=Europe/London
       - MYSQL_DATABASE=$MYSQL_DATABASE
@@ -69,7 +69,7 @@ services:
     container_name: nextcloud-db
     command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
     networks:
-      - backend
+      - internal
     user: "1000:1000"
     volumes:
       - ./nextcloud-db:/var/lib/mysql
@@ -84,5 +84,5 @@ services:
     image: redis:alpine3.19
     container_name: nextcloud-cache
     networks:
-      - backend
+      - internal
     restart: unless-stopped
