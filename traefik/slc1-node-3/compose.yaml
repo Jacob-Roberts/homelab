@@ -4,19 +4,19 @@ name: traefik
 networks:
   frontend:
     external: true
-  backend:
-    external: true
   internal:
     external: false
+  tunnel:
+    external: true
 
 services:
   traefik:
-    image: traefik:v2.11.2
+    image: traefik:v3.0
     container_name: traefik-prod-1
     user: 1000:1000
     ports:
-      - 80:80
-      - 443:443
+      - 192.168.97.133:80:80
+      - 192.168.97.133:443:443
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -24,10 +24,9 @@ services:
       - ./config/conf/:/etc/traefik/conf/
       - ./config/certs/:/etc/traefik/certs/
     environment:
-      - CF_DNS_API_TOKEN=$CF_DNS_API_TOKEN
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
     networks:
       - frontend
-      - backend
       - internal
     labels:
       traefik.enable: true
@@ -39,6 +38,32 @@ services:
       traefik.http.routers.traefik-prod-1-https.rule: Host(`traefik.slc1.jakerob.pro`)
       traefik.http.routers.traefik-prod-1-https.tls: true
       traefik.http.routers.traefik-prod-1-https.tls.certresolver: cloudflare
+    restart: unless-stopped
+
+  traefik-tunnel:
+    image: traefik:v3.0
+    container_name: traefik-tunnel
+    ports:
+      # Bind on Tailscale interface only
+      - 100.95.11.23:80:80
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./config-tunnel/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ./config-tunnel/conf/:/etc/traefik/conf/
+    networks:
+      - tunnel
+      - internal
+    labels:
+      traefik.enable: true
+      traefik.http.services.traefiktunnel-prod-1.loadBalancer.server.port: 8080
+      traefik.http.routers.traefiktunnel-prod-1-http.entrypoints: web
+      traefik.http.routers.traefiktunnel-prod-1-http.rule: Host(`traefik-tunnel.slc1.jakerob.pro`)
+      traefik.http.routers.traefiktunnel-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.traefiktunnel-prod-1-https.entrypoints: websecure
+      traefik.http.routers.traefiktunnel-prod-1-https.rule: Host(`traefik-tunnel.slc1.jakerob.pro`)
+      traefik.http.routers.traefiktunnel-prod-1-https.tls: true
+      traefik.http.routers.traefiktunnel-prod-1-https.tls.certresolver: cloudflare
     restart: unless-stopped
 
   socket-proxy:
@@ -104,3 +129,18 @@ services:
       traefik.http.routers.whoami-prod-1-https.rule: Host(`whoami.slc1.jakerob.pro`)
       traefik.http.routers.whoami-prod-1-https.tls: true
       traefik.http.routers.whoami-prod-1-https.tls.certresolver: cloudflare
+
+  whoami-tunnel:
+    image: traefik/whoami
+    container_name: whoami-tunnel
+    networks:
+      - tunnel
+    security_opt:
+      - no-new-privileges:true
+    command: --verbose
+    restart: unless-stopped
+    labels:
+      traefik.enable: "true"
+      traefik.tunnel-external: "true"
+      traefik.http.routers.whoamitunnel-prod-1-http.entrypoints: web
+      traefik.http.routers.whoamitunnel-prod-1-http.rule: Host(`whoami-tunnel-slc1.jakerob.pro`)
