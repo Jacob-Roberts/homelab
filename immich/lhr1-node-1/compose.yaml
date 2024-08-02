@@ -34,6 +34,7 @@ services:
       - no-new-privileges:true
     labels:
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.routers.immich-prod-1-http.entrypoints: web
       traefik.http.routers.immich-prod-1-http.rule: Host(`immich.lhr1.jakerob.pro`)
       traefik.http.routers.immich-prod-1-http.middlewares: websecure-redirect-permanent@file

@@ -60,6 +60,7 @@ services:
     image: docker.io/adminer
     labels:
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.services.personalwordpresspma-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.personalwordpresspma-prod-1-http.entrypoints: web
       traefik.http.routers.personalwordpresspma-prod-1-http.rule: Host(`pma.lhr1.jakerob.pro`)
