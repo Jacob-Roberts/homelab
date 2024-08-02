@@ -27,6 +27,7 @@ services:
     labels:
       # Management only exposed internally
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.services.traefikexternal-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.traefikexternal-prod-1-http.entrypoints: web
       traefik.http.routers.traefikexternal-prod-1-http.rule: Host(`traefik-external.iad1vpn.jakerob.pro`)
@@ -59,6 +60,7 @@ services:
     labels:
       # Management only exposed internally
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.services.traefikinternal-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.traefikinternal-prod-1-http.entrypoints: web
       traefik.http.routers.traefikinternal-prod-1-http.rule: Host(`traefik-internal.iad1vpn.jakerob.pro`)

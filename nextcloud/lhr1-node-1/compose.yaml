@@ -50,6 +50,7 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.routers.nextcloud-prod-1-http.entrypoints: web
       traefik.http.routers.nextcloud-prod-1-http.rule: Host(`nextcloud.lhr1.jakerob.pro`)
       traefik.http.routers.nextcloud-prod-1-http.middlewares: nc-header,websecure-redirect-permanent@file

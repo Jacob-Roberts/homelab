@@ -28,6 +28,7 @@ services:
     labels:
       traefik.enable: true
       traefik.external: true
+      traefik.docker.network: frontend
       traefik.http.services.wordpresscelia-prod-1.loadBalancer.server.port: 80
       traefik.http.routers.wordpresscelia-prod-1-http.entrypoints: web
       traefik.http.routers.wordpresscelia-prod-1-http.rule: Host(`celia.jakerob.pro`)
@@ -37,8 +38,8 @@ services:
       traefik.http.routers.wordpresscelia-prod-1-https.tls: true
       traefik.http.routers.wordpresscelia-prod-1-https.tls.certresolver: production
     networks:
-      - internal
       - frontend
+      - internal
 
   db:
     image: docker.io/mysql:8.0
@@ -63,6 +64,7 @@ services:
     image: docker.io/adminer
     labels:
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.services.wordpressceliapma-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.wordpressceliapma-prod-1-http.entrypoints: web
       traefik.http.routers.wordpressceliapma-prod-1-http.rule: Host(`pma.iad1vpn.jakerob.pro`)

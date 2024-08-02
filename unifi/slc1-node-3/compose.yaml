@@ -38,6 +38,7 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.routers.unifi-prod-1-http.entrypoints: web
       traefik.http.routers.unifi-prod-1-http.rule: Host(`unifi.slc1.jakerob.pro`)
       traefik.http.routers.unifi-prod-1-http.middlewares: websecure-redirect-permanent@file

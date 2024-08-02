@@ -29,6 +29,7 @@ services:
       - /media/jellydata:/jellydata
     labels:
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.routers.radarr-prod-1-http.entrypoints: web
       traefik.http.routers.radarr-prod-1-http.rule: Host(`radarr.lhr1.jakerob.pro`)
       traefik.http.routers.radarr-prod-1-http.middlewares: websecure-redirect-permanent@file
@@ -58,6 +59,7 @@ services:
       - /media/jellydata:/jellydata
     labels:
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.routers.sonarr-prod-1-http.entrypoints: web
       traefik.http.routers.sonarr-prod-1-http.rule: Host(`sonarr.lhr1.jakerob.pro`)
       traefik.http.routers.sonarr-prod-1-http.middlewares: websecure-redirect-permanent@file
@@ -87,6 +89,7 @@ services:
       - /media/jellydata/media:/jellydata/media
     labels:
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.routers.bazarr-prod-1-http.entrypoints: web
       traefik.http.routers.bazarr-prod-1-http.rule: Host(`bazarr.lhr1.jakerob.pro`)
       traefik.http.routers.bazarr-prod-1-http.middlewares: websecure-redirect-permanent@file
@@ -113,6 +116,7 @@ services:
       - TZ=Europe/London
     labels:
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.routers.prowlarr-prod-1-http.entrypoints: web
       traefik.http.routers.prowlarr-prod-1-http.rule: Host(`prowlarr.lhr1.jakerob.pro`)
       traefik.http.routers.prowlarr-prod-1-http.middlewares: websecure-redirect-permanent@file
@@ -168,6 +172,7 @@ services:
       - UPDATER_PERIOD=24h
     labels:
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.services.qbittorrent-prod-1.loadBalancer.server.port: 8200
       traefik.http.routers.qbittorrent-prod-1-http.entrypoints: web
       traefik.http.routers.qbittorrent-prod-1-http.rule: Host(`qbittorrent.lhr1.jakerob.pro`)
@@ -239,6 +244,7 @@ services:
       - frontend
     labels:
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.services.syncthing-prod-1.loadbalancer.server.port: "8384"
       traefik.http.routers.syncthing-prod-1-http.entrypoints: web
       traefik.http.routers.syncthing-prod-1-http.rule: Host(`syncthing.lhr1.jakerob.pro`)

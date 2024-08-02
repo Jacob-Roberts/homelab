@@ -30,6 +30,7 @@ services:
       - internal
     labels:
       traefik.enable: true
+      traefik.docker.network: frontend
       traefik.http.services.traefik-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.traefik-prod-1-http.entrypoints: web
       traefik.http.routers.traefik-prod-1-http.rule: Host(`traefik.lhr1.jakerob.pro`)
