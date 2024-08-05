@@ -60,7 +60,7 @@ services:
       traefik.http.middlewares.nc-rep.redirectregex.replacement: https://$$1/remote.php/dav/
       traefik.http.middlewares.nc-rep.redirectregex.permanent: true
       traefik.http.middlewares.nc-header.headers.customFrameOptionsValue: SAMEORIGIN
-      traefik.http.middlewares.nc-header.headers.customResponseHeaders.Strict-Transport-Security: 15552000
+      traefik.http.middlewares.nc-header.headers.customResponseHeaders.Strict-Transport-Security: max-age=15552000; includeSubDomains
       traefik.http.routers.nextcloud-prod-1-https.middlewares: nc-rep,nc-header
       traefik.http.routers.nextcloud-prod-1-https.tls: true
       traefik.http.routers.nextcloud-prod-1-https.tls.certresolver: cloudflare
