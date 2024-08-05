@@ -14,7 +14,7 @@ volumes:
 
 services:
   app:
-    image: nextcloud:28.0.5
+    image: nextcloud:28.0.8
     container_name: nextcloud-app
     volumes:
       - ./data:/var/www/html
