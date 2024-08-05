@@ -91,3 +91,28 @@ services:
     networks:
       - internal
     restart: unless-stopped
+
+  office:
+    image: docker.io/collabora/code:24.04.5.2.1
+    container_name: nextcloud-office
+    environment:
+      - aliasgroup1=https://nextcloud.lhr1.jakerob.pro:443
+      - username=${OFFICE_USERNAME}
+      - password=${OFFICE_PASSWORD}
+      - "extra_params=--o:ssl.enable=false --o:ssl.termination=true"
+    restart: unless-stopped
+    cap_add:
+      - MKNOD
+    networks:
+      - frontend
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.services.office-prod-1.loadbalancer.server.port: 9980
+      traefik.http.routers.office-prod-1-http.entrypoints: web
+      traefik.http.routers.office-prod-1-http.rule: Host(`office.lhr1.jakerob.pro`)
+      traefik.http.routers.office-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.office-prod-1-https.entrypoints: websecure
+      traefik.http.routers.office-prod-1-https.rule: Host(`office.lhr1.jakerob.pro`)
+      traefik.http.routers.office-prod-1-https.tls: true
+      traefik.http.routers.office-prod-1-https.tls.certresolver: cloudflare
