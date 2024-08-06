@@ -92,6 +92,13 @@
     #     icon: grafana.png
     #     server: srv-prod-1
     #     container: grafana-prod-1
+    - cAdvisor:
+        icon: cadvisor.png
+        href: https://cadvisor.lhr1.jakerob.pro
+        description: provides container users an understanding of the resource usage and performance characteristics of their running containers
+        # siteMonitor: http://cadvisor:8080
+        # server: my-docker
+        # container: cadvisor
 
 - Security and Identity:
     - Authentik:
