@@ -36,6 +36,18 @@
           type: traefik
           url: https://traefik.lhr1.jakerob.pro
 
+    - MySpeed:
+        icon: mdi-speedometer-#232835
+        href: https://myspeed.lhr1.jakerob.pro
+        description: internet speed test
+        siteMonitor: https://myspeed.lhr1.jakerob.pro
+        server: my-docker
+        container: myspeed
+        widget:
+          type: myspeed
+          url: https://myspeed.lhr1.jakerob.pro
+          #password: password # only required if password is set
+
 - Management:
     - Portainer:
         href: https://portainer.lhr1.jakerob.pro
