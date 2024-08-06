@@ -68,6 +68,15 @@
           type: uptimekuma
           url: https://uptime.lhr1.jakerob.pro
           slug: default
+    - Grafana:
+        icon: grafana.png
+        href: https://grafana.lhr1.jakerob.pro
+        description: open-source logging system that does not index the contents of the logs, but rather a set of labels for each log stream
+        # widget:
+        #     type: grafana
+        #     url:
+        #     username:
+        #     password:
     # - Prometheus:
     #     href: https://prometheus-prod-1.srv-prod-1.home.clcreative.de
     #     description: prometheus-prod-1 on srv-prod-1
