@@ -1,0 +1,29 @@
+---
+name: cadvisor
+
+networks:
+  frontend:
+    external: true
+
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1     
+    container_name: cadvisor
+    devices:
+      - /dev/kmsg
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.cadvisor-prod-1.entrypoints: websecure
+      traefik.http.routers.cadvisor-prod-1.rule: Host(`cadvisor.iad1vpn.jakerob.pro`)
+      traefik.http.routers.cadvisor-prod-1.tls: true
+      traefik.http.routers.cadvisor-prod-1.tls.certresolver: cloudflare
+    networks:
+      - frontend
+    restart: unless-stopped
