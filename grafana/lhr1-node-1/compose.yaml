@@ -7,8 +7,9 @@ networks:
 
 services:
   grafana:
-    image: grafana/grafana-oss:10.4.2
+    image: docker.io/grafana/grafana-oss:11.1.3
     container_name: grafana
+    user: 1000:1000
     volumes:
       - ./data:/var/lib/grafana
     labels:
@@ -23,8 +24,8 @@ services:
       GF_SERVER_ROOT_URL: "https://grafana.lhr1.jakerob.pro"
       GF_AUTH_GENERIC_OAUTH_ENABLED: true
       GF_AUTH_GENERIC_OAUTH_NAME: "authentik"
-      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: $GF_AUTH_GENERIC_OAUTH_CLIENT_ID
-      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: $GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: ${GF_AUTH_GENERIC_OAUTH_CLIENT_ID}
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
       GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email"
       GF_AUTH_GENERIC_OAUTH_AUTH_URL: "https://authentik.lhr1.jakerob.pro/application/o/authorize/"
       GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "https://authentik.lhr1.jakerob.pro/application/o/token/"
