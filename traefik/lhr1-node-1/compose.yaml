@@ -67,7 +67,7 @@ services:
       traefik.http.routers.traefiktunnel-prod-1-https.tls: true
       traefik.http.routers.traefiktunnel-prod-1-https.tls.certresolver: cloudflare
     restart: unless-stopped
-    
+
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
     container_name: traefik-socket-proxy
