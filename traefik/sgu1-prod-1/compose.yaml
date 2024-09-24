@@ -9,7 +9,7 @@ networks:
 
 services:
   traefik:
-    image: traefik:v3.0
+    image: traefik:v3
     container_name: traefik-prod-1
     user: 1000:1000
     ports:
