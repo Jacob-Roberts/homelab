@@ -9,7 +9,7 @@ networks:
 
 services:
   traefik-external:
-    image: traefik:v3.0
+    image: traefik:v3
     container_name: traefik-external
     user: 1002:1002
     ports:
@@ -39,7 +39,7 @@ services:
     restart: unless-stopped
 
   traefik-internal:
-    image: traefik:v3.0
+    image: traefik:v3
     container_name: traefik-internal
     user: 1002:1002
     ports:
