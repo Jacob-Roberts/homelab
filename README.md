@@ -79,7 +79,6 @@ This ensures that when you clone it, the folders are created with the right owne
 
 If they are auto created by the docker containers, sometimes they are still created with ownership of `root`
 
-
 ## FAQ
 
 - How can I fix the locales issue?
@@ -96,3 +95,12 @@ If they are auto created by the docker containers, sometimes they are still crea
 ```zsh
 infisical scan install --pre-commit-hook
 ```
+
+## How to setup Proxmox
+
+1. Install Proxmox
+2. Change the update repository to no-subscription
+3. Setup the https certificate
+   1. Datacenter > ACME > Register Account
+   2. Datacenter > ACME > Plugin (Cloudflare)
+   3. lhr1 > System > Certificates
