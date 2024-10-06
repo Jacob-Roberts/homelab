@@ -1,0 +1,26 @@
+---
+name: astro-self-host-demo
+
+networks:
+  frontend:
+    external: true
+
+services:
+  astro-self-host-example:
+    image: ghcr.io/jacob-roberts/astro-self-host-example:0.0.1
+    container_name: astro-self-host-example
+    restart: unless-stopped
+    networks:
+      - frontend
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      traefik.enable: true
+      traefik.http.services.astroselfhostexample-demo-1.loadBalancer.server.port: 4321
+      traefik.http.routers.astroselfhostexample-demo-1-http.entrypoints: web
+      traefik.http.routers.astroselfhostexample-demo-1-http.rule: Host(`astroselfhostexample.lhr1.jakerob.pro`)
+      traefik.http.routers.astroselfhostexample-demo-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.astroselfhostexample-demo-1-https.entrypoints: websecure
+      traefik.http.routers.astroselfhostexample-demo-1-https.rule: Host(`astroselfhostexample.lhr1.jakerob.pro`)
+      traefik.http.routers.astroselfhostexample-demo-1-https.tls: true
+      traefik.http.routers.astroselfhostexample-demo-1-https.tls.certresolver: cloudflare
