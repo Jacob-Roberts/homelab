@@ -22,8 +22,15 @@ services:
       traefik.http.routers.astroselfhostexample-demo-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.astroselfhostexample-demo-1-https.entrypoints: websecure
       traefik.http.routers.astroselfhostexample-demo-1-https.rule: Host(`astroselfhostexample.lhr1.jakerob.pro`)
+      traefik.http.routers.astroselfhostexample-demo-1-https.middlewares: testheader@docker
       traefik.http.routers.astroselfhostexample-demo-1-https.tls: true
       traefik.http.routers.astroselfhostexample-demo-1-https.tls.certresolver: cloudflare
+
+      traefik.http.middlewares.testheader.headers.accesscontrolallowmethods: "*"
+      traefik.http.middlewares.testheader.headers.accesscontrolallowheaders: "*"
+      traefik.http.middlewares.testheader.headers.accesscontrolalloworiginlist: "https://astroselfhostexamplestatic.lhr1.jakerob.pro"
+      traefik.http.middlewares.testheader.headers.accesscontrolmaxage: 100
+      traefik.http.middlewares.testheader.headers.addvaryheader: true
 
   astro-self-host-example-static:
     image: y4m4/s3www:latest
