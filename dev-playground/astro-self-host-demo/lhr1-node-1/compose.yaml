@@ -7,7 +7,7 @@ networks:
 
 services:
   astro-self-host-example:
-    image: ghcr.io/jacob-roberts/astro-self-host-example:0.0.1
+    image: ghcr.io/jacob-roberts/astro-self-host-example:0.0.3
     container_name: astro-self-host-example
     restart: unless-stopped
     networks:
