@@ -10,7 +10,7 @@ services:
     image: docker.io/edgd1er/webnut:latest
     container_name: webnut
     environment:
-      - UPS_HOST=192.168.42.10
+      - UPS_HOST=192.168.42.55
       - UPS_PORT=3493
       - UPS_USER=${UPS_USER}
       - UPS_PASSWORD=${UPS_PASSWORD}
