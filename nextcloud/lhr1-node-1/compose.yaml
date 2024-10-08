@@ -14,7 +14,7 @@ volumes:
 
 services:
   app:
-    image: docker.io/nextcloud:29.0.7
+    image: docker.io/nextcloud:30.0.0
     container_name: nextcloud-app
     volumes:
       - ./data:/var/www/html
