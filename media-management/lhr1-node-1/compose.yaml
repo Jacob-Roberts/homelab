@@ -173,7 +173,7 @@ services:
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
-      traefik.http.services.qbittorrent-prod-1.loadBalancer.server.port: 8200
+      traefik.http.services.qbittorrent-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.qbittorrent-prod-1-http.entrypoints: web
       traefik.http.routers.qbittorrent-prod-1-http.rule: Host(`qbittorrent.lhr1.jakerob.pro`)
       traefik.http.routers.qbittorrent-prod-1-http.middlewares: websecure-redirect-permanent@file
@@ -219,7 +219,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - WEBUI_PORT=8200
+      - WEBUI_PORT=8080
     volumes:
       - ./qbittorrent-config:/config
       - /media/jellydata/torrents:/jellydata/torrents:rw
