@@ -1,6 +1,8 @@
 ---
 name: homebox
 
+# NOTE: THIS PROJECT IS ARCHIVED
+
 networks:
   frontend:
     external: true
