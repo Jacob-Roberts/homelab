@@ -56,7 +56,7 @@ services:
     security_opt:
       - no-new-privileges:true
   server:
-    image: ghcr.io/goauthentik/server:2024.6.3
+    image: ghcr.io/goauthentik/server:2024.8
     container_name: authentik-server
     command: server
     user: 1000:1000
@@ -106,7 +106,7 @@ services:
     security_opt:
       - no-new-privileges:true
   worker:
-    image: ghcr.io/goauthentik/server:2024.6.3
+    image: ghcr.io/goauthentik/server:2024.8
     container_name: authentik-worker
     user: 1000:1000
     command: worker

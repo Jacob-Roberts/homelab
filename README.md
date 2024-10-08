@@ -96,6 +96,19 @@ If they are auto created by the docker containers, sometimes they are still crea
 infisical scan install --pre-commit-hook
 ```
 
+## DB
+
+I normally would rather keep a separate DB container per service, to aid in isolation.
+
+However, this is tricky, because my box is almost out of memory already. So for memory optimizations,
+I will begin having a shared DB that is used in all services.
+
+It looks like this will be the following DBs:
+
+- MySQL
+- Postgres
+- Redis
+
 ## How to setup Proxmox
 
 1. Install Proxmox
