@@ -1,0 +1,61 @@
+---
+name: unifi
+
+networks:
+  frontend:
+    external: true
+  internal:
+    external: false
+
+services:
+  unifi-network-application:
+    image: lscr.io/linuxserver/unifi-network-application:8.5.6
+    container_name: unifi-network-application
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - MONGO_USER=unifi
+      - MONGO_PASS=${MONGO_PASS}
+      - MONGO_HOST=unifi-db
+      - MONGO_PORT=27017
+      - MONGO_DBNAME=unifi
+    networks:
+      - frontend
+      - internal
+    volumes:
+      - ./config:/config
+    ports:
+      - 8443:8443
+      - 3478:3478/udp
+      - 10001:10001/udp
+      - 8080:8080
+      - 1900:1900/udp #optional
+      - 8843:8843 #optional
+      - 8880:8880 #optional
+      - 6789:6789 #optional
+      - 5514:5514/udp #optional
+    restart: unless-stopped
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.unifi-prod-1-http.entrypoints: web
+      traefik.http.routers.unifi-prod-1-http.rule: Host(`unifi.lhr1.jakerob.pro`)
+      traefik.http.routers.unifi-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.unifi-prod-1-https.entrypoints: websecure
+      traefik.http.routers.unifi-prod-1-https.rule: Host(`unifi.lhr1.jakerob.pro`)
+      traefik.http.routers.unifi-prod-1-https.tls: true
+      traefik.http.routers.unifi-prod-1-https.tls.certresolver: cloudflare
+      traefik.http.services.unifi-prod-1.loadbalancer.server.port: 8443
+      traefik.http.services.unifi-prod-1.loadbalancer.serverstransport: ignorecert@file
+      traefik.http.services.unifi-prod-1.loadbalancer.server.scheme: https
+
+  unifi-db:
+    image: mongo:7.0
+    container_name: unifi-db
+    volumes:
+      - ./data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    restart: unless-stopped
+    networks:
+      - internal
