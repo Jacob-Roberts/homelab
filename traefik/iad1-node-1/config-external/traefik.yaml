@@ -55,6 +55,7 @@ certificatesResolvers:
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
+  # We won't give this resolver our API key, so it won't be able to refresh
   synced:
     acme:
       email: jroberts.g1ql8@simplelogin.com
