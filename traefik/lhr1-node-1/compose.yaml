@@ -68,7 +68,7 @@ services:
     volumes:
       - ./config-tunnel/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config-tunnel/conf/:/etc/traefik/conf/
-      - ./config-tunnel/certs/:/etc/traefik/certs/
+      - ./config-tunnel/certs/cloudflare-acme.json:/etc/traefik/certs/cloudflare-acme.json:ro
     networks:
       - tunnel
       - tunnel-internal
