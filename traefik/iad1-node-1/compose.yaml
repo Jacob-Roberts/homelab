@@ -19,7 +19,8 @@ services:
       - no-new-privileges:true
     volumes:
       - ./config-external/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - ./config-external/conf/:/etc/traefik/conf/
+      - ./config-external/conf/acme.json:/etc/traefik/conf/acme.json
+      - ./config-external/conf/synced.json:/etc/traefik/conf/synced.json:ro
       - ./config-external/certs/:/etc/traefik/certs/
     networks:
       - frontend

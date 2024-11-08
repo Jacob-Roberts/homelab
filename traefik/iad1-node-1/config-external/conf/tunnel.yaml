@@ -3,7 +3,7 @@ http:
     lhr1-tunnel:
       loadBalancer:
         servers:
-          - url: http://100.89.27.79
+          - url: https://100.89.27.79
 
     slc1-tunnel:
       loadBalancer:
@@ -24,6 +24,20 @@ http:
       service: lhr1-tunnel
       tls:
         certresolver: production
+
+     # WHOAMI LHR1
+    whoami2-lhr1-http:
+      entrypoints: web
+      rule: "Host(`whoami-tunnel2-lhr1.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: lhr1-tunnel
+    whoami2-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`whoami-tunnel2-lhr1.jakerob.pro`)"
+      service: lhr1-tunnel
+      tls:
+        certresolver: synced
 
     # WHOAMI SLC1
     whoami-slc1-http:

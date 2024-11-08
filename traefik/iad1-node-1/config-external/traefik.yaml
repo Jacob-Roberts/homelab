@@ -55,10 +55,16 @@ certificatesResolvers:
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
+  synced:
+    acme:
+      email: jroberts.g1ql8@simplelogin.com
+      storage: /etc/traefik/certs/synced.json
+      caServer: "https://acme-v02.api.letsencrypt.org/directory"
+
 
 # -- (Optional) Disable TLS Cert verification check
-# serversTransport:
-#   insecureSkipVerify: true
+serversTransport:
+  insecureSkipVerify: true
 
 # -- (Optional) Overwrite Default Certificates
 # tls:
