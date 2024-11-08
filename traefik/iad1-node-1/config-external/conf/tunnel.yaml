@@ -25,7 +25,7 @@ http:
       tls:
         certresolver: production
 
-     # WHOAMI LHR1
+    # WHOAMI LHR1
     whoami2-lhr1-http:
       entrypoints: web
       rule: "Host(`whoami-tunnel2-lhr1.jakerob.pro`)"
@@ -37,7 +37,7 @@ http:
       rule: "Host(`whoami-tunnel2-lhr1.jakerob.pro`)"
       service: lhr1-tunnel
       tls:
-        certresolver: synced
+        certResolver: cloudflare
 
     # WHOAMI SLC1
     whoami-slc1-http:

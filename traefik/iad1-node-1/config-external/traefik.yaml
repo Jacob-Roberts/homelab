@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://json.schemastore.org/traefik-v3.json
+
 # Public Facing Traefik
 
 global:
@@ -8,7 +10,7 @@ global:
 #     - loglevels [DEBUG, INFO, WARNING, ERROR, CRITICAL]
 #     - format [common, json, logfmt]
 log:
-  level: ERROR
+  level: WARN
 #  format: common
 #  filePath: /var/log/traefik/traefik.log
 
@@ -56,12 +58,12 @@ certificatesResolvers:
       httpChallenge:
         entryPoint: web
   # We won't give this resolver our API key, so it won't be able to refresh
-  synced:
+  # This is synced.
+  cloudflare:
     acme:
       email: jroberts.g1ql8@simplelogin.com
-      storage: /etc/traefik/certs/synced.json
+      storage: /etc/traefik/certs/cloudflare-acme.json
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
-
 
 # -- (Optional) Disable TLS Cert verification check
 serversTransport:
