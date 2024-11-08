@@ -1,2 +1,3 @@
 config/certs/*
 !config/certs/.gitkeep
+config-tunnel/certs/*

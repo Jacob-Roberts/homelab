@@ -1,12 +1,14 @@
+# yaml-language-server: $schema=https://json.schemastore.org/traefik-v3.json
+
 global:
   checkNewVersion: false
   sendAnonymousUsage: false
 
 # -- (Optional) Change Log Level and Format here...
-#     - loglevels [DEBUG, INFO, WARNING, ERROR, CRITICAL]
+#     - loglevels [TRACE, DEBUG, INFO, WARN, ERROR, FATAL, PANIC]
 #     - format [common, json, logfmt]
 log:
-  level: ERROR
+  level: WARN
 #  format: common
 #  filePath: /var/log/traefik/traefik.log
 
@@ -73,9 +75,9 @@ providers:
   docker:
     # -- (Optional) Enable this, if you want to expose all containers automatically
     exposedByDefault: false
-    constraints: "!Label(`traefik.tunnel-external`,`true`)"
     endpoint: "tcp://socket-proxy:2375"
     watch: true
+    network: frontend
   file:
     directory: /etc/traefik/conf/
     watch: false
