@@ -21,7 +21,7 @@ services:
       - ./config-external/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config-external/conf/:/etc/traefik/conf/
       - ./config-external/certs/acme.json:/etc/traefik/certs/acme.json
-      - ./config-external/certs/synced.json:/etc/traefik/certs/synced.json:ro
+      - ./config-external/certs/cloudflare-acme.json:/etc/traefik/certs/cloudflare-acme.json:ro
       - ./config-external/certs/:/etc/traefik/certs/
     networks:
       - frontend
