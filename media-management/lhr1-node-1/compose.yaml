@@ -154,8 +154,11 @@ services:
       - "8000:8000"     # Gluetun control server
       - "6881:6881/tcp" # qBittorrent Torrent Port TCP
       - "6881:6881/udp" # qBittorrent Torrent Port UDP
+      - 36607:36607
+      - 36607:36607/udp # port generated in gluten/info/forwarded_port
     volumes:
       - ./gluetun-config:/gluetun
+      - ./gluetun-config/info:/tmp/gluetun
     security_opt:
       - no-new-privileges:true
     networks:
@@ -163,13 +166,11 @@ services:
       - frontend
     environment:
       - TZ=Europe/London
-      - VPN_SERVICE_PROVIDER=protonvpn
-      - OPENVPN_USER=${OPENVPN_USER}
-      - OPENVPN_PASSWORD=${OPENVPN_PASSWORD}
-      - FREE_ONLY=on
-      # Server list updater
-      # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
-      - UPDATER_PERIOD=24h
+      - VPN_SERVICE_PROVIDER=custom
+      - VPN_TYPE=wireguard
+      - VPN_PORT_FORWARDING=on
+      - VPN_PORT_FORWARDING_PROVIDER=protonvpn
+      - FIREWALL_OUTBOUND_SUBNETS=192.168.0.0/16 # Internal network
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
@@ -220,6 +221,8 @@ services:
       - PGID=1000
       - TZ=Europe/London
       - WEBUI_PORT=8080
+    depends_on:
+      - gluetun
     volumes:
       - ./qbittorrent-config:/config
       - /media/jellydata/torrents:/jellydata/torrents:rw
