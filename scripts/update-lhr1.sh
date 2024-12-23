@@ -28,7 +28,7 @@ docker compose up -d --pull always --remove-orphans
 cd $HOMELAB_ROOT/minio/lhr1-node-1
 docker compose up -d --pull always --remove-orphans
 
-cd $HOMELAB_ROOT/nyspeed/lhr1-node-1
+cd $HOMELAB_ROOT/myspeed/lhr1-node-1
 docker compose up -d --pull always --remove-orphans
 
 cd $HOMELAB_ROOT/nextcloud/lhr1-node-1
