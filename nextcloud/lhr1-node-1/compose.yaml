@@ -93,7 +93,7 @@ services:
     restart: unless-stopped
 
   office:
-    image: docker.io/collabora/code:24.04.5.2.1
+    image: docker.io/collabora/code:24.04.11.1.1
     container_name: nextcloud-office
     environment:
       - aliasgroup1=https://nextcloud.lhr1.jakerob.pro:443
