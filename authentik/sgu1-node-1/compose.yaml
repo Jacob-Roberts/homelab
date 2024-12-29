@@ -7,13 +7,17 @@ networks:
   internal:
     external: false
 
+volumes:
+  database:
+    driver: local
+  redis:
+    driver: local
+
 services:
   postgres:
-    image: postgres:16.2
+    image: docker.io/library/postgres:16.2
     container_name: authentik-db
     environment:
-      - PUID=1000
-      - PGUID=1000
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
@@ -21,19 +25,19 @@ services:
     healthcheck:
       test:
         ["CMD-SHELL", 'pg_isready -d "${POSTGRES_DB}" -U "${POSTGRES_USER}"']
-      start_period: 30s
-      interval: 10s
-      timeout: 10s
+      start_period: 20s
+      interval: 30s
       retries: 5
+      timeout: 5s
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - database:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
       - internal
     security_opt:
       - no-new-privileges:true
   redis:
-    image: redis:7.2.4
+    image: docker.io/library/redis:7.2.4
     container_name: authentik-redis
     command: --save 60 1 --loglevel warning
     healthcheck:
@@ -42,25 +46,21 @@ services:
       interval: 30s
       retries: 5
       timeout: 3s
-    environment:
-      PUID: 1000
-      PGUID: 1000
     volumes:
-      - ./redis-data:/data
+      - redis:/data
     restart: unless-stopped
     networks:
       - internal
     security_opt:
       - no-new-privileges:true
   server:
-    image: ghcr.io/goauthentik/server:2024.4.1
+    image: ghcr.io/goauthentik/server:2024.8
     container_name: authentik-server
     command: server
+    user: 1000:1000
     environment:
-      PUID: 1000
-      PGUID: 1000
-      AUTHENTIK_REDIS__HOST: authentik-redis
-      AUTHENTIK_POSTGRESQL__HOST: authentik-db
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgres
       AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_USER}
       AUTHENTIK_POSTGRESQL__NAME: ${POSTGRES_DB}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
@@ -87,8 +87,10 @@ services:
       traefik.http.services.authentik-prod-1.loadBalancer.server.port: 9000
       traefik.http.routers.authentik-prod-1-http.entrypoints: web
       traefik.http.routers.authentik-prod-1-http.rule: Host(`authentik.sgu1.jakerob.pro`)
-      traefik.http.routers.authentik-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.authentik-prod-1-http.middlewares: authentik-headers,websecure-redirect-permanent@file
+      traefik.http.middlewares.authentik-headers.headers.customResponseHeaders.Strict-Transport-Security: max-age=15552000; includeSubDomains
       traefik.http.routers.authentik-prod-1-https.entrypoints: websecure
+      traefik.http.routers.authentik-prod-1-https.middlewares: authentik-headers
       traefik.http.routers.authentik-prod-1-https.rule: Host(`authentik.sgu1.jakerob.pro`)
       traefik.http.routers.authentik-prod-1-https.tls: true
       traefik.http.routers.authentik-prod-1-https.tls.certresolver: cloudflare
@@ -102,14 +104,13 @@ services:
     security_opt:
       - no-new-privileges:true
   worker:
-    image: ghcr.io/goauthentik/server:2024.4.1
+    image: ghcr.io/goauthentik/server:2024.8
     container_name: authentik-worker
+    user: 1000:1000
     command: worker
     environment:
-      PUID: 1000
-      PGUID: 1000
-      AUTHENTIK_REDIS__HOST: authentik-redis
-      AUTHENTIK_POSTGRESQL__HOST: authentik-db
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgres
       AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_USER}
       AUTHENTIK_POSTGRESQL__NAME: ${POSTGRES_DB}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
