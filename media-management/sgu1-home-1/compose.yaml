@@ -1,10 +1,4 @@
 ---
-# TODO
-
-# Plan:
-# SGU1 won't have any management services running on it. It will just sync files from LHR1.
-# https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories
-
 name: media-management
 
 networks:
