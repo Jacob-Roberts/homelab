@@ -7,7 +7,7 @@ networks:
 
 services:
   syncthing:
-    image: lscr.io/linuxserver/syncthing
+    image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
     environment:
       - PUID=1000
