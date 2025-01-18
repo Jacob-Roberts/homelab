@@ -166,10 +166,13 @@ services:
       - frontend
     environment:
       - TZ=Europe/London
-      - VPN_SERVICE_PROVIDER=custom
+      - VPN_SERVICE_PROVIDER=protonvpn
       - VPN_TYPE=wireguard
-      - VPN_PORT_FORWARDING=on
-      - VPN_PORT_FORWARDING_PROVIDER=protonvpn
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      # - VPN_PORT_FORWARDING=on
+      # - VPN_PORT_FORWARDING_PROVIDER=protonvpn
+      - FREE_ONLY=on
+      - SERVER_COUNTRIES=Netherlands
       - FIREWALL_OUTBOUND_SUBNETS=192.168.0.0/16 # Internal network
     labels:
       traefik.enable: true
