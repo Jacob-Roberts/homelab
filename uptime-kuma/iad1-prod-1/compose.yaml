@@ -5,7 +5,7 @@ networks:
     external: true
 services:
   uptimekuma:
-    image: docker.io/louislam/uptime-kuma:1.23.15-alpine
+    image: docker.io/louislam/uptime-kuma:1.23.16-alpine
     container_name: uptimekuma
     volumes:
       - ./data:/app/data
