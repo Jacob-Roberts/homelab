@@ -73,6 +73,24 @@ labels:
 | pi-hole       | 192.168.42.11    |
 | docker-node-2 | 192.168.42.15    |
 
+```mermaid
+graph TD
+  subgraph "Router (OpenWRT)"
+    R[Router] -->|VLAN 42: Secure| SNet[Secure Network]
+    R -->|VLAN 9: Guest| GNet[Guest Network]
+    R -->|VLAN 107: IoT| IoTNet[IoT Network]
+  end
+
+  R ---|Trunk| SW[Managed Switch]
+  SW ---|VLAN 9, 42, 107| AP[Omada Wireless AP]
+  
+  subgraph "Clients"
+    S1[Secure Client] -.->|VLAN 42| AP
+    G1[Guest Client] -.->|VLAN 9| AP
+    I1[IoT Device] -.->|VLAN 107| AP
+  end
+```
+
 ## Why do I commit all folders with a .gitkeep?
 
 This ensures that when you clone it, the folders are created with the right ownership.
