@@ -214,7 +214,7 @@ services:
   #   network_mode: "service:gluetun"
 
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:5.0.0
+    image: lscr.io/linuxserver/qbittorrent:20.04.1
     container_name: qbittorrent
     restart: unless-stopped
     security_opt:
