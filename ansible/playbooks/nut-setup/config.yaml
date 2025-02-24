@@ -1,0 +1,38 @@
+---
+nut_state: started
+nut_enabled: true
+
+# Scan for your UPS's values: `sudo nut-scanner -U`
+nut_ups_name: lhr1
+nut_ups_driver: usbhid-ups
+nut_ups_description: "LHR1 floor UPS"
+nut_ups_port: auto
+nut_ups_vendorid: '0463'
+nut_ups_productid: 'FFFF'
+nut_ups_product: 'Eaton 3S'
+nut_ups_serial: 'Blank'
+nut_ups_vendor: 'EATON'
+nut_ups_bus: '001'
+nut_shutdown_finaldelay: '180'
+
+nut_ups_admin_user: admin
+
+# See config-secrets.yaml
+# nut_ups_admin_password: ADMIN_PASSWORD_HERE
+# nut_upsd_users: |
+#   [admin]
+#       password = ADMIN_PASSWORD_HERE
+#       actions = set
+#       actions = fsd
+#       instcmds = all
+
+#   [observer]
+#       password = OBSERVER_PASSWORD_HERE
+#       upsmon secondary
+
+nut_client_ups: lhr1
+nut_client_server: 192.168.42.12
+nut_client_username: observer
+
+# See config-secrets.yaml
+# nut_client_password: OBSERVER_PASSWORD_HERE
