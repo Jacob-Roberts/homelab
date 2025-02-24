@@ -10,7 +10,7 @@ services:
     image: docker.io/edgd1er/webnut:latest
     container_name: webnut
     environment:
-      - UPS_HOST=192.168.42.55
+      - UPS_HOST=192.168.42.12
       - UPS_PORT=3493
       - UPS_USER=${UPS_USER}
       - UPS_PASSWORD=${UPS_PASSWORD}
@@ -27,5 +27,28 @@ services:
       traefik.http.routers.webnut-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.webnut-prod-1-https.entrypoints: websecure
       traefik.http.routers.webnut-prod-1-https.rule: Host(`webnut.lhr1.jakerob.pro`)
+      traefik.http.routers.webnut-prod-1-https.tls: true
+      traefik.http.routers.webnut-prod-1-https.tls.certresolver: cloudflare
+
+  nut_webgui:
+    image: ghcr.io/superioone/nut_webgui:latest
+    container_name: nut_webgui
+    environment:
+      - UPSD_ADDR=192.168.42.12
+      - UPSD_USER=${UPS_USER}
+      - UPSD_PASS=${UPS_PASSWORD}
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - frontend
+    labels:
+      traefik.enable: true
+      traefik.http.services.webnut-prod-1.loadBalancer.server.port: 9000
+      traefik.http.routers.webnut-prod-1-http.entrypoints: web
+      traefik.http.routers.webnut-prod-1-http.rule: Host(`nut.lhr1.jakerob.pro`)
+      traefik.http.routers.webnut-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.webnut-prod-1-https.entrypoints: websecure
+      traefik.http.routers.webnut-prod-1-https.rule: Host(`nut.lhr1.jakerob.pro`)
       traefik.http.routers.webnut-prod-1-https.tls: true
       traefik.http.routers.webnut-prod-1-https.tls.certresolver: cloudflare
