@@ -1,0 +1,21 @@
+---
+all:
+  hosts:
+    # Pi NUT - primary
+    lhr1-nut-1.jakerob.pro:
+      ansible_user: jacobroberts
+
+    truenas.lhr1.jakerob.pro:
+      ansible_user: jacobroberts
+
+    proxmox.lhr1.jakerob.pro:
+      ansible_user: jacobroberts
+
+  children:
+    primary:
+      hosts:
+        lhr1-nut-1.jakerob.pro:
+    clients:
+      hosts:
+        truenas.lhr1.jakerob.pro:
+        proxmox.lhr1.jakerob.pro:
