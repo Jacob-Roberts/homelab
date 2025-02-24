@@ -37,16 +37,15 @@
         marker: "# {mark} ANSIBLE MANAGED BLOCK"
         block: |
           [{{ nut_ups_name }}]
-              driver = {{ nut_ups_driver }}
-              product = UPS
+              driver = "{{ nut_ups_driver }}"
               desc = "{{ nut_ups_description }}"
-              port = {{ nut_ups_port }}
-              vendorid = {{ nut_ups_vendorid }}
-              productid = {{ nut_ups_productid }}
-              product = {{ nut_ups_product }}
-              serial = {{ nut_ups_serial }}
-              vendor = {{ nut_ups_vendor }}
-              bus = {{ nut_ups_bus }}
+              port = "{{ nut_ups_port }}"
+              vendorid = "{{ nut_ups_vendorid }}"
+              productid = "{{ nut_ups_productid }}"
+              product = "{{ nut_ups_product }}"
+              serial = "{{ nut_ups_serial }}"
+              vendor = "{{ nut_ups_vendor }}"
+              bus = "{{ nut_ups_bus }}"
         state: present
         mode: 0640
       notify: restart nut-server
