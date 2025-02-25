@@ -6,10 +6,10 @@ all:
       ansible_user: jacobroberts
 
     truenas.lhr1.jakerob.pro:
-      ansible_user: jacobroberts
+      ansible_user: truenas_admin
 
     proxmox.lhr1.jakerob.pro:
-      ansible_user: jacobroberts
+      ansible_user: root
 
   children:
     primary:
@@ -17,5 +17,5 @@ all:
         lhr1-nut-1.jakerob.pro:
     clients:
       hosts:
-        truenas.lhr1.jakerob.pro:
+        # truenas.lhr1.jakerob.pro: Truenas doesn't like to be configured by ansible
         proxmox.lhr1.jakerob.pro:
