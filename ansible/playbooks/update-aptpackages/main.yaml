@@ -1,9 +1,16 @@
-- hosts: "all"
+---
+- name: Update all APT Packages on all servers.
+  hosts: "all"
+  become: yes
+
+  vars_files:
+    - config-secrets.yaml
 
   vars:
-    discord_webhook_url: "{{ lookup('bitwarden.secrets.lookup', 'a69f907a-8767-494a-8de1-b154010b4832') }}"
+    # See config-secrets.yaml
+    #discord_webhook_url: DISCORD_WEBHOOK_URL_HERE
 
-  become: yes
+  
   tasks:
     # Upgrade packages
     - name: upgrade apt packages
