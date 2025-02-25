@@ -1,7 +1,14 @@
-- hosts: "all"
+---
+- name: Check to ensure all hosts have enough disk space
+  hosts: "all"
+  become: yes
+
+  vars_files:
+    - config-secrets.yaml
 
   vars:
-    discord_webhook_url: "{{ lookup('bitwarden.secrets.lookup', 'a69f907a-8767-494a-8de1-b154010b4832') }}"
+    # See config-secrets.yaml
+    #discord_webhook_url: DISCORD_WEBHOOK_URL_HERE
 
   tasks:
     - name: Get disk usage
