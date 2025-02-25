@@ -1,0 +1,19 @@
+---
+- name: Cleanup Docker extra used space
+  hosts: docker
+  tasks:
+    - name: Prune containers without traefik labels
+      community.docker.docker_prune:
+        containers: true
+        containers_filters:
+          # Prune containers whose label "traefik.enable" does *not* have value
+          # "true". If you want to avoid more than one label, you can
+          # provide a list of multiple label-value pairs.
+          "label!": traefik.enable=true
+    - name: Prune images
+      community.docker.docker_prune:
+        containers: false
+        images: true
+        networks: false
+        volumes: false
+        builder_cache: false

@@ -10,7 +10,6 @@
     # See config-secrets.yaml
     #discord_webhook_url: DISCORD_WEBHOOK_URL_HERE
 
-  
   tasks:
     # Upgrade packages
     - name: upgrade apt packages
