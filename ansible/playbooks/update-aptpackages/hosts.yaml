@@ -1,0 +1,27 @@
+---
+all:
+  hosts:
+    # Pi NUT - primary
+    lhr1-nut-1.jakerob.pro:
+      ansible_user: jacobroberts
+
+    lhr1-node-1.jakerob.pro:
+      ansible_user: jacobroberts
+
+    iad1-node-1.jakerob.pro:
+      ansible_user: jacobroberts
+
+    iad1-node-2.jakerob.pro:
+      ansible_user: jacobroberts
+
+    iad1-node-3.jakerob.pro:
+      ansible_user: jacobroberts
+
+    slc1-node-3.jakerob.pro:
+      ansible_user: jacobroberts
+
+    sgu1-node-1.jakerob.pro:
+      ansible_user: jacobroberts
+
+    proxmox.lhr1.jakerob.pro:
+      ansible_user: root
