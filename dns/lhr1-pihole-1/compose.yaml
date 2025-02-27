@@ -11,6 +11,6 @@ services:
     container_name: nebula-sync
     environment:
     - PRIMARY=http://pihole.lhr1.jakerob.pro|${PIHOLE_PASSWORD}
-    - REPLICAS=http://pihole.lhr1.jakerob.pro|${PIHOLE_PASSWORD}
+    - REPLICAS=http://pihole2.lhr1.jakerob.pro|${PIHOLE_PASSWORD}
     - FULL_SYNC=true
     - CRON=0 * * * *
