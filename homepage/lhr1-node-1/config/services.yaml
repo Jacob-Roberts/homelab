@@ -142,11 +142,11 @@
 - Services:
     - Immich:
         icon: immich.png
-        href: https://immich.lhr1.jakerob.pro/
-        description: Immich on lhr1-node-1
+        href: https://photos.jakerob.pro/
+        description: Photos on lhr1-node-1
         widget:
           type: immich
-          url: https://immich.lhr1.jakerob.pro
+          url: https://photos.jakerob.pro
           key: "{{HOMEPAGE_VAR_IMMICH_KEY}}"
 
     - Jellyfin:
