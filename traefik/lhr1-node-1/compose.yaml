@@ -27,7 +27,7 @@ services:
       - no-new-privileges:true
     volumes:
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - ./config/conf/:/etc/traefik/conf/
+      - ./config/conf/:/etc/traefik/conf/:ro
       - ./config/certs/:/etc/traefik/certs/
     environment:
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
@@ -69,8 +69,7 @@ services:
       - no-new-privileges:true
     volumes:
       - ./config-tunnel/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - ./config-tunnel/conf/:/etc/traefik/conf/
-      - ./config-tunnel/certs/:/etc/traefik/certs/
+      - ./config-tunnel/conf/:/etc/traefik/conf/:ro
     networks:
       - tunnel
       - internal
