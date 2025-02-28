@@ -12,34 +12,6 @@ http:
 
   routers:
     # WHOAMI LHR1
-    whoami-lhr1-http:
-      entrypoints: web
-      rule: "Host(`whoami-tunnel-lhr1.jakerob.pro`)"
-      middlewares:
-        - websecure-redirect-permanent@file
-      service: lhr1-tunnel
-    whoami-lhr1-https:
-      entrypoints: websecure
-      rule: "Host(`whoami-tunnel-lhr1.jakerob.pro`)"
-      service: lhr1-tunnel
-      tls:
-        certresolver: production
-
-    # WHOAMI LHR1
-    whoami2-lhr1-http:
-      entrypoints: web
-      rule: "Host(`whoami-tunnel2-lhr1.jakerob.pro`)"
-      middlewares:
-        - websecure-redirect-permanent@file
-      service: lhr1-tunnel
-    whoami2-lhr1-https:
-      entrypoints: websecure
-      rule: "Host(`whoami-tunnel2-lhr1.jakerob.pro`)"
-      service: lhr1-tunnel
-      tls:
-        certResolver: cloudflare
-
-    # WHOAMI LHR1
     whoami-blank-lhr1-http:
       entrypoints: web
       rule: "Host(`whoami.lhr1.jakerob.pro`)"
@@ -50,32 +22,56 @@ http:
       entrypoints: websecure
       rule: "Host(`whoami.lhr1.jakerob.pro`)"
       service: lhr1-tunnel
-      # tls: true
+      tls: true
+
+    immich-lhr1-http:
+      entrypoints: web
+      rule: "Host(`photos.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: lhr1-tunnel
+    immich-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`photos.jakerob.pro`)"
+      service: lhr1-tunnel
+      tls: true
+
+    authentik-lhr1-http:
+      entrypoints: web
+      rule: "Host(`authentik.lhr1.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: lhr1-tunnel
+    authentik-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`authentik.lhr1.jakerob.pro`)"
+      service: lhr1-tunnel
+      tls: true
 
     # WHOAMI SLC1
-    whoami-slc1-http:
-      entrypoints: web
-      rule: "Host(`whoami-tunnel-slc1.jakerob.pro`)"
-      middlewares:
-        - websecure-redirect-permanent@file
-      service: slc1-tunnel
-    whoami-slc1-https:
-      entrypoints: websecure
-      rule: "Host(`whoami-tunnel-slc1.jakerob.pro`)"
-      service: slc1-tunnel
-      tls:
-        certresolver: production
+    # whoami-slc1-http:
+    #   entrypoints: web
+    #   rule: "Host(`whoami-tunnel-slc1.jakerob.pro`)"
+    #   middlewares:
+    #     - websecure-redirect-permanent@file
+    #   service: slc1-tunnel
+    # whoami-slc1-https:
+    #   entrypoints: websecure
+    #   rule: "Host(`whoami-tunnel-slc1.jakerob.pro`)"
+    #   service: slc1-tunnel
+    #   tls:
+    #     certresolver: production
 
-    # WORDPRESS PERSONAL LHR1
-    wordpress-personal-lhr1-http:
-      entrypoints: web
-      rule: "Host(`wordpress.jakerob.pro`)"
-      middlewares:
-        - websecure-redirect-permanent@file
-      service: lhr1-tunnel
-    wordpress-personal-lhr1-https:
-      entrypoints: websecure
-      rule: "Host(`wordpress.jakerob.pro`)"
-      service: lhr1-tunnel
-      tls:
-        certresolver: production
+    # # WORDPRESS PERSONAL LHR1
+    # wordpress-personal-lhr1-http:
+    #   entrypoints: web
+    #   rule: "Host(`wordpress.jakerob.pro`)"
+    #   middlewares:
+    #     - websecure-redirect-permanent@file
+    #   service: lhr1-tunnel
+    # wordpress-personal-lhr1-https:
+    #   entrypoints: websecure
+    #   rule: "Host(`wordpress.jakerob.pro`)"
+    #   service: lhr1-tunnel
+    #   tls:
+    #     certresolver: production
