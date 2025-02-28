@@ -1,0 +1,27 @@
+---
+name: it-tools
+
+networks:
+  frontend:
+    external: true
+
+services:
+  it-tools:
+    image: corentinth/it-tools:latest
+    container_name: it-tools
+    networks:
+      - frontend
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    labels:
+      traefik.enable: true
+      traefik.external: true
+      traefik.http.routers.ittools-prod-1-http.entrypoints: web
+      traefik.http.routers.ittools-prod-1-http.rule: Host(`it-tools.jakerob.pro`)
+      traefik.http.routers.ittools-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.ittools-prod-1-https.entrypoints: websecure
+      traefik.http.routers.ittools-prod-1-https.rule: Host(`it-tools.jakerob.pro`)
+      traefik.http.routers.ittools-prod-1-https.tls: true
+      traefik.http.routers.ittools-prod-1-https.tls.certresolver: production
+      traefik.http.services.ittools-prod-1.loadbalancer.server.port: 80
