@@ -8,6 +8,7 @@ networks:
   internal:
     # Contains traefik, socket proxy, and traefik-tunnel
     external: false
+    name: traefik_internal
   tunnel:
     # Contains all the services that will be routed to through the tunnel
     external: true
@@ -16,6 +17,8 @@ services:
   traefik:
     image: traefik:v3
     container_name: traefik-prod-1
+    depends_on:
+      - socket-proxy
     user: 1000:1000
     ports:
       - 192.168.42.16:80:80
@@ -33,9 +36,8 @@ services:
       - internal
     labels:
       traefik.enable: true
-      traefik.http.services.traefik-prod-1.loadBalancer.server.port: 8080
-      traefik.http.services.traefik-prod-1.loadbalancer.serverstransport: ignorecert@file
-      traefik.http.services.traefik-prod-1.loadbalancer.server.scheme: https
+      traefik.http.routers.traefik-prod-1-http.service: api@internal
+      traefik.http.routers.traefik-prod-1-https.service: api@internal
       traefik.http.routers.traefik-prod-1-http.entrypoints: web
       traefik.http.routers.traefik-prod-1-http.rule: Host(`traefik.lhr1.jakerob.pro`)
       traefik.http.routers.traefik-prod-1-http.middlewares: websecure-redirect-permanent@file
@@ -56,6 +58,8 @@ services:
   traefik-tunnel:
     image: traefik:v3
     container_name: traefik-tunnel
+    depends_on:
+      - socket-proxy
     user: 1000:1000
     ports:
       # Bind on Tailscale interface only
@@ -72,8 +76,8 @@ services:
       - internal
     labels:
       traefik.enable: true
-      traefik.docker.network: internal
-      traefik.http.services.traefiktunnel-prod-1.loadBalancer.server.port: 8080
+      traefik.docker.network: traefik_internal
+      traefik.http.services.traefiktunnel-prod-1.loadBalancer.server.port: 8080 # TODO: Expose this securely
       traefik.http.routers.traefiktunnel-prod-1-http.entrypoints: web
       traefik.http.routers.traefiktunnel-prod-1-http.rule: Host(`traefik-tunnel.lhr1.jakerob.pro`)
       traefik.http.routers.traefiktunnel-prod-1-http.middlewares: websecure-redirect-permanent@file
