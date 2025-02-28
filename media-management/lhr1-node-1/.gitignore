@@ -12,5 +12,3 @@ qbittorrent-config/*
 !/qbittorrent-config/.gitkeep
 sabnzbd-config/*
 !/sabnzbd-config/.gitkeep
-syncthing-config/*
-!/syncthing-config/.gitkeep
