@@ -10,10 +10,11 @@ mkdir -p synced-certs
 DOMAINS=(
   "photos.jakerob.pro"
   "authentik.lhr1.jakerob.pro"
+  "whoami.lhr1.jakerob.pro"
 )
 
 for domain in "${DOMAINS[@]}"; do
-  sudo cp -f -r ./certs-dump/${domain} synced-certs/${domain}/
+  sudo cp -f -r ./certs-dump/${domain} synced-certs/
 done
 
 sudo chown -R jacobroberts:jacobroberts synced-certs/
