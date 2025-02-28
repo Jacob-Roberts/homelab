@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/traefik-v3.json
 
-# Tunnel Facing Traefik. This does NOT use https
+# Tunnel sitting in between Cloud Traefik and Local Traefik
 
 global:
   checkNewVersion: false
@@ -23,12 +23,13 @@ log:
 # -- (Optional) Enable API and Dashboard here, don't do in production
 api:
   dashboard: true
-  insecure: true
+  insecure: false
 
 # -- Change EntryPoints here...
 entryPoints:
   web:
     address: :80
+    
   websecure:
     address: :443
 
@@ -41,8 +42,8 @@ certificatesResolvers:
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
 
 # -- (Optional) Disable TLS Cert verification check
-# serversTransport:
-#   insecureSkipVerify: true
+serversTransport:
+  insecureSkipVerify: true
 
 # -- (Optional) Overwrite Default Certificates
 # tls:
@@ -57,13 +58,6 @@ certificatesResolvers:
 #       minVersion: VersionTLS12
 
 providers:
-  docker:
-    # -- (Optional) Enable this, if you want to expose all containers automatically
-    exposedByDefault: false
-    constraints: "Label(`traefik.tunnel-external`,`true`)"
-    endpoint: "tcp://socket-proxy-tunnel:2375"
-    watch: true
-    network: tunnel
   file:
     directory: /etc/traefik/conf/
     watch: false

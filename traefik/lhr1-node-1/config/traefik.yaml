@@ -12,8 +12,8 @@ log:
 #  format: common
 #  filePath: /var/log/traefik/traefik.log
 
-metrics:
-  prometheus: {}
+# metrics:
+#   prometheus: {}
 
 # -- (Optional) Enable Accesslog and change Format here...
 #     - format [common, json, logfmt]
