@@ -13,3 +13,17 @@ http:
       rule: "Host(`whoami.lhr1.jakerob.pro`)"
       service: lhr1-traefik
       tls: true
+
+    # AUTHENTIK
+    authentik-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`authentik.lhr1.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true
+
+    # IMMICH
+    immich-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`photos.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true
