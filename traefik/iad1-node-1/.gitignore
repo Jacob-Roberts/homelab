@@ -2,3 +2,4 @@ config-internal/certs/*
 !config-internal/certs/.gitkeep
 config-external/certs/*
 !config-external/certs/.gitkeep
+config-external/static-certs/*
