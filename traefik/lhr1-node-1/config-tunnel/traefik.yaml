@@ -33,14 +33,6 @@ entryPoints:
   websecure:
     address: :443
 
-# We won't give this resolver our API key, so it won't be able to refresh
-certificatesResolvers:
-  cloudflare:
-    acme:
-      email: jroberts.g1ql8@simplelogin.com
-      storage: /etc/traefik/certs/cloudflare-acme.json
-      caServer: "https://acme-v02.api.letsencrypt.org/directory"
-
 # -- (Optional) Disable TLS Cert verification check
 serversTransport:
   insecureSkipVerify: true
