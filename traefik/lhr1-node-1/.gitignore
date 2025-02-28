@@ -2,3 +2,4 @@ config/certs/*
 !config/certs/.gitkeep
 config-tunnel/certs/*
 certs-dump/*
+synced-certs/*
