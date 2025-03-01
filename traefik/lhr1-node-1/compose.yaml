@@ -47,13 +47,23 @@ services:
       traefik.http.routers.traefik-prod-1-https.tls.certresolver: cloudflare
     restart: unless-stopped
 
-  # traefik-certs-dumper:
-  #   image: ldez/traefik-certs-dumper:v2.8.3
-  #   user: 1000:1000
-  #   entrypoint: traefik-certs-dumper file --version v2 --watch --source /data/cloudflare-acme.json --dest /output
-  #   volumes:
-  #     - ./config/certs/:/data
-  #     - ./config-tunnel/certs/:/output
+  traefik-certs-dumper:
+    image: ldez/traefik-certs-dumper:v2.9.3
+    entrypoint: sh -c '
+      while ! [ -e /certs/cloudflare-acme.json ]
+      || ! [ `jq ".[] | .Certificates | length" /certs/cloudflare-acme.json | jq -s "add" ` != 0 ]; do
+      sleep 1
+      ; done
+      && traefik-certs-dumper file --version v3 
+        --watch
+        --domain-subdir=true
+        --source /certs/cloudflare-acme.json
+        --dest /etc/traefik/certs
+        --post-hook "sh /extract-certs.sh"'
+    volumes:
+      - ./config/certs/:/certs
+      - ./extract-certs.sh:/extract-certs.sh
+      - ./synced-certs/:/synced-certs
 
   traefik-tunnel:
     image: traefik:v3
