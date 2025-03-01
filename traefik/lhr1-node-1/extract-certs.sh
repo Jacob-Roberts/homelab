@@ -1,22 +1,20 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-mkdir -p certs-dump
+# This script runs inside the docker container,
+# so the paths won't look correct
 
-docker run --rm -v ./config/certs:/certs -v ./certs-dump:/certs-dump ldez/traefik-certs-dumper file --clean --domain-subdir=true --version v3 --source /certs/cloudflare-acme.json --dest /certs-dump
-
-mkdir -p synced-certs
+echo "Copying the tunneled certs to the synced-certs folder"
 
 # Define the list of domains
-DOMAINS=(
-  "photos.jakerob.pro"
-  "authentik.lhr1.jakerob.pro"
-  "whoami.lhr1.jakerob.pro"
-)
+DOMAINS="
+photos.jakerob.pro
+authentik.lhr1.jakerob.pro
+whoami.lhr1.jakerob.pro
+"
 
-for domain in "${DOMAINS[@]}"; do
-  sudo cp -f -r ./certs-dump/${domain} synced-certs/
+for domain in $DOMAINS; do
+  echo "Copying $domain"
+  cp -r /etc/traefik/certs/$domain /synced-certs/
 done
 
-sudo chown -R jacobroberts:jacobroberts synced-certs/
-
-sudo rm -rf certs-dump
+chown -R 1000:1000 synced-certs/
