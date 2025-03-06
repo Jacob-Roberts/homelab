@@ -32,7 +32,7 @@ nut_ups_admin_user: admin
 #       upsmon secondary
 
 nut_client_ups: lhr1
-nut_client_server: 192.168.42.12
+nut_client_server: 192.168.42.3
 nut_client_username: observer
 
 # See config-secrets.yaml

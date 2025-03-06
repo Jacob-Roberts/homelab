@@ -1,10 +1,15 @@
 ---
 all:
   hosts:
+    # The Raspberry Pi Zero W2 keeps disconnecting from wifi, so will 
+    # Be migrating to lhr1-node-2, which is a pi plugged into ethernet
     lhr1-nut-1.jakerob.pro:
       ansible_user: jacobroberts
 
     lhr1-node-1.jakerob.pro:
+      ansible_user: jacobroberts
+
+    lhr1-node-2.jakerob.pro:
       ansible_user: jacobroberts
 
     iad1-node-1.jakerob.pro:
@@ -37,7 +42,7 @@ all:
         sgu1-node-1.jakerob.pro:
     nut_primary:
       hosts:
-        lhr1-nut-1.jakerob.pro:
+        lhr1-node-2.jakerob.pro:
     nut_clients:
       hosts:
         # truenas.lhr1.jakerob.pro: Truenas doesn't like to be configured by ansible
