@@ -25,6 +25,7 @@ nut_ups_admin_user: admin
 #       actions = set
 #       actions = fsd
 #       instcmds = all
+#       upsmon primary
 
 #   [observer]
 #       password = OBSERVER_PASSWORD_HERE
