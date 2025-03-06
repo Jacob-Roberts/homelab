@@ -53,7 +53,7 @@
     - name: Change UPSD configuration.
       lineinfile:
         path: /etc/nut/upsd.conf
-        regexp: '^LISTEN.+'
+        regexp: '^LISTEN 0.+'
         line: "LISTEN 0.0.0.0 3493"
         insertafter: EOF
         state: present
