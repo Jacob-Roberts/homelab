@@ -11,3 +11,7 @@ If you only want to run with a certain set of computers, use `ansible-playbook -
 If you only wnat to run a subset of the commands, use the -t flag. `ansible-playbook -t primary main.yaml`
 
 For example, see nut-client, the play's are tagged.
+
+## Run something in the playbooks folder
+
+This is similar, but to run install-docker you could run `ansible-playbook -l iad1-node-3.jakerob.pro install-docker.yaml`

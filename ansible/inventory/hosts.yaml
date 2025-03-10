@@ -38,8 +38,14 @@ all:
         lhr1-node-1.jakerob.pro:
         iad1-node-1.jakerob.pro:
         iad1-node-2.jakerob.pro:
+        iad1-node-3.jakerob.pro:
         slc1-node-3.jakerob.pro:
         sgu1-node-1.jakerob.pro:
+    qemu:
+      hosts:
+        lhr1-node-1.jakerob.pro:
+        sgu1-node-1.jakerob.pro:
+        slc1-node-3.jakerob.pro:
     nut_primary:
       hosts:
         lhr1-node-2.jakerob.pro:
