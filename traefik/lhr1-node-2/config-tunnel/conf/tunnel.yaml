@@ -1,0 +1,29 @@
+# This tunnel only uses http
+http:
+  services:
+    lhr1-traefik:
+      loadBalancer:
+        servers:
+          - url: https://traefik
+
+  routers:
+    # WHOAMI LHR1
+    whoami-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`whoami.lhr1-2.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true
+
+    # AUTHENTIK
+    authentik-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`authentik.lhr1-2.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true
+
+    # IMMICH
+    immich-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`photos.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true
