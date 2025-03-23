@@ -223,15 +223,15 @@ services:
   #     - ./sabnzbd-config:/config
   #     - /media/jellydata/usenet:/jellydata/usenet:rw
 
-  debug2:
-    image: jonlabelle/network-tools
-    container_name: debug2
-    stdin_open: true
-    tty: true
+  # debug2:
+  #   image: jonlabelle/network-tools
+  #   container_name: debug2
+  #   stdin_open: true
+  #   tty: true
 
-  debug:
-    image: jonlabelle/network-tools
-    container_name: debug
-    stdin_open: true
-    tty: true
-    network_mode: "service:gluetun"
+  # debug:
+  #   image: jonlabelle/network-tools
+  #   container_name: debug
+  #   stdin_open: true
+  #   tty: true
+  #   network_mode: "service:gluetun"
