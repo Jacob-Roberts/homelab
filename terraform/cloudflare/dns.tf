@@ -115,6 +115,24 @@ resource "cloudflare_dns_record" "iad1-vpn-node-1" {
   content   = "100.109.65.68"
 }
 
+resource "cloudflare_dns_record" "iad1-vpn-node-2" {
+  name    = "iad1-vpn-node-2.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "100.107.169.91"
+}
+
+resource "cloudflare_dns_record" "iad1-vpn-node-3" {
+  name    = "iad1-vpn-node-3.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "100.70.105.44"
+}
+
 resource "cloudflare_dns_record" "iad1_vpn_catch_all" {
   name    = "*.iad1vpn.jakerob.pro"
   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
@@ -146,51 +164,87 @@ resource "cloudflare_dns_record" "lhr1-node-2" {
   content   = "192.168.42.3"
 }
 
-# resource "cloudflare_dns_record" "terraform_managed_resource_cf974556d63574d6fb945ecf04d9d0e6" {
-#   name    = "*.lhr1"
-#   proxied = false
-#   ttl     = 1
-#   type    = "CNAME"
-#   content   = "lhr1-node-2.jakerob.pro"
-#   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-# }
+resource "cloudflare_dns_record" "lhr1_catch_all" {
+  name    = "*.lhr1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "lhr1-node-1.jakerob.pro"
+}
 
-# resource "cloudflare_dns_record" "terraform_managed_resource_ae656a93eaabac08ce6ce20709ce6f90" {
-#   name    = "proxmox.lhr1"
-#   proxied = false
-#   ttl     = 1
-#   type    = "CNAME"
-#   content   = "lhr1-proxmox-node-1.jakerob.pro"
-#   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-# }
+resource "cloudflare_dns_record" "proxmox-lhr1-cname" {
+  name    = "proxmox.lhr1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "lhr1-proxmox-node-1.jakerob.pro"
+}
 
-# ////////////////////////
-# //     Email          //
-# ////////////////////////
+resource "cloudflare_dns_record" "lhr1-dev-1" {
+  name    = "lhr1-dev-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.42.211"
+}
 
-# resource "cloudflare_dns_record" "terraform_managed_resource_0cd962e47bda3ed9c7437073ec661c6e" {
-#   name    = "_dmarc"
-#   proxied = false
-#   ttl     = 1
-#   type    = "TXT"
-#   content   = "v=DMARC1;p=reject;rua=mailto:9f5383a0b0@rua.easydmarc.us;ruf=mailto:9f5383a0b0@ruf.easydmarc.us;fo=1;"
-#   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-# }
+resource "cloudflare_dns_record" "lhr1-node-1" {
+  name    = "lhr1-node-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.42.16"
+}
 
-# resource "cloudflare_dns_record" "terraform_managed_resource_30cd57fce8ef38e533081fe12de27a3c" {
-#   name    = "resend._domainkey.accounts"
-#   proxied = false
-#   ttl     = 1
-#   type    = "TXT"
-#   content   = "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlMd9zYib1bBHY+6i05IKnqIUDhR25u8FG+XA7pen3x3Rdhtyi1aINvKbwcdRTuididreQJAzmigYPkFupkCAjj3E+Z7axYw7OPVzNFqOUs+nSef49l2PFaN9aTf/61UwAodRF7eFV1c8ZCiYv5ojVEuabofBPCiKOjEF3v9gxwwIDAQAB"
-#   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-# }
+resource "cloudflare_dns_record" "lhr1-node-3" {
+  name    = "lhr1-node-3.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.42.13"
+}
 
-# resource "cloudflare_dns_record" "terraform_managed_resource_820fd66aa141f5d30e4c12ff9a423fe2" {
-#   name    = "send.accounts"
-#   proxied = false
-#   ttl     = 1
-#   type    = "TXT"
-#   content   = "v=spf1 include:amazonses.com ~all"
-#   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-# }
+resource "cloudflare_dns_record" "lhr1-nut-1" {
+  name    = "lhr1-nut-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.42.12"
+}
+
+////////////////////////
+//     Email          //
+////////////////////////
+
+resource "cloudflare_dns_record" "DMARC" {
+  name    = "_dmarc.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content   = "v=DMARC1;p=reject;rua=mailto:9f5383a0b0@rua.easydmarc.us;ruf=mailto:9f5383a0b0@ruf.easydmarc.us;fo=1;"
+}
+
+resource "cloudflare_dns_record" "resend" {
+  name    = "resend._domainkey.accounts.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content   = "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlMd9zYib1bBHY+6i05IKnqIUDhR25u8FG+XA7pen3x3Rdhtyi1aINvKbwcdRTuididreQJAzmigYPkFupkCAjj3E+Z7axYw7OPVzNFqOUs+nSef49l2PFaN9aTf/61UwAodRF7eFV1c8ZCiYv5ojVEuabofBPCiKOjEF3v9gxwwIDAQAB"
+}
+
+resource "cloudflare_dns_record" "send" {
+  name    = "send.accounts.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content   = "v=spf1 include:amazonses.com ~all"
+}
