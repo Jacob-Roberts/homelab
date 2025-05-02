@@ -1,120 +1,80 @@
-resource "proxmox_lxc" "pi_hole" {
-  target_node  = "lhr1"
-  hostname     = "pi-hole"
-  cores        = 2
-  memory       = 2048
-  swap         = 512
-  onboot       = true
-  unprivileged = true
-
-  start   = true
-  startup = "order=1"
-
-  rootfs {
-    storage = ""
-    size    = "20G"
-  }
+locals {
+  default_ssh_public_keys = file("${path.module}/../ssh_public_keys")
 }
 
-resource "proxmox_vm_qemu" "your-vm" {
+# resource "proxmox_lxc" "pi_hole" {
+#   target_node  = "proxmox"
+#   hostname     = "pihole"
+#   ostemplate   = "local:vztmpl/ubuntu-24.04-standard_24.04-2_amd64.tar.zst"
+#   # password     = "BasicLXCContainer"
+#   cores        = 2
+#   memory       = 2048
+#   swap         = 512
+#   onboot       = true
+#   unprivileged = true
 
-  # SECTION General Settings
+#   start   = true
+#   startup = "order=1"
 
-  name = "vm-name"
-  desc = "description"
-  agent = 1  # <-- (Optional) Enable QEMU Guest Agent
+#   ssh_public_keys = local.default_ssh_public_keys
 
-  # FIXME Before deployment, set the correct target node name
-  target_node = "your-proxmox-node"
+#   rootfs {
+#     storage = "local-lvm"
+#     size    = "20G"
+#   }
 
-  # FIXME Before deployment, set the desired VM ID (must be unique on the target node)
-  vmid = "100"
+#   network {
+#     name = "eth0"
+#     bridge = "vmbr0"
+#     ip = "dhcp"
+#   }
+# }
 
-  # !SECTION
-  
-  # SECTION Template Settings
+resource "proxmox_vm_qemu" "lhr1-node-1" {
+  name        = "lhr1-node-1.jakerob.pro"
+  desc        = "Real Final LHR1 docker node\nscsi1: local-lvm:vm-100-disk-1,backup=0,iothread=1,replicate=0,size=1500G"
+  target_nodes = [
+    "proxmox"
+  ]
 
-  # FIXME Before deployment, set the correct template or VM name in the clone field
-  #       or set full_clone to false, and remote "clone" to manage existing (imported) VMs
-  clone = "your-clone-name"
-  full_clone = true
+  agent = 1
 
-  # !SECTION
+  vmid = 200
 
-  # SECTION Boot Process
+  onboot = true
 
-  onboot = true 
+  startup = "order=2"
 
-  # NOTE Change startup, shutdown and auto reboot behavior
-  startup = ""
   automatic_reboot = false
 
-  # !SECTION
-
-  # SECTION Hardware Settings
-
-  qemu_os = "other"
-  bios = "seabios"
-  cores = 2
+  cores = 4
   sockets = 1
   cpu_type = "host"
-  memory = 2048
+  memory = 14336
 
-  # NOTE Minimum memory of the balloon device, set to 0 to disable ballooning
-  balloon = 2048
-  
-  # !SECTION
+  define_connection_info = false
+  scsihw = "virtio-scsi-single"
 
-  # SECTION Network Settings
+  full_clone = false
 
   network {
-    id     = 0  # NOTE Required since 3.x.x
-    bridge = "vmbr1"
-    model  = "virtio"
+    id = 0
+    bridge = "vmbr0"
+    model = "virtio"
+    firewall = true
   }
 
-  # !SECTION
-
-  # SECTION Disk Settings
-  
-  # NOTE Change the SCSI controller type, since Proxmox 7.3, virtio-scsi-single is the default one         
-  scsihw = "virtio-scsi-single"
-  
-  # NOTE New disk layout (changed in 3.x.x)
   disks {
-    ide {
-      ide0 {
-        cloudinit {
-          storage = "local-lvm"
-        }
-      }
-    }
-    virtio {
-      virtio0 {
+    scsi {
+      scsi0 {
         disk {
+          size = "257G"
           storage = "local-lvm"
-
-          # NOTE Since 3.x.x size change disk size will trigger a disk resize
-          size = "20G"
-
-          # NOTE Enable IOThread for better disk performance in virtio-scsi-single
-          #      and enable disk replication
+          backup = true
           iothread = true
-          replicate = false
+          replicate = true
         }
       }
     }
   }
-
-  # !SECTION
-
-  # SECTION Cloud Init Settings
-
-  # FIXME Before deployment, adjust according to your network configuration
-  ipconfig0 = "ip=0.0.0.0/0,gw=0.0.0.0"
-  nameserver = "0.0.0.0"
-  ciuser = "your-username"
-  sshkeys = var.PUBLIC_SSH_KEY
-
-  # !SECTION
 }
