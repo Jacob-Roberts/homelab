@@ -53,14 +53,14 @@ resource "cloudflare_dns_record" "jakerob_apex_record" {
   content   = "76.76.21.21"
 }
 
-# resource "cloudflare_record" "terraform_managed_resource_129d4277deb9a6e0e4713b8416f449de" {
-#   name    = "www"
-#   proxied = false
-#   ttl     = 1
-#   type    = "A"
-#   value   = "76.76.21.21"
-#   zone_id = var.cloudflare_zone_id
-# }
+resource "cloudflare_dns_record" "jakerob_www_record" {
+  name    = "www.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "76.76.21.21"
+}
 
 # ////////////////////////
 # //    Cloud Records   //
