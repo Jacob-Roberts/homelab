@@ -3,11 +3,8 @@
 # Credential Variables needed for Cloudflare
 
 # Cloudflare Config
-variable "cloudflare_email" {
-    description = "The email address for your Cloudflare account"
+variable "cloudflare_api_token" {
+    description = "The API token for your Cloudflare account"
     type = string
-}
-variable "cloudflare_api_key" {
-    description = "The API key for your Cloudflare account"
-    type = string
+    sensitive = true
 }
