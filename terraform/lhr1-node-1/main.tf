@@ -10,31 +10,18 @@ terraform {
   }
 }
 
-variable "PROXMOX_URL" {
-  type = string
-}
-
-variable "PROXMOX_USER" {
-  type      = string
-  sensitive = true
-}
-
-variable "PROXMOX_TOKEN" {
-  type      = string
-  sensitive = true
-}
-
-variable "PUBLIC_SSH_KEY" {
-  # NOTE This is the publich SSH key, you want to upload to VMs and LXC containers.
-  type      = string
-  sensitive = true
-}
-
 provider "proxmox" {
-  pm_api_url = var.PROXMOX_URL
-  pm_api_token_id = var.PROXMOX_USER
-  pm_api_token_secret = var.PROXMOX_TOKEN
-  
-  # NOTE Optional, but recommended to set to true if you are using self-signed certificates.
-  pm_tls_insecure = false
+  pm_api_url = "https://proxmox.lhr1.jakerob.pro:8006/api2/json"
+  pm_tls_insecure = true # By default Proxmox Virtual Environment uses self-signed certificates.
+
+  pm_user = var.proxmox_user
+  pm_password = var.proxmox_pass
+
+  # pm_log_enable = true
+  # pm_log_file   = "terraform-plugin-proxmox.log"
+  # pm_debug      = true
+  # pm_log_levels = {
+  #   _default    = "debug"
+  #   _capturelog = ""
+  # }
 }
