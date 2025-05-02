@@ -155,6 +155,15 @@ resource "cloudflare_dns_record" "lhr1-proxmox-node-1" {
   content   = "192.168.42.10"
 }
 
+resource "cloudflare_dns_record" "lhr1-proxmox-1" {
+  name    = "lhr1-proxmox-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.42.10"
+}
+
 resource "cloudflare_dns_record" "lhr1-node-2" {
   name    = "lhr1-node-2.jakerob.pro"
   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
@@ -618,6 +627,7 @@ resource "cloudflare_dns_record" "MX_3" {
   ttl     = 1
   type    = "MX"
   content   = "mx3.zoho.com"
+  priority = 50
 }
 
 resource "cloudflare_dns_record" "MX_2" {
@@ -627,6 +637,7 @@ resource "cloudflare_dns_record" "MX_2" {
   ttl     = 1
   type    = "MX"
   content   = "mx2.zoho.com"
+  priority = 20
 }
 
 resource "cloudflare_dns_record" "MX_1" {
@@ -636,6 +647,7 @@ resource "cloudflare_dns_record" "MX_1" {
   ttl     = 1
   type    = "MX"
   content   = "mx.zoho.com"
+  priority = 10
 }
 
 resource "cloudflare_dns_record" "_acme-challenge-traefik-tunnel-lhr12" {
