@@ -248,3 +248,447 @@ resource "cloudflare_dns_record" "send" {
   type    = "TXT"
   content   = "v=spf1 include:amazonses.com ~all"
 }
+
+resource "cloudflare_dns_record" "lhr1-storage-node-1" {
+  name    = "lhr1-storage-node-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.42.14"
+}
+
+resource "cloudflare_dns_record" "lhr1-vpn-node-1" {
+  name    = "lhr1-vpn-node-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "100.89.27.79"
+}
+
+resource "cloudflare_dns_record" "pihole-lhr1" {
+  name    = "pihole.lhr1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.42.2"
+}
+
+resource "cloudflare_dns_record" "sgu1-node-1" {
+  name    = "sgu1-node-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.59.194"
+}
+
+resource "cloudflare_dns_record" "sgu1-proxmox-node-1" {
+  name    = "sgu1-proxmox-node-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.59.16"
+}
+
+resource "cloudflare_dns_record" "slc1-node-1" {
+  name    = "slc1-node-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.97.36"
+}
+
+resource "cloudflare_dns_record" "slc1-node-2" {
+  name    = "slc1-node-2.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.97.92"
+}
+
+resource "cloudflare_dns_record" "slc1-node-3" {
+  name    = "slc1-node-3.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.97.133"
+}
+
+resource "cloudflare_dns_record" "slc1-nut-1" {
+  name    = "slc1-nut-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.97.28"
+}
+
+resource "cloudflare_dns_record" "slc1-proxmox-node-1" {
+  name    = "slc1-proxmox-node-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.97.34"
+}
+
+resource "cloudflare_dns_record" "slc1-storage-node-1" {
+  name    = "slc1-storage-node-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.97.27"
+}
+
+resource "cloudflare_dns_record" "api-spotify-iad1" {
+  name    = "api.spotify.iad1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "authentik-lhr1" {
+  name    = "authentik.lhr1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "cdn" {
+  name    = "cdn.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = true
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+  comment  = "Will use traefik to push different subdomains to different places"
+}
+
+resource "cloudflare_dns_record" "cdn-ppr" {
+  name    = "cdn-ppr.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = true
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "celia" {
+  name    = "celia.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "homebox" {
+  name    = "homebox.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "catch_all-iad1" {
+  name    = "*.iad1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "it-tools" {
+  name    = "it-tools.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "catch_all-lhr1-2" {
+  name    = "*.lhr1-2.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "lhr1-node-3.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "mealie" {
+  name    = "mealie.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "minecraft" {
+  name    = "minecraft.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "nextjsrenderingdemo-fullcf" {
+  name    = "nextjsrenderingdemo-fullcf.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = true
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+  comment  = "Go fully through the cloudflare cache for everything"
+}
+
+resource "cloudflare_dns_record" "photos" {
+  name    = "photos.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "pihole2-lhr1" {
+  name    = "pihole2.lhr1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "lhr1-node-2.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "pma2-iad1vpn" {
+  name    = "pma2.iad1vpn.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-vpn-node-2"
+}
+
+resource "cloudflare_dns_record" "proxmox-sgu1" {
+  name    = "proxmox.sgu1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "sgu1-proxmox-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "proxmox-slc1" {
+  name    = "proxmox.slc1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "slc1-proxmox-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "catch_all-sgu1" {
+  name    = "*.sgu1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "sgu1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "catch_all-slc1" {
+  name    = "*.slc1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "slc1-node-3.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "split" {
+  name    = "split.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "cname.vercel-dns.com"
+}
+
+resource "cloudflare_dns_record" "spotify" {
+  name    = "spotify.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "truenas-lhr1" {
+  name    = "truenas.lhr1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "lhr1-storage-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "truenas-slc1" {
+  name    = "truenas.slc1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "slc1-storage-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "whoami-lhr1" {
+  name    = "whoami.lhr1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "whoami-tunnel2-lhr1" {
+  name    = "whoami-tunnel2-lhr1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "whoami-tunnel3-lhr1" {
+  name    = "whoami-tunnel3-lhr1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "lhr1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "whoami-tunnel-lhr1" {
+  name    = "whoami-tunnel-lhr1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "whoami-tunnel-slc1" {
+  name    = "whoami-tunnel-slc1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "wordpress" {
+  name    = "wordpress.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-node-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "MX_3" {
+  name    = "jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "MX"
+  content   = "mx3.zoho.com"
+}
+
+resource "cloudflare_dns_record" "MX_2" {
+  name    = "jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "MX"
+  content   = "mx2.zoho.com"
+}
+
+resource "cloudflare_dns_record" "MX_1" {
+  name    = "jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "MX"
+  content   = "mx.zoho.com"
+}
+
+resource "cloudflare_dns_record" "_acme-challenge-traefik-tunnel-lhr12" {
+  name    = "_acme-challenge.traefik-tunnel.lhr12.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 120
+  type    = "TXT"
+  content   = "cocrI7O8eQTznLTjxNU893UG0hD8mttFUXACE22ne-U"
+}
+
+resource "cloudflare_dns_record" "_atproto" {
+  name    = "_atproto.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content   = "\"did=did:plc:frwgjj3qjp3cc6qvsfmtiloo\""
+  comment  = "Blue Sky"
+}
+
+resource "cloudflare_dns_record" "docker-node-2-lhr1" {
+  name    = "docker-node-2.lhr1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 120
+  type    = "TXT"
+  content   = "S4aCW3ZO18lffYiT6b9bv4ZS29UmIGU0hjHNP9vLQOc"
+}
+
+resource "cloudflare_dns_record" "SPF" {
+  name    = "jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content   = "v=spf1 include:zohomail.com ~all"
+}
+
+resource "cloudflare_dns_record" "zoho-verification" {
+  name    = "jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content   = "zoho-verification=zb40496945.zmverify.zoho.com"
+}
+
+resource "cloudflare_dns_record" "zmail-_domainkey" {
+  name    = "zmail._domainkey.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content   = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC496gruPELcl8TYnoCGcw4CVgVBX8iSaHwNL5VurwSY7WpQxbdRsBGObnnIsVVmV8jlSR7Of81W/zAuM4gOe/y+J667bJ3tKeuz0FImKjuMBVn0nSWKB4qy7Y0T9b2iTD3zZH1IzrQlzMsF1oLidk+5ch+MUH2W2TEa0aBQaP6IwIDAQAB"
+}
