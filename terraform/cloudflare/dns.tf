@@ -102,49 +102,49 @@ resource "cloudflare_dns_record" "iad1_catch_all" {
   content   = "iad1-node-1.jakerob.pro"
 }
 
-# ////////////////////////
-# // Cloud VPN Records  //
-# ////////////////////////
+////////////////////////
+//      IAD1 VPN      //
+////////////////////////
 
-# resource "cloudflare_dns_record" "terraform_managed_resource_d3aed3a001d9a30edf4a2bf22b09bb7a" {
-#   name    = "iad1-vpn-node-1"
-#   proxied = false
-#   ttl     = 1
-#   type    = "A"
-#   content   = "100.108.112.55"
-#   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-# }
+resource "cloudflare_dns_record" "iad1-vpn-node-1" {
+  name    = "iad1-vpn-node-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "100.109.65.68"
+}
 
-# resource "cloudflare_dns_record" "terraform_managed_resource_886b761c56d612056bb4c23581552fc2" {
-#   name    = "*.iad1vpn"
-#   proxied = false
-#   ttl     = 1
-#   type    = "CNAME"
-#   content   = "iad1-vpn-node-1.jakerob.pro"
-#   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-# }
+resource "cloudflare_dns_record" "iad1_vpn_catch_all" {
+  name    = "*.iad1vpn.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content   = "iad1-vpn-node-1.jakerob.pro"
+}
 
-# ////////////////////////
-# //     Homelab        //
-# ////////////////////////
+////////////////////////
+//    Homelab LHR1    //
+////////////////////////
 
-# resource "cloudflare_dns_record" "terraform_managed_resource_2ccf64b369328fed61e66f150105e242" {
-#   name    = "lhr1-proxmox-node-1"
-#   proxied = false
-#   ttl     = 1
-#   type    = "A"
-#   content   = "192.168.42.10"
-#   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-# }
+resource "cloudflare_dns_record" "lhr1-proxmox-node-1" {
+  name    = "lhr1-proxmox-node-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.42.10"
+}
 
-# resource "cloudflare_dns_record" "terraform_managed_resource_62223054cc6f14b22f45a3b797e2e2c5" {
-#   name    = "lhr1-node-2"
-#   proxied = false
-#   ttl     = 1
-#   type    = "A"
-#   content   = "192.168.42.15"
-#   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-# }
+resource "cloudflare_dns_record" "lhr1-node-2" {
+  name    = "lhr1-node-2.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content   = "192.168.42.3"
+}
 
 # resource "cloudflare_dns_record" "terraform_managed_resource_cf974556d63574d6fb945ecf04d9d0e6" {
 #   name    = "*.lhr1"
