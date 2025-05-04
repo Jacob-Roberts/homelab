@@ -2,13 +2,17 @@ import dns from "./dns.json";
 const util = require("node:util");
 const exec = util.promisify(require("node:child_process").exec);
 
-async function createTerraformRecord(item) {
+async function createTerraformRecord(
+  item,
+  domain = "jakerob.pro",
+  zoneID = "6e98165e20ed0ba1b018f543c6ab4285"
+) {
   let nameID = item.name
-    .substring(0, item.name.indexOf(".jakerob.pro"))
+    .substring(0, item.name.indexOf(`.${domain}`))
     .replaceAll("*.", "catch_all-")
     .replaceAll(".", "-");
   if (nameID === "") {
-    nameID = item.type + "_jakerob_pro";
+    nameID = item.type + `_${domain.replaceAll(".", "_")}`;
   }
   if (item.content == "mx3.zoho.com") {
     nameID = "MX_3";
@@ -24,7 +28,7 @@ async function createTerraformRecord(item) {
   const cloudflareID = item.id;
 
   const { stdout, stderr } = await exec(
-    `tofu import cloudflare_dns_record.${nameID} 6e98165e20ed0ba1b018f543c6ab4285/${cloudflareID}`
+    `tofu import cloudflare_dns_record.${nameID} ${zoneID}/${cloudflareID}`
   );
   console.log(`stdout: ${stdout}`);
   console.error(`stderr: ${stderr}`);
@@ -32,5 +36,5 @@ async function createTerraformRecord(item) {
 
 const results = dns.result;
 for (let data of results) {
-  await createTerraformRecord(data);
+  await createTerraformRecord(data, "autovation.com", "dc32b6130553f5adc9972f7f27b438cf");
 }
