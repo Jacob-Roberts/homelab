@@ -36,6 +36,18 @@ http:
       service: lhr1-tunnel
       tls: true
 
+    jellyfin-lhr1-http:
+      entrypoints: web
+      rule: "Host(`jellyfin.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: lhr1-tunnel
+    jellyfin-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`jellyfin.jakerob.pro`)"
+      service: lhr1-tunnel
+      tls: true
+
     authentik-lhr1-http:
       entrypoints: web
       rule: "Host(`authentik.lhr1.jakerob.pro`)"

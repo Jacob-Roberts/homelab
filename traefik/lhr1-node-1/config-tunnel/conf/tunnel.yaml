@@ -27,3 +27,10 @@ http:
       rule: "Host(`photos.jakerob.pro`)"
       service: lhr1-traefik
       tls: true
+
+    # Jellyfin
+    jellyfin-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`jellyfin.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true
