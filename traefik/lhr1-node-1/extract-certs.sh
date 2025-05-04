@@ -8,6 +8,7 @@ echo "Copying the tunneled certs to the synced-certs folder"
 # Define the list of domains
 DOMAINS="
 photos.jakerob.pro
+jellyfin.jakerob.pro
 authentik.lhr1.jakerob.pro
 whoami.lhr1.jakerob.pro
 "

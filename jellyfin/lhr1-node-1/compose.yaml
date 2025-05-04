@@ -30,9 +30,9 @@ services:
       traefik.enable: true
       traefik.http.services.jellyfin-prod-1.loadBalancer.server.port: 8096
       traefik.http.routers.jellyfin-prod-1-http.entrypoints: web
-      traefik.http.routers.jellyfin-prod-1-http.rule: Host(`jellyfin.lhr1.jakerob.pro`)
+      traefik.http.routers.jellyfin-prod-1-http.rule: Host(`jellyfin.jakerob.pro`)
       traefik.http.routers.jellyfin-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.jellyfin-prod-1-https.entrypoints: websecure
-      traefik.http.routers.jellyfin-prod-1-https.rule: Host(`jellyfin.lhr1.jakerob.pro`)
+      traefik.http.routers.jellyfin-prod-1-https.rule: Host(`jellyfin.jakerob.pro`)
       traefik.http.routers.jellyfin-prod-1-https.tls: true
       traefik.http.routers.jellyfin-prod-1-https.tls.certresolver: cloudflare

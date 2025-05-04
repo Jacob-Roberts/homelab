@@ -151,11 +151,11 @@
 
     - Jellyfin:
         icon: jellyfin.png
-        href: https://jellyfin.lhr1.jakerob.pro/
+        href: https://jellyfin.jakerob.pro/
         description: Jellyfin on lhr1-node-1
         widget:
           type: jellyfin
-          url: https://jellyfin.lhr1.jakerob.pro
+          url: https://jellyfin.jakerob.pro
           key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
           enableBlocks: true # optional, defaults to false
           enableNowPlaying: true # optional, defaults to true
