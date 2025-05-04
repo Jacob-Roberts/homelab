@@ -1,13 +1,18 @@
 import dns from "./dns.json";
 import fs from "node:fs/promises";
 
-async function createTerraformRecord(item) {
+async function createTerraformRecord(
+  item,
+  output = "./dns.tf",
+  domain = "jakerob.pro",
+  zoneID = "6e98165e20ed0ba1b018f543c6ab4285",
+) {
   let nameID = item.name
-    .substring(0, item.name.indexOf(".jakerob.pro"))
+    .substring(0, item.name.indexOf(`.${domain}`))
     .replaceAll("*.", "catch_all-")
     .replaceAll(".", "-");
   if (nameID === "") {
-    nameID = item.type + "_jakerob_pro";
+    nameID = item.type + `_${domain.replaceAll(".", "_")}`;
   }
   if (item.content == "mx3.zoho.com") {
     nameID = "MX_3";
@@ -24,17 +29,19 @@ async function createTerraformRecord(item) {
   const data = `
 resource "cloudflare_dns_record" "${nameID}" {
   name    = "${item.name}"
-  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  zone_id = "${zoneID}"
   proxied = ${item.proxied}
   ttl     = ${item.ttl}
   type    = "${item.type}"
-  content   = "${item.content.replaceAll(`"`, `\\"`)}"${item.comment ? `\n  comment  = "${item.comment}"` : ""}
+  content   = "${item.content.replaceAll(`"`, `\\"`)}"${
+    item.comment ? `\n  comment  = "${item.comment}"` : ""
+  }
 }
 `;
-  await fs.appendFile("./dns.tf", data);
+  await fs.appendFile(output, data);
 }
 
 const results = dns.result;
 for (let data of results) {
-  await createTerraformRecord(data);
+  await createTerraformRecord(data, "./dns-autovation.tf", "autovation.com", "dc32b6130553f5adc9972f7f27b438cf");
 }
