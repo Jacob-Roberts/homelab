@@ -1,23 +1,23 @@
 variable "tenancy_ocid" {
   description = "OCID of the tenancy"
   type        = string
-  sensitive = true
+  sensitive   = true
 }
 
 variable "user_ocid" {
   description = "OCID of the user calling the API."
   type        = string
-  sensitive = true
+  sensitive   = true
 }
 
 variable "rsa_private_key_path" {
   description = "The path (including filename) of the private key stored on the computer."
-  type = string
+  type        = string
 }
 
 variable "fingerprint" {
   description = "Fingerprint for the key pair being used."
-  type = string
+  type        = string
 }
 
 variable "region" {
