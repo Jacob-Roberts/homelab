@@ -11,14 +11,49 @@ global:
 #     - format [common, json, logfmt]
 log:
   level: WARN
+  format: json
 #  format: common
 #  filePath: /var/log/traefik/traefik.log
 
 # -- (Optional) Enable Accesslog and change Format here...
 #     - format [common, json, logfmt]
-# accesslog:
-#   format: common
-#   filePath: /var/log/traefik/access.log
+accesslog:
+  bufferingSize: 100
+  fields:
+    defaultMode: drop
+    headers:
+      defaultMode: drop
+      names:
+        Authorization: redact
+        Content-Type: keep
+        Cookie: redact
+        User-Agent: keep
+        X-Forwarded-For: keep
+        X-Forwarded-Proto: keep
+        X-Real-Ip: keep
+    names:
+      ClientAddr: keep
+      ClientHost: keep
+      DownstreamContentSize: keep
+      DownstreamStatus: keep
+      Duration: keep
+      RequestMethod: keep
+      RequestPath: keep
+      RequestProtocol: keep
+      RetryAttempts: keep
+      ServiceName: keep
+      StartUTC: keep
+      TLSCipher: keep
+      TLSVersion: keep
+  filePath: /var/log/traefik/access.log
+  filters:
+    minDuration: 100ms
+    retryAttempts: true
+    statusCodes:
+      - 200-299
+      - 400-499
+      - 500-599
+  format: json
 
 # -- (Optional) Enable API and Dashboard here, don't do in production
 api:
@@ -37,6 +72,9 @@ entryPoints:
     #       scheme: https
   websecure:
     address: :443
+    http:
+      middlewares:
+        - crowdsec@file
     # -- (Optional) Add custom Entrypoint
     # custom:
     #   address: :8080
@@ -84,3 +122,9 @@ providers:
   file:
     directory: /etc/traefik/conf/
     watch: false
+
+experimental:
+  plugins:
+    crowdsec:
+      moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
+      version: v1.4.2

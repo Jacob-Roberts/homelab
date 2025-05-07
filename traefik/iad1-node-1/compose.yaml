@@ -22,9 +22,14 @@ services:
       - ./config-external/conf/:/etc/traefik/conf/:ro
       - ./config-external/certs/acme.json:/etc/traefik/certs/acme.json:rw
       - ./config-external/static-certs/:/etc/traefik/static-certs/:ro
+      - ./config-external/logs:/var/log/traefik
+    depends_on:
+      crowdsec:
+        condition: service_healthy
     networks:
       - frontend
       - internal
+    restart: unless-stopped
     labels:
       # Management only exposed internally
       traefik.enable: true
@@ -37,7 +42,6 @@ services:
       traefik.http.routers.traefikexternal-prod-1-https.rule: Host(`traefik-external.iad1vpn.jakerob.pro`)
       traefik.http.routers.traefikexternal-prod-1-https.tls: true
       traefik.http.routers.traefikexternal-prod-1-https.tls.certresolver: cloudflare
-    restart: unless-stopped
 
   traefik-internal:
     image: traefik:v3
@@ -72,6 +76,36 @@ services:
       traefik.http.routers.traefikinternal-prod-1-https.tls.certresolver: cloudflare
     restart: unless-stopped
 
+  crowdsec:
+    image: crowdsecurity/crowdsec:latest
+    container_name: crowdsec
+    command: -t
+    networks:
+      - internal
+    environment:
+      COLLECTIONS: crowdsecurity/traefik crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
+      ENROLL_INSTANCE_NAME: pangolin-crowdsec
+      ENROLL_TAGS: docker
+      GID: "1000"
+      PARSERS: crowdsecurity/whitelists
+    healthcheck:
+      interval: 10s
+      retries: 15
+      test:
+        - CMD
+        - cscli
+        - capi
+        - status
+      timeout: 10s
+    labels:
+      - traefik.enable=false
+    ports:
+      - 6060:6060
+    restart: unless-stopped
+    volumes:
+      - ./config-crowdsec:/etc/crowdsec
+      - ./config-crowdsec/db/:/var/lib/crowdsec/data
+      - ./config-external/logs:/var/log/traefik
 
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
