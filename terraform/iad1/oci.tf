@@ -63,18 +63,18 @@ resource "oci_core_security_list" "default_security_list" {
     }
   }
 
-  ingress_security_rules {
-    description = "Allow SSH from anywhere"
-    protocol    = "6"
-    source      = "0.0.0.0/0"
-    source_type = "CIDR_BLOCK"
-    stateless   = false
+  # ingress_security_rules {
+  #   description = "Allow SSH from anywhere"
+  #   protocol    = "6"
+  #   source      = "0.0.0.0/0"
+  #   source_type = "CIDR_BLOCK"
+  #   stateless   = false
 
-    tcp_options {
-      min = 22
-      max = 22
-    }
-  }
+  #   tcp_options {
+  #     min = 22
+  #     max = 22
+  #   }
+  # }
 
   ingress_security_rules {
     description = "Allow HTTP Traffic"
