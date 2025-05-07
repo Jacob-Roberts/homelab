@@ -31,8 +31,8 @@ locals {
 # }
 
 resource "proxmox_vm_qemu" "lhr1-node-1" {
-  name        = "lhr1-node-1.jakerob.pro"
-  desc        = "Real Final LHR1 docker node\nscsi1: local-lvm:vm-100-disk-1,backup=0,iothread=1,replicate=0,size=1500G"
+  name = "lhr1-node-1.jakerob.pro"
+  desc = "Real Final LHR1 docker node\nscsi1: local-lvm:vm-100-disk-1,backup=0,iothread=1,replicate=0,size=1500G"
   target_nodes = [
     "proxmox"
   ]
@@ -47,20 +47,20 @@ resource "proxmox_vm_qemu" "lhr1-node-1" {
 
   automatic_reboot = false
 
-  cores = 4
-  sockets = 1
+  cores    = 4
+  sockets  = 1
   cpu_type = "host"
-  memory = 14336
+  memory   = 14336
 
   define_connection_info = false
-  scsihw = "virtio-scsi-single"
+  scsihw                 = "virtio-scsi-single"
 
   full_clone = false
 
   network {
-    id = 0
-    bridge = "vmbr0"
-    model = "virtio"
+    id       = 0
+    bridge   = "vmbr0"
+    model    = "virtio"
     firewall = true
   }
 
@@ -68,10 +68,10 @@ resource "proxmox_vm_qemu" "lhr1-node-1" {
     scsi {
       scsi0 {
         disk {
-          size = "257G"
-          storage = "local-lvm"
-          backup = true
-          iothread = true
+          size      = "257G"
+          storage   = "local-lvm"
+          backup    = true
+          iothread  = true
           replicate = true
         }
       }

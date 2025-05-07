@@ -50,8 +50,8 @@ resource "cloudflare_dns_record" "autovation_apex_record" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "76.76.21.21"
-  comment  = "vercel"
+  content = "76.76.21.21"
+  comment = "vercel"
 }
 
 resource "cloudflare_dns_record" "autovation_www_record" {
@@ -60,7 +60,7 @@ resource "cloudflare_dns_record" "autovation_www_record" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "cname.vercel-dns.com"
+  content = "cname.vercel-dns.com"
 }
 
 ////////////////////////
@@ -73,7 +73,7 @@ resource "cloudflare_dns_record" "bwproxy_autovation" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "74.122.76.29"
+  content = "74.122.76.29"
 }
 
 resource "cloudflare_dns_record" "cloud_autovation" {
@@ -82,7 +82,7 @@ resource "cloudflare_dns_record" "cloud_autovation" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "97.117.91.215"
+  content = "97.117.91.215"
 }
 
 resource "cloudflare_dns_record" "em7586" {
@@ -91,8 +91,8 @@ resource "cloudflare_dns_record" "em7586" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "u14070584.wl085.sendgrid.net"
-  comment  = "sendgrid"
+  content = "u14070584.wl085.sendgrid.net"
+  comment = "sendgrid"
 }
 
 resource "cloudflare_dns_record" "googlef26116410a115f1f" {
@@ -101,8 +101,8 @@ resource "cloudflare_dns_record" "googlef26116410a115f1f" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "google.com"
-  comment  = "google gmail verification"
+  content = "google.com"
+  comment = "google gmail verification"
 }
 
 resource "cloudflare_dns_record" "photos_autovation" {
@@ -111,7 +111,7 @@ resource "cloudflare_dns_record" "photos_autovation" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "bwproxy.autovation.com"
+  content = "bwproxy.autovation.com"
 }
 
 resource "cloudflare_dns_record" "s1_domainkey_autovation" {
@@ -120,8 +120,8 @@ resource "cloudflare_dns_record" "s1_domainkey_autovation" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "s1.domainkey.u14070584.wl085.sendgrid.net"
-  comment  = "sendgrid verification"
+  content = "s1.domainkey.u14070584.wl085.sendgrid.net"
+  comment = "sendgrid verification"
 }
 
 resource "cloudflare_dns_record" "s2_domainkey_autovation" {
@@ -130,8 +130,8 @@ resource "cloudflare_dns_record" "s2_domainkey_autovation" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "s2.domainkey.u14070584.wl085.sendgrid.net"
-  comment  = "sendgrid"
+  content = "s2.domainkey.u14070584.wl085.sendgrid.net"
+  comment = "sendgrid"
 }
 
 resource "cloudflare_dns_record" "webmail" {
@@ -140,88 +140,88 @@ resource "cloudflare_dns_record" "webmail" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "autovation.com"
+  content = "autovation.com"
 }
 
 
 
 resource "cloudflare_dns_record" "MX_autovation_2" {
-  name    = "autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
-  proxied = false
-  ttl     = 1
-  type    = "MX"
-  content   = "alt2.aspmx.l.google.com"
+  name     = "autovation.com"
+  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  content  = "alt2.aspmx.l.google.com"
   priority = 5
 }
 
 resource "cloudflare_dns_record" "MX_autovation_3" {
-  name    = "autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
-  proxied = false
-  ttl     = 1
-  type    = "MX"
-  content   = "aspmx3.googlemail.com"
+  name     = "autovation.com"
+  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  content  = "aspmx3.googlemail.com"
   priority = 10
 }
 
 resource "cloudflare_dns_record" "MX_autovation_main" {
-  name    = "autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
-  proxied = false
-  ttl     = 1
-  type    = "MX"
-  content   = "aspmx.l.google.com"
+  name     = "autovation.com"
+  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  content  = "aspmx.l.google.com"
   priority = 1
 }
 
 resource "cloudflare_dns_record" "MX_autovation" {
-  name    = "autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
-  proxied = false
-  ttl     = 1
-  type    = "MX"
-  content   = "mail.boxworks.com"
+  name     = "autovation.com"
+  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  content  = "mail.boxworks.com"
   priority = 11
 }
 
 resource "cloudflare_dns_record" "MX_autovation_4" {
-  name    = "autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
-  proxied = false
-  ttl     = 1
-  type    = "MX"
-  content   = "aspmx4.googlemail.com"
+  name     = "autovation.com"
+  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  content  = "aspmx4.googlemail.com"
   priority = 10
 }
 
 resource "cloudflare_dns_record" "MX_autovation_5" {
-  name    = "autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
-  proxied = false
-  ttl     = 1
-  type    = "MX"
-  content   = "aspmx5.googlemail.com"
+  name     = "autovation.com"
+  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  content  = "aspmx5.googlemail.com"
   priority = 10
 }
 
 resource "cloudflare_dns_record" "MX_autovation_1" {
-  name    = "autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
-  proxied = false
-  ttl     = 1
-  type    = "MX"
-  content   = "alt1.aspmx.l.google.com"
+  name     = "autovation.com"
+  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  content  = "alt1.aspmx.l.google.com"
   priority = 5
 }
 
 resource "cloudflare_dns_record" "MX_autovation_main_2" {
-  name    = "autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
-  proxied = false
-  ttl     = 1
-  type    = "MX"
-  content   = "aspmx2.googlemail.com"
+  name     = "autovation.com"
+  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  content  = "aspmx2.googlemail.com"
   priority = 10
 }
 
@@ -231,5 +231,5 @@ resource "cloudflare_dns_record" "SPF1_autovation" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content   = "\"v=spf1 include:aspmx.googlemail.com ~all\""
+  content = "\"v=spf1 include:aspmx.googlemail.com ~all\""
 }

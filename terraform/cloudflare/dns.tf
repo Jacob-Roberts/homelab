@@ -50,7 +50,7 @@ resource "cloudflare_dns_record" "jakerob_apex_record" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "76.76.21.21"
+  content = "76.76.21.21"
 }
 
 resource "cloudflare_dns_record" "jakerob_www_record" {
@@ -59,7 +59,7 @@ resource "cloudflare_dns_record" "jakerob_www_record" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "76.76.21.21"
+  content = "76.76.21.21"
 }
 
 ////////////////////////
@@ -72,7 +72,7 @@ resource "cloudflare_dns_record" "jellyfin" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 ////////////////////////
@@ -94,7 +94,7 @@ resource "cloudflare_dns_record" "iad1-node-2" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "129.158.205.205"
+  content = "129.158.205.205"
 }
 
 resource "cloudflare_dns_record" "iad1-node-3" {
@@ -103,7 +103,7 @@ resource "cloudflare_dns_record" "iad1-node-3" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "150.136.240.69"
+  content = "150.136.240.69"
 }
 
 resource "cloudflare_dns_record" "iad1_catch_all" {
@@ -112,7 +112,7 @@ resource "cloudflare_dns_record" "iad1_catch_all" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 ////////////////////////
@@ -125,7 +125,7 @@ resource "cloudflare_dns_record" "iad1-vpn-node-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "100.109.65.68"
+  content = "100.109.65.68"
 }
 
 resource "cloudflare_dns_record" "iad1-vpn-node-2" {
@@ -134,7 +134,7 @@ resource "cloudflare_dns_record" "iad1-vpn-node-2" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "100.107.169.91"
+  content = "100.107.169.91"
 }
 
 resource "cloudflare_dns_record" "iad1-vpn-node-3" {
@@ -143,7 +143,7 @@ resource "cloudflare_dns_record" "iad1-vpn-node-3" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "100.70.105.44"
+  content = "100.70.105.44"
 }
 
 resource "cloudflare_dns_record" "iad1_vpn_catch_all" {
@@ -152,7 +152,7 @@ resource "cloudflare_dns_record" "iad1_vpn_catch_all" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-vpn-node-1.jakerob.pro"
+  content = "iad1-vpn-node-1.jakerob.pro"
 }
 
 ////////////////////////
@@ -165,7 +165,7 @@ resource "cloudflare_dns_record" "lhr1-proxmox-node-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.42.10"
+  content = "192.168.42.10"
 }
 
 resource "cloudflare_dns_record" "lhr1-proxmox-1" {
@@ -174,7 +174,7 @@ resource "cloudflare_dns_record" "lhr1-proxmox-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.42.10"
+  content = "192.168.42.10"
 }
 
 resource "cloudflare_dns_record" "lhr1-node-2" {
@@ -183,7 +183,7 @@ resource "cloudflare_dns_record" "lhr1-node-2" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.42.3"
+  content = "192.168.42.3"
 }
 
 resource "cloudflare_dns_record" "lhr1_catch_all" {
@@ -192,7 +192,7 @@ resource "cloudflare_dns_record" "lhr1_catch_all" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "lhr1-node-1.jakerob.pro"
+  content = "lhr1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "proxmox-lhr1-cname" {
@@ -201,7 +201,7 @@ resource "cloudflare_dns_record" "proxmox-lhr1-cname" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "lhr1-proxmox-node-1.jakerob.pro"
+  content = "lhr1-proxmox-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "lhr1-dev-1" {
@@ -210,7 +210,7 @@ resource "cloudflare_dns_record" "lhr1-dev-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.42.211"
+  content = "192.168.42.211"
 }
 
 resource "cloudflare_dns_record" "lhr1-node-1" {
@@ -219,7 +219,7 @@ resource "cloudflare_dns_record" "lhr1-node-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.42.16"
+  content = "192.168.42.16"
 }
 
 resource "cloudflare_dns_record" "lhr1-node-3" {
@@ -228,7 +228,7 @@ resource "cloudflare_dns_record" "lhr1-node-3" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.42.13"
+  content = "192.168.42.13"
 }
 
 resource "cloudflare_dns_record" "lhr1-nut-1" {
@@ -237,7 +237,7 @@ resource "cloudflare_dns_record" "lhr1-nut-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.42.12"
+  content = "192.168.42.12"
 }
 
 ////////////////////////
@@ -250,7 +250,7 @@ resource "cloudflare_dns_record" "DMARC" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content   = "v=DMARC1;p=reject;rua=mailto:9f5383a0b0@rua.easydmarc.us;ruf=mailto:9f5383a0b0@ruf.easydmarc.us;fo=1;"
+  content = "v=DMARC1;p=reject;rua=mailto:9f5383a0b0@rua.easydmarc.us;ruf=mailto:9f5383a0b0@ruf.easydmarc.us;fo=1;"
 }
 
 resource "cloudflare_dns_record" "resend" {
@@ -259,7 +259,7 @@ resource "cloudflare_dns_record" "resend" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content   = "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlMd9zYib1bBHY+6i05IKnqIUDhR25u8FG+XA7pen3x3Rdhtyi1aINvKbwcdRTuididreQJAzmigYPkFupkCAjj3E+Z7axYw7OPVzNFqOUs+nSef49l2PFaN9aTf/61UwAodRF7eFV1c8ZCiYv5ojVEuabofBPCiKOjEF3v9gxwwIDAQAB"
+  content = "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlMd9zYib1bBHY+6i05IKnqIUDhR25u8FG+XA7pen3x3Rdhtyi1aINvKbwcdRTuididreQJAzmigYPkFupkCAjj3E+Z7axYw7OPVzNFqOUs+nSef49l2PFaN9aTf/61UwAodRF7eFV1c8ZCiYv5ojVEuabofBPCiKOjEF3v9gxwwIDAQAB"
 }
 
 resource "cloudflare_dns_record" "send" {
@@ -268,7 +268,7 @@ resource "cloudflare_dns_record" "send" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content   = "v=spf1 include:amazonses.com ~all"
+  content = "v=spf1 include:amazonses.com ~all"
 }
 
 resource "cloudflare_dns_record" "lhr1-storage-node-1" {
@@ -277,7 +277,7 @@ resource "cloudflare_dns_record" "lhr1-storage-node-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.42.14"
+  content = "192.168.42.14"
 }
 
 resource "cloudflare_dns_record" "lhr1-vpn-node-1" {
@@ -286,7 +286,7 @@ resource "cloudflare_dns_record" "lhr1-vpn-node-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "100.89.27.79"
+  content = "100.89.27.79"
 }
 
 resource "cloudflare_dns_record" "pihole-lhr1" {
@@ -295,7 +295,7 @@ resource "cloudflare_dns_record" "pihole-lhr1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.42.2"
+  content = "192.168.42.2"
 }
 
 resource "cloudflare_dns_record" "sgu1-node-1" {
@@ -304,7 +304,7 @@ resource "cloudflare_dns_record" "sgu1-node-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.59.194"
+  content = "192.168.59.194"
 }
 
 resource "cloudflare_dns_record" "sgu1-proxmox-node-1" {
@@ -313,7 +313,7 @@ resource "cloudflare_dns_record" "sgu1-proxmox-node-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.59.16"
+  content = "192.168.59.16"
 }
 
 resource "cloudflare_dns_record" "slc1-node-1" {
@@ -322,7 +322,7 @@ resource "cloudflare_dns_record" "slc1-node-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.97.36"
+  content = "192.168.97.36"
 }
 
 resource "cloudflare_dns_record" "slc1-node-2" {
@@ -331,7 +331,7 @@ resource "cloudflare_dns_record" "slc1-node-2" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.97.92"
+  content = "192.168.97.92"
 }
 
 resource "cloudflare_dns_record" "slc1-node-3" {
@@ -340,7 +340,7 @@ resource "cloudflare_dns_record" "slc1-node-3" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.97.133"
+  content = "192.168.97.133"
 }
 
 resource "cloudflare_dns_record" "slc1-nut-1" {
@@ -349,7 +349,7 @@ resource "cloudflare_dns_record" "slc1-nut-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.97.28"
+  content = "192.168.97.28"
 }
 
 resource "cloudflare_dns_record" "slc1-proxmox-node-1" {
@@ -358,7 +358,7 @@ resource "cloudflare_dns_record" "slc1-proxmox-node-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.97.34"
+  content = "192.168.97.34"
 }
 
 resource "cloudflare_dns_record" "slc1-storage-node-1" {
@@ -367,7 +367,7 @@ resource "cloudflare_dns_record" "slc1-storage-node-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content   = "192.168.97.27"
+  content = "192.168.97.27"
 }
 
 resource "cloudflare_dns_record" "api-spotify-iad1" {
@@ -376,7 +376,7 @@ resource "cloudflare_dns_record" "api-spotify-iad1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "authentik-lhr1" {
@@ -385,7 +385,7 @@ resource "cloudflare_dns_record" "authentik-lhr1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "cdn" {
@@ -394,8 +394,8 @@ resource "cloudflare_dns_record" "cdn" {
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
-  comment  = "Will use traefik to push different subdomains to different places"
+  content = "iad1-node-1.jakerob.pro"
+  comment = "Will use traefik to push different subdomains to different places"
 }
 
 resource "cloudflare_dns_record" "cdn-ppr" {
@@ -404,7 +404,7 @@ resource "cloudflare_dns_record" "cdn-ppr" {
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "celia" {
@@ -413,7 +413,7 @@ resource "cloudflare_dns_record" "celia" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "homebox" {
@@ -422,7 +422,7 @@ resource "cloudflare_dns_record" "homebox" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "catch_all-iad1" {
@@ -431,7 +431,7 @@ resource "cloudflare_dns_record" "catch_all-iad1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "it-tools" {
@@ -440,7 +440,7 @@ resource "cloudflare_dns_record" "it-tools" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "catch_all-lhr1-2" {
@@ -449,7 +449,7 @@ resource "cloudflare_dns_record" "catch_all-lhr1-2" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "lhr1-node-3.jakerob.pro"
+  content = "lhr1-node-3.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "mealie" {
@@ -458,7 +458,7 @@ resource "cloudflare_dns_record" "mealie" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "minecraft" {
@@ -467,7 +467,7 @@ resource "cloudflare_dns_record" "minecraft" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "nextjsrenderingdemo-fullcf" {
@@ -476,8 +476,8 @@ resource "cloudflare_dns_record" "nextjsrenderingdemo-fullcf" {
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
-  comment  = "Go fully through the cloudflare cache for everything"
+  content = "iad1-node-1.jakerob.pro"
+  comment = "Go fully through the cloudflare cache for everything"
 }
 
 resource "cloudflare_dns_record" "photos" {
@@ -486,7 +486,7 @@ resource "cloudflare_dns_record" "photos" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "pihole2-lhr1" {
@@ -495,7 +495,7 @@ resource "cloudflare_dns_record" "pihole2-lhr1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "lhr1-node-2.jakerob.pro"
+  content = "lhr1-node-2.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "pma2-iad1vpn" {
@@ -504,7 +504,7 @@ resource "cloudflare_dns_record" "pma2-iad1vpn" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-vpn-node-2"
+  content = "iad1-vpn-node-2"
 }
 
 resource "cloudflare_dns_record" "proxmox-sgu1" {
@@ -513,7 +513,7 @@ resource "cloudflare_dns_record" "proxmox-sgu1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "sgu1-proxmox-node-1.jakerob.pro"
+  content = "sgu1-proxmox-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "proxmox-slc1" {
@@ -522,7 +522,7 @@ resource "cloudflare_dns_record" "proxmox-slc1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "slc1-proxmox-node-1.jakerob.pro"
+  content = "slc1-proxmox-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "catch_all-sgu1" {
@@ -531,7 +531,7 @@ resource "cloudflare_dns_record" "catch_all-sgu1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "sgu1-node-1.jakerob.pro"
+  content = "sgu1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "catch_all-slc1" {
@@ -540,7 +540,7 @@ resource "cloudflare_dns_record" "catch_all-slc1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "slc1-node-3.jakerob.pro"
+  content = "slc1-node-3.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "split" {
@@ -549,7 +549,7 @@ resource "cloudflare_dns_record" "split" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "cname.vercel-dns.com"
+  content = "cname.vercel-dns.com"
 }
 
 resource "cloudflare_dns_record" "spotify" {
@@ -558,7 +558,7 @@ resource "cloudflare_dns_record" "spotify" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "truenas-lhr1" {
@@ -567,7 +567,7 @@ resource "cloudflare_dns_record" "truenas-lhr1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "lhr1-storage-node-1.jakerob.pro"
+  content = "lhr1-storage-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "truenas-slc1" {
@@ -576,7 +576,7 @@ resource "cloudflare_dns_record" "truenas-slc1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "slc1-storage-node-1.jakerob.pro"
+  content = "slc1-storage-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "whoami-lhr1" {
@@ -585,7 +585,7 @@ resource "cloudflare_dns_record" "whoami-lhr1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "whoami-tunnel2-lhr1" {
@@ -594,7 +594,7 @@ resource "cloudflare_dns_record" "whoami-tunnel2-lhr1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "whoami-tunnel3-lhr1" {
@@ -603,7 +603,7 @@ resource "cloudflare_dns_record" "whoami-tunnel3-lhr1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "lhr1-node-1.jakerob.pro"
+  content = "lhr1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "whoami-tunnel-lhr1" {
@@ -612,7 +612,7 @@ resource "cloudflare_dns_record" "whoami-tunnel-lhr1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "whoami-tunnel-slc1" {
@@ -621,7 +621,7 @@ resource "cloudflare_dns_record" "whoami-tunnel-slc1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "wordpress" {
@@ -630,36 +630,36 @@ resource "cloudflare_dns_record" "wordpress" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content   = "iad1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "MX_3" {
-  name    = "jakerob.pro"
-  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-  proxied = false
-  ttl     = 1
-  type    = "MX"
-  content   = "mx3.zoho.com"
+  name     = "jakerob.pro"
+  zone_id  = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  content  = "mx3.zoho.com"
   priority = 50
 }
 
 resource "cloudflare_dns_record" "MX_2" {
-  name    = "jakerob.pro"
-  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-  proxied = false
-  ttl     = 1
-  type    = "MX"
-  content   = "mx2.zoho.com"
+  name     = "jakerob.pro"
+  zone_id  = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  content  = "mx2.zoho.com"
   priority = 20
 }
 
 resource "cloudflare_dns_record" "MX_1" {
-  name    = "jakerob.pro"
-  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-  proxied = false
-  ttl     = 1
-  type    = "MX"
-  content   = "mx.zoho.com"
+  name     = "jakerob.pro"
+  zone_id  = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  content  = "mx.zoho.com"
   priority = 10
 }
 
@@ -669,7 +669,7 @@ resource "cloudflare_dns_record" "_acme-challenge-traefik-tunnel-lhr12" {
   proxied = false
   ttl     = 120
   type    = "TXT"
-  content   = "cocrI7O8eQTznLTjxNU893UG0hD8mttFUXACE22ne-U"
+  content = "cocrI7O8eQTznLTjxNU893UG0hD8mttFUXACE22ne-U"
 }
 
 resource "cloudflare_dns_record" "_atproto" {
@@ -678,8 +678,8 @@ resource "cloudflare_dns_record" "_atproto" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content   = "\"did=did:plc:frwgjj3qjp3cc6qvsfmtiloo\""
-  comment  = "Blue Sky"
+  content = "\"did=did:plc:frwgjj3qjp3cc6qvsfmtiloo\""
+  comment = "Blue Sky"
 }
 
 resource "cloudflare_dns_record" "docker-node-2-lhr1" {
@@ -688,7 +688,7 @@ resource "cloudflare_dns_record" "docker-node-2-lhr1" {
   proxied = false
   ttl     = 120
   type    = "TXT"
-  content   = "S4aCW3ZO18lffYiT6b9bv4ZS29UmIGU0hjHNP9vLQOc"
+  content = "S4aCW3ZO18lffYiT6b9bv4ZS29UmIGU0hjHNP9vLQOc"
 }
 
 resource "cloudflare_dns_record" "SPF" {
@@ -697,7 +697,7 @@ resource "cloudflare_dns_record" "SPF" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content   = "v=spf1 include:zohomail.com ~all"
+  content = "v=spf1 include:zohomail.com ~all"
 }
 
 resource "cloudflare_dns_record" "zoho-verification" {
@@ -706,7 +706,7 @@ resource "cloudflare_dns_record" "zoho-verification" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content   = "zoho-verification=zb40496945.zmverify.zoho.com"
+  content = "zoho-verification=zb40496945.zmverify.zoho.com"
 }
 
 resource "cloudflare_dns_record" "zmail-_domainkey" {
@@ -715,5 +715,5 @@ resource "cloudflare_dns_record" "zmail-_domainkey" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content   = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC496gruPELcl8TYnoCGcw4CVgVBX8iSaHwNL5VurwSY7WpQxbdRsBGObnnIsVVmV8jlSR7Of81W/zAuM4gOe/y+J667bJ3tKeuz0FImKjuMBVn0nSWKB4qy7Y0T9b2iTD3zZH1IzrQlzMsF1oLidk+5ch+MUH2W2TEa0aBQaP6IwIDAQAB"
+  content = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC496gruPELcl8TYnoCGcw4CVgVBX8iSaHwNL5VurwSY7WpQxbdRsBGObnnIsVVmV8jlSR7Of81W/zAuM4gOe/y+J667bJ3tKeuz0FImKjuMBVn0nSWKB4qy7Y0T9b2iTD3zZH1IzrQlzMsF1oLidk+5ch+MUH2W2TEa0aBQaP6IwIDAQAB"
 }
