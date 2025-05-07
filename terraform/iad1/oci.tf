@@ -112,6 +112,31 @@ resource "oci_core_security_list" "default_security_list" {
       min = 41641
     }
   }
+
+  ingress_security_rules {
+    description = "Minecraft TCP"
+    protocol    = "6"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    tcp_options {
+      max = 25565
+      min = 25565
+    }
+  }
+  ingress_security_rules {
+    description = "Minecraft UDP"
+    protocol    = "17"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    udp_options {
+      max = 25565
+      min = 25565
+    }
+  }
 }
 
 #############################################
