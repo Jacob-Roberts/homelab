@@ -1,10 +1,3 @@
-
-provider "oci" {
-  region              = var.region
-  auth                = "SecurityToken"
-  config_file_profile = "DEFAULT"
-}
-
 ############################################
 # VCN
 ############################################
@@ -12,7 +5,7 @@ provider "oci" {
 resource "oci_core_vcn" "internal" {
   dns_label      = "vcn08101552"
   cidr_block     = "10.0.0.0/16"
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   display_name   = "Default VCN"
 }
 
@@ -23,7 +16,7 @@ resource "oci_core_vcn" "internal" {
 resource "oci_core_subnet" "default_subnet" {
   vcn_id                     = oci_core_vcn.internal.id
   cidr_block                 = "10.0.0.0/24"
-  compartment_id             = var.compartment_id
+  compartment_id             = var.compartment_ocid
   display_name               = "subnet-20220810-1550"
   prohibit_public_ip_on_vnic = false
   dns_label                  = "subnet08101552"
@@ -33,7 +26,7 @@ resource "oci_core_subnet" "default_subnet" {
 }
 
 resource "oci_core_security_list" "default_security_list" {
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   vcn_id         = oci_core_vcn.internal.id
 
   egress_security_rules {
@@ -126,7 +119,7 @@ resource "oci_core_security_list" "default_security_list" {
 #############################################
 
 resource "oci_core_instance" "iad1-node-1" {
-  compartment_id      = var.compartment_id
+  compartment_id      = var.compartment_ocid
   shape               = "VM.Standard.A1.Flex"
   availability_domain = "dSgB:US-ASHBURN-AD-2"
   display_name        = "iad1-node-1"
@@ -154,7 +147,7 @@ resource "oci_core_instance" "iad1-node-1" {
 }
 
 resource "oci_core_instance" "iad1-node-2" {
-  compartment_id      = var.compartment_id
+  compartment_id      = var.compartment_ocid
   shape               = "VM.Standard.E2.1.Micro"
   availability_domain = "dSgB:US-ASHBURN-AD-3"
   display_name        = "iad1-node-2"
@@ -182,7 +175,7 @@ resource "oci_core_instance" "iad1-node-2" {
 }
 
 resource "oci_core_instance" "iad1-node-3" {
-  compartment_id      = var.compartment_id
+  compartment_id      = var.compartment_ocid
   shape               = "VM.Standard.E2.1.Micro"
   availability_domain = "dSgB:US-ASHBURN-AD-3"
   display_name        = "iad1-node-3"
