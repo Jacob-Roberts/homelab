@@ -25,6 +25,7 @@ services:
       - ./config-external/logs:/var/log/traefik
       - ./config-external/plugins-storage:/plugins-storage/:rw
       - ./config-external/ban.html:/etc/traefik/ban.html:ro
+      - ./config-external/captcha.html:/etc/traefik/captcha.html:ro
     depends_on:
       crowdsec:
         condition: service_healthy
@@ -107,7 +108,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./config-crowdsec:/etc/crowdsec
-      - ./config-crowdsec/db/:/var/lib/crowdsec/data
+      - ./crowdsec-db/:/var/lib/crowdsec/data
       - ./config-external/logs:/var/log/traefik
 
   socket-proxy:
