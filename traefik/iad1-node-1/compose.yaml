@@ -23,6 +23,8 @@ services:
       - ./config-external/certs/acme.json:/etc/traefik/certs/acme.json:rw
       - ./config-external/static-certs/:/etc/traefik/static-certs/:ro
       - ./config-external/logs:/var/log/traefik
+      - ./config-external/plugins-storage:/plugins-storage/:rw
+      - ./config-external/ban.html:/etc/traefik/ban.html:ro
     depends_on:
       crowdsec:
         condition: service_healthy
