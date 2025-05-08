@@ -2,4 +2,9 @@ config-internal/certs/*
 !config-internal/certs/.gitkeep
 config-external/certs/*
 !config-external/certs/.gitkeep
+config-external/logs/access.log
+config-external/plugins-storage/*
+!config-external/plugins-storage/.gitkeep
 config-external/static-certs/*
+config-crowdsec/*
+!config-crowdsec/.gitkeep
