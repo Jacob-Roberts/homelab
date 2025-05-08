@@ -1,0 +1,47 @@
+http:
+  middlewares:
+    geoblock:
+      plugin:
+        geoblock:
+          silentStartUp: false
+          allowLocalRequests: true
+          logLocalRequests: false
+          logAllowedRequests: false
+          logApiRequests: false
+          api: "https://get.geojs.io/v1/ip/country/{ip}"
+          apiTimeoutMs: 750 # optional
+          cacheSize: 15
+          forceMonthlyUpdate: false
+          allowUnknownCountries: false
+          unknownCountryApiResponse: "nil"
+          blackListMode: true
+          addCountryHeader: false
+          countries:
+            - RU # Russian Federation (the)
+            - CN # China
+            - TR # Turkey
+            - BR # Brazil
+            - BD # Bangladesh
+            - PK # Pakistan
+            - IN # India
+            - NP # Nepal
+            - RO # Romania
+            - AF # Afghanistan
+            - AQ # Antarctica
+            - BY # Belarus
+            - VE # Venezuela (Bolivarian Republic of)
+            - HT # Haiti
+            - ML # Mali
+            - BF # Burkina Faso
+            - LY # Libya
+            - SD # Sudan (the)
+            - SS # South Sudan
+            - CD # Congo (the Democratic Republic of the)
+            - CF # Central African Republic (the)
+            - SO # Somalia
+            - YE # Yemen
+            - SY # Syrian Arab Republic
+            - IQ # Iraq
+            - IR # Iran (Islamic Republic of)
+            - MM # Myanmar
+            - KP # Korea (the Democratic People's Republic of)
