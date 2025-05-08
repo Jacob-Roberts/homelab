@@ -8,3 +8,5 @@ config-external/plugins-storage/*
 config-external/static-certs/*
 config-crowdsec/*
 !config-crowdsec/.gitkeep
+crowdsec-db/*
+!crowdsec-db/.gitkeep
