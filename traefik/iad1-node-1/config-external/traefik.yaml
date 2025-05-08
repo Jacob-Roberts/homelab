@@ -74,7 +74,7 @@ entryPoints:
     address: :443
     http:
       middlewares:
-        # - crowdsec@file
+        - crowdsec@file
         - geoblock@file
     # -- (Optional) Add custom Entrypoint
     # custom:
