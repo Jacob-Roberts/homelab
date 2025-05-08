@@ -29,6 +29,8 @@ services:
     depends_on:
       crowdsec:
         condition: service_healthy
+    environment:
+      CROWDSEC_TRAEFIK_BOUNCER_TOKEN: ${CROWDSEC_TRAEFIK_BOUNCER_TOKEN}
     networks:
       - frontend
       - internal
@@ -86,11 +88,11 @@ services:
     networks:
       - internal
     environment:
-      COLLECTIONS: crowdsecurity/traefik crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
+      COLLECTIONS: crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
       CUSTOM_HOSTNAME: crowdsec
       ENROLL_INSTANCE_NAME: pangolin-crowdsec
       ENROLL_TAGS: docker
-      GID: "1000"
+      GID: "1002"
       PARSERS: crowdsecurity/whitelists
     healthcheck:
       interval: 10s
@@ -103,8 +105,6 @@ services:
       timeout: 10s
     labels:
       - traefik.enable=false
-    ports:
-      - 6060:6060
     restart: unless-stopped
     volumes:
       - ./config-crowdsec:/etc/crowdsec
@@ -166,6 +166,7 @@ services:
       traefik.http.routers.whoamiexternal-prod-1-http.entrypoints: web
       traefik.http.routers.whoamiexternal-prod-1-http.rule: Host(`whoami.iad1.jakerob.pro`)
       traefik.http.routers.whoamiexternal-prod-1-https.entrypoints: websecure
+      traefik.http.routers.whoamiexternal-prod-1-https.middlewares: crowdsec@file
       traefik.http.routers.whoamiexternal-prod-1-https.rule: Host(`whoami.iad1.jakerob.pro`)
       traefik.http.routers.whoamiexternal-prod-1-https.tls: true
       traefik.http.routers.whoamiexternal-prod-1-https.tls.certresolver: production
