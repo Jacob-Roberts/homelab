@@ -192,7 +192,7 @@ resource "cloudflare_dns_record" "lhr1-node-4" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content = "192.168.42.190"
+  content = "192.168.42.55"
 }
 
 resource "cloudflare_dns_record" "lhr1_catch_all" {
