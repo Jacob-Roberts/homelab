@@ -102,7 +102,7 @@ services:
       traefik.http.routers.bazarr-prod-1-https.tls.certresolver: cloudflare
 
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:5.0.0
+    image: lscr.io/linuxserver/qbittorrent:20.04.1
     container_name: qbittorrent
     restart: unless-stopped
     security_opt:
