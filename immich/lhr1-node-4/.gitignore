@@ -1,0 +1,6 @@
+database/*
+!database/.gitkeep
+immich/*
+!immich/.gitkeep
+model-cache/*
+!model-cache/.gitkeep
