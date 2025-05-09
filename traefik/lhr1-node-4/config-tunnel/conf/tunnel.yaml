@@ -10,14 +10,14 @@ http:
     # WHOAMI LHR1
     whoami-lhr1-https:
       entrypoints: websecure
-      rule: "Host(`whoami.lhr1-2.jakerob.pro`)"
+      rule: "Host(`whoami.lhr1-4.jakerob.pro`)"
       service: lhr1-traefik
       tls: true
 
     # AUTHENTIK
     authentik-lhr1-https:
       entrypoints: websecure
-      rule: "Host(`authentik.lhr1-2.jakerob.pro`)"
+      rule: "Host(`authentik.lhr1-4.jakerob.pro`)"
       service: lhr1-traefik
       tls: true
 

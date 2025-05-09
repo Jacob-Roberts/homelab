@@ -461,15 +461,6 @@ resource "cloudflare_dns_record" "it-tools" {
   content = "iad1-node-1.jakerob.pro"
 }
 
-resource "cloudflare_dns_record" "catch_all-lhr1-2" {
-  name    = "*.lhr1-2.jakerob.pro"
-  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "lhr1-node-3.jakerob.pro"
-}
-
 resource "cloudflare_dns_record" "mealie" {
   name    = "mealie.jakerob.pro"
   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
