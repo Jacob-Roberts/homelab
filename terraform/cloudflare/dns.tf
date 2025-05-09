@@ -204,6 +204,15 @@ resource "cloudflare_dns_record" "lhr1_catch_all" {
   content = "lhr1-node-1.jakerob.pro"
 }
 
+resource "cloudflare_dns_record" "lhr1-node-4_catch_all" {
+  name    = "*.lhr1-4.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "lhr1-node-4.jakerob.pro"
+}
+
 resource "cloudflare_dns_record" "proxmox-lhr1-cname" {
   name    = "proxmox.lhr1.jakerob.pro"
   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
