@@ -48,6 +48,18 @@ http:
       service: lhr1-tunnel
       tls: true
 
+    karakeep-lhr1-http:
+      entrypoints: web
+      rule: "Host(`karakeep.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: lhr1-tunnel
+    karakeep-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`karakeep.jakerob.pro`)"
+      service: lhr1-tunnel
+      tls: true
+
     authentik-lhr1-http:
       entrypoints: web
       rule: "Host(`authentik.lhr1.jakerob.pro`)"

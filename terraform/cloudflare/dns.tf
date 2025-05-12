@@ -75,6 +75,15 @@ resource "cloudflare_dns_record" "jellyfin" {
   content = "iad1-node-1.jakerob.pro"
 }
 
+resource "cloudflare_dns_record" "karakeep" {
+  name    = "karakeep.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "iad1-node-1.jakerob.pro"
+}
+
 ////////////////////////
 //        IAD1        //
 ////////////////////////
