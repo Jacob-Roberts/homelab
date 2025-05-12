@@ -19,6 +19,12 @@ services:
       NEXTAUTH_URL: ${NEXTAUTH_URL}
       MEILI_ADDR: http://meilisearch:7700
       BROWSER_WEB_URL: http://chrome:9222
+      DISABLE_SIGNUPS: false
+      DISABLE_PASSWORD_AUTH: true
+      OAUTH_WELLKNOWN_URL: ${OAUTH_WELLKNOWN_URL}
+      OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID}
+      OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET}
+      OAUTH_PROVIDER_NAME: authentik
 
       # OPENAI_API_KEY: ...
 
