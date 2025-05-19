@@ -1,0 +1,31 @@
+---
+name: paperless
+
+networks:
+  frontend:
+    external: true
+  internal:
+    external: false
+
+services:
+  broker:
+    image: docker.io/library/redis:8
+    restart: unless-stopped
+    volumes:
+      - ./redisdata:/data
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    user: "1000"
+    restart: unless-stopped
+    networks:
+      - frontend
+      - internal
+    depends_on:
+      - broker
+    volumes:
+      - ./data:/usr/src/paperless/data
+      - /media/roberts-data/paperless:/usr/src/paperless/media
+      - ./export:/usr/src/paperless/export
+      - ./consume:/usr/src/paperless/consume
+    environment:
+      PAPERLESS_REDIS: redis://broker:6379
