@@ -1,0 +1,30 @@
+---
+name: ai
+
+networks:
+  frontend:
+    external: true
+
+services:
+  open-webui:
+    container_name: open-webui
+    image: ghcr.io/open-webui/open-webui:main
+    volumes:
+      - ./openwebui-data:/app/backend/data
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    networks:
+      - frontend
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    labels:
+      traefik.enable: true
+      traefik.http.services.authentik-prod-1.loadBalancer.server.port: 8080
+      traefik.http.routers.ai-prod-1-http.entrypoints: web
+      traefik.http.routers.ai-prod-1-http.rule: Host(`ai.lhr1-4.jakerob.pro`)
+      traefik.http.routers.ai-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.ai-prod-1-https.entrypoints: websecure
+      traefik.http.routers.ai-prod-1-https.rule: Host(`ai.lhr1-4.jakerob.pro`)
+      traefik.http.routers.ai-prod-1-https.tls: true
+      traefik.http.routers.ai-prod-1-https.tls.certresolver: cloudflare
