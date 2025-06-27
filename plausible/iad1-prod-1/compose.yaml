@@ -77,13 +77,13 @@ services:
       # - ENABLE_EMAIL_VERIFICATION
       - DATABASE_URL=postgres://postgres:${DATABASE_PASSWORD}@plausible_db:5432/plausible_db
       - CLICKHOUSE_DATABASE_URL=http://plausible_events_db:8123/plausible_events_db
+      - MAILER_ADAPTER=Bamboo.Mua
       - MAILER_EMAIL=${MAILER_EMAIL}
       - MAILER_NAME=plausible-analytics
       - SMTP_HOST_ADDR=${SMTP_HOST_ADDR}
       - SMTP_HOST_PORT=${SMTP_HOST_PORT}
       - SMTP_USER_NAME=${SMTP_USER_NAME}
       - SMTP_USER_PWD=${SMTP_USER_PWD}
-      - SMTP_HOST_SSL_ENABLED=${SMTP_HOST_SSL_ENABLED}
     labels:
       traefik.enable: true
       traefik.external: true
