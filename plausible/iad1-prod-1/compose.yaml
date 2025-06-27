@@ -47,16 +47,28 @@ services:
     image: plausible/analytics:v2.0
     container_name: plausible
     restart: unless-stopped
-    command: sh -c "sleep 10 && /entrypoint.sh db createdb && /entrypoint.sh db migrate && /entrypoint.sh run"
+    command: sh -c "/entrypoint.sh db createdb && /entrypoint.sh db migrate && /entrypoint.sh run"
     depends_on:
-      - plausible_db
-      - plausible_events_db
+      plausible_db:
+        condition: service_healthy
+      plausible_events_db:
+        condition: service_healthy
     networks:
       - frontend
       - internal
+    volumes:
+      - ./plausible-data:/var/lib/plausible
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
     environment:
-      - BASE_URL=https://plausible.iad1.jakerob.pro
+      - TMPDIR=/var/lib/plausible/tmp
+      - BASE_URL=${BASE_URL:-https://plausible.iad1.jakerob.pro}
       - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - TOTP_VAULT_KEY=${TOTP_VAULT_KEY}
+      # - DISABLE_REGISTRATION
+      # - ENABLE_EMAIL_VERIFICATION
       - DATABASE_URL=postgres://postgres:${DATABASE_PASSWORD}@plausible_db:5432/plausible_db
       - CLICKHOUSE_DATABASE_URL=http://plausible_events_db:8123/plausible_events_db
       - MAILER_EMAIL=${MAILER_EMAIL}
