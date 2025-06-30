@@ -20,6 +20,8 @@ services:
       - ./ingest:/cwa-book-ingest
       - ./library:/calibre-library 
     restart: unless-stopped
+    networks:
+      - frontend
     labels:
       traefik.enable: true
       traefik.http.routers.calibre-prod-1-http.entrypoints: web
