@@ -60,6 +60,18 @@ http:
       service: lhr1-tunnel
       tls: true
 
+    calibre-lhr1-http:
+      entrypoints: web
+      rule: "Host(`calibre.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: lhr1-tunnel
+    calibre-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`calibre.jakerob.pro`)"
+      service: lhr1-tunnel
+      tls: true
+
     authentik-lhr1-http:
       entrypoints: web
       rule: "Host(`authentik.lhr1.jakerob.pro`)"

@@ -23,10 +23,10 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.calibre-prod-1-http.entrypoints: web
-      traefik.http.routers.calibre-prod-1-http.rule: Host(`calibre.lhr1.jakerob.pro`)
+      traefik.http.routers.calibre-prod-1-http.rule: Host(`calibre.jakerob.pro`)
       traefik.http.routers.calibre-prod-1-http.middlewares: websecure-redirect-permanent@file
       traefik.http.routers.calibre-prod-1-https.entrypoints: websecure
-      traefik.http.routers.calibre-prod-1-https.rule: Host(`calibre.lhr1.jakerob.pro`)
+      traefik.http.routers.calibre-prod-1-https.rule: Host(`calibre.jakerob.pro`)
       traefik.http.routers.calibre-prod-1-https.tls: true
       traefik.http.routers.calibre-prod-1-https.tls.certresolver: cloudflare
       traefik.http.services.calibre-prod-1.loadBalancer.server.port: 8083

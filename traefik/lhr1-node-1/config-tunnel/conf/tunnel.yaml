@@ -41,3 +41,10 @@ http:
       rule: "Host(`karakeep.jakerob.pro`)"
       service: lhr1-traefik
       tls: true
+
+    # Calibre
+    calibre-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`calibre.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true
