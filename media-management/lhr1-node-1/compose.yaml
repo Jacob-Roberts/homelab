@@ -211,9 +211,8 @@ services:
       - frontend
     security_opt:
       - no-new-privileges:true
-    # ports:
-      # - 8265:8265 # webUI port
-      # - 8266:8266 # server port
+    ports:
+      - 8266:8266 # server port
     environment:
       - TZ=Europe/London
       - PUID=${PUID:-1000}
@@ -225,7 +224,7 @@ services:
       - internalNode=true
       - inContainer=true
       - ffmpegVersion=7
-      - nodeName=MyInternalNode
+      - nodeName=lhr1-node-1
       - auth=false
       - openBrowser=true
       - maxLogSizeMB=10
