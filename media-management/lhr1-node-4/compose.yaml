@@ -37,5 +37,3 @@ services:
       - ./tdarr-config/logs:/app/logs
       - /media/jellydata/media:/media:rw
       - ./tdarr-config/transcode_cache:/temp
-    devices:
-      - /dev/dri:/dev/dri
