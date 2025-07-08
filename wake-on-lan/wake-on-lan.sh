@@ -2,12 +2,31 @@
 
 # Wake-on-LAN script with interactive selection or direct hostname targeting
 
-# Define computers and their MAC addresses
+# Load computers configuration from environment
+# Expected format in ~/.zshenv:
+# declare -A WOL_COMPUTERS
+# WOL_COMPUTERS=(
+#     ["lhr1-hv-1"]="00:1A:2B:3C:4D:5E"
+#     ["lhr1-storage-1"]="00:1F:2E:3D:4C:5B"
+# )
+
+if [[ -z ${WOL_COMPUTERS} ]]; then
+    echo "Error: WOL_COMPUTERS not configured!"
+    echo ""
+    echo "Please add the following to your ~/.zshenv file:"
+    echo ""
+    echo "declare -A WOL_COMPUTERS"
+    echo "WOL_COMPUTERS=("
+    echo "    [\"hostname1\"]=\"MAC:AD:DR:ES:S1:11\""
+    echo "    [\"hostname2\"]=\"MAC:AD:DR:ES:S2:22\""
+    echo ")"
+    echo ""
+    exit 1
+fi
+
+# Use the environment variable
 declare -A computers
-computers=(
-    ["lhr1-hv-1"]="00:1A:2B:3C:4D:5E"
-    ["lhr1-storage-1"]="00:1F:2E:3D:4C:5B"
-)
+computers=(${(kv)WOL_COMPUTERS})
 
 # Function to send WOL packet
 send_wol() {
