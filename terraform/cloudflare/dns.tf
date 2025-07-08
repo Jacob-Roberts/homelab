@@ -258,6 +258,15 @@ resource "cloudflare_dns_record" "lhr1-node-1" {
   content = "192.168.42.16"
 }
 
+resource "cloudflare_dns_record" "lhr1-vm-1" {
+  name    = "lhr1-vm-1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content = "192.168.42.16"
+}
+
 resource "cloudflare_dns_record" "lhr1-node-3" {
   name    = "lhr1-node-3.jakerob.pro"
   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
@@ -327,6 +336,15 @@ resource "cloudflare_dns_record" "lhr1-vpn-node-1" {
 
 resource "cloudflare_dns_record" "pihole-lhr1" {
   name    = "pihole.lhr1.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content = "192.168.42.2"
+}
+
+resource "cloudflare_dns_record" "lhr1-pi-1" {
+  name    = "lhr1-pi-1.jakerob.pro"
   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
   proxied = false
   ttl     = 1

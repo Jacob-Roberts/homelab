@@ -30,10 +30,10 @@ resource "tailscale_acl" "my_acl" {
 			"src":    ["Jacob-Roberts@github"],
 			"dst":    ["*:*"],
 		},
-		// Allow all users to use any exit node
-		{ 
+		// Allow all users and apple tvs to use any exit node
+		{
 			"action": "accept",
-			"src": ["autogroup:member"],
+			"src": ["autogroup:member", "tag:apple-tvs"],
 			"dst": ["autogroup:internet:*"],
 		},
 		// lhr1-node-1 uses the apple TV's subnet route to access the nas in SLC (for backups)
@@ -80,9 +80,6 @@ resource "tailscale_acl" "my_acl" {
 			"src":    ["truenas-lhr1"],
 			"dst":    ["truenas-slc1:*"],
 		},
-
-		// All apple TVs can access the other apple TVs for exit nodes.
-		{"action": "accept", "src": ["tag:apple-tvs"], "dst": ["tag:apple-tvs:*"]},
 	],
 
 	"hosts": {
