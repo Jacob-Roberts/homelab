@@ -269,47 +269,6 @@ resource "cloudflare_dns_record" "lhr1-storage-1" {
   content = "192.168.42.14"
 }
 
-// Deprecated
-resource "cloudflare_dns_record" "lhr1-vpn-node-1" {
-  name    = "lhr1-vpn-node-1.jakerob.pro"
-  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  content = "100.89.27.79"
-}
-
-// Deprecated
-resource "cloudflare_dns_record" "lhr1-storage-node-1" {
-  name    = "lhr1-storage-node-1.jakerob.pro"
-  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  content = "192.168.42.14"
-}
-
-// Deprecated
-resource "cloudflare_dns_record" "lhr1-proxmox-node-1" {
-  name    = "lhr1-proxmox-node-1.jakerob.pro"
-  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  content = "192.168.42.10"
-}
-
-
-// Deprecated
-resource "cloudflare_dns_record" "lhr1-proxmox-1" {
-  name    = "lhr1-proxmox-1.jakerob.pro"
-  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  content = "192.168.42.10"
-}
-
 /* Aliases */
 
 resource "cloudflare_dns_record" "proxmox-lhr1-cname" {
@@ -318,7 +277,7 @@ resource "cloudflare_dns_record" "proxmox-lhr1-cname" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content = "lhr1-proxmox-node-1.jakerob.pro"
+  content = "lhr1-hv-1.jakerob.pro"
 }
 
 /* Services */
