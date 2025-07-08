@@ -2,54 +2,54 @@
 all:
   hosts:
     # Raspberry Pi Model 3
-    lhr1-pi-1.jakerob.pro:
+    lhr1-pi-1:
       ansible_user: jacobroberts
 
-    lhr1-node-1.jakerob.pro:
+    lhr1-node-1:
       ansible_user: jacobroberts
 
-    lhr1-node-2.jakerob.pro:
+    lhr1-node-2:
       ansible_user: jacobroberts
-    
-    lhr1-hv-1.jakerob.pro:
+
+    lhr1-hv-1:
       ansible_user: root
 
-    lhr1-storage-1.jakerob.pro:
+    lhr1-storage-1:
       ansible_user: truenas_admin
 
-    iad1-vpn-node-1.jakerob.pro:
+    iad1-vpn-node-1:
       ansible_user: jacobroberts
 
-    iad1-vpn-node-2.jakerob.pro:
+    iad1-vpn-node-2:
       ansible_user: jacobroberts
 
-    iad1-vpn-node-3.jakerob.pro:
+    iad1-vpn-node-3:
       ansible_user: jacobroberts
 
-    slc1-node-3.jakerob.pro:
+    slc1-node-3:
       ansible_user: jacobroberts
 
-    sgu1-node-1.jakerob.pro:
+    sgu1-node-1:
       ansible_user: jacobroberts
 
   children:
     docker:
       hosts:
-        lhr1-node-1.jakerob.pro:
-        iad1-vpn-node-1.jakerob.pro:
-        iad1-vpn-node-2.jakerob.pro:
-        iad1-vpn-node-3.jakerob.pro:
-        slc1-node-3.jakerob.pro:
-        sgu1-node-1.jakerob.pro:
+        lhr1-node-1:
+        iad1-vpn-node-1:
+        iad1-vpn-node-2:
+        iad1-vpn-node-3:
+        slc1-node-3:
+        sgu1-node-1:
     qemu:
       hosts:
-        lhr1-node-1.jakerob.pro:
-        sgu1-node-1.jakerob.pro:
-        slc1-node-3.jakerob.pro:
+        lhr1-node-1:
+        sgu1-node-1:
+        slc1-node-3:
     nut_primary:
       hosts:
-        lhr1-pi-1.jakerob.pro:
+        lhr1-pi-1:
     nut_clients:
       hosts:
-        # truenas.lhr1.jakerob.pro: Truenas doesn't like to be configured by ansible
-        lhr1-hv-1.jakerob.pro:
+        # lhr1-storage-1: Truenas doesn't like to be configured by ansible
+        lhr1-hv-1:
