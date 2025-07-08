@@ -179,6 +179,15 @@ resource "cloudflare_dns_record" "iad1_vpn_catch_all" {
 
 /* Hostnames */
 
+resource "cloudflare_dns_record" "lhr1-router" {
+  name    = "lhr1-router.jakerob.pro"
+  zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content = "192.168.42.1"
+}
+
 resource "cloudflare_dns_record" "lhr1-hv-1" {
   name    = "lhr1-hv-1.jakerob.pro"
   zone_id = "6e98165e20ed0ba1b018f543c6ab4285"
