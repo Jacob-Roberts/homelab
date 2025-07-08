@@ -26,9 +26,9 @@ services:
       - maxLogSizeMB=10
       - pollInterval=2000
       - startPaused=false
-      - transcodegpuWorkers=1
-      - transcodecpuWorkers=2
-      - healthcheckgpuWorkers=1
+      - transcodegpuWorkers=0
+      - transcodecpuWorkers=3
+      - healthcheckgpuWorkers=0
       - healthcheckcpuWorkers=1
       - NVIDIA_DRIVER_CAPABILITIES=all
       - NVIDIA_VISIBLE_DEVICES=all
