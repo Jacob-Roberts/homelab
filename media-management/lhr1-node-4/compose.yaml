@@ -27,7 +27,7 @@ services:
       - pollInterval=2000
       - startPaused=false
       - transcodegpuWorkers=0
-      - transcodecpuWorkers=3
+      - transcodecpuWorkers=1
       - healthcheckgpuWorkers=0
       - healthcheckcpuWorkers=1
       - NVIDIA_DRIVER_CAPABILITIES=all
