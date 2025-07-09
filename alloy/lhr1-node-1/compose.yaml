@@ -11,6 +11,9 @@ services:
     image: grafana/alloy:v1.9.2
     container_name: alloy
     hostname: lhr1-node-1
+    environment:
+      - LOKI_PASSWORD=${LOKI_PASSWORD}
+      - PROMETHEUS_PASSWORD=${PROMETHEUS_PASSWORD}
     command:
       - run
       - --server.http.listen-addr=0.0.0.0:12345
