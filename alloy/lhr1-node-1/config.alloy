@@ -12,7 +12,7 @@ loki.write "default" {
 
     basic_auth {
       username = "865636"
-      password = << sys.env("LOKI_PASSWORD") >>
+      password = sys.env("LOKI_PASSWORD")
     }
   }
 }
@@ -23,7 +23,7 @@ prometheus.remote_write "default" {
 
     basic_auth {  
       username = "1530119"
-      password = << sys.env("PROMETHEUS_PASSWORD") >>
+      password = sys.env("PROMETHEUS_PASSWORD")
     }
   }
 }
