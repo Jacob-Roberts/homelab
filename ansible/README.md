@@ -6,7 +6,7 @@ Ensure you have the secret password set in ~/.ansible/homelab-vault-password.txt
 
 Run with `ansible-playbook main.yaml`.
 
-If you only want to run with a certain set of computers, use `ansible-playbook -l lhr1-node-1.jakerob.pro main.yaml`
+If you only want to run with a certain set of computers, use `ansible-playbook -l lhr1-node-1 main.yaml`
 
 If you only wnat to run a subset of the commands, use the -t flag. `ansible-playbook -t primary main.yaml`
 

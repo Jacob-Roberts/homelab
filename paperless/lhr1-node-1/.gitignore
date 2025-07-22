@@ -1,0 +1,6 @@
+data/*
+!data/.gitkeep
+redisdata/*
+!redisdata/.gitkeep
+export/*
+!export/.gitkeep
