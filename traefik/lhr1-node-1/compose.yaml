@@ -13,6 +13,9 @@ networks:
     # Contains all the services that will be routed to through the tunnel
     external: true
 
+volumes:
+  socket-proxy:
+
 services:
   traefik:
     image: traefik:v3
