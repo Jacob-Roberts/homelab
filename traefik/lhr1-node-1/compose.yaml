@@ -97,8 +97,10 @@ services:
     restart: unless-stopped
 
   socket-proxy:
-    image: lscr.io/linuxserver/socket-proxy:latest
+    image: "11notes/socket-proxy:2"
     container_name: traefik-socket-proxy
+    read_only: true
+    user: 0:990
     networks:
       - internal
     environment:
@@ -130,11 +132,11 @@ services:
       - VERSION=1 #optional
       - VOLUMES=0 #optional
     volumes:
+      # mount host docker socket, the :ro does not mean read-only for the socket, just for the actual file
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      # this socket is run as 1000:1000, not as root!
+      - socket-proxy:/run/proxy
     restart: unless-stopped
-    read_only: true
-    tmpfs:
-      - /run
 
   whoami:
     image: traefik/whoami
