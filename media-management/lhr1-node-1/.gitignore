@@ -12,3 +12,5 @@ qbittorrent-config/*
 !/qbittorrent-config/.gitkeep
 sabnzbd-config/*
 !/sabnzbd-config/.gitkeep
+tdarr-config/*
+!/tdarr-config/.gitkeep

@@ -31,7 +31,7 @@ locals {
 # }
 
 resource "proxmox_vm_qemu" "lhr1-node-1" {
-  name = "lhr1-node-1.jakerob.pro"
+  name = "lhr1-node-1"
   desc = "Real Final LHR1 docker node\nscsi1: local-lvm:vm-100-disk-1,backup=0,iothread=1,replicate=0,size=1500G"
   target_nodes = [
     "proxmox"

@@ -10,7 +10,7 @@ services:
     image: ghcr.io/superioone/nut_webgui:latest
     container_name: webnut
     environment:
-      - UPSD_ADDR=192.168.42.3
+      - UPSD_ADDR=${UPS_ADDR:-192.168.42.2}
       - UPSD_USER=${UPS_USER}
       - UPSD_PASS=${UPS_PASSWORD}
     restart: unless-stopped

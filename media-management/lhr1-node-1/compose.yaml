@@ -203,6 +203,54 @@ services:
     restart: unless-stopped
     network_mode: "service:gluetun"
 
+  tdarr:
+    container_name: tdarr
+    image: ghcr.io/haveagitgat/tdarr:latest
+    restart: unless-stopped
+    networks:
+      - frontend
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 8266:8266 # server port
+    environment:
+      - TZ=Europe/London
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK_SET=002
+      - serverIP=0.0.0.0
+      - serverPort=8266
+      - webUIPort=8265
+      - internalNode=true
+      - inContainer=true
+      - ffmpegVersion=7
+      - nodeName=lhr1-node-1
+      - auth=false
+      - openBrowser=true
+      - maxLogSizeMB=10
+      - cronPluginUpdate=
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - ./tdarr-config/server:/app/server
+      - ./tdarr-config/configs:/app/configs
+      - ./tdarr-config/logs:/app/logs
+      - /media/jellydata/media:/media:rw
+      - ./tdarr-config/transcode-cache:/temp
+    devices:
+      - /dev/dri:/dev/dri
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.services.tdarr-prod-1.loadBalancer.server.port: 8265
+      traefik.http.routers.tdarr-prod-1-http.entrypoints: web
+      traefik.http.routers.tdarr-prod-1-http.rule: Host(`tdarr.lhr1.jakerob.pro`)
+      traefik.http.routers.tdarr-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.tdarr-prod-1-https.entrypoints: websecure
+      traefik.http.routers.tdarr-prod-1-https.rule: Host(`tdarr.lhr1.jakerob.pro`)
+      traefik.http.routers.tdarr-prod-1-https.tls: true
+      traefik.http.routers.tdarr-prod-1-https.tls.certresolver: cloudflare
+
   # sabnzbd:
   #   container_name: sabnzbd
   #   image: lscr.io/linuxserver/sabnzbd:4.3.1

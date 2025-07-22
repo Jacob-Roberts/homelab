@@ -20,8 +20,8 @@ services:
     depends_on:
       - socket-proxy
     ports:
-      - 192.168.42.55:80:80
-      - 192.168.42.55:443:443
+      - 80:80
+      - 443:443
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -63,36 +63,6 @@ services:
       - ./config/certs/:/certs
       - ./extract-certs.sh:/extract-certs.sh
       - ./synced-certs/:/synced-certs
-
-  traefik-tunnel:
-    image: traefik:v3
-    container_name: traefik-tunnel
-    depends_on:
-      - socket-proxy
-    ports:
-      # Bind on Tailscale interface only
-      - 100.112.243.103:80:80
-      - 100.112.243.103:443:443
-    security_opt:
-      - no-new-privileges:true
-    volumes:
-      - ./config-tunnel/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - ./config-tunnel/conf/:/etc/traefik/conf/:ro
-    networks:
-      - tunnel
-      - internal
-    labels:
-      traefik.enable: true
-      traefik.docker.network: traefik_internal
-      traefik.http.services.traefiktunnel-prod-1.loadBalancer.server.port: 8080 # TODO: Expose this securely
-      traefik.http.routers.traefiktunnel-prod-1-http.entrypoints: web
-      traefik.http.routers.traefiktunnel-prod-1-http.rule: Host(`traefik-tunnel.lhr1-4.jakerob.pro`)
-      traefik.http.routers.traefiktunnel-prod-1-http.middlewares: websecure-redirect-permanent@file
-      traefik.http.routers.traefiktunnel-prod-1-https.entrypoints: websecure
-      traefik.http.routers.traefiktunnel-prod-1-https.rule: Host(`traefik-tunnel.lhr1-4.jakerob.pro`)
-      traefik.http.routers.traefiktunnel-prod-1-https.tls: true
-      traefik.http.routers.traefiktunnel-prod-1-https.tls.certresolver: cloudflare
-    restart: unless-stopped
 
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
