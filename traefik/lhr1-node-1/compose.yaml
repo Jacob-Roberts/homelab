@@ -19,7 +19,7 @@ volumes:
 services:
   traefik:
     image: 11notes/traefik:3
-    container_name: traefik-prod-1
+    container_name: traefik-primary
     depends_on:
       socket-proxy:
         condition: "service_healthy"
@@ -80,23 +80,28 @@ services:
       - ./synced-certs/:/synced-certs
 
   traefik-tunnel:
-    image: traefik:v3
+    image: 11notes/traefik:3
     container_name: traefik-tunnel
-    depends_on:
-      - socket-proxy
-    user: 1000:1000
+    read_only: true
+    command:
+      - "--configFile=/traefik/traefik.yaml"
     ports:
       # Bind on Tailscale interface only
       - 100.89.27.79:80:80
       - 100.89.27.79:443:443
+    sysctls:
+      # allow rootless container to access ports < 1024
+      net.ipv4.ip_unprivileged_port_start: 80
     security_opt:
       - no-new-privileges:true
     volumes:
-      - ./config-tunnel/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - ./config-tunnel/conf/:/etc/traefik/conf/:ro
+      - ./config-tunnel/traefik.yaml:/traefik/traefik.yaml:ro
+      - ./config-tunnel/conf/:/traefik/conf/:ro
     networks:
       - tunnel
       - internal
+    environment:
+      TZ: "Europe/London"
     labels:
       traefik.enable: true
       traefik.docker.network: traefik_internal

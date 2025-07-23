@@ -2,6 +2,10 @@
 
 # Tunnel sitting in between Cloud Traefik and Local Traefik
 
+# Needed for health check
+ping:
+  terminatingStatusCode: 204
+
 global:
   checkNewVersion: false
   sendAnonymousUsage: false
@@ -23,7 +27,7 @@ log:
 # -- (Optional) Enable API and Dashboard here, don't do in production
 api:
   dashboard: true
-  insecure: true
+  insecure: true # TODO: Expose the dashboard securely
 
 # -- Change EntryPoints here...
 entryPoints:
@@ -42,8 +46,8 @@ serversTransport:
 #   stores:
 #     default:
 #       defaultCertificate:
-#         certFile: /etc/traefik/certs/cert.pem
-#         keyFile: /etc/traefik/certs/cert-key.pem
+#         certFile: /traefik/certs/cert.pem
+#         keyFile: /traefik/certs/cert-key.pem
 # -- (Optional) Disable TLS version 1.0 and 1.1
 #   options:
 #     default:
@@ -51,5 +55,5 @@ serversTransport:
 
 providers:
   file:
-    directory: /etc/traefik/conf/
+    directory: /traefik/conf/
     watch: false
