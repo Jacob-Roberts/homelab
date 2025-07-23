@@ -22,6 +22,35 @@ class ComposeFormatter:
     # Desired order for top-level keys
     TOP_LEVEL_ORDER = ["name", "networks", "volumes", "services"]
     
+    # Desired order for service keys
+    SERVICE_KEY_ORDER = [
+        "image",
+        "platform",
+        "container_name", 
+        "command",
+        "read_only",
+        "user",
+        "security_opt",
+        "sysctls",
+        "cap_add",
+        "cap_drop",
+        "cgroup",
+        "cgroup_parent",
+        "depends_on",
+        "restart",
+        "healthcheck",
+        "ports",
+        "secrets",
+        "environment",
+        "networks", 
+        "devices",
+        "volumes",
+        "tmpfs",
+        "ulimits",
+        # Everything else goes here
+        "labels"  # Labels always last
+    ]
+    
     def __init__(self, indent: int = 2):
         """
         Initialize the formatter.
@@ -98,8 +127,16 @@ class ComposeFormatter:
             # Reorder the top-level keys
             formatted_data = self._reorder_top_level(data)
             
+            # Reorder service keys if services exist
+            if 'services' in formatted_data and isinstance(formatted_data['services'], dict):
+                for service_name, service_config in formatted_data['services'].items():
+                    if isinstance(service_config, dict):
+                        formatted_data['services'][service_name] = self._reorder_service_keys(service_config)
+            
             # Write back to file with proper formatting
             with open(file_path, 'w', encoding='utf-8') as f:
+                # Always start with YAML document separator
+                f.write('---\n')
                 self.yaml.dump(formatted_data, f)
                 
             # Post-process to add blank lines between top-level sections
@@ -112,6 +149,46 @@ class ComposeFormatter:
             logging.error(f"Error processing {file_path}: {e}")
             return False
     
+    def _reorder_service_keys(self, service_config: Dict) -> Dict:
+        """
+        Reorder service keys according to the specified order.
+        
+        Args:
+            service_config: Original service configuration
+            
+        Returns:
+            Reordered service configuration
+        """
+        # Get current keys and their values
+        items = list(service_config.items())
+        
+        # Clear the original dict while preserving its type and comments
+        service_config.clear()
+        
+        # Add keys in the specified order if they exist (excluding labels)
+        added_keys = set()
+        for key in self.SERVICE_KEY_ORDER:
+            if key != 'labels':  # Skip labels in the first pass
+                for orig_key, value in items:
+                    if orig_key == key:
+                        service_config[key] = value
+                        added_keys.add(key)
+                        break
+        
+        # Add any remaining keys that weren't in our order list (except labels)
+        for key, value in items:
+            if key not in added_keys and key != 'labels':
+                service_config[key] = value
+                added_keys.add(key)
+        
+        # Add labels last if it exists
+        for key, value in items:
+            if key == 'labels':
+                service_config[key] = value
+                break
+                
+        return service_config
+        
     def _reorder_top_level(self, data: Dict) -> Dict:
         """
         Reorder top-level keys according to the specified order.
@@ -156,10 +233,15 @@ class ComposeFormatter:
                 lines = f.readlines()
             
             new_lines = []
-            in_first_section = True
+            found_first_key = False
             
             for i, line in enumerate(lines):
                 stripped = line.strip()
+                
+                # Skip YAML document separator
+                if stripped == '---':
+                    new_lines.append(line)
+                    continue
                 
                 # Check if this is a top-level key (starts at column 0, ends with :, not a comment)
                 is_top_level_key = (
@@ -168,12 +250,11 @@ class ComposeFormatter:
                     not line.startswith('\t') and
                     stripped.endswith(':') and 
                     not stripped.startswith('#') and
-                    not stripped.startswith('---') and
                     ':' in stripped and stripped.split(':')[0].strip() in self.TOP_LEVEL_ORDER + ['version', 'include']  # Common top-level keys
                 )
                 
-                # Add blank line before top-level sections (except the first one and document separator)
-                if is_top_level_key and not in_first_section:
+                # Add blank line before top-level sections (except the first one)
+                if is_top_level_key and found_first_key:
                     # Only add blank line if the previous line isn't already blank
                     if new_lines and new_lines[-1].strip():
                         new_lines.append('\n')
@@ -181,7 +262,7 @@ class ComposeFormatter:
                 new_lines.append(line)
                 
                 if is_top_level_key:
-                    in_first_section = False
+                    found_first_key = True
             
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.writelines(new_lines)

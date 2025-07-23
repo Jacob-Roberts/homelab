@@ -12,11 +12,20 @@ services:
     image: traefik:v3
     container_name: traefik-external
     user: 1002:1002
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      crowdsec:
+        condition: service_healthy
+    restart: unless-stopped
     ports:
       - 10.0.0.13:80:80
       - 10.0.0.13:443:443
-    security_opt:
-      - no-new-privileges:true
+    environment:
+      CROWDSEC_TRAEFIK_BOUNCER_TOKEN: "${CROWDSEC_TRAEFIK_BOUNCER_TOKEN}"
+    networks:
+      - frontend
+      - internal
     volumes:
       - ./config-external/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config-external/conf/:/etc/traefik/conf/:ro
@@ -26,15 +35,6 @@ services:
       - ./config-external/plugins-storage:/plugins-storage/:rw
       - ./config-external/ban.html:/etc/traefik/ban.html:ro
       - ./config-external/captcha.html:/etc/traefik/captcha.html:ro
-    depends_on:
-      crowdsec:
-        condition: service_healthy
-    environment:
-      CROWDSEC_TRAEFIK_BOUNCER_TOKEN: ${CROWDSEC_TRAEFIK_BOUNCER_TOKEN}
-    networks:
-      - frontend
-      - internal
-    restart: unless-stopped
     labels:
       # Management only exposed internally
       traefik.enable: true
@@ -52,21 +52,23 @@ services:
     image: traefik:v3
     container_name: traefik-internal
     user: 1002:1002
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
     ports:
       # Bind on secure IP (local, VPN) only
       - 100.109.65.68:80:80
       - 100.109.65.68:443:443
-    security_opt:
-      - no-new-privileges:true
+    environment:
+      CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
+    networks:
+      - frontend
+      - internal
     volumes:
       - ./config-internal/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config-internal/conf/:/etc/traefik/conf/
       - ./config-internal/certs/:/etc/traefik/certs/
-    environment:
-      CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
-    networks:
-      - frontend
-      - internal
     labels:
       # Management only exposed internally
       traefik.enable: true
@@ -74,26 +76,30 @@ services:
       traefik.http.services.traefikinternal-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.traefikinternal-prod-1-http.entrypoints: web
       traefik.http.routers.traefikinternal-prod-1-http.rule: Host(`traefik-internal.iad1vpn.jakerob.pro`)
-      traefik.http.routers.traefikinternal-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.traefikinternal-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.traefikinternal-prod-1-https.entrypoints: websecure
       traefik.http.routers.traefikinternal-prod-1-https.rule: Host(`traefik-internal.iad1vpn.jakerob.pro`)
       traefik.http.routers.traefikinternal-prod-1-https.tls: true
       traefik.http.routers.traefikinternal-prod-1-https.tls.certresolver: cloudflare
-    restart: unless-stopped
-
   crowdsec:
     image: crowdsecurity/crowdsec:latest
     container_name: crowdsec
-    command: -t
-    networks:
-      - internal
+    command: "-t"
+    restart: unless-stopped
     environment:
       COLLECTIONS: crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
       CUSTOM_HOSTNAME: crowdsec
       ENROLL_INSTANCE_NAME: pangolin-crowdsec
       ENROLL_TAGS: docker
-      GID: "1002"
+      GID: '1002'
       PARSERS: crowdsecurity/whitelists
+    networks:
+      - internal
+    volumes:
+      - ./config-crowdsec:/etc/crowdsec
+      - ./crowdsec-db/:/var/lib/crowdsec/data
+      - ./config-external/logs:/var/log/traefik
+
     healthcheck:
       interval: 10s
       retries: 15
@@ -105,17 +111,11 @@ services:
       timeout: 10s
     labels:
       - traefik.enable=false
-    restart: unless-stopped
-    volumes:
-      - ./config-crowdsec:/etc/crowdsec
-      - ./crowdsec-db/:/var/lib/crowdsec/data
-      - ./config-external/logs:/var/log/traefik
-
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
     container_name: traefik-socket-proxy
-    networks:
-      - internal
+    read_only: true
+    restart: unless-stopped
     environment:
       - ALLOW_START=0 #optional
       - ALLOW_STOP=0 #optional
@@ -144,22 +144,22 @@ services:
       - TASKS=1 #optional
       - VERSION=1 #optional
       - VOLUMES=0 #optional
+    networks:
+      - internal
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: unless-stopped
-    read_only: true
     tmpfs:
       - /run
 
   whoami-external:
     image: traefik/whoami
     container_name: whoami-external
-    networks:
-      - frontend
+    command: "--verbose"
     security_opt:
       - no-new-privileges:true
-    command: --verbose
     restart: unless-stopped
+    networks:
+      - frontend
     labels:
       traefik.enable: true
       traefik.external: true
@@ -173,12 +173,12 @@ services:
   whoami-internal:
     image: traefik/whoami
     container_name: whoami-internal
-    networks:
-      - frontend
+    command: "--verbose"
     security_opt:
       - no-new-privileges:true
-    command: --verbose
     restart: unless-stopped
+    networks:
+      - frontend
     labels:
       traefik.enable: true
       traefik.http.routers.whoamiinternal-prod-1-http.entrypoints: web

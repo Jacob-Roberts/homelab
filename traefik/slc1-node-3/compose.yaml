@@ -14,65 +14,65 @@ services:
     image: traefik:v3
     container_name: traefik-prod-1
     user: 1000:1000
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
     ports:
       - 192.168.97.133:80:80
       - 192.168.97.133:443:443
-    security_opt:
-      - no-new-privileges:true
+    environment:
+      - "CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}"
+    networks:
+      - frontend
+      - internal
     volumes:
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config/conf/:/etc/traefik/conf/
       - ./config/certs/:/etc/traefik/certs/
-    environment:
-      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
-    networks:
-      - frontend
-      - internal
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
       traefik.http.services.traefik-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.traefik-prod-1-http.entrypoints: web
       traefik.http.routers.traefik-prod-1-http.rule: Host(`traefik.slc1.jakerob.pro`)
-      traefik.http.routers.traefik-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.traefik-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.traefik-prod-1-https.entrypoints: websecure
       traefik.http.routers.traefik-prod-1-https.rule: Host(`traefik.slc1.jakerob.pro`)
       traefik.http.routers.traefik-prod-1-https.tls: true
       traefik.http.routers.traefik-prod-1-https.tls.certresolver: cloudflare
-    restart: unless-stopped
-
   traefik-tunnel:
     image: traefik:v3
     container_name: traefik-tunnel
     user: 1000:1000
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
     ports:
       # Bind on Tailscale interface only
       - 100.95.11.23:80:80
-    security_opt:
-      - no-new-privileges:true
-    volumes:
-      - ./config-tunnel/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - ./config-tunnel/conf/:/etc/traefik/conf/
     networks:
       - tunnel
       - internal
+    volumes:
+      - ./config-tunnel/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ./config-tunnel/conf/:/etc/traefik/conf/
     labels:
       traefik.enable: true
       traefik.http.services.traefiktunnel-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.traefiktunnel-prod-1-http.entrypoints: web
       traefik.http.routers.traefiktunnel-prod-1-http.rule: Host(`traefik-tunnel.slc1.jakerob.pro`)
-      traefik.http.routers.traefiktunnel-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.traefiktunnel-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.traefiktunnel-prod-1-https.entrypoints: websecure
       traefik.http.routers.traefiktunnel-prod-1-https.rule: Host(`traefik-tunnel.slc1.jakerob.pro`)
       traefik.http.routers.traefiktunnel-prod-1-https.tls: true
       traefik.http.routers.traefiktunnel-prod-1-https.tls.certresolver: cloudflare
-    restart: unless-stopped
-
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
     container_name: traefik-socket-proxy
-    networks:
-      - internal
+    read_only: true
+    restart: unless-stopped
     environment:
       - ALLOW_START=0 #optional
       - ALLOW_STOP=0 #optional
@@ -101,27 +101,27 @@ services:
       - TASKS=1 #optional
       - VERSION=1 #optional
       - VOLUMES=0 #optional
+    networks:
+      - internal
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: unless-stopped
-    read_only: true
     tmpfs:
       - /run
 
   whoami:
     image: traefik/whoami
     container_name: whoami-prod-1
-    networks:
-      - frontend
+    command: "--verbose"
     security_opt:
       - no-new-privileges:true
-    command: --verbose
     restart: unless-stopped
+    networks:
+      - frontend
     labels:
       traefik.enable: true
       traefik.http.routers.whoami-prod-1-http.entrypoints: web
       traefik.http.routers.whoami-prod-1-http.rule: Host(`whoami.slc1.jakerob.pro`)
-      traefik.http.routers.whoami-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.whoami-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.whoami-prod-1-https.entrypoints: websecure
       traefik.http.routers.whoami-prod-1-https.rule: Host(`whoami.slc1.jakerob.pro`)
       traefik.http.routers.whoami-prod-1-https.tls: true
@@ -130,12 +130,12 @@ services:
   whoami-tunnel:
     image: traefik/whoami
     container_name: whoami-tunnel
-    networks:
-      - tunnel
+    command: "--verbose"
     security_opt:
       - no-new-privileges:true
-    command: --verbose
     restart: unless-stopped
+    networks:
+      - tunnel
     labels:
       traefik.enable: true
       traefik.tunnel-external: true
