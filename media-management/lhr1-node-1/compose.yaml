@@ -181,17 +181,18 @@ services:
 
   prowlarr:
     container_name: prowlarr
-    image: lscr.io/linuxserver/prowlarr:1.24.3
+    image: 11notes/prowlarr:1
+    read_only: true
     restart: unless-stopped
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./prowlarr-config:/config
+      - ./prowlarr-config:/prowlarr/etc/
+    tmpfs:
+      # required for read-only image
+      - "/tmp:uid=1000,gid=1000"
     security_opt:
       - no-new-privileges:true
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
+      - TZ=${TZ:-Europe/London}
     network_mode: "service:gluetun"
 
   flaresolverr:
