@@ -29,6 +29,7 @@ class ComposeFormatter:
         "container_name", 
         "command",
         "read_only",
+        "privileged",
         "user",
         "security_opt",
         "sysctls",

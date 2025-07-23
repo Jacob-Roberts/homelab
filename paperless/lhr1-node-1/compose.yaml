@@ -10,7 +10,7 @@ networks:
 services:
   broker:
     image: docker.io/library/redis:8
-    user: "1000"
+    user: '1000'
     restart: unless-stopped
     networks:
       - internal
@@ -18,28 +18,20 @@ services:
       - ./redisdata:/data
   webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
-    user: "1000"
-    restart: unless-stopped
-    networks:
-      - frontend
-      - internal
+    user: '1000'
     depends_on:
       - broker
-    volumes:
-      - ./data:/usr/src/paperless/data
-      - /media/roberts-data/paperless:/usr/src/paperless/media
-      - ./export:/usr/src/paperless/export
-      - ./consume:/usr/src/paperless/consume
+    restart: unless-stopped
     environment:
-      PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY}
+      PAPERLESS_SECRET_KEY: "${PAPERLESS_SECRET_KEY}"
       PAPERLESS_URL: https://paperless.lhr1.jakerob.pro
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
       USERMAP_UID: 1000
       USERMAP_GID: 1000
-      PAPERLESS_ADMIN_USER: ${PAPERLESS_ADMIN_USER}
-      PAPERLESS_ADMIN_MAIL: ${PAPERLESS_ADMIN_MAIL}
-      PAPERLESS_ADMIN_PASSWORD: ${PAPERLESS_ADMIN_PASSWORD}
+      PAPERLESS_ADMIN_USER: "${PAPERLESS_ADMIN_USER}"
+      PAPERLESS_ADMIN_MAIL: "${PAPERLESS_ADMIN_MAIL}"
+      PAPERLESS_ADMIN_PASSWORD: "${PAPERLESS_ADMIN_PASSWORD}"
       PAPERLESS_SOCIALACCOUNT_PROVIDERS: >
         {
           "openid_connect": {
@@ -57,13 +49,21 @@ services:
             "OAUTH_PKCE_ENABLED": "True"
           }
         }
+    networks:
+      - frontend
+      - internal
+    volumes:
+      - ./data:/usr/src/paperless/data
+      - /media/roberts-data/paperless:/usr/src/paperless/media
+      - ./export:/usr/src/paperless/export
+      - ./consume:/usr/src/paperless/consume
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
       traefik.http.services.paperless-prod-1.loadBalancer.server.port: 8000
       traefik.http.routers.paperless-prod-1-http.entrypoints: web
       traefik.http.routers.paperless-prod-1-http.rule: Host(`paperless.lhr1.jakerob.pro`)
-      traefik.http.routers.paperless-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.paperless-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.paperless-prod-1-https.entrypoints: websecure
       traefik.http.routers.paperless-prod-1-https.rule: Host(`paperless.lhr1.jakerob.pro`)
       traefik.http.routers.paperless-prod-1-https.tls: true

@@ -9,24 +9,24 @@ services:
   syncthing:
     image: lscr.io/linuxserver/syncthing
     container_name: syncthing
-    environment:
-      - PUID=1002
-      - PGID=1002
-    volumes:
-      - ./config:/config
-      - ../../traefik/iad1-node-1/config-external/static-certs:/etc/syncthing/synced-certs
+    restart: unless-stopped
     ports:
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers
-    restart: unless-stopped
+    environment:
+      PUID: '1002'
+      PGID: '1002'
     networks:
       - frontend
+    volumes:
+      - ./config:/config
+      - ../../traefik/iad1-node-1/config-external/static-certs:/etc/syncthing/synced-certs
     labels:
       traefik.enable: true
-      traefik.http.services.syncthing-prod-1.loadbalancer.server.port: "8384"
+      traefik.http.services.syncthing-prod-1.loadbalancer.server.port: '8384'
       traefik.http.routers.syncthing-prod-1-http.entrypoints: web
       traefik.http.routers.syncthing-prod-1-http.rule: Host(`syncthing.iad1vpn.jakerob.pro`)
-      traefik.http.routers.syncthing-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.syncthing-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.syncthing-prod-1-https.entrypoints: websecure
       traefik.http.routers.syncthing-prod-1-https.rule: Host(`syncthing.iad1vpn.jakerob.pro`)
       traefik.http.routers.syncthing-prod-1-https.tls: true

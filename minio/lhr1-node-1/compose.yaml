@@ -9,20 +9,20 @@ services:
   minio:
     image: quay.io/minio/minio:latest
     container_name: minio
-    command: minio server /data --console-address ":9001"
+    command: "minio server /data --console-address \":9001\""
+    restart: unless-stopped
     environment:
-      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
-      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
-    volumes:
-      - ./data:/data
+      MINIO_ROOT_USER: "${MINIO_ROOT_USER}"
+      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"
     networks:
       - frontend
-    restart: unless-stopped
+    volumes:
+      - ./data:/data
     labels:
       traefik.enable: true
       traefik.http.routers.minioweb-prod-1-http.entrypoints: web
       traefik.http.routers.minioweb-prod-1-http.rule: Host(`minio.lhr1.jakerob.pro`)
-      traefik.http.routers.minioweb-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.minioweb-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.minioweb-prod-1-http.service: minioweb-prod-1
       traefik.http.routers.minioweb-prod-1-https.entrypoints: websecure
       traefik.http.routers.minioweb-prod-1-https.rule: Host(`minio.lhr1.jakerob.pro`)
@@ -33,7 +33,7 @@ services:
 
       traefik.http.routers.minioapi-prod-1-http.entrypoints: web
       traefik.http.routers.minioapi-prod-1-http.rule: Host(`minioapi.lhr1.jakerob.pro`)
-      traefik.http.routers.minioapi-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.minioapi-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.minioapi-prod-1-http.service: minioapi-prod-1
       traefik.http.routers.minioapi-prod-1-https.entrypoints: websecure
       traefik.http.routers.minioapi-prod-1-https.rule: Host(`minioapi.lhr1.jakerob.pro`)

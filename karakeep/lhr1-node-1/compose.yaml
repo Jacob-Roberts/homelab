@@ -12,18 +12,16 @@ services:
   web:
     image: ghcr.io/karakeep-app/karakeep:release
     restart: unless-stopped
-    volumes:
-      - ./data:/data
     environment:
-      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
-      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      NEXTAUTH_SECRET: "${NEXTAUTH_SECRET}"
+      NEXTAUTH_URL: "${NEXTAUTH_URL}"
       MEILI_ADDR: http://meilisearch:7700
       BROWSER_WEB_URL: http://chrome:9222
       DISABLE_SIGNUPS: false
       DISABLE_PASSWORD_AUTH: true
-      OAUTH_WELLKNOWN_URL: ${OAUTH_WELLKNOWN_URL}
-      OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID}
-      OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET}
+      OAUTH_WELLKNOWN_URL: "${OAUTH_WELLKNOWN_URL}"
+      OAUTH_CLIENT_ID: "${OAUTH_CLIENT_ID}"
+      OAUTH_CLIENT_SECRET: "${OAUTH_CLIENT_SECRET}"
       OAUTH_PROVIDER_NAME: authentik
 
       # OPENAI_API_KEY: ...
@@ -34,35 +32,37 @@ services:
     networks:
       - frontend
       - internal
+    volumes:
+      - ./data:/data
     labels:
       traefik.enable: true
       traefik.http.services.karakeep-prod-1.loadBalancer.server.port: 3000
       traefik.http.routers.karakeep-prod-1-http.entrypoints: web
       traefik.http.routers.karakeep-prod-1-http.rule: Host(`karakeep.jakerob.pro`)
-      traefik.http.routers.karakeep-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.karakeep-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.karakeep-prod-1-https.entrypoints: websecure
       traefik.http.routers.karakeep-prod-1-https.rule: Host(`karakeep.jakerob.pro`)
       traefik.http.routers.karakeep-prod-1-https.tls: true
       traefik.http.routers.karakeep-prod-1-https.tls.certresolver: cloudflare
   chrome:
     image: gcr.io/zenika-hub/alpine-chrome:123
-    restart: unless-stopped
     command:
-      - --no-sandbox
-      - --disable-gpu
-      - --disable-dev-shm-usage
-      - --remote-debugging-address=0.0.0.0
-      - --remote-debugging-port=9222
-      - --hide-scrollbars
+      - "--no-sandbox"
+      - "--disable-gpu"
+      - "--disable-dev-shm-usage"
+      - "--remote-debugging-address=0.0.0.0"
+      - "--remote-debugging-port=9222"
+      - "--hide-scrollbars"
+    restart: unless-stopped
     networks:
       - internal
   meilisearch:
     image: getmeili/meilisearch:v1.13.3
     restart: unless-stopped
     environment:
-      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      MEILI_MASTER_KEY: "${MEILI_MASTER_KEY}"
       MEILI_NO_ANALYTICS: "true"
-    volumes:
-      - ./meilisearch:/meili_data
     networks:
       - internal
+    volumes:
+      - ./meilisearch:/meili_data

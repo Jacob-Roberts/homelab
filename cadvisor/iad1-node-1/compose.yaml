@@ -7,29 +7,29 @@ networks:
 
 services:
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.49.1     
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
     container_name: cadvisor
+    command:
+      - "--housekeeping_interval=15s"
+      - "--docker_only"
+      - "-store_container_labels=false"
+    privileged: true
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      - frontend
     devices:
       - /dev/kmsg
-    privileged: true
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
-    command:
-      - '--housekeeping_interval=15s'
-      - '--docker_only'
-      - '-store_container_labels=false'
-    security_opt:
-      - no-new-privileges:true
     labels:
       traefik.enable: true
       traefik.http.routers.cadvisor-prod-1.entrypoints: websecure
       traefik.http.routers.cadvisor-prod-1.rule: Host(`cadvisor.iad1vpn.jakerob.pro`)
       traefik.http.routers.cadvisor-prod-1.tls: true
       traefik.http.routers.cadvisor-prod-1.tls.certresolver: cloudflare
-    networks:
-      - frontend
-    restart: unless-stopped

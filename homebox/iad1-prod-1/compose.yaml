@@ -7,21 +7,26 @@ networks:
   frontend:
     external: true
 
+volumes:
+  homebox-data:
+    name: homebox-data
+    external: true
+
 services:
   homebox:
     image: ghcr.io/hay-kot/homebox:v0.10.3
     container_name: homebox
-    restart: unless-stopped
-    networks:
-      - frontend
-    environment:
-      - HBOX_LOG_LEVEL=info
-      - HBOX_LOG_FORMAT=text
-      - HBOX_WEB_MAX_UPLOAD_SIZE=10
-    volumes:
-      - homebox-data:/data/
     security_opt:
       - no-new-privileges:true
+    restart: unless-stopped
+    environment:
+      HBOX_LOG_LEVEL: info
+      HBOX_LOG_FORMAT: text
+      HBOX_WEB_MAX_UPLOAD_SIZE: '10'
+    networks:
+      - frontend
+    volumes:
+      - homebox-data:/data/
     labels:
       traefik.enable: true
       traefik.external: true
@@ -34,7 +39,3 @@ services:
       traefik.http.routers.homebox-prod-1-https.tls: true
       traefik.http.routers.homebox-prod-1-https.tls.certresolver: production
 
-volumes:
-  homebox-data:
-    name: homebox-data
-    external: true

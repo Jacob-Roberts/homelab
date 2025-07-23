@@ -9,13 +9,13 @@ services:
   nut:
     image: ghcr.io/superioone/nut_webgui:latest
     container_name: webnut
-    environment:
-      - UPSD_ADDR=${UPS_ADDR:-192.168.42.2}
-      - UPSD_USER=${UPS_USER}
-      - UPSD_PASS=${UPS_PASSWORD}
-    restart: unless-stopped
     security_opt:
       - no-new-privileges:true
+    restart: unless-stopped
+    environment:
+      UPSD_ADDR: "${UPS_ADDR:-192.168.42.2}"
+      UPSD_USER: "${UPS_USER}"
+      UPSD_PASS: "${UPS_PASSWORD}"
     networks:
       - frontend
     labels:
@@ -23,7 +23,7 @@ services:
       traefik.http.services.webnut-prod-1.loadBalancer.server.port: 9000
       traefik.http.routers.webnut-prod-1-http.entrypoints: web
       traefik.http.routers.webnut-prod-1-http.rule: Host(`webnut.lhr1.jakerob.pro`)
-      traefik.http.routers.webnut-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.webnut-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.webnut-prod-1-https.entrypoints: websecure
       traefik.http.routers.webnut-prod-1-https.rule: Host(`webnut.lhr1.jakerob.pro`)
       traefik.http.routers.webnut-prod-1-https.tls: true

@@ -1,3 +1,4 @@
+---
 name: resume
 
 networks:
@@ -6,44 +7,48 @@ networks:
   internal:
     external: false
 
+volumes:
+  minio_data:
+  postgres_data:
+
 services:
   # Database (Postgres)
   postgres:
     image: postgres:16-alpine
     restart: unless-stopped
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - internal
-    environment:
-      POSTGRES_USER: rxresume
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: rxresume
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U rxresume -d rxresume"]
+      test: [CMD-SHELL, pg_isready -U rxresume -d rxresume]
       interval: 10s
       timeout: 5s
       retries: 5
 
   # Storage (for image uploads)
+    environment:
+      POSTGRES_USER: rxresume
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: rxresume
+    networks:
+      - internal
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
   minio:
     image: minio/minio
-    restart: unless-stopped
     command: server /data
-    volumes:
-      - minio_data:/data
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: rxresume
+      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"
     networks:
       - internal
       - frontend
-    environment:
-      MINIO_ROOT_USER: rxresume
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio_data:/data
     labels:
       traefik.enable: true
       traefik.http.services.resumestorage-prod-1.loadbalancer.server.port: 9000
       traefik.http.routers.resumestorage-prod-1-http.entrypoints: web
       traefik.http.routers.resumestorage-prod-1-http.rule: Host(`resume-storage.lhr1.jakerob.pro`)
-      traefik.http.routers.resumestorage-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.resumestorage-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.resumestorage-prod-1-https.entrypoints: websecure
       traefik.http.routers.resumestorage-prod-1-https.rule: Host(`resume-storage.lhr1.jakerob.pro`)
       traefik.http.routers.resumestorage-prod-1-https.tls: true
@@ -53,25 +58,22 @@ services:
   chrome:
     image: ghcr.io/browserless/chromium:latest
     restart: unless-stopped
-    networks:
-      - internal
     environment:
       TIMEOUT: 10000
       CONCURRENT: 10
-      TOKEN: ${CHROME_TOKEN}
+      TOKEN: "${CHROME_TOKEN}"
       EXIT_ON_HEALTH_FAILURE: true
       PRE_REQUEST_HEALTH_CHECK: true
 
+    networks:
+      - internal
   app:
     image: amruthpillai/reactive-resume:latest
-    restart: unless-stopped
     depends_on:
       - postgres
       - minio
       - chrome
-    networks:
-      - internal
-      - frontend
+    restart: unless-stopped
     environment:
       # -- Environment Variables --
       PORT: 3000
@@ -82,19 +84,19 @@ services:
       STORAGE_URL: https://resume-storage.lhr1.jakerob.pro/default/
 
       # -- Printer (Chrome) --
-      CHROME_TOKEN: ${CHROME_TOKEN}
+      CHROME_TOKEN: "${CHROME_TOKEN}"
       CHROME_URL: ws://chrome:3000
 
       # -- Database (Postgres) --
-      DATABASE_URL: postgresql://rxresume:${POSTGRES_PASSWORD}@postgres:5432/postgres
+      DATABASE_URL: "postgresql://rxresume:${POSTGRES_PASSWORD}@postgres:5432/postgres"
 
       # -- Auth --
-      ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET}
-      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+      ACCESS_TOKEN_SECRET: "${ACCESS_TOKEN_SECRET}"
+      REFRESH_TOKEN_SECRET: "${REFRESH_TOKEN_SECRET}"
 
       # -- Emails --
-      MAIL_FROM: noreply@accounts.jakerob.pro
-      SMTP_URL: smtps://resend:${RESEND_API_KEY}@smtp.resend.com:2465 # Optional
+      MAIL_FROM: "noreply@accounts.jakerob.pro"
+      SMTP_URL: "smtps://resend:${RESEND_API_KEY}@smtp.resend.com:2465" # Optional
 
       # -- Storage (Minio) --
       STORAGE_ENDPOINT: minio
@@ -102,7 +104,7 @@ services:
       STORAGE_REGION: us-east-1 # Optional
       STORAGE_BUCKET: default
       STORAGE_ACCESS_KEY: rxresume
-      STORAGE_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+      STORAGE_SECRET_KEY: "${MINIO_ROOT_PASSWORD}"
       STORAGE_USE_SSL:  # This is accessed internally
       STORAGE_SKIP_BUCKET_CHECK: false
 
@@ -119,17 +121,17 @@ services:
       # GOOGLE_CLIENT_ID: google_client_id
       # GOOGLE_CLIENT_SECRET: google_client_secret
       # GOOGLE_CALLBACK_URL: https://example.com/api/auth/google/callback
+    networks:
+      - internal
+      - frontend
     labels:
       traefik.enable: true
       traefik.http.services.resume-prod-1.loadbalancer.server.port: 3000
       traefik.http.routers.resume-prod-1-http.entrypoints: web
       traefik.http.routers.resume-prod-1-http.rule: Host(`resume.lhr1.jakerob.pro`)
-      traefik.http.routers.resume-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.resume-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.resume-prod-1-https.entrypoints: websecure
       traefik.http.routers.resume-prod-1-https.rule: Host(`resume.lhr1.jakerob.pro`)
       traefik.http.routers.resume-prod-1-https.tls: true
       traefik.http.routers.resume-prod-1-https.tls.certresolver: cloudflare
 
-volumes:
-  minio_data:
-  postgres_data:

@@ -7,11 +7,14 @@ networks:
 
 services:
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.49.1     
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
     container_name: cadvisor
+    privileged: true
+    restart: unless-stopped
+    networks:
+      - frontend
     devices:
       - /dev/kmsg
-    privileged: true
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:ro
@@ -24,6 +27,3 @@ services:
       traefik.http.routers.cadvisor-prod-1.rule: Host(`cadvisor.slc1.jakerob.pro`)
       traefik.http.routers.cadvisor-prod-1.tls: true
       traefik.http.routers.cadvisor-prod-1.tls.certresolver: cloudflare
-    networks:
-      - frontend
-    restart: unless-stopped

@@ -15,16 +15,21 @@ volumes:
 
 services:
   wordpress:
-    depends_on:
-      - db
     image: docker.io/wordpress
     container_name: personal-wordpress
+    depends_on:
+      - db
     restart: unless-stopped
     environment:
-      - WORDPRESS_DB_HOST=db:3306
-      - WORDPRESS_DB_USER=${MYSQL_USER}
-      - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
-      - WORDPRESS_DB_NAME=wordpress
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: "${MYSQL_USER}"
+      WORDPRESS_DB_PASSWORD: "${MYSQL_PASSWORD}"
+      WORDPRESS_DB_NAME: wordpress
+    networks:
+      - internal
+      - tunnel
+      - frontend
+
     volumes:
       - ./data:/var/www/html
     labels:
@@ -33,43 +38,38 @@ services:
       traefik.http.services.personalwordpress-prod-1.loadBalancer.server.port: 80
       traefik.http.routers.personalwordpress-prod-1-http.entrypoints: web
       traefik.http.routers.personalwordpress-prod-1-http.rule: Host(`wordpress.jakerob.pro`)
-    networks:
-      - internal
-      - tunnel
-      - frontend
-
   db:
     image: docker.io/mysql:8.0
     container_name: personal-wordpress-db
     restart: unless-stopped
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=wordpress
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u", "root", "-p$$DATABASE_ROOT_PASSWORD" ]
+      test: [CMD, mysqladmin, ping, "-h", localhost, "-u", root, "-p$$DATABASE_ROOT_PASSWORD"]
       timeout: 20s
       retries: 10
-    volumes:
-      - db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
     networks:
       - internal
 
+    volumes:
+      - db:/var/lib/mysql
   phpmyadmin:
-    container_name: personal-wordpress-phpmyadmin
     image: docker.io/adminer
+    container_name: personal-wordpress-phpmyadmin
+    networks:
+      - frontend
+      - internal
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
       traefik.http.services.personalwordpresspma-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.personalwordpresspma-prod-1-http.entrypoints: web
       traefik.http.routers.personalwordpresspma-prod-1-http.rule: Host(`pma.lhr1.jakerob.pro`)
-      traefik.http.routers.personalwordpresspma-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.personalwordpresspma-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.personalwordpresspma-prod-1-https.entrypoints: websecure
       traefik.http.routers.personalwordpresspma-prod-1-https.rule: Host(`pma.lhr1.jakerob.pro`)
       traefik.http.routers.personalwordpresspma-prod-1-https.tls: true
       traefik.http.routers.personalwordpresspma-prod-1-https.tls.certresolver: cloudflare
-    networks:
-      - frontend
-      - internal

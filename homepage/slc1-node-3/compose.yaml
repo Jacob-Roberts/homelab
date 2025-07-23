@@ -9,18 +9,23 @@ services:
   homepage:
     image: ghcr.io/gethomepage/homepage:v0.9.3
     container_name: homepage-prod-1
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
     environment:
       PUID: 1000
       PGID: 1000
       LOG_LEVEL: debug
-      HOMEPAGE_VAR_PROXMOX_USERNAME: ${HOMEPAGE_VAR_PROXMOX_USERNAME}
-      HOMEPAGE_VAR_PROXMOX_PASSWORD: ${HOMEPAGE_VAR_PROXMOX_PASSWORD}
-      HOMEPAGE_VAR_TRUENAS_KEY: ${HOMEPAGE_VAR_TRUENAS_KEY}
-      HOMEPAGE_VAR_PORTAINER_KEY: ${HOMEPAGE_VAR_PORTAINER_KEY}
-      HOMEPAGE_VAR_IMMICH_KEY: ${HOMEPAGE_VAR_IMMICH_KEY}
-      HOMEPAGE_VAR_JELLYFIN_KEY: ${HOMEPAGE_VAR_JELLYFIN_KEY}
-      HOMEPAGE_VAR_NEXTCLOUD_KEY: ${HOMEPAGE_VAR_NEXTCLOUD_KEY}
-      HOMEPAGE_VAR_AUTHENTIK_KEY: ${HOMEPAGE_VAR_AUTHENTIK_KEY}
+      HOMEPAGE_VAR_PROXMOX_USERNAME: "${HOMEPAGE_VAR_PROXMOX_USERNAME}"
+      HOMEPAGE_VAR_PROXMOX_PASSWORD: "${HOMEPAGE_VAR_PROXMOX_PASSWORD}"
+      HOMEPAGE_VAR_TRUENAS_KEY: "${HOMEPAGE_VAR_TRUENAS_KEY}"
+      HOMEPAGE_VAR_PORTAINER_KEY: "${HOMEPAGE_VAR_PORTAINER_KEY}"
+      HOMEPAGE_VAR_IMMICH_KEY: "${HOMEPAGE_VAR_IMMICH_KEY}"
+      HOMEPAGE_VAR_JELLYFIN_KEY: "${HOMEPAGE_VAR_JELLYFIN_KEY}"
+      HOMEPAGE_VAR_NEXTCLOUD_KEY: "${HOMEPAGE_VAR_NEXTCLOUD_KEY}"
+      HOMEPAGE_VAR_AUTHENTIK_KEY: "${HOMEPAGE_VAR_AUTHENTIK_KEY}"
+    networks:
+      - frontend
     volumes:
       - ./config:/app/config
       - ./images:/app/public/images
@@ -28,15 +33,10 @@ services:
       # - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       traefik.enable: true
-      traefik.http.routers.homepage-prod-1-http.entrypoints: "web"
-      traefik.http.routers.homepage-prod-1-http.rule: "Host(`homepage.slc1.jakerob.pro`)"
+      traefik.http.routers.homepage-prod-1-http.entrypoints: web
+      traefik.http.routers.homepage-prod-1-http.rule: Host(`homepage.slc1.jakerob.pro`)
       traefik.http.routers.homepage-prod-1-http.middlewares: "websecure-redirect-permanent@file"
-      traefik.http.routers.homepage-prod-1-https.entrypoints: "websecure"
-      traefik.http.routers.homepage-prod-1-https.rule: "Host(`homepage.slc1.jakerob.pro`)"
+      traefik.http.routers.homepage-prod-1-https.entrypoints: websecure
+      traefik.http.routers.homepage-prod-1-https.rule: Host(`homepage.slc1.jakerob.pro`)
       traefik.http.routers.homepage-prod-1-https.tls: true
-      traefik.http.routers.homepage-prod-1-https.tls.certresolver: "cloudflare"
-    networks:
-      - frontend
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
+      traefik.http.routers.homepage-prod-1-https.tls.certresolver: cloudflare

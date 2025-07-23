@@ -14,6 +14,9 @@ services:
     image: prom/prometheus:v2.37.9
     container_name: prometheus
     command: "--config.file=/etc/prometheus/prometheus.yaml"
+    restart: unless-stopped
+    networks:
+      - frontend
     volumes:
       - ./config/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
       - prometheus-data:/prometheus
@@ -25,6 +28,3 @@ services:
       traefik.http.routers.prometheus-prod-1-https.rule: Host(`prometheus.slc1.jakerob.pro`)
       traefik.http.routers.prometheus-prod-1-https.tls: true
       traefik.http.routers.prometheus-prod-1-https.tls.certresolver: cloudflare
-    networks:
-      - frontend
-    restart: unless-stopped

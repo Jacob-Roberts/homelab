@@ -11,32 +11,23 @@ services:
   gluetun:
     image: docker.io/qmcgaw/gluetun:v3
     container_name: gluetun
-    hostname: gluetun
-    restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    ports:
-      - "8888:8888/tcp" # Gluetun Local Network HTTP proxy
-      - "8388:8388/tcp" # Gluetun Local Network Shadowsocks
-      - "8388:8388/udp" # Gluetun Local Network Shadowsocks
-      - "8000:8000"     # Gluetun control server
-      - "6881:6881/tcp" # qBittorrent Torrent Port TCP
-      - "6881:6881/udp" # qBittorrent Torrent Port UDP
-    volumes:
-      - ./gluetun-config:/gluetun
-      - ./gluetun-config/info:/tmp/gluetun
     security_opt:
       - no-new-privileges:true
-    networks:
-      - internal
-      - frontend
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    ports:
+      - 8888:8888/tcp   # Gluetun Local Network HTTP proxy
+      - 8388:8388/tcp   # Gluetun Local Network Shadowsocks
+      - 8388:8388/udp   # Gluetun Local Network Shadowsocks
+      - 8000:8000       # Gluetun control server
+      - 6881:6881/tcp   # qBittorrent Torrent Port TCP
+      - 6881:6881/udp   # qBittorrent Torrent Port UDP
     environment:
       - TZ=Europe/London
       - VPN_SERVICE_PROVIDER=protonvpn
       - VPN_TYPE=wireguard
-      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - "WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}"
       - FIREWALL_OUTBOUND_SUBNETS=192.168.0.0/16 # Internal network
       # Free VPN
       # - FREE_ONLY=on
@@ -46,7 +37,16 @@ services:
       - VPN_PORT_FORWARDING_PROVIDER=protonvpn
       - SERVER_COUNTRIES=United Kingdom
       - PORT_FORWARD_ONLY=on
-      - VPN_PORT_FORWARDING_UP_COMMAND=/bin/sh -c 'wget -O- --retry-connrefused --post-data "json={\"listen_port\":{{PORTS}}}" http://127.0.0.1:8080/api/v2/app/setPreferences 2>&1'
+      - "VPN_PORT_FORWARDING_UP_COMMAND=/bin/sh -c 'wget -O- --retry-connrefused --post-data \"json={\\\"listen_port\\\":{{PORTS}}}\" http://127.0.0.1:8080/api/v2/app/setPreferences 2>&1'"
+    networks:
+      - internal
+      - frontend
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - ./gluetun-config:/gluetun
+      - ./gluetun-config/info:/tmp/gluetun
+    hostname: gluetun
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
@@ -55,7 +55,7 @@ services:
       traefik.http.routers.qbittorrent-prod-1-https.service: qbittorrent-prod-1
       traefik.http.routers.qbittorrent-prod-1-http.entrypoints: web
       traefik.http.routers.qbittorrent-prod-1-http.rule: Host(`qbittorrent.lhr1.jakerob.pro`)
-      traefik.http.routers.qbittorrent-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.qbittorrent-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.qbittorrent-prod-1-https.entrypoints: websecure
       traefik.http.routers.qbittorrent-prod-1-https.rule: Host(`qbittorrent.lhr1.jakerob.pro`)
       traefik.http.routers.qbittorrent-prod-1-https.tls: true
@@ -65,7 +65,7 @@ services:
       traefik.http.routers.prowlarr-prod-1-https.service: prowlarr-prod-1
       traefik.http.routers.prowlarr-prod-1-http.entrypoints: web
       traefik.http.routers.prowlarr-prod-1-http.rule: Host(`prowlarr.lhr1.jakerob.pro`)
-      traefik.http.routers.prowlarr-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.prowlarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.prowlarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.prowlarr-prod-1-https.rule: Host(`prowlarr.lhr1.jakerob.pro`)
       traefik.http.routers.prowlarr-prod-1-https.tls: true
@@ -75,7 +75,7 @@ services:
       traefik.http.routers.radarr-prod-1-https.service: radarr-prod-1
       traefik.http.routers.radarr-prod-1-http.entrypoints: web
       traefik.http.routers.radarr-prod-1-http.rule: Host(`radarr.lhr1.jakerob.pro`)
-      traefik.http.routers.radarr-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.radarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.radarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.radarr-prod-1-https.rule: Host(`radarr.lhr1.jakerob.pro`)
       traefik.http.routers.radarr-prod-1-https.tls: true
@@ -85,7 +85,7 @@ services:
       traefik.http.routers.sonarr-prod-1-https.service: sonarr-prod-1
       traefik.http.routers.sonarr-prod-1-http.entrypoints: web
       traefik.http.routers.sonarr-prod-1-http.rule: Host(`sonarr.lhr1.jakerob.pro`)
-      traefik.http.routers.sonarr-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.sonarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.sonarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.sonarr-prod-1-https.rule: Host(`sonarr.lhr1.jakerob.pro`)
       traefik.http.routers.sonarr-prod-1-https.tls: true
@@ -95,162 +95,162 @@ services:
       traefik.http.routers.bazarr-prod-1-https.service: bazarr-prod-1
       traefik.http.routers.bazarr-prod-1-http.entrypoints: web
       traefik.http.routers.bazarr-prod-1-http.rule: Host(`bazarr.lhr1.jakerob.pro`)
-      traefik.http.routers.bazarr-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.bazarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.bazarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.bazarr-prod-1-https.rule: Host(`bazarr.lhr1.jakerob.pro`)
       traefik.http.routers.bazarr-prod-1-https.tls: true
       traefik.http.routers.bazarr-prod-1-https.tls.certresolver: cloudflare
 
   qbittorrent:
-    image: "11notes/qbittorrent:5"
+    image: 11notes/qbittorrent:5
     container_name: qbittorrent
     read_only: true
-    restart: unless-stopped
     security_opt:
       - no-new-privileges:true
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
-      - WEBUI_PORT=8080
     depends_on:
       - gluetun
+    restart: unless-stopped
+    environment:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: Europe/London
+      WEBUI_PORT: '8080'
     volumes:
       - ./qbittorrent-config/etc:/qbittorrent/etc
       - ./qbittorrent-config/var:/qbittorrent/var
       - /media/jellydata/torrents:/jellydata/torrents:rw
     ## Do Not Change Network for qBittorrent
     ## qBittorrent MUST always use a VPN / Secure Internet connection
-    network_mode: "service:gluetun"
+    network_mode: service:gluetun
 
   radarr:
-    container_name: radarr
     image: 11notes/radarr:5
+    container_name: radarr
     read_only: true
-    restart: unless-stopped
-    logging:
-      driver: json-file
     security_opt:
       - no-new-privileges:true
+    restart: unless-stopped
     environment:
-      - TZ=${TZ:-Europe/London}
+      TZ: "${TZ:-Europe/London}"
     volumes:
       - ./radarr-config:/radarr/etc/
       - /media/jellydata:/jellydata
     tmpfs:
       # required for read-only image
-      - "/tmp:uid=1000,gid=1000"
-    network_mode: "service:gluetun"
-
-  sonarr:
-    container_name: sonarr
-    image: 11notes/sonarr:4
-    read_only: true
-    restart: unless-stopped
+      - /tmp:uid=1000,gid=1000
     logging:
       driver: json-file
+    network_mode: service:gluetun
+
+  sonarr:
+    image: 11notes/sonarr:4
+    container_name: sonarr
+    read_only: true
     security_opt:
       - no-new-privileges:true
+    restart: unless-stopped
     environment:
-      - TZ=${TZ:-Europe/London}
+      TZ: "${TZ:-Europe/London}"
     volumes:
       - ./sonarr-config:/sonarr/etc/
       - /media/jellydata:/jellydata
     tmpfs:
       # required for read-only image
-      - "/tmp:uid=1000,gid=1000"
-    network_mode: "service:gluetun"
-
-  bazarr:
-    container_name: bazarr
-    image: lscr.io/linuxserver/bazarr:1.4.5
-    restart: unless-stopped
+      - /tmp:uid=1000,gid=1000
     logging:
       driver: json-file
+    network_mode: service:gluetun
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:1.4.5
+    container_name: bazarr
     security_opt:
       - no-new-privileges:true
+    restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
+      PUID: '1000'
+      PGID: '1000'
+      TZ: Europe/London
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./bazarr-config:/config
       - /media/jellydata/media:/jellydata/media
-    network_mode: "service:gluetun"
+    logging:
+      driver: json-file
+    network_mode: service:gluetun
 
   prowlarr:
-    container_name: prowlarr
     image: 11notes/prowlarr:1
+    container_name: prowlarr
     read_only: true
+    security_opt:
+      - no-new-privileges:true
     restart: unless-stopped
+    environment:
+      TZ: "${TZ:-Europe/London}"
     volumes:
       - ./prowlarr-config:/prowlarr/etc/
     tmpfs:
       # required for read-only image
-      - "/tmp:uid=1000,gid=1000"
-    security_opt:
-      - no-new-privileges:true
-    environment:
-      - TZ=${TZ:-Europe/London}
-    network_mode: "service:gluetun"
+      - /tmp:uid=1000,gid=1000
+    network_mode: service:gluetun
 
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:v3.3.21
     container_name: flaresolverr
-    environment:
-      - LOG_LEVEL=${LOG_LEVEL:-info}
-      - LOG_HTML=${LOG_HTML:-false}
-      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
-      - TZ=Europe/London
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
-    network_mode: "service:gluetun"
+    environment:
+      LOG_LEVEL: "${LOG_LEVEL:-info}"
+      LOG_HTML: "${LOG_HTML:-false}"
+      CAPTCHA_SOLVER: "${CAPTCHA_SOLVER:-none}"
+      TZ: Europe/London
+    network_mode: service:gluetun
 
   tdarr:
-    container_name: tdarr
     image: ghcr.io/haveagitgat/tdarr:latest
-    restart: unless-stopped
-    networks:
-      - frontend
+    container_name: tdarr
     security_opt:
       - no-new-privileges:true
+    restart: unless-stopped
     ports:
       - 8266:8266 # server port
     environment:
-      - TZ=Europe/London
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - UMASK_SET=002
-      - serverIP=0.0.0.0
-      - serverPort=8266
-      - webUIPort=8265
-      - internalNode=true
-      - inContainer=true
-      - ffmpegVersion=7
-      - nodeName=lhr1-node-1
-      - auth=false
-      - openBrowser=true
-      - maxLogSizeMB=10
-      - cronPluginUpdate=
-      - NVIDIA_DRIVER_CAPABILITIES=all
-      - NVIDIA_VISIBLE_DEVICES=all
+      TZ: Europe/London
+      PUID: "${PUID:-1000}"
+      PGID: "${PGID:-1000}"
+      UMASK_SET: '002'
+      serverIP: 0.0.0.0
+      serverPort: '8266'
+      webUIPort: '8265'
+      internalNode: "true"
+      inContainer: "true"
+      ffmpegVersion: '7'
+      nodeName: lhr1-node-1
+      auth: "false"
+      openBrowser: "true"
+      maxLogSizeMB: '10'
+      cronPluginUpdate: ""
+      NVIDIA_DRIVER_CAPABILITIES: all
+      NVIDIA_VISIBLE_DEVICES: all
+    networks:
+      - frontend
+    devices:
+      - /dev/dri:/dev/dri
     volumes:
       - ./tdarr-config/server:/app/server
       - ./tdarr-config/configs:/app/configs
       - ./tdarr-config/logs:/app/logs
       - /media/jellydata/media:/media:rw
       - ./tdarr-config/transcode-cache:/temp
-    devices:
-      - /dev/dri:/dev/dri
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
       traefik.http.services.tdarr-prod-1.loadBalancer.server.port: 8265
       traefik.http.routers.tdarr-prod-1-http.entrypoints: web
       traefik.http.routers.tdarr-prod-1-http.rule: Host(`tdarr.lhr1.jakerob.pro`)
-      traefik.http.routers.tdarr-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.tdarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.tdarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.tdarr-prod-1-https.rule: Host(`tdarr.lhr1.jakerob.pro`)
       traefik.http.routers.tdarr-prod-1-https.tls: true

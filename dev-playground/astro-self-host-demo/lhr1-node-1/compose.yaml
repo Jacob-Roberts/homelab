@@ -9,26 +9,26 @@ services:
   astro-self-host-example:
     image: ghcr.io/jacob-roberts/astro-self-host-example:0.0.6
     container_name: astro-self-host-example
+    security_opt:
+      - no-new-privileges:true
     restart: unless-stopped
     networks:
       - frontend
-    security_opt:
-      - no-new-privileges:true
     labels:
       traefik.enable: true
       traefik.http.services.astroselfhostexample-demo-1.loadBalancer.server.port: 4321
       traefik.http.routers.astroselfhostexample-demo-1-http.entrypoints: web
       traefik.http.routers.astroselfhostexample-demo-1-http.rule: Host(`astroselfhostexample.lhr1.jakerob.pro`)
-      traefik.http.routers.astroselfhostexample-demo-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.astroselfhostexample-demo-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.astroselfhostexample-demo-1-https.entrypoints: websecure
       traefik.http.routers.astroselfhostexample-demo-1-https.rule: Host(`astroselfhostexample.lhr1.jakerob.pro`)
-      traefik.http.routers.astroselfhostexample-demo-1-https.middlewares: testheader@docker
+      traefik.http.routers.astroselfhostexample-demo-1-https.middlewares: "testheader@docker"
       traefik.http.routers.astroselfhostexample-demo-1-https.tls: true
       traefik.http.routers.astroselfhostexample-demo-1-https.tls.certresolver: cloudflare
 
       traefik.http.middlewares.testheader.headers.accesscontrolallowmethods: "*"
       traefik.http.middlewares.testheader.headers.accesscontrolallowheaders: "*"
-      traefik.http.middlewares.testheader.headers.accesscontrolalloworiginlist: "https://astroselfhostexamplestatic.lhr1.jakerob.pro"
+      traefik.http.middlewares.testheader.headers.accesscontrolalloworiginlist: https://astroselfhostexamplestatic.lhr1.jakerob.pro
       traefik.http.middlewares.testheader.headers.accesscontrolmaxage: 100
       traefik.http.middlewares.testheader.headers.addvaryheader: true
 
@@ -41,17 +41,17 @@ services:
       - "-secretKey=$SECRET_KEY"
       - "-bucket=astro-demo"
       - "-address=0.0.0.0:8080"
+    security_opt:
+      - no-new-privileges:true
     restart: unless-stopped
     networks:
       - frontend
-    security_opt:
-      - no-new-privileges:true
     labels:
       traefik.enable: true
       traefik.http.services.astroselfhostexamplestatic-demo-1.loadBalancer.server.port: 8080
       traefik.http.routers.astroselfhostexamplestatic-demo-1-http.entrypoints: web
       traefik.http.routers.astroselfhostexamplestatic-demo-1-http.rule: Host(`astroselfhostexamplestatic.lhr1.jakerob.pro`)
-      traefik.http.routers.astroselfhostexamplestatic-demo-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.astroselfhostexamplestatic-demo-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.astroselfhostexamplestatic-demo-1-https.entrypoints: websecure
       traefik.http.routers.astroselfhostexamplestatic-demo-1-https.rule: Host(`astroselfhostexamplestatic.lhr1.jakerob.pro`)
       traefik.http.routers.astroselfhostexamplestatic-demo-1-https.tls: true

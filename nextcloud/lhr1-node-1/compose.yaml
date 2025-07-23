@@ -16,47 +16,47 @@ services:
   app:
     image: docker.io/nextcloud:30.0.0
     container_name: nextcloud-app
-    volumes:
-      - ./data:/var/www/html
-      - ./app-hooks/post-installation:/docker-entrypoint-hooks.d/post-installation
     depends_on:
       - nextcloud-db
       - nextcloud-cache
+    restart: unless-stopped
+    environment:
+      TZ: Europe/London
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_HOST: nextcloud-db
+      REDIS_HOST: nextcloud-cache
+      OVERWRITEPROTOCOL: https
+      OVERWRITECLIURL: https://nextcloud.lhr1.jakerob.pro
+      TRUSTED_PROXIES: 172.17.0.0/16 172.18.0.0/16 172.19.0.0/16
+      NEXTCLOUD_TRUSTED_DOMAINS: nextcloud.lhr1.jakerob.pro
+      SMTP_HOST: $SMTP_HOST
+      SMTP_SECURE: $SMTP_SECURE
+      SMTP_PORT: $SMTP_PORT
+      SMTP_NAME: $SMTP_NAME
+      SMTP_PASSWORD: $SMTP_PASSWORD
+      MAIL_FROM_ADDRESS: $MAIL_FROM_ADDRESS
+      MAIL_DOMAIN: $MAIL_DOMAIN
+      NEXTCLOUD_ADMIN_USER: admin
+      NEXTCLOUD_ADMIN_PASSWORD: $NEXTCLOUD_ADMIN_PASSWORD
+      OIDC_CLIENT_ID: $OIDC_CLIENT_ID
+      OIDC_CLIENT_SECRET: $OIDC_CLIENT_SECRET
     networks:
       - frontend
       - internal
-    environment:
-      - TZ=Europe/London
-      - MYSQL_DATABASE=$MYSQL_DATABASE
-      - MYSQL_USER=$MYSQL_USER
-      - MYSQL_PASSWORD=$MYSQL_PASSWORD
-      - MYSQL_HOST=nextcloud-db
-      - REDIS_HOST=nextcloud-cache
-      - OVERWRITEPROTOCOL=https
-      - OVERWRITECLIURL=https://nextcloud.lhr1.jakerob.pro
-      - TRUSTED_PROXIES=172.17.0.0/16 172.18.0.0/16 172.19.0.0/16
-      - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.lhr1.jakerob.pro
-      - SMTP_HOST=$SMTP_HOST
-      - SMTP_SECURE=$SMTP_SECURE
-      - SMTP_PORT=$SMTP_PORT
-      - SMTP_NAME=$SMTP_NAME
-      - SMTP_PASSWORD=$SMTP_PASSWORD
-      - MAIL_FROM_ADDRESS=$MAIL_FROM_ADDRESS
-      - MAIL_DOMAIN=$MAIL_DOMAIN
-      - NEXTCLOUD_ADMIN_USER=admin
-      - NEXTCLOUD_ADMIN_PASSWORD=$NEXTCLOUD_ADMIN_PASSWORD
-      - OIDC_CLIENT_ID=$OIDC_CLIENT_ID
-      - OIDC_CLIENT_SECRET=$OIDC_CLIENT_SECRET
-    restart: unless-stopped
+    volumes:
+      - ./data:/var/www/html
+      - ./app-hooks/post-installation:/docker-entrypoint-hooks.d/post-installation
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
       traefik.http.routers.nextcloud-prod-1-http.entrypoints: web
       traefik.http.routers.nextcloud-prod-1-http.rule: Host(`nextcloud.lhr1.jakerob.pro`)
-      traefik.http.routers.nextcloud-prod-1-http.middlewares: nc-header,websecure-redirect-permanent@file
+      traefik.http.routers.nextcloud-prod-1-http.middlewares: "nc-header,websecure-redirect-permanent@file"
       traefik.http.routers.nextcloud-prod-1-https.entrypoints: websecure
       traefik.http.routers.nextcloud-prod-1-https.rule: Host(`nextcloud.lhr1.jakerob.pro`)
-      traefik.http.middlewares.nc-rep.redirectregex.regex: https://(.*)/.well-known/(card|cal)dav
+      traefik.http.middlewares.nc-rep.redirectregex.regex: "https://(.*)/.well-known/(card|cal)dav"
       traefik.http.middlewares.nc-rep.redirectregex.replacement: https://$$1/remote.php/dav/
       traefik.http.middlewares.nc-rep.redirectregex.permanent: true
       traefik.http.middlewares.nc-header.headers.customFrameOptionsValue: SAMEORIGIN
@@ -73,36 +73,36 @@ services:
     # https://docs.nextcloud.com/server/28/admin_manual/installation/system_requirements.html
     image: docker.io/library/mariadb:11.3.2
     container_name: nextcloud-db
-    command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
+    command: "--transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed"
+    restart: unless-stopped
+
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_USER: $MYSQL_USER
     networks:
       - internal
     volumes:
       - nextcloud-database:/var/lib/mysql
-    environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD=true
-      - MYSQL_PASSWORD=$MYSQL_PASSWORD
-      - MYSQL_DATABASE=$MYSQL_DATABASE
-      - MYSQL_USER=$MYSQL_USER
-    restart: unless-stopped
-
   nextcloud-cache:
     image: redis:alpine3.19
     container_name: nextcloud-cache
-    networks:
-      - internal
     restart: unless-stopped
 
+    networks:
+      - internal
   office:
     image: docker.io/collabora/code:24.04.5.2.1
     container_name: nextcloud-office
-    environment:
-      - aliasgroup1=https://nextcloud.lhr1.jakerob.pro:443
-      - username=${OFFICE_USERNAME}
-      - password=${OFFICE_PASSWORD}
-      - "extra_params=--o:ssl.enable=false --o:ssl.termination=true"
-    restart: unless-stopped
     cap_add:
       - MKNOD
+    restart: unless-stopped
+    environment:
+      aliasgroup1: https://nextcloud.lhr1.jakerob.pro:443
+      username: "${OFFICE_USERNAME}"
+      password: "${OFFICE_PASSWORD}"
+      extra_params: "--o:ssl.enable=false --o:ssl.termination=true"
     networks:
       - frontend
     labels:
@@ -111,7 +111,7 @@ services:
       traefik.http.services.office-prod-1.loadbalancer.server.port: 9980
       traefik.http.routers.office-prod-1-http.entrypoints: web
       traefik.http.routers.office-prod-1-http.rule: Host(`office.lhr1.jakerob.pro`)
-      traefik.http.routers.office-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.office-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.office-prod-1-https.entrypoints: websecure
       traefik.http.routers.office-prod-1-https.rule: Host(`office.lhr1.jakerob.pro`)
       traefik.http.routers.office-prod-1-https.tls: true

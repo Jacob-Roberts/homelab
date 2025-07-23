@@ -11,34 +11,33 @@ services:
   portainer:
     image: portainer/portainer-ce:2.26.1-alpine
     container_name: portainer
-    command: -H tcp://socket-proxy:2375
+    command: "-H tcp://socket-proxy:2375"
     user: 1000:1000
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
     networks:
       - frontend
       - internal
     volumes:
       - ./data:/data
-    security_opt:
-      - no-new-privileges:true
-    restart: unless-stopped
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
-      traefik.http.services.portainer-prod-1.loadbalancer.server.port: "9000"
-      traefik.http.services.portainer-prod-1.loadbalancer.server.scheme: "http"
-      traefik.http.routers.portainer-prod-1-http.entrypoints: "web"
-      traefik.http.routers.portainer-prod-1-http.rule: "Host(`portainer.slc1.jakerob.pro`)"
-      traefik.http.routers.portainer-prod-1-http.middlewares: websecure-redirect-permanent@file
-      traefik.http.routers.portainer-prod-1-https.entrypoints: "websecure"
-      traefik.http.routers.portainer-prod-1-https.rule: "Host(`portainer.slc1.jakerob.pro`)"
+      traefik.http.services.portainer-prod-1.loadbalancer.server.port: '9000'
+      traefik.http.services.portainer-prod-1.loadbalancer.server.scheme: http
+      traefik.http.routers.portainer-prod-1-http.entrypoints: web
+      traefik.http.routers.portainer-prod-1-http.rule: Host(`portainer.slc1.jakerob.pro`)
+      traefik.http.routers.portainer-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.portainer-prod-1-https.entrypoints: websecure
+      traefik.http.routers.portainer-prod-1-https.rule: Host(`portainer.slc1.jakerob.pro`)
       traefik.http.routers.portainer-prod-1-https.tls: true
-      traefik.http.routers.portainer-prod-1-https.tls.certresolver: "cloudflare"
-  
+      traefik.http.routers.portainer-prod-1-https.tls.certresolver: cloudflare
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
     container_name: portainer-socket-proxy
-    networks:
-      - internal
+    read_only: true
+    restart: unless-stopped
     environment:
       - ALLOW_START=1 #optional
       - ALLOW_STOP=1 #optional
@@ -67,9 +66,9 @@ services:
       - TASKS=1 #optional
       - VERSION=1 #optional
       - VOLUMES=1 #optional
+    networks:
+      - internal
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: unless-stopped
-    read_only: true
     tmpfs:
       - /run

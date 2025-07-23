@@ -9,14 +9,14 @@ services:
   nut:
     image: docker.io/edgd1er/webnut:latest
     container_name: webnut
-    environment:
-      - UPS_HOST=slc1-nut-1.jakerob.pro
-      - UPS_PORT=3493
-      - UPS_USER=${UPS_USER}
-      - UPS_PASSWORD=${UPS_PASSWORD}
-    restart: unless-stopped
     security_opt:
       - no-new-privileges:true
+    restart: unless-stopped
+    environment:
+      UPS_HOST: slc1-nut-1.jakerob.pro
+      UPS_PORT: '3493'
+      UPS_USER: "${UPS_USER}"
+      UPS_PASSWORD: "${UPS_PASSWORD}"
     networks:
       - frontend
     labels:
@@ -24,7 +24,7 @@ services:
       traefik.http.services.webnut-prod-1.loadBalancer.server.port: 6543
       traefik.http.routers.webnut-prod-1-http.entrypoints: web
       traefik.http.routers.webnut-prod-1-http.rule: Host(`webnut.slc1.jakerob.pro`)
-      traefik.http.routers.webnut-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.webnut-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.webnut-prod-1-https.entrypoints: websecure
       traefik.http.routers.webnut-prod-1-https.rule: Host(`webnut.slc1.jakerob.pro`)
       traefik.http.routers.webnut-prod-1-https.tls: true

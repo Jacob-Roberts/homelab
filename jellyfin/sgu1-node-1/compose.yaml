@@ -10,24 +10,24 @@ services:
     image: jellyfin/jellyfin:10.9.2
     container_name: jellyfin
     user: 1000:1000
+    restart: unless-stopped
+    environment:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: Europe/London
+      JELLYFIN_PublishedServerUrl: https://jellyfin.sgu1.jakerob.pro
+    networks:
+      - frontend
     volumes:
       - ./config:/config
       - ./cache:/cache
       - /media/jellydata:/jellydata
-    restart: 'unless-stopped'
-    networks:
-      - frontend
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
-      - JELLYFIN_PublishedServerUrl=https://jellyfin.sgu1.jakerob.pro
     labels:
       traefik.enable: true
       traefik.http.services.jellyfin-prod-1.loadBalancer.server.port: 8096
       traefik.http.routers.jellyfin-prod-1-http.entrypoints: web
       traefik.http.routers.jellyfin-prod-1-http.rule: Host(`jellyfin.sgu1.jakerob.pro`)
-      traefik.http.routers.jellyfin-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.jellyfin-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.jellyfin-prod-1-https.entrypoints: websecure
       traefik.http.routers.jellyfin-prod-1-https.rule: Host(`jellyfin.sgu1.jakerob.pro`)
       traefik.http.routers.jellyfin-prod-1-https.tls: true

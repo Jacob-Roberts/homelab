@@ -3,24 +3,25 @@ name: uptimekuma
 networks:
   frontend:
     external: true
+
 services:
   uptimekuma:
     image: docker.io/louislam/uptime-kuma:1.23.16-alpine
     container_name: uptimekuma
-    volumes:
-      - ./data:/app/data
     security_opt:
       - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      - frontend
+    volumes:
+      - ./data:/app/data
     labels:
       traefik.enable: true
       traefik.external: true
       traefik.http.routers.uptimekuma-prod-1-http.entrypoints: web
       traefik.http.routers.uptimekuma-prod-1-http.rule: Host(`uptime.iad1.jakerob.pro`)
-      traefik.http.routers.uptimekuma-prod-1-http.middlewares:  websecure-redirect-permanent@file
+      traefik.http.routers.uptimekuma-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.uptimekuma-prod-1-https.entrypoints: websecure
       traefik.http.routers.uptimekuma-prod-1-https.rule: Host(`uptime.iad1.jakerob.pro`)
       traefik.http.routers.uptimekuma-prod-1-https.tls: true
       traefik.http.routers.uptimekuma-prod-1-https.tls.certresolver: production
-    networks:
-      - frontend
-    restart: unless-stopped

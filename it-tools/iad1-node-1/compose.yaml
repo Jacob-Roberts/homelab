@@ -9,11 +9,11 @@ services:
   it-tools:
     image: corentinth/it-tools:latest
     container_name: it-tools
-    networks:
-      - frontend
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
+    networks:
+      - frontend
     labels:
       traefik.enable: true
       traefik.external: true

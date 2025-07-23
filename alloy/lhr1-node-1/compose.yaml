@@ -6,21 +6,28 @@ networks:
   frontend:
     external: true
 
+volumes:
+  alloy_data:
+    driver: local
+
 services:
   alloy:
     image: grafana/alloy:v1.9.2
     container_name: alloy
-    hostname: lhr1-node-1
-    environment:
-      - LOKI_PASSWORD=${LOKI_PASSWORD}
-      - PROMETHEUS_PASSWORD=${PROMETHEUS_PASSWORD}
     command:
       - run
-      - --server.http.listen-addr=0.0.0.0:12345
-      - --storage.path=/var/lib/alloy/data
+      - "--server.http.listen-addr=0.0.0.0:12345"
+      - "--storage.path=/var/lib/alloy/data"
       - /etc/alloy/config.alloy
+    restart: unless-stopped
+
     ports:
-      - "12345:12345"
+      - 12345:12345
+    environment:
+      LOKI_PASSWORD: "${LOKI_PASSWORD}"
+      PROMETHEUS_PASSWORD: "${PROMETHEUS_PASSWORD}"
+    networks:
+      - frontend
     volumes:
       - ./config.alloy:/etc/alloy/config.alloy
       - alloy_data:/var/lib/alloy/data
@@ -30,19 +37,13 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker/:ro
       - /run/udev/data:/run/udev/data:ro
-    networks:
-      - frontend
+    hostname: lhr1-node-1
     labels:
-      - traefik.enable=true
-      - traefik.http.services.alloy.loadbalancer.server.port=12345
-      - traefik.http.services.alloy.loadbalancer.server.scheme=http
-      - traefik.http.routers.alloy.service=alloy
-      - traefik.http.routers.alloy.rule=Host(`alloy.lhr1.jakerob.pro`)
-      - traefik.http.routers.alloy.entrypoints=websecure
-      - traefik.http.routers.alloy.tls=true
-      - traefik.http.routers.alloy.tls.certresolver=cloudflare
-    restart: unless-stopped
-
-volumes:
-  alloy_data:
-    driver: local
+      traefik.enable: "true"
+      traefik.http.services.alloy.loadbalancer.server.port: '12345'
+      traefik.http.services.alloy.loadbalancer.server.scheme: http
+      traefik.http.routers.alloy.service: alloy
+      traefik.http.routers.alloy.rule: Host(`alloy.lhr1.jakerob.pro`)
+      traefik.http.routers.alloy.entrypoints: websecure
+      traefik.http.routers.alloy.tls: "true"
+      traefik.http.routers.alloy.tls.certresolver: cloudflare
