@@ -30,9 +30,9 @@ services:
     security_opt:
       - no-new-privileges:true
     volumes:
-      - ./config/traefik.yaml:/traefik/var/traefik.yaml:ro
-      - ./config/conf/:/traefik/var/conf/:ro
-      - ./config/certs/:/traefik/var/certs/
+      - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ./config/conf/:/etc/traefik/conf/:ro
+      - ./config/certs/:/etc/traefik/certs/
       - "socket-proxy:/var/run"
     environment:
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
@@ -138,7 +138,7 @@ services:
       - VOLUMES=0 #optional
     volumes:
       # mount host docker socket, the :ro does not mean read-only for the socket, just for the actual file
-      - /run/docker.sock:/run/docker.sock:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       # this socket is run as 1000:1000, not as root!
       - socket-proxy:/run/proxy
     restart: unless-stopped
