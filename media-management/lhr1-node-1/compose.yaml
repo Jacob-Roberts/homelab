@@ -125,20 +125,21 @@ services:
 
   radarr:
     container_name: radarr
-    image: lscr.io/linuxserver/radarr:5.11.0
+    image: 11notes/radarr:5
+    read_only: true
     restart: unless-stopped
     logging:
       driver: json-file
     security_opt:
       - no-new-privileges:true
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
+      - TZ=${TZ:-Europe/London}
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./radarr-config:/config
+      - ./radarr-config:/radarr/etc/
       - /media/jellydata:/jellydata
+    tmpfs:
+      # required for read-only image
+      - "/tmp:uid=1000,gid=1000"
     network_mode: "service:gluetun"
 
   sonarr:
