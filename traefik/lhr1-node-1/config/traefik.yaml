@@ -75,6 +75,7 @@ providers:
   docker:
     # -- (Optional) Enable this, if you want to expose all containers automatically
     exposedByDefault: false
+    endpoint: "tcp://socket-proxy:2375"
     watch: true
     network: frontend
   file:
