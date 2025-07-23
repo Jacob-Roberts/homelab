@@ -18,23 +18,33 @@ volumes:
 
 services:
   traefik:
-    image: traefik:v3
+    image: 11notes/traefik:3
     container_name: traefik-prod-1
     depends_on:
-      - socket-proxy
-    user: 1000:1000
+      socket-proxy:
+        condition: "service_healthy"
+        restart: true
+    read_only: true
+    command:
+      - "--configFile=/traefik/traefik.yaml"
     ports:
-      - 192.168.42.16:80:80
-      - 192.168.42.16:443:443
+      - "192.168.42.16:80:80/tcp"
+      - "192.168.42.16:443:443/tcp"
+    sysctls:
+      # allow rootless container to access ports < 1024
+      net.ipv4.ip_unprivileged_port_start: 80
     security_opt:
       - no-new-privileges:true
     volumes:
-      - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - ./config/conf/:/etc/traefik/conf/:ro
-      - ./config/certs/:/etc/traefik/certs/
+      - "./config/traefik.yaml:/traefik/traefik.yaml:ro"
+      - "./config/conf:/traefik/conf:ro"
+      - "./config/certs:/traefik/certs:rw"
+      - "./config/plugins:/plugins-storage"
+      # access docker socket via proxy read-only
       - "socket-proxy:/var/run"
     environment:
-      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
+      CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
+      TZ: "Europe/London"
     networks:
       - frontend
       - internal

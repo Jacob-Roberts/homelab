@@ -1,0 +1,4 @@
+http:
+  serversTransports:
+    ignorecert: # used for unifi
+      insecureSkipVerify: true
