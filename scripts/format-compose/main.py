@@ -63,10 +63,10 @@ class ComposeFormatter:
         self.yaml = YAML()
         self.yaml.preserve_quotes = False  # Force requoting based on our rules
         self.yaml.width = 1000  # Prevent line wrapping
-        self.yaml.indent(mapping=indent, sequence=indent, offset=indent)
-        self.yaml.map_indent = indent
-        self.yaml.sequence_indent = indent
-        self.yaml.sequence_dash_offset = indent  # This puts the dash at the same level as the key
+        self.yaml.indent(mapping=indent, sequence=indent*2, offset=indent)  # Larger sequence indent for proper alignment
+        self.yaml.map_indent = indent  
+        self.yaml.sequence_indent = indent*2  # Double indent for sequence content
+        self.yaml.sequence_dash_offset = indent  # Indent the dash, then content aligns properly
         
         # Configure to prefer double quotes when quotes are needed
         self.yaml.default_style = None  # Don't force quotes
