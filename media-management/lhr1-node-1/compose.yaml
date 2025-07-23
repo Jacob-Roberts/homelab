@@ -102,8 +102,9 @@ services:
       traefik.http.routers.bazarr-prod-1-https.tls.certresolver: cloudflare
 
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:5.0.0
+    image: "11notes/qbittorrent:5"
     container_name: qbittorrent
+    read_only: true
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -115,7 +116,8 @@ services:
     depends_on:
       - gluetun
     volumes:
-      - ./qbittorrent-config:/config
+      - ./qbittorrent-config/etc:/qbittorrent/etc
+      - ./qbittorrent-config/var:/qbittorrent/var
       - /media/jellydata/torrents:/jellydata/torrents:rw
     ## Do Not Change Network for qBittorrent
     ## qBittorrent MUST always use a VPN / Secure Internet connection
