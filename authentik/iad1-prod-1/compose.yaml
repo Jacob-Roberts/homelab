@@ -11,66 +11,74 @@ services:
   postgres:
     image: docker.io/library/postgres:16.2
     container_name: authentik-db
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - TZ=${TZ:-UTC}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
     healthcheck:
-      test:
-        ["CMD-SHELL", 'pg_isready -d "${POSTGRES_DB}" -U "${POSTGRES_USER}"']
+      test: [CMD-SHELL, "pg_isready -d \"${POSTGRES_DB}\" -U \"${POSTGRES_USER}\""]
       start_period: 20s
       interval: 30s
       retries: 5
       timeout: 5s
-    volumes:
-      - ./data:/var/lib/postgresql/data
-    restart: unless-stopped
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      TZ: "${TZ:-UTC}"
     networks:
       - internal
-    security_opt:
-      - no-new-privileges:true
+    volumes:
+      - ./data:/var/lib/postgresql/data
   redis:
     image: docker.io/library/redis:7.2.4
     container_name: authentik-redis
-    command: --save 60 1 --loglevel warning
+    command: "--save 60 1 --loglevel warning"
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      test: [CMD-SHELL, "redis-cli ping | grep PONG"]
       start_period: 20s
       interval: 30s
       retries: 5
       timeout: 3s
-    volumes:
-      - ./redis-data:/data
-    restart: unless-stopped
     networks:
       - internal
-    security_opt:
-      - no-new-privileges:true
+    volumes:
+      - ./redis-data:/data
   server:
     image: ghcr.io/goauthentik/server:2025.4
     container_name: authentik-server
     command: server
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
     environment:
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_POSTGRESQL__HOST: postgres
-      AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_USER}
-      AUTHENTIK_POSTGRESQL__NAME: ${POSTGRES_DB}
-      AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
+      AUTHENTIK_POSTGRESQL__USER: "${POSTGRES_USER}"
+      AUTHENTIK_POSTGRESQL__NAME: "${POSTGRES_DB}"
+      AUTHENTIK_POSTGRESQL__PASSWORD: "${POSTGRES_PASSWORD}"
       # (Required)  To generate a secret key run the following command:
       #             echo $(openssl rand -base64 32)
-      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+      AUTHENTIK_SECRET_KEY: "${AUTHENTIK_SECRET_KEY}"
       # (Optional)  Enable Error Reporting
       # - AUTHENTIK_ERROR_REPORTING__ENABLED=${AUTHENTIK_ERROR_REPORTING:-false}
       # (Optional)  Enable Email Sending
-      AUTHENTIK_EMAIL__HOST: ${EMAIL_HOST}
-      AUTHENTIK_EMAIL__PORT: ${EMAIL_PORT}
-      AUTHENTIK_EMAIL__USERNAME: ${EMAIL_USERNAME}
-      AUTHENTIK_EMAIL__PASSWORD: ${EMAIL_PASSWORD}
+      AUTHENTIK_EMAIL__HOST: "${EMAIL_HOST}"
+      AUTHENTIK_EMAIL__PORT: "${EMAIL_PORT}"
+      AUTHENTIK_EMAIL__USERNAME: "${EMAIL_USERNAME}"
+      AUTHENTIK_EMAIL__PASSWORD: "${EMAIL_PASSWORD}"
       AUTHENTIK_EMAIL__USE_TLS: true
       AUTHENTIK_EMAIL__USE_SSL: false
       # - AUTHENTIK_EMAIL__TIMEOUT=${EMAIL_TIMEOUT:-10}
-      AUTHENTIK_EMAIL__FROM: ${EMAIL_FROM}
+      AUTHENTIK_EMAIL__FROM: "${EMAIL_FROM}"
+    networks:
+      - frontend
+      - internal
     volumes:
       - ./media:/media
       - ./custom-templates:/templates
@@ -81,44 +89,41 @@ services:
       traefik.http.services.authentik-prod-1.loadBalancer.server.port: 9000
       traefik.http.routers.authentik-prod-1-http.entrypoints: web
       traefik.http.routers.authentik-prod-1-http.rule: Host(`authentik.iad1.jakerob.pro`)
-      traefik.http.routers.authentik-prod-1-http.middlewares: websecure-redirect-permanent@file
+      traefik.http.routers.authentik-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.authentik-prod-1-https.entrypoints: websecure
       traefik.http.routers.authentik-prod-1-https.rule: Host(`authentik.iad1.jakerob.pro`)
       traefik.http.routers.authentik-prod-1-https.tls: true
       traefik.http.routers.authentik-prod-1-https.tls.certresolver: production
-    depends_on:
-      - postgres
-      - redis
-    networks:
-      - frontend
-      - internal
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
   worker:
     image: ghcr.io/goauthentik/server:2025.4
     container_name: authentik-worker
     command: worker
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
     environment:
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_POSTGRESQL__HOST: postgres
-      AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_USER}
-      AUTHENTIK_POSTGRESQL__NAME: ${POSTGRES_DB}
-      AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
+      AUTHENTIK_POSTGRESQL__USER: "${POSTGRES_USER}"
+      AUTHENTIK_POSTGRESQL__NAME: "${POSTGRES_DB}"
+      AUTHENTIK_POSTGRESQL__PASSWORD: "${POSTGRES_PASSWORD}"
       # (Required)  To generate a secret key run the following command:
       #             echo $(openssl rand -base64 32)
-      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+      AUTHENTIK_SECRET_KEY: "${AUTHENTIK_SECRET_KEY}"
       # (Optional)  Enable Error Reporting
       # AUTHENTIK_ERROR_REPORTING__ENABLED=${AUTHENTIK_ERROR_REPORTING:-false}
       # (Optional)  Enable Email Sending
-      AUTHENTIK_EMAIL__HOST: ${EMAIL_HOST}
-      AUTHENTIK_EMAIL__PORT: ${EMAIL_PORT}
-      AUTHENTIK_EMAIL__USERNAME: ${EMAIL_USERNAME}
-      AUTHENTIK_EMAIL__PASSWORD: ${EMAIL_PASSWORD}
+      AUTHENTIK_EMAIL__HOST: "${EMAIL_HOST}"
+      AUTHENTIK_EMAIL__PORT: "${EMAIL_PORT}"
+      AUTHENTIK_EMAIL__USERNAME: "${EMAIL_USERNAME}"
+      AUTHENTIK_EMAIL__PASSWORD: "${EMAIL_PASSWORD}"
       AUTHENTIK_EMAIL__USE_TLS: true
       AUTHENTIK_EMAIL__USE_SSL: false
       # - AUTHENTIK_EMAIL__TIMEOUT=${EMAIL_TIMEOUT:-10}
-      AUTHENTIK_EMAIL__FROM: ${EMAIL_FROM}
+      AUTHENTIK_EMAIL__FROM: "${EMAIL_FROM}"
     # (Optional)  When using the docker socket integration
     #             See more for the docker socket integration here:
     #             https://goauthentik.io/docs/outposts/integrations/docker
@@ -131,9 +136,3 @@ services:
       - ./media:/media
       - ./certs:/certs
       - ./custom-templates:/templates
-    depends_on:
-      - postgres
-      - redis
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true

@@ -48,7 +48,7 @@ services:
       - ./config/conf:/traefik/conf:ro
       - ./config/certs:/traefik/certs:rw
       - ./config/plugins:/plugins-storage
-        # access docker socket via proxy read-only
+      # access docker socket via proxy read-only
       - socket-proxy:/var/run
     labels:
       traefik.enable: true
@@ -117,7 +117,7 @@ services:
     volumes:
       # mount host docker socket, the :ro does not mean read-only for the socket, just for the actual file
       - /run/docker.sock:/run/docker.sock:ro
-        # this socket is run as 1000:1000, not as root!
+      # this socket is run as 1000:1000, not as root!
       - socket-proxy:/run/proxy
   whoami:
     image: traefik/whoami

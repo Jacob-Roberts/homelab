@@ -33,7 +33,7 @@ services:
       ALLOW_SIGNUP: true
       PUID: 1002
       PGID: 1002
-      TZ: Europe/London
+      TZ: "${TZ:-Europe/London}"
       MAX_WORKERS: 1
       WEB_CONCURRENCY: 1
       BASE_URL: https://mealie.jakerob.pro
