@@ -22,7 +22,7 @@ services:
       - 192.168.97.133:80:80
       - 192.168.97.133:443:443
     environment:
-      - "CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}"
+      CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
     networks:
       - frontend
       - internal

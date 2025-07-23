@@ -20,7 +20,7 @@ services:
       - 192.168.59.194:80:80
       - 192.168.59.194:443:443
     environment:
-      - "CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}"
+      CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
     networks:
       - frontend
       - internal

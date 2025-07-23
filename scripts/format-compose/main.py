@@ -131,6 +131,9 @@ class ComposeFormatter:
             if 'services' in formatted_data and isinstance(formatted_data['services'], dict):
                 for service_name, service_config in formatted_data['services'].items():
                     if isinstance(service_config, dict):
+                        # Convert array syntax to map syntax for labels and environment
+                        service_config = self._convert_arrays_to_maps(service_config)
+                        # Reorder service keys
                         formatted_data['services'][service_name] = self._reorder_service_keys(service_config)
             
             # Write back to file with proper formatting
@@ -149,6 +152,84 @@ class ComposeFormatter:
             logging.error(f"Error processing {file_path}: {e}")
             return False
     
+    def _convert_arrays_to_maps(self, service_config: Dict) -> Dict:
+        """
+        Convert array syntax to map syntax for labels and environment variables.
+        Only converts when there are no comments (preserves commented arrays).
+        
+        Converts:
+          labels:
+            - "key=value"
+        To:
+          labels:
+            key: value
+            
+        Args:
+            service_config: Service configuration
+            
+        Returns:
+            Service configuration with converted arrays
+        """
+        from ruamel.yaml.comments import CommentedMap, CommentedSeq
+        
+        # Keys that should be converted from array to map syntax
+        convertible_keys = ['labels', 'environment']
+        
+        for key in convertible_keys:
+            if key in service_config:
+                value = service_config[key]
+                
+                # Check if it's an array/list
+                if isinstance(value, (list, CommentedSeq)):
+                    # Check if there are any comments on the array items
+                    has_comments = False
+                    if isinstance(value, CommentedSeq) and hasattr(value, 'ca'):
+                        if hasattr(value.ca, 'items') and value.ca.items:
+                            # Check if any items have comments
+                            for item_comments in value.ca.items.values():
+                                if item_comments and any(comment and comment.value.strip() for comment in item_comments if comment):
+                                    has_comments = True
+                                    break
+                    
+                    # Skip conversion if there are comments - preserve the original format
+                    if has_comments:
+                        continue
+                    
+                    converted_map = CommentedMap()
+                    should_convert = True
+                    
+                    # Check if all items are key=value format
+                    for item in value:
+                        if isinstance(item, str) and '=' in item:
+                            # Split on first = only (in case value contains =)
+                            parts = item.split('=', 1)
+                            if len(parts) == 2:
+                                key_part = parts[0].strip()
+                                value_part = parts[1].strip()
+                                
+                                # Remove quotes if they exist
+                                if (key_part.startswith('"') and key_part.endswith('"')) or \
+                                   (key_part.startswith("'") and key_part.endswith("'")):
+                                    key_part = key_part[1:-1]
+                                    
+                                if (value_part.startswith('"') and value_part.endswith('"')) or \
+                                   (value_part.startswith("'") and value_part.endswith("'")):
+                                    value_part = value_part[1:-1]
+                                
+                                converted_map[key_part] = value_part
+                            else:
+                                should_convert = False
+                                break
+                        else:
+                            should_convert = False
+                            break
+                    
+                    # Only convert if all items were key=value format and no comments
+                    if should_convert and converted_map:
+                        service_config[key] = converted_map
+        
+        return service_config
+        
     def _reorder_service_keys(self, service_config: Dict) -> Dict:
         """
         Reorder service keys according to the specified order.
