@@ -39,19 +39,3 @@ services:
       traefik.http.routers.synapse-prod-1-https.tls: true
       traefik.http.routers.synapse-prod-1-https.tls.certresolver: production
       traefik.http.services.synapse-prod-1.loadBalancer.server.port: 8008
-
-  db:
-    image: docker.io/postgres:15-alpine
-    security_opt:
-      - no-new-privileges:true
-    networks:
-      - internal
-    restart: unless-stopped
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER:-synapse}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      # ensure the database gets created correctly
-      # https://element-hq.github.io/synapse/latest/postgres.html#set-up-database
-      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
-    volumes:
-      - ./db-data:/var/lib/postgresql/data
