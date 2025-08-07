@@ -1,20 +1,28 @@
+resource "cloudflare_zone" "autovation_com" {
+  account = {
+    id = var.cloudflare_account_id
+  }
+  name = "autovation.com"
+  type = "full"
+}
+
 ////////////////////////
 //  Examples          //
 ////////////////////////
 
 // Only required options
 # resource "cloudflare_dns_record" "my_main_record" {
-#   name    = "jakerob.pro"
+#   name    = "autovation.com"
 #   proxied = false
 #   ttl     = 1 // 1 Means "automatic"
 #   type    = "A"
-#   zone_id = "023e105f4ecef8ad9ca31a8372d0c353"
+#   zone_id = cloudflare_zone.autovation_com.id
 #   content   = "76.76.21.21"
 # }
 
 // All possible options
 # resource "cloudflare_dns_record" "example_dns_record" {
-#   zone_id = "023e105f4ecef8ad9ca31a8372d0c353"
+#   zone_id = cloudflare_zone.autovation_com.id
 #   comment = "Domain verification record"
 #   content = "198.51.100.4"
 #   name = "example.com"
@@ -28,25 +36,13 @@
 #   type = "A"
 # }
 
-
-////////////////////////
-// Cloudflare ZoneIDs //
-////////////////////////
-
-# jakerob.pro         6e98165e20ed0ba1b018f543c6ab4285
-# autovation.com      dc32b6130553f5adc9972f7f27b438cf
-# boxworks.com        47b92560b198de930fb9ade0f5a72888
-# dcforesight.com     23b2166e9eb7c07cfcded23609f652ef
-# quickloadpay.com    782856dc4be2f0d48c747c950103beca
-# wanderinglaine.com  3aa16e0a1cc88acde128e2ba0d2766b0
-
 ////////////////////////
 //  Vercel Records    //
 ////////////////////////
 
 resource "cloudflare_dns_record" "autovation_apex_record" {
   name    = "autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id = cloudflare_zone.autovation_com.id
   proxied = false
   ttl     = 1
   type    = "A"
@@ -56,7 +52,7 @@ resource "cloudflare_dns_record" "autovation_apex_record" {
 
 resource "cloudflare_dns_record" "autovation_www_record" {
   name    = "www.autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id = cloudflare_zone.autovation_com.id
   proxied = false
   ttl     = 1
   type    = "CNAME"
@@ -69,7 +65,7 @@ resource "cloudflare_dns_record" "autovation_www_record" {
 
 resource "cloudflare_dns_record" "bwproxy_autovation" {
   name    = "bwproxy.autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id = cloudflare_zone.autovation_com.id
   proxied = false
   ttl     = 1
   type    = "A"
@@ -78,7 +74,7 @@ resource "cloudflare_dns_record" "bwproxy_autovation" {
 
 resource "cloudflare_dns_record" "cloud_autovation" {
   name    = "cloud.autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id = cloudflare_zone.autovation_com.id
   proxied = false
   ttl     = 1
   type    = "A"
@@ -87,7 +83,7 @@ resource "cloudflare_dns_record" "cloud_autovation" {
 
 resource "cloudflare_dns_record" "em7586" {
   name    = "em7586.autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id = cloudflare_zone.autovation_com.id
   proxied = false
   ttl     = 1
   type    = "CNAME"
@@ -97,7 +93,7 @@ resource "cloudflare_dns_record" "em7586" {
 
 resource "cloudflare_dns_record" "googlef26116410a115f1f" {
   name    = "googlef26116410a115f1f.autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id = cloudflare_zone.autovation_com.id
   proxied = false
   ttl     = 1
   type    = "CNAME"
@@ -107,7 +103,7 @@ resource "cloudflare_dns_record" "googlef26116410a115f1f" {
 
 resource "cloudflare_dns_record" "photos_autovation" {
   name    = "photos.autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id = cloudflare_zone.autovation_com.id
   proxied = false
   ttl     = 1
   type    = "CNAME"
@@ -116,7 +112,7 @@ resource "cloudflare_dns_record" "photos_autovation" {
 
 resource "cloudflare_dns_record" "s1_domainkey_autovation" {
   name    = "s1._domainkey.autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id = cloudflare_zone.autovation_com.id
   proxied = false
   ttl     = 1
   type    = "CNAME"
@@ -126,7 +122,7 @@ resource "cloudflare_dns_record" "s1_domainkey_autovation" {
 
 resource "cloudflare_dns_record" "s2_domainkey_autovation" {
   name    = "s2._domainkey.autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id = cloudflare_zone.autovation_com.id
   proxied = false
   ttl     = 1
   type    = "CNAME"
@@ -136,7 +132,7 @@ resource "cloudflare_dns_record" "s2_domainkey_autovation" {
 
 resource "cloudflare_dns_record" "webmail" {
   name    = "webmail.autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id = cloudflare_zone.autovation_com.id
   proxied = false
   ttl     = 1
   type    = "CNAME"
@@ -147,7 +143,7 @@ resource "cloudflare_dns_record" "webmail" {
 
 resource "cloudflare_dns_record" "MX_autovation_2" {
   name     = "autovation.com"
-  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id  = cloudflare_zone.autovation_com.id
   proxied  = false
   ttl      = 1
   type     = "MX"
@@ -157,7 +153,7 @@ resource "cloudflare_dns_record" "MX_autovation_2" {
 
 resource "cloudflare_dns_record" "MX_autovation_3" {
   name     = "autovation.com"
-  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id  = cloudflare_zone.autovation_com.id
   proxied  = false
   ttl      = 1
   type     = "MX"
@@ -167,7 +163,7 @@ resource "cloudflare_dns_record" "MX_autovation_3" {
 
 resource "cloudflare_dns_record" "MX_autovation_main" {
   name     = "autovation.com"
-  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id  = cloudflare_zone.autovation_com.id
   proxied  = false
   ttl      = 1
   type     = "MX"
@@ -177,7 +173,7 @@ resource "cloudflare_dns_record" "MX_autovation_main" {
 
 resource "cloudflare_dns_record" "MX_autovation" {
   name     = "autovation.com"
-  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id  = cloudflare_zone.autovation_com.id
   proxied  = false
   ttl      = 1
   type     = "MX"
@@ -187,7 +183,7 @@ resource "cloudflare_dns_record" "MX_autovation" {
 
 resource "cloudflare_dns_record" "MX_autovation_4" {
   name     = "autovation.com"
-  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id  = cloudflare_zone.autovation_com.id
   proxied  = false
   ttl      = 1
   type     = "MX"
@@ -197,7 +193,7 @@ resource "cloudflare_dns_record" "MX_autovation_4" {
 
 resource "cloudflare_dns_record" "MX_autovation_5" {
   name     = "autovation.com"
-  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id  = cloudflare_zone.autovation_com.id
   proxied  = false
   ttl      = 1
   type     = "MX"
@@ -207,7 +203,7 @@ resource "cloudflare_dns_record" "MX_autovation_5" {
 
 resource "cloudflare_dns_record" "MX_autovation_1" {
   name     = "autovation.com"
-  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id  = cloudflare_zone.autovation_com.id
   proxied  = false
   ttl      = 1
   type     = "MX"
@@ -217,7 +213,7 @@ resource "cloudflare_dns_record" "MX_autovation_1" {
 
 resource "cloudflare_dns_record" "MX_autovation_main_2" {
   name     = "autovation.com"
-  zone_id  = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id  = cloudflare_zone.autovation_com.id
   proxied  = false
   ttl      = 1
   type     = "MX"
@@ -227,7 +223,7 @@ resource "cloudflare_dns_record" "MX_autovation_main_2" {
 
 resource "cloudflare_dns_record" "SPF1_autovation" {
   name    = "autovation.com"
-  zone_id = "dc32b6130553f5adc9972f7f27b438cf"
+  zone_id = cloudflare_zone.autovation_com.id
   proxied = false
   ttl     = 1
   type    = "TXT"
