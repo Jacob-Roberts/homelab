@@ -130,6 +130,10 @@ resource "cloudflare_dns_record" "s2_domainkey_autovation" {
   comment = "sendgrid"
 }
 
+////////////////////////
+//   Email Records    //
+////////////////////////
+
 resource "cloudflare_dns_record" "webmail" {
   name    = "webmail.autovation.com"
   zone_id = cloudflare_zone.autovation_com.id
@@ -138,8 +142,6 @@ resource "cloudflare_dns_record" "webmail" {
   type    = "CNAME"
   content = "autovation.com"
 }
-
-
 
 resource "cloudflare_dns_record" "MX_autovation_2" {
   name     = "autovation.com"
@@ -227,5 +229,23 @@ resource "cloudflare_dns_record" "SPF1_autovation" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "\"v=spf1 include:aspmx.googlemail.com ~all\""
+  content = "\"v=spf1 include:_spf.google.com ~all\""
+}
+
+resource "cloudflare_dns_record" "DKIM_autovation" {
+  name    = "google._domainkey.autovation.com"
+  zone_id = cloudflare_zone.autovation_com.id
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content = "\"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmayEOPZ+ojneaEM6YT+rkvv9MA7Kggo/wlObPlUaE5XSWBju6bmmwk7vO7tYNZPgvct88Raop3D6vHOauP4sfsQxIiS+tclNyxSuMkia3K81dmvYzP1Ncys+aoGJgH72DcqiKrbr+AJi7+pIKewxxEdjejrzKbH1A4362lI0KmsXUh0tUpanEtYfGT0oz42TA1z3tA/c4AiWkdM61NIpQKuYN6tfTv7SnbAD3HMSvMOAie6/sWh3XUZKCqr8m6aoewnuFGfPqVF+NcCLrqVObDrZWCVC/Bn3AuFU+iEpjxXmKPEUoEvfgIVJX8t1wHloiuGml4of1d5aPG+A8mhJ9wIDAQAB\""
+}
+
+resource "cloudflare_dns_record" "autovation_com_dmarc" {
+  name    = "_dmarc.autovation.com"
+  zone_id = cloudflare_zone.autovation_com.id
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content   = "\"v=DMARC1;p=none;rua=mailto:7b7233315f@rua.easydmarc.eu;ruf=mailto:7b7233315f@ruf.easydmarc.eu;fo=1;\""
 }
