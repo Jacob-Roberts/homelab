@@ -107,6 +107,15 @@ resource "cloudflare_dns_record" "element" {
   content = "iad1-node-1.jakerob.pro"
 }
 
+resource "cloudflare_dns_record" "n8n" {
+  name    = "n8n.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "iad1-node-1.jakerob.pro"
+}
+
 ////////////////////////
 //        IAD1        //
 ////////////////////////
