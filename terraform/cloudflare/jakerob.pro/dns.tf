@@ -58,6 +58,24 @@ resource "cloudflare_dns_record" "jakerob_www_record" {
   content = "76.76.21.21"
 }
 
+resource "cloudflare_dns_record" "social_signal_vercel" {
+  name    = "socialsignal.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = true
+  ttl     = 1
+  type    = "CNAME"
+  content = "ccfcc2545bc5cf9f.vercel-dns-017.com"
+}
+
+resource "cloudflare_dns_record" "social_signal_api" {
+  name    = "api.socialsignal.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = true
+  ttl     = 1
+  type    = "CNAME"
+  content = "iad1-node-1.jakerob.pro"
+}
+
 ////////////////////////
 //    Public Apps     //
 ////////////////////////
