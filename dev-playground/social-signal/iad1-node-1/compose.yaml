@@ -53,19 +53,5 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  mysql:
-    image: mysql:8.0
-    networks:
-      - internal
-    restart: unless-stopped
-    environment:
-      - MYSQL_USER=social_signal
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=social_signal_db
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - mysql_data:/var/lib/mysql
-
 volumes:
   postgres_data:
-  mysql_data:
