@@ -247,5 +247,5 @@ resource "cloudflare_dns_record" "autovation_com_dmarc" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content   = "\"v=DMARC1;p=quarantine;rua=mailto:7b7233315f@rua.easydmarc.eu;ruf=mailto:7b7233315f@ruf.easydmarc.eu;fo=1;\""
+  content   = "\"v=DMARC1;p=reject;rua=mailto:7b7233315f@rua.easydmarc.eu;ruf=mailto:7b7233315f@ruf.easydmarc.eu;fo=1;adkim=s;aspf=s;\""
 }
