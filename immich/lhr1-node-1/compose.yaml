@@ -9,8 +9,8 @@ networks:
 
 services:
   immich-server:
-    image: ghcr.io/immich-app/immich-server:v1.141.1
-    container_name: immich-server
+    image: ghcr.io/immich-app/immich-server:v2.0.1
+    container_name: immich_server
     user: 1000:1000
     security_opt:
       # Prevent escalation of privileges after the container is started
@@ -19,7 +19,7 @@ services:
       # Prevent access to raw network traffic
       - NET_RAW
     depends_on:
-      - cache
+      - redis
       - database
     restart: unless-stopped
     healthcheck:
@@ -29,7 +29,6 @@ services:
       DB_USERNAME: "${DB_USERNAME}"
       DB_HOSTNAME: database
       DB_DATABASE_NAME: "${DB_DATABASE_NAME}"
-      REDIS_HOSTNAME: cache
     networks:
       - frontend
       - internal
@@ -50,11 +49,11 @@ services:
       traefik.http.routers.immich-prod-1-https.tls.certresolver: cloudflare
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:v1.141.1
+    image: ghcr.io/immich-app/immich-machine-learning:v2.0.1
         # extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/ml-hardware-acceleration
         #   file: hwaccel.ml.yml
         #   service: cpu # set to one of [armnn, cuda, openvino, openvino-wsl] for accelerated inference - use the `-wsl` version for WSL2 where applicable
-    container_name: immich-machine-learning
+    container_name: immich_machine_learning
         # For hardware acceleration, add one of -[armnn, cuda, openvino] to the image tag.
         # Example tag: ${IMMICH_VERSION:-release}-cuda
     user: 1000:1000
@@ -72,15 +71,14 @@ services:
       DB_USERNAME: "${DB_USERNAME}"
       DB_HOSTNAME: database
       DB_DATABASE_NAME: "${DB_DATABASE_NAME}"
-      REDIS_HOSTNAME: cache
     networks:
       - internal
     volumes:
       - ./model-cache:/cache
 
-  cache:
-    image: "docker.io/valkey/valkey:8-bookworm@sha256:facc1d2c3462975c34e10fccb167bfa92b0e0dbd992fc282c29a61c3243afb11"
-    container_name: immich-cache
+  redis:
+    image: "docker.io/valkey/valkey:8-bookworm@sha256:fea8b3e67b15729d4bb70589eb03367bab9ad1ee89c876f54327fc7c6e618571"
+    container_name: immich_redis
     restart: unless-stopped
     healthcheck:
       test: "redis-cli ping || exit 1"
@@ -88,8 +86,8 @@ services:
       - internal
 
   database:
-    image: "ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:32324a2f41df5de9efe1af166b7008c3f55646f8d0e00d9550c16c9822366b4a"
-    container_name: immich-database
+    image: "ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:41eacbe83eca995561fe43814fd4891e16e39632806253848efaf04d3c8a8b84"
+    container_name: immich_postgres
     user: 1000:1000
     restart: unless-stopped
     environment:
