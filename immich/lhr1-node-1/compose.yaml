@@ -35,7 +35,7 @@ services:
     devices:
       - /dev/dri:/dev/dri
     volumes:
-      - /media/immich:/usr/src/app/upload
+      - /media/immich:/data
       - /etc/localtime:/etc/localtime:ro
     labels:
       traefik.enable: true
