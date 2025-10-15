@@ -7,7 +7,7 @@ networks:
 
 services:
   mindsutry:
-    image: ghcr.io/jacob-roberts/mindustry:v146
+    image: ghcr.io/jacob-roberts/mindustry:0.0.1
     container_name: mindustry
     security_opt:
       - no-new-privileges:true
