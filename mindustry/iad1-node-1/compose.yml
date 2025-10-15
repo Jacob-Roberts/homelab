@@ -15,4 +15,5 @@ services:
     networks:
       - frontend
     ports:
-      - 6567:6567
+      - 6567:6567/tcp
+      - 6567:6567/udp
