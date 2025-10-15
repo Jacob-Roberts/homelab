@@ -1,0 +1,18 @@
+---
+name: mealie
+
+networks:
+  frontend:
+    external: true
+
+services:
+  mindsutry:
+    image: ghcr.io/jacob-roberts/mindustry:v146
+    container_name: mindustry
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      - frontend
+    ports:
+      - 6567:6567
