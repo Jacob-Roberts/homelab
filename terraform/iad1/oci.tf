@@ -137,6 +137,31 @@ resource "oci_core_security_list" "default_security_list" {
       min = 25565
     }
   }
+
+  ingress_security_rules {
+    description = "Mindustry TCP"
+    protocol    = "6"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    tcp_options {
+      max = 6567
+      min = 6567
+    }
+  }
+  ingress_security_rules {
+    description = "Mindustry UDP"
+    protocol    = "17"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    udp_options {
+      max = 6567
+      min = 6567
+    }
+  }
 }
 
 #############################################
