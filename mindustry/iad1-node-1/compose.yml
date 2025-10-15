@@ -1,5 +1,5 @@
 ---
-name: mealie
+name: mindustry
 
 networks:
   frontend:
