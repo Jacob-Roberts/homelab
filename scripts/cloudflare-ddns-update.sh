@@ -10,7 +10,7 @@
 # Cloudflare zone is the zone which holds the record
 zone=jakerob.pro
 # dnsrecord is the A record which will be updated
-dnsrecord=mindustry.jakerob.pro
+dnsrecord=lhr1.jakerob.pro
 
 
 # Get the current external IP address
