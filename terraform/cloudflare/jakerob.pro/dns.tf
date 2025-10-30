@@ -238,6 +238,15 @@ resource "cloudflare_dns_record" "lhr1-hv-1" {
   content = "192.168.42.10"
 }
 
+resource "cloudflare_dns_record" "lhr1-hv-2" {
+  name    = "lhr1-hv-2.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content = "192.168.42.13"
+}
+
 resource "cloudflare_dns_record" "lhr1-node-1" {
   name    = "lhr1-node-1.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
@@ -319,6 +328,15 @@ resource "cloudflare_dns_record" "proxmox-lhr1-cname" {
   ttl     = 1
   type    = "CNAME"
   content = "lhr1-hv-1.jakerob.pro"
+}
+
+resource "cloudflare_dns_record" "proxmox2-lhr1-cname" {
+  name    = "proxmox2.lhr1.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "lhr1-hv-2.jakerob.pro"
 }
 
 /* Services */
