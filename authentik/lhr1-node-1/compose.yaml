@@ -10,65 +10,46 @@ networks:
 volumes:
   database:
     driver: local
-  redis:
-    driver: local
 
 services:
-  postgres:
-    image: docker.io/library/postgres:16.2
+  postgresql:
+    image: docker.io/library/postgres:16-alpine
     container_name: authentik-db
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
     healthcheck:
-      test: [CMD-SHELL, "pg_isready -d \"${POSTGRES_DB}\" -U \"${POSTGRES_USER}\""]
-      start_period: 20s
       interval: 30s
       retries: 5
+      start_period: 20s
+      test:
+        - CMD-SHELL
+        - pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}
       timeout: 5s
     environment:
-      POSTGRES_USER: "${POSTGRES_USER}"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-      POSTGRES_DB: "${POSTGRES_DB}"
-      TZ: "${TZ:-UTC}"
+      POSTGRES_USER: "${PG_USER:-authentik}"
+      POSTGRES_PASSWORD: "${PG_PASS}"
+      POSTGRES_DB: "${PG_DB:-authentik}"
     networks:
       - internal
     volumes:
       - database:/var/lib/postgresql/data
-  redis:
-    image: docker.io/library/redis:7.2.4
-    container_name: authentik-redis
-    command: "--save 60 1 --loglevel warning"
-    security_opt:
-      - no-new-privileges:true
-    restart: unless-stopped
-    healthcheck:
-      test: [CMD-SHELL, "redis-cli ping | grep PONG"]
-      start_period: 20s
-      interval: 30s
-      retries: 5
-      timeout: 3s
-    networks:
-      - internal
-    volumes:
-      - redis:/data
   server:
-    image: ghcr.io/goauthentik/server:2025.4
+    image: ghcr.io/goauthentik/server:2025.10.0
     container_name: authentik-server
     command: server
     user: 1000:1000
     security_opt:
       - no-new-privileges:true
     depends_on:
-      - postgres
-      - redis
+      postgresql:
+        condition: service_healthy
     restart: unless-stopped
     environment:
-      AUTHENTIK_REDIS__HOST: redis
-      AUTHENTIK_POSTGRESQL__HOST: postgres
-      AUTHENTIK_POSTGRESQL__USER: "${POSTGRES_USER}"
-      AUTHENTIK_POSTGRESQL__NAME: "${POSTGRES_DB}"
-      AUTHENTIK_POSTGRESQL__PASSWORD: "${POSTGRES_PASSWORD}"
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: "${PG_USER:-authentik}"
+      AUTHENTIK_POSTGRESQL__NAME: "${PG_DB:-authentik}"
+      AUTHENTIK_POSTGRESQL__PASSWORD: "${PG_PASS}"
       # (Required)  To generate a secret key run the following command:
       #             echo $(openssl rand -base64 32)
       AUTHENTIK_SECRET_KEY: "${AUTHENTIK_SECRET_KEY}"
@@ -103,22 +84,21 @@ services:
       traefik.http.routers.authentik-prod-1-https.tls: true
       traefik.http.routers.authentik-prod-1-https.tls.certresolver: cloudflare
   worker:
-    image: ghcr.io/goauthentik/server:2025.4
+    image: ghcr.io/goauthentik/server:2025.10.0
     container_name: authentik-worker
     command: worker
     user: 1000:1000
     security_opt:
       - no-new-privileges:true
     depends_on:
-      - postgres
-      - redis
+      postgresql:
+        condition: service_healthy
     restart: unless-stopped
     environment:
-      AUTHENTIK_REDIS__HOST: redis
-      AUTHENTIK_POSTGRESQL__HOST: postgres
-      AUTHENTIK_POSTGRESQL__USER: "${POSTGRES_USER}"
-      AUTHENTIK_POSTGRESQL__NAME: "${POSTGRES_DB}"
-      AUTHENTIK_POSTGRESQL__PASSWORD: "${POSTGRES_PASSWORD}"
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: "${PG_USER:-authentik}"
+      AUTHENTIK_POSTGRESQL__NAME: "${PG_DB:-authentik}"
+      AUTHENTIK_POSTGRESQL__PASSWORD: "${PG_PASS}"
       # (Required)  To generate a secret key run the following command:
       #             echo $(openssl rand -base64 32)
       AUTHENTIK_SECRET_KEY: "${AUTHENTIK_SECRET_KEY}"
@@ -133,10 +113,6 @@ services:
       AUTHENTIK_EMAIL__USE_SSL: false
       # - AUTHENTIK_EMAIL__TIMEOUT=${EMAIL_TIMEOUT:-10}
       AUTHENTIK_EMAIL__FROM: "${EMAIL_FROM}"
-    # (Optional)  When using the docker socket integration
-    #             See more for the docker socket integration here:
-    #             https://goauthentik.io/docs/outposts/integrations/docker
-    # user: root
     networks:
       - internal
     volumes:
