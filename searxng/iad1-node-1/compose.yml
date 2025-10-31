@@ -1,0 +1,57 @@
+---
+name: searxng
+
+networks:
+  frontend:
+    external: true
+  internal:
+    external: false
+
+volumes:
+  valkey-data2:
+  searxng-data:
+
+services:
+  redis:
+    container_name: redis
+    image: docker.io/valkey/valkey:8-alpine
+    command: valkey-server --save 30 1 --loglevel warning
+    restart: unless-stopped
+    networks:
+      - internal
+    volumes:
+      - valkey-data2:/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
+  searxng:
+    container_name: searxng
+    image: docker.io/searxng/searxng:latest
+    restart: unless-stopped
+    networks:
+      - internal
+      - frontend
+    volumes:
+      - ./searxng:/etc/searxng:rw
+      - searxng-data:/var/cache/searxng:rw
+    environment:
+      - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME:-searxng.iad1.jakerob.pro}/
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+    labels:
+      traefik.enable: true
+      traefik.external: true
+      traefik.http.services.searxng-prod-1.loadBalancer.server.port: 8080
+      traefik.http.routers.searxng-prod-1-http.entrypoints: web
+      traefik.http.routers.searxng-prod-1-http.rule: Host(`searxng.iad1.jakerob.pro`)
+      traefik.http.routers.searxng-prod-1-https.entrypoints: websecure
+      traefik.http.routers.searxng-prod-1-https.rule: Host(`searxng.iad1.jakerob.pro`)
+      traefik.http.routers.searxng-prod-1-https.tls: true
+      traefik.http.routers.searxng-prod-1-https.tls.certresolver: production
+
