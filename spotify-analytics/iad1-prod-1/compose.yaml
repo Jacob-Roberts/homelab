@@ -9,7 +9,7 @@ networks:
 
 services:
   server:
-    image: yooooomi/your_spotify_server:1.10.1
+    image: yooooomi/your_spotify_server:1.14.0
     container_name: spotify-analytics
     security_opt:
       - no-new-privileges:true
@@ -50,7 +50,7 @@ services:
     volumes:
       - ./your_spotify_db:/data/db
   web:
-    image: yooooomi/your_spotify_client:1.10.1
+    image: yooooomi/your_spotify_client:1.14.0
     container_name: spotify-analytics-web
     security_opt:
       - no-new-privileges:true
