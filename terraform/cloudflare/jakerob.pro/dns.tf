@@ -620,6 +620,15 @@ resource "cloudflare_dns_record" "catch_all-iad1" {
   content = "iad1-node-1.jakerob.pro"
 }
 
+resource "cloudflare_dns_record" "secret-santa" {
+  name    = "secret-santa.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "iad1-node-1.jakerob.pro"
+}
+
 resource "cloudflare_dns_record" "it-tools" {
   name    = "it-tools.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
