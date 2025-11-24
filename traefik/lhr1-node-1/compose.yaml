@@ -18,7 +18,7 @@ volumes:
 
 services:
   traefik:
-    image: 11notes/traefik:3
+    image: traefik:v3
     container_name: traefik-primary
     command:
       - "--configFile=/traefik/traefik.yaml"
@@ -70,7 +70,7 @@ services:
 
     entrypoint: "sh -c ' while ! [ -e /certs/cloudflare-acme.json ] || ! [ `jq \".[] | .Certificates | length\" /certs/cloudflare-acme.json | jq -s \"add\" ` != 0 ]; do sleep 1 ; done && traefik-certs-dumper file --version v3 --watch --domain-subdir=true --source /certs/cloudflare-acme.json --dest /etc/traefik/certs --post-hook \"sh /extract-certs.sh\"'"
   traefik-tunnel:
-    image: 11notes/traefik:3
+    image: traefik:v3
     container_name: traefik-tunnel
     command:
       - "--configFile=/traefik/traefik.yaml"
