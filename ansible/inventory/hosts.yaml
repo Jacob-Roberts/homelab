@@ -32,6 +32,10 @@ all:
     sgu1-node-1:
       ansible_user: jacobroberts
 
+    slc1-pi-1:
+      ansible_user: jacobroberts
+      ansible_host: 192.168.42.137 ## TODO: Move to real IP
+
   children:
     docker:
       hosts:
@@ -49,6 +53,7 @@ all:
     nut_primary:
       hosts:
         lhr1-pi-1:
+        slc1-pi-1:
     nut_clients:
       hosts:
         # lhr1-storage-1: Truenas doesn't like to be configured by ansible
