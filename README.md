@@ -69,7 +69,7 @@ labels:
 
 | Host          | DHCP Reservation |
 | ------------- | ---------------- |
-| proxmox       | 192.168.42.10    |
+| proxmox2      | 192.168.42.13    |
 | pi-hole       | 192.168.42.11    |
 | docker-node-2 | 192.168.42.15    |
 

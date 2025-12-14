@@ -2,7 +2,7 @@
 
 DNS High availability
 
-https://github.com/vmstan/gravity-sync
+https://github.com/lovelaze/nebula-sync
 
 
 ### Public Accessible IPs
