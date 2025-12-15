@@ -34,7 +34,6 @@ services:
         condition: service_healthy
         restart: true
     restart: unless-stopped
-
     ports:
       - "${HOST_IP:-192.168.42.16}:80:80/tcp"
       - "${HOST_IP:-192.168.42.16}:443:443/tcp"
@@ -82,12 +81,7 @@ services:
     sysctls:
       # allow rootless container to access ports < 1024
       net.ipv4.ip_unprivileged_port_start: 80
-    depends_on:
-      socket-proxy:
-        condition: service_healthy
-        restart: true
     restart: unless-stopped
-
     ports:
       # Bind on Tailscale interface only
       - "${TAILSCALE_IP:-100.81.118.52}:80:80"
