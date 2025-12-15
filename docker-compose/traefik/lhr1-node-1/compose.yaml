@@ -121,6 +121,7 @@ services:
       - /run/docker.sock:/run/docker.sock:ro
       # this socket is run as 1000:1000, not as root!
       - socket-proxy:/run/proxy
+
   whoami:
     image: traefik/whoami
     container_name: whoami-prod-1
@@ -139,3 +140,23 @@ services:
       traefik.http.routers.whoami-prod-1-https.rule: Host(`whoami.lhr1.jakerob.pro`)
       traefik.http.routers.whoami-prod-1-https.tls: true
       traefik.http.routers.whoami-prod-1-https.tls.certresolver: cloudflare
+
+  whoami-tunnel:
+    image: traefik/whoami
+    container_name: whoami-prod-1
+    command: "--verbose"
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      - frontend
+      - internal
+    labels:
+      traefik.enable: true
+      traefik.http.routers.whoamitunnel-prod-1-http.entrypoints: web
+      traefik.http.routers.whoamitunnel-prod-1-http.rule: Host(`whoami-tunnel.lhr1.jakerob.pro`)
+      traefik.http.routers.whoamitunnel-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.whoamitunnel-prod-1-https.entrypoints: websecure
+      traefik.http.routers.whoamitunnel-prod-1-https.rule: Host(`whoami-tunnel.lhr1.jakerob.pro`)
+      traefik.http.routers.whoamitunnel-prod-1-https.tls: true
+      traefik.http.routers.whoamitunnel-prod-1-https.tls.certresolver: cloudflare
