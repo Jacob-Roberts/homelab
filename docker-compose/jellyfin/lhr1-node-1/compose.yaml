@@ -18,14 +18,14 @@ services:
       JELLYFIN_PublishedServerUrl: https://jellyfin.lhr1.jakerob.pro
     networks:
       - frontend
-    devices:
-      - /dev/dri:/dev/dri
+    # devices:
+    #   - /dev/dri:/dev/dri
     volumes:
       - ./config:/config
       - ./cache:/cache
       - /media/jellydata:/jellydata
-    group_add:
-      - ${HARDWARE_VIDEO_GROUP_ID:-993}
+    # group_add:
+    #   - ${HARDWARE_VIDEO_GROUP_ID:-993} # get this from ls -g /dev/dri
     labels:
       traefik.enable: true
       traefik.http.services.jellyfin-prod-1.loadBalancer.server.port: 8096
