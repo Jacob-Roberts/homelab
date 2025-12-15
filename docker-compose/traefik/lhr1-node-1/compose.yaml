@@ -22,6 +22,7 @@ services:
     container_name: traefik-primary
     command:
       - "--configFile=/traefik/traefik.yaml"
+    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
     read_only: true
     security_opt:
       - no-new-privileges:true
