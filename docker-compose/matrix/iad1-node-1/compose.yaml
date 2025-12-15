@@ -8,18 +8,18 @@ networks:
 services:
   synapse:
     image: docker.io/matrixdotorg/synapse:latest
-    restart: unless-stopped
     security_opt:
       - no-new-privileges:true
+    restart: unless-stopped
+    environment:
+      TZ: Europe/London
+      SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
+      UID: 1002
+      GID: 1002
     networks:
       - frontend
     # See the readme for a full documentation of the environment settings
     # NOTE: You must edit homeserver.yaml to use postgres, it defaults to sqlite
-    environment:
-      TZ: "Europe/London"
-      SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
-      UID: 1002
-      GID: 1002
     volumes:
       - ./data:/data
     labels:

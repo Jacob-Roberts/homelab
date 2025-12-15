@@ -12,8 +12,8 @@ services:
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
-    networks:
-      - frontend
     ports:
       - 6567:6567/tcp
       - 6567:6567/udp
+    networks:
+      - frontend

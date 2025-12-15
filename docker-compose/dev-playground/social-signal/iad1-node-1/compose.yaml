@@ -8,6 +8,9 @@ networks:
   internal:
     external: false
 
+volumes:
+  postgres_data:
+
 services:
   socialsignal:
     image: ghcr.io/jacob-roberts/social-signal-backend:0.0.1-alpha5
@@ -15,19 +18,19 @@ services:
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
-    networks:
-      - frontend
-      - internal
     environment:
-      APP_BASE_URL: "https://socialsignal.jakerob.pro"
-      JWKS_URL: "https://socialsignal.jakerob.pro/api/auth/jwks"
+      APP_BASE_URL: https://socialsignal.jakerob.pro
+      JWKS_URL: https://socialsignal.jakerob.pro/api/auth/jwks
       DATABASE_TYPE: postgres
       DATABASE_HOST: postgres
       DATABASE_PORT: 5432
       DATABASE_USER: social_signal
-      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_PASSWORD: "${POSTGRES_PASSWORD}"
       DATABASE_NAME: social_signal_db
       DATABASE_SSLMODE: disable
+    networks:
+      - frontend
+      - internal
     labels:
       traefik.enable: true
       traefik.external: true
@@ -43,15 +46,13 @@ services:
 
   postgres:
     image: postgres:15-alpine
-    networks:
-      - internal
     restart: unless-stopped
     environment:
-      - POSTGRES_USER=social_signal
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=social_signal_db
+      POSTGRES_USER: social_signal
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: social_signal_db
+    networks:
+      - internal
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-volumes:
-  postgres_data:

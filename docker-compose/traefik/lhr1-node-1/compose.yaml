@@ -22,8 +22,8 @@ services:
     container_name: traefik-primary
     command:
       - "--configFile=/traefik/traefik.yaml"
-    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
     read_only: true
+    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
     security_opt:
       - no-new-privileges:true
     sysctls:
@@ -36,8 +36,8 @@ services:
     restart: unless-stopped
 
     ports:
-      - ${HOST_IP:-192.168.42.16}:80:80/tcp
-      - ${HOST_IP:-192.168.42.16}:443:443/tcp
+      - "${HOST_IP:-192.168.42.16}:80:80/tcp"
+      - "${HOST_IP:-192.168.42.16}:443:443/tcp"
     environment:
       CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
       TZ: "${TZ:-Europe/London}"
@@ -76,17 +76,22 @@ services:
     command:
       - "--configFile=/traefik/traefik.yaml"
     read_only: true
+    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
     security_opt:
       - no-new-privileges:true
     sysctls:
       # allow rootless container to access ports < 1024
       net.ipv4.ip_unprivileged_port_start: 80
+    depends_on:
+      socket-proxy:
+        condition: service_healthy
+        restart: true
     restart: unless-stopped
 
     ports:
       # Bind on Tailscale interface only
-      - ${TAILSCALE_IP:-100.81.118.52}:80:80
-      - ${TAILSCALE_IP:-100.81.118.52}:443:443
+      - "${TAILSCALE_IP:-100.81.118.52}:80:80"
+      - "${TAILSCALE_IP:-100.81.118.52}:443:443"
     environment:
       TZ: "${TZ:-Europe/London}"
     networks:
