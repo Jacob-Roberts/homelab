@@ -50,6 +50,11 @@ all:
         lhr1-node-1:
         sgu1-node-1:
         slc1-node-3:
+
+    pihole:
+      hosts:
+        lhr1-pi-1:
+
     nut_primary:
       hosts:
         lhr1-pi-1:

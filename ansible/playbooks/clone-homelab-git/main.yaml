@@ -1,9 +1,0 @@
----
-- name: Setup Homelab git service folder
-  hosts: lhr1-node-1
-  tasks:
-    - name: Git checkout
-      ansible.builtin.git:
-        repo: 'https://github.com/Jacob-Roberts/homelab.git'
-        dest: /srv/homelab
-        version: main

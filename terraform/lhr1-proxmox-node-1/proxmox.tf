@@ -36,13 +36,20 @@ resource "proxmox_lxc" "lhr1-node-2" {
 
 # Docs: https://github.com/Telmate/terraform-provider-proxmox/blob/master/docs/resources/vm_qemu.md
 resource "proxmox_vm_qemu" "lhr1-node-1" {
+  clone = "ubuntu-cloud-template"
+
   name = "lhr1-node-1"
-  description = "docker node"
   target_node = "lhr1-hv-2"
   vmid = 200
   start_at_node_boot = true
 
+  ciuser = "ubuntu"
+  cicustom   = "vendor=local:snippets/qemu-guest-agent.yml" # /var/lib/vz/snippets/qemu-guest-agent.yml
   agent = 1
+  ciupgrade  = true
+  sshkeys = local.default_ssh_public_keys
+  ipconfig0 = "ip=dhcp"
+
   startup_shutdown {
     order = 2
   }
@@ -55,6 +62,8 @@ resource "proxmox_vm_qemu" "lhr1-node-1" {
   # MB
   memory   = 30000
 
+  qemu_os = "l26"
+
   define_connection_info = false
   scsihw                 = "virtio-scsi-single"
 
@@ -66,6 +75,11 @@ resource "proxmox_vm_qemu" "lhr1-node-1" {
     macaddr = var.lhr1-node-1-mac-address
   }
 
+  # Most cloud-init images require a serial device for their display
+  serial {
+    id = 0
+  }
+
   disks {
     scsi {
       scsi0 {
@@ -75,6 +89,14 @@ resource "proxmox_vm_qemu" "lhr1-node-1" {
           backup    = true
           iothread  = true
           replicate = true
+        }
+      }
+    }
+    ide {
+      # Some images require a cloud-init disk on the IDE controller, others on the SCSI or SATA controller
+      ide1 {
+        cloudinit {
+          storage = "local-lvm"
         }
       }
     }
