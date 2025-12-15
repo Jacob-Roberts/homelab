@@ -74,9 +74,9 @@
     docker_users:
       - jacobroberts
 
-  # roles:
-  #   - geerlingguy.security
-  #   - geerlingguy.docker
+  roles:
+    - geerlingguy.security
+    - geerlingguy.docker
 
   tasks:
     - name: Create homelab system user
@@ -98,8 +98,8 @@
         path: "{{ homelab_home }}"
         state: directory
         owner: "{{ homelab_system_user }}"
-        group: "{{ homelab_admins_group }}"  # This is the key change
-        mode: "0750"
+        group: "{{ homelab_admins_group }}"
+        mode: "0770"
 
     - name: Ensure .ssh directory exists
       ansible.builtin.file:
@@ -165,6 +165,7 @@
         state: present
         groups: 
           - "{{ homelab_admins_group }}"
+        append: true
       loop: "{{ homelab_users }}"
 
     - name: Install git if not present
@@ -194,7 +195,7 @@
         owner: "{{ homelab_system_user }}"
         group: "{{ homelab_admins_group }}"
         recurse: yes
-        mode: "0755"
+        mode: "0775"
 
     - name: Create service groups
       ansible.builtin.group:
