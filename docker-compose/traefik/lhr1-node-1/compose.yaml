@@ -110,7 +110,7 @@ services:
     image: 11notes/socket-proxy:2
     container_name: traefik-socket-proxy
     read_only: true
-    user: "0:${DOCKER_GROUP_ID:-990}"
+    user: "0:${DOCKER_GROUP_ID:-988}" # Lookup the docker group ID using `getent group docker`
     restart: unless-stopped
 
     networks:
