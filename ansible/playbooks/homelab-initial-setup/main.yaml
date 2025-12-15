@@ -25,6 +25,7 @@
     homelab_ssh_dir: /srv/homelab/.ssh
     homelab_ssh_key_path: /srv/homelab/.ssh/id_ed25519
     homelab_git_repo_url: 'git@github.com:Jacob-Roberts/homelab.git'
+    homelab_git_repo_https_url: https://github.com/Jacob-Roberts/homelab/
 
     github_host_key: |-
       # github.com:22 SSH-2.0-1e748d5
@@ -108,6 +109,11 @@
     - name: Show public key (for GitHub deploy key)
       ansible.builtin.debug:
         msg: "{{ deploy_key.public_key }}"
+      when: deploy_key.changed
+
+    - name: Upload deploy key to GitHub (manual step)
+      ansible.builtin.pause:
+        prompt: "Please add the following SSH public key as a deploy key with read access to the GitHub repo {{ homelab_git_repo_https_url  }}settings/keys:\n\n{{ deploy_key.public_key }}\n"
       when: deploy_key.changed
 
     - name: Pin GitHub host key

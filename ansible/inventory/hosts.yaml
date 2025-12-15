@@ -37,6 +37,10 @@ all:
       ansible_host: 192.168.42.137 ## TODO: Move to real IP
 
   children:
+    bootstrap:
+      hosts:
+        lhr1-node-1:
+
     docker:
       hosts:
         lhr1-node-1:

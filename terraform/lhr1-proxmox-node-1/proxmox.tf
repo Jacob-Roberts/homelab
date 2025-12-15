@@ -60,7 +60,7 @@ resource "proxmox_vm_qemu" "lhr1-node-1" {
     cores    = 4
   }
   # MB
-  memory   = 30000
+  memory   = 30720
 
   qemu_os = "l26"
 
