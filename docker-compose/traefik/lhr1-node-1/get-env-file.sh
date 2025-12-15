@@ -22,8 +22,4 @@ infisical export \
     --path="$SECRET_PATH" \
     --format=dotenv > .env
 
-# Set proper permissions
-chmod 600 .env
-
 echo "✓ Secrets pulled successfully to .env"
-echo "✓ File permissions set to 600"
