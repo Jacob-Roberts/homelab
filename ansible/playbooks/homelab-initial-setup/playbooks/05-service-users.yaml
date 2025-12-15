@@ -1,0 +1,37 @@
+---
+# =============================================================================
+# Service Users Setup
+# =============================================================================
+# Run: ansible-playbook playbooks/05-service-users.yaml
+#
+# This playbook:
+# - Creates service groups with fixed GIDs
+# - Creates service users with fixed UIDs (for consistent file ownership)
+#
+# Services: traefik, authentik, jellyfin, immich, paperless
+# =============================================================================
+
+- name: Service Users Setup
+  hosts: "{{ target_host | default('lhr1-node-1') }}"
+  become: true
+
+  vars_files:
+    - ../vars/main.yaml
+
+  tasks:
+    - name: Create service groups
+      ansible.builtin.group:
+        name: "{{ item.name }}"
+        gid: "{{ item.gid }}"
+        system: yes
+      loop: "{{ service_users }}"
+
+    - name: Create service users
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        uid: "{{ item.uid }}"
+        group: "{{ item.name }}"
+        system: yes
+        shell: /usr/sbin/nologin
+      loop: "{{ service_users }}"
+

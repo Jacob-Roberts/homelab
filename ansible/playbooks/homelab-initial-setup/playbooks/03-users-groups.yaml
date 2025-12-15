@@ -1,0 +1,55 @@
+---
+# =============================================================================
+# Users & Groups Setup
+# =============================================================================
+# Run: ansible-playbook playbooks/03-users-groups.yaml
+#
+# This playbook:
+# - Creates the homelab-admins group
+# - Creates the homelab system user
+# - Creates human user accounts and adds them to homelab-admins
+# =============================================================================
+
+- name: Users & Groups Setup
+  hosts: "{{ target_host | default('lhr1-node-1') }}"
+  become: true
+
+  vars_files:
+    - ../vars/main.yaml
+
+  tasks:
+    - name: Ensure homelab-admins group exists
+      ansible.builtin.group:
+        name: "{{ homelab_admins_group }}"
+        state: present
+
+    - name: Create homelab system user
+      ansible.builtin.user:
+        name: "{{ homelab_system_user }}"
+        system: true
+        home: "{{ homelab_home }}"
+        groups:
+          - "{{ homelab_admins_group }}"
+        append: true
+        shell: /usr/sbin/nologin
+        create_home: true
+        state: present
+
+    - name: Ensure homelab home directory has correct group
+      ansible.builtin.file:
+        path: "{{ homelab_home }}"
+        state: directory
+        owner: "{{ homelab_system_user }}"
+        group: "{{ homelab_admins_group }}"
+        mode: "0770"
+
+    - name: Create homelab human users
+      ansible.builtin.user:
+        name: "{{ item }}"
+        shell: /bin/bash
+        state: present
+        groups:
+          - "{{ homelab_admins_group }}"
+        append: true
+      loop: "{{ homelab_users }}"
+

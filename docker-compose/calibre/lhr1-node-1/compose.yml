@@ -11,8 +11,8 @@ services:
     container_name: calibre-web-automated
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${DOCKER_USER_ID:-2006}
+      - PGID=${DOCKER_GROUP_ID:-2006}
       # Edit to match your current timezone https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
       - TZ=UTC
     networks:
