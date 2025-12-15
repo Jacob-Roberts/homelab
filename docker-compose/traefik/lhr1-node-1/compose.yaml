@@ -36,8 +36,8 @@ services:
     restart: unless-stopped
 
     ports:
-      - 192.168.42.16:80:80/tcp
-      - 192.168.42.16:443:443/tcp
+      - ${HOST_IP:-192.168.42.16}:80:80/tcp
+      - ${HOST_IP:-192.168.42.16}:443:443/tcp
     environment:
       CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
       TZ: "${TZ:-Europe/London}"
@@ -85,8 +85,8 @@ services:
 
     ports:
       # Bind on Tailscale interface only
-      - 100.89.27.79:80:80
-      - 100.89.27.79:443:443
+      - ${TAILSCALE_IP:-100.81.118.52}:80:80
+      - ${TAILSCALE_IP:-100.81.118.52}:443:443
     environment:
       TZ: "${TZ:-Europe/London}"
     networks:
