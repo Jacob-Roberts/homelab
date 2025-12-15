@@ -24,7 +24,7 @@
     homelab_home: /srv/homelab
     homelab_ssh_dir: /srv/homelab/.ssh
     homelab_ssh_key_path: /srv/homelab/.ssh/id_ed25519
-    homelab_git_repo_url: 'git@github.com:Jacob-Roberts/homelab.git'
+    homelab_git_repo_url: "git@github.com:Jacob-Roberts/homelab.git"
     homelab_git_repo_https_url: https://github.com/Jacob-Roberts/homelab/
 
     github_host_key: |-
@@ -70,7 +70,7 @@
     security_fail2ban_enabled: true
 
     # Geerling docker vars:
-    docker_edition: 'ce'
+    docker_edition: "ce"
     docker_users:
       - jacobroberts
 
@@ -137,7 +137,7 @@
         state: present
       # homelab_system_user doesn't have a login shell, so we need these workarounds
       become_user: "{{ homelab_system_user }}"
-      become_flags: '-H -S -n'
+      become_flags: "-H -S -n"
       vars:
         ansible_ssh_pipelining: true
       loop: "{{ github_host_key.split('\n') | select | reject('match', '^#') | list }}"
@@ -145,16 +145,16 @@
     - name: Disable SSH agent forwarding globally
       ansible.builtin.lineinfile:
         path: /etc/ssh/sshd_config
-        regexp: '^AllowAgentForwarding'
-        line: 'AllowAgentForwarding no'
+        regexp: "^AllowAgentForwarding"
+        line: "AllowAgentForwarding no"
         state: present
       notify: restart ssh
 
     - name: Ensure homelab user cannot SSH interactively
       ansible.builtin.lineinfile:
         path: /etc/ssh/sshd_config
-        regexp: '^DenyUsers.*{{ homelab_system_user }}.*'
-        line: 'DenyUsers {{ homelab_system_user }}'
+        regexp: "^DenyUsers.*{{ homelab_system_user }}.*"
+        line: "DenyUsers {{ homelab_system_user }}"
         state: present
       notify: restart ssh
 
@@ -163,7 +163,7 @@
         name: "{{ item }}"
         shell: /bin/bash
         state: present
-        groups: 
+        groups:
           - "{{ homelab_admins_group }}"
         append: true
       loop: "{{ homelab_users }}"
@@ -172,7 +172,7 @@
       ansible.builtin.package:
         name: git
         state: present
-    
+
     - name: Clone homelab repo
       ansible.builtin.git:
         repo: "{{ homelab_git_repo_url }}"
@@ -184,10 +184,10 @@
         ssh_opts: "-o UserKnownHostsFile={{ homelab_ssh_dir }}/known_hosts"
       # homelab_system_user doesn't have a login shell, so we need these workarounds
       become_user: "{{ homelab_system_user }}"
-      become_flags: '-H -S -n'
+      become_flags: "-H -S -n"
       vars:
         ansible_ssh_pipelining: true
-      
+
     - name: Set homelab repo ownership
       ansible.builtin.file:
         path: "{{ homelab_dir }}"
