@@ -195,7 +195,7 @@
         owner: "{{ homelab_system_user }}"
         group: "{{ homelab_admins_group }}"
         recurse: yes
-        mode: "0775"
+        mode: "2775" # 2 means that setgid → new files inherit homelab-admins
 
     - name: Create service groups
       ansible.builtin.group:
@@ -213,6 +213,17 @@
         system: yes
         shell: /usr/sbin/nologin
       loop: "{{ service_users }}"
+
+    - name: Traefik writable paths
+      file:
+        path: "{{ item }}"
+        owner: traefik
+        group: homelab-admins
+        recurse: true
+        mode: "u=rwX,g=rwX,o=rX,g+s"
+      loop:
+        - /srv/homelab/repo/docker-compose/traefik/lhr1-node-1/config/certs
+        - /srv/homelab/repo/docker-compose/traefik/lhr1-node-1/config/plugins
 
     - name: Ensure NFS utilities exists
       ansible.builtin.apt:
