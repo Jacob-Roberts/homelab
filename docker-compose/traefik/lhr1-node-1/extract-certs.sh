@@ -20,4 +20,4 @@ for domain in $DOMAINS; do
   cp -r /etc/traefik/certs/$domain /synced-certs/
 done
 
-chown -R 1000:1000 synced-certs/
+chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} synced-certs/

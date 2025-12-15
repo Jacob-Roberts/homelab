@@ -88,18 +88,21 @@
     - geerlingguy.docker
 
   tasks:
+    - name: Ensure homelab-admins group exists
+      ansible.builtin.group:
+        name: "{{ homelab_admins_group }}"
+        state: present
+
     - name: Create homelab system user
       ansible.builtin.user:
         name: "{{ homelab_system_user }}"
         system: true
         home: "{{ homelab_home }}"
+        groups:
+          - "{{ homelab_admins_group }}"
+        append: true
         shell: /usr/sbin/nologin
         create_home: true
-        state: present
-
-    - name: Ensure homelab-admins group exists
-      ansible.builtin.group:
-        name: "{{ homelab_admins_group }}"
         state: present
 
     - name: Ensure homelab home directory has correct group
