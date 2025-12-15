@@ -74,9 +74,9 @@
     docker_users:
       - jacobroberts
 
-  roles:
-    - geerlingguy.security
-    - geerlingguy.docker
+  # roles:
+  #   - geerlingguy.security
+  #   - geerlingguy.docker
 
   tasks:
     - name: Create homelab system user
@@ -87,6 +87,19 @@
         shell: /usr/sbin/nologin
         create_home: true
         state: present
+
+    - name: Ensure homelab-admins group exists
+      ansible.builtin.group:
+        name: "{{ homelab_admins_group }}"
+        state: present
+
+    - name: Ensure homelab home directory has correct group
+      ansible.builtin.file:
+        path: "{{ homelab_home }}"
+        state: directory
+        owner: "{{ homelab_system_user }}"
+        group: "{{ homelab_admins_group }}"  # This is the key change
+        mode: "0750"
 
     - name: Ensure .ssh directory exists
       ansible.builtin.file:
@@ -144,11 +157,6 @@
         line: 'DenyUsers {{ homelab_system_user }}'
         state: present
       notify: restart ssh
-
-    - name: Ensure homelab-admins group exists
-      ansible.builtin.group:
-        name: "{{ homelab_admins_group }}"
-        state: present
 
     - name: Create homelab human users
       ansible.builtin.user:
