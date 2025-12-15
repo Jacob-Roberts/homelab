@@ -237,6 +237,17 @@
         - /srv/homelab/repo/docker-compose/traefik/lhr1-node-1/config/certs
         - /srv/homelab/repo/docker-compose/traefik/lhr1-node-1/config/plugins
 
+    - name: Jellyfin writable paths
+      file:
+        path: "{{ item }}"
+        owner: jellyfin
+        group: homelab-admins
+        recurse: true
+        mode: "u=rwX,g=rwX,o=rX,g+s"
+      loop:
+        - /srv/homelab/repo/docker-compose/jellyfin/lhr1-node-1/config
+        - /srv/homelab/repo/docker-compose/jellyfin/lhr1-node-1/cache
+
     - name: Ensure NFS utilities exists
       ansible.builtin.apt:
         pkg:
