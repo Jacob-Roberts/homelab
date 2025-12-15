@@ -9,11 +9,11 @@ services:
   jellyfin:
     image: docker.io/jellyfin/jellyfin:10
     container_name: jellyfin
-    user: "${DOCKER_USER_ID:-1000}:${DOCKER_GROUP_ID:-1000}"
+    user: "${DOCKER_USER_ID:-2003}:${DOCKER_GROUP_ID:-2003}"
     restart: unless-stopped
     environment:
-      PUID: "${DOCKER_USER_ID:-1000}"
-      PGID: "${DOCKER_GROUP_ID:-1000}"
+      PUID: "${DOCKER_USER_ID:-2003}"
+      PGID: "${DOCKER_GROUP_ID:-2003}"
       TZ: Europe/London
       JELLYFIN_PublishedServerUrl: https://jellyfin.lhr1.jakerob.pro
     networks:

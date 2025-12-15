@@ -44,6 +44,15 @@
       - name: authentik
         uid: 2002
         gid: 2002
+      - name: jellyfin
+        uid: 2003
+        gid: 2003
+      - name: immich
+        uid: 2004
+        gid: 2004
+      - name: paperless
+        uid: 2005
+        gid: 2005
 
     # Geerling security vars:
     security_ssh_password_authentication: "no"
