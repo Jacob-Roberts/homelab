@@ -10,7 +10,7 @@ networks:
 
 services:
   socialsignal:
-    image: ghcr.io/jacob-roberts/social-signal-backend:0.0.1-alpha5
+    image: ghcr.io/jacob-roberts/social-signal-backend:0.0.1-alpha10
     container_name: socialsignal
     security_opt:
       - no-new-privileges:true
@@ -20,7 +20,9 @@ services:
       - internal
     environment:
       APP_BASE_URL: "https://socialsignal.jakerob.pro"
+      API_BASE_URL: "https://api.socialsignal.jakerob.pro"
       JWKS_URL: "https://socialsignal.jakerob.pro/api/auth/jwks"
+      JWT_SECRET: ${JWT_SECRET}
       DATABASE_TYPE: postgres
       DATABASE_HOST: postgres
       DATABASE_PORT: 5432
