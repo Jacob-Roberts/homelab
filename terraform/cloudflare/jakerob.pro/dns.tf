@@ -748,7 +748,7 @@ resource "cloudflare_dns_record" "truenas-slc1" {
 }
 
 resource "cloudflare_dns_record" "whoami-lhr1" {
-  name    = "whoami.lhr1.jakerob.pro"
+  name    = "whoami-tunnel.lhr1.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
   proxied = false
   ttl     = 1

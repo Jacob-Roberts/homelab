@@ -143,7 +143,7 @@ services:
 
   whoami-tunnel:
     image: traefik/whoami
-    container_name: whoami-prod-1
+    container_name: whoami-tunnel-prod-1
     command: "--verbose"
     security_opt:
       - no-new-privileges:true

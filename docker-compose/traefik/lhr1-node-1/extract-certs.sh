@@ -10,7 +10,7 @@ DOMAINS="
 photos.jakerob.pro
 jellyfin.jakerob.pro
 authentik.lhr1.jakerob.pro
-whoami.lhr1.jakerob.pro
+whoami-tunnel.lhr1.jakerob.pro
 karakeep.jakerob.pro
 calibre.jakerob.pro
 "

@@ -1,7 +1,7 @@
 tls:
   certificates:
-    - certFile: /etc/traefik/static-certs/whoami.lhr1.jakerob.pro/certificate.crt
-      keyFile: /etc/traefik/static-certs/whoami.lhr1.jakerob.pro/privatekey.key
+    - certFile: /etc/traefik/static-certs/whoami-tunnel.lhr1.jakerob.pro/certificate.crt
+      keyFile: /etc/traefik/static-certs/whoami-tunnel.lhr1.jakerob.pro/privatekey.key
     - certFile: /etc/traefik/static-certs/authentik.lhr1.jakerob.pro/certificate.crt
       keyFile: /etc/traefik/static-certs/authentik.lhr1.jakerob.pro/privatekey.key
     - certFile: /etc/traefik/static-certs/photos.jakerob.pro/certificate.crt

@@ -10,7 +10,7 @@ http:
     # WHOAMI LHR1
     whoami-lhr1-https:
       entrypoints: websecure
-      rule: "Host(`whoami.lhr1.jakerob.pro`)"
+      rule: "Host(`whoami-tunnel.lhr1.jakerob.pro`)"
       service: lhr1-traefik
       tls: true
 

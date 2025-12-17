@@ -12,15 +12,15 @@ http:
 
   routers:
     # WHOAMI LHR1
-    whoami-blank-lhr1-http:
+    whoami-tunnel-lhr1-http:
       entrypoints: web
-      rule: "Host(`whoami.lhr1.jakerob.pro`)"
+      rule: "Host(`whoami-tunnel.lhr1.jakerob.pro`)"
       middlewares:
         - websecure-redirect-permanent@file
       service: lhr1-tunnel
-    whoami-blank-lhr1-https:
+    whoami-tunnel-lhr1-https:
       entrypoints: websecure
-      rule: "Host(`whoami.lhr1.jakerob.pro`)"
+      rule: "Host(`whoami-tunnel.lhr1.jakerob.pro`)"
       service: lhr1-tunnel
       tls: true
 
