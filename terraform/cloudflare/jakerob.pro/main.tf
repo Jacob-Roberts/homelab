@@ -14,7 +14,7 @@ terraform {
 
   backend "s3" {
     bucket                      = "jakerob-pro-terraform-state"
-    key                         = "state.json"
+    key                         = "cloudflare/jakerob.pro.json"
     skip_credentials_validation = true
     skip_region_validation      = true
     endpoint                    = "https://s3.us-west-002.backblazeb2.com"
