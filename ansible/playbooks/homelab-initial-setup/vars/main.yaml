@@ -1,0 +1,104 @@
+---
+# =============================================================================
+# Shared variables for homelab-initial-setup playbooks
+# =============================================================================
+
+# Target host configuration
+target_host: lhr1-node-1
+
+# User configuration
+homelab_system_user: homelab
+homelab_users:
+  - jacobroberts
+homelab_admins_group: homelab-admins
+
+# Directory paths
+homelab_dir: /srv/homelab/repo
+homelab_home: /srv/homelab
+homelab_ssh_dir: /srv/homelab/.ssh
+homelab_ssh_key_path: /srv/homelab/.ssh/id_ed25519
+
+# Git repository
+homelab_git_repo_url: "git@github.com:Jacob-Roberts/homelab.git"
+homelab_git_repo_https_url: https://github.com/Jacob-Roberts/homelab/
+
+# GitHub SSH host keys
+github_host_key: |-
+  # github.com:22 SSH-2.0-1e748d5
+  github.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=
+  # github.com:22 SSH-2.0-1e748d5
+  github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=
+  # github.com:22 SSH-2.0-1e748d5
+  github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+  # github.com:22 SSH-2.0-1e748d5
+  # github.com:22 SSH-2.0-1e748d5
+
+# Service users with fixed UIDs/GIDs for consistency across hosts
+service_users:
+  - name: traefik
+    uid: 2001
+    gid: 2001
+  - name: authentik
+    uid: 2002
+    gid: 2002
+  - name: jellyfin
+    uid: 2003
+    gid: 2003
+  - name: immich
+    uid: 2004
+    gid: 2004
+  - name: paperless
+    uid: 2005
+    gid: 2005
+  - name: calibre
+    uid: 2006
+    gid: 2006
+
+# NFS mount configuration
+nfs_mounts:
+  - path: /media/immich
+    src: truenas.lhr1.jakerob.pro:/mnt/bulk-slow/encrypted/immich
+    fstype: nfs
+    state: mounted
+  - path: /media/jellydata
+    src: truenas.lhr1.jakerob.pro:/mnt/bulk-slow/encrypted/jellyfin
+    fstype: nfs
+    state: mounted
+  - path: /media/roberts-data
+    src: truenas.lhr1.jakerob.pro:/mnt/bulk-slow/encrypted/pbj-drive
+    fstype: nfs
+    state: mounted
+
+# =============================================================================
+# geerlingguy.security role configuration
+# =============================================================================
+security_ssh_password_authentication: "no"
+security_ssh_permit_root_login: "no"
+security_ssh_usedns: "no"
+security_ssh_permit_empty_password: "no"
+security_ssh_challenge_response_auth: "no"
+security_ssh_gss_api_authentication: "no"
+security_ssh_x11_forwarding: "no"
+security_ssh_allowed_users:
+  - jacobroberts
+security_sshd_state: started
+security_ssh_restart_handler_state: restarted
+security_sudoers_passwordless:
+  - jacobroberts
+security_sudoers_passworded: []
+security_autoupdate_enabled: true
+security_autoupdate_blacklist: []
+security_autoupdate_additional_origins: []
+# Luks will break on reboot
+security_autoupdate_reboot: false
+security_autoupdate_mail_to: "jroberts.glql8@simplelogin.com"
+security_autoupdate_mail_on_error: true
+security_fail2ban_enabled: true
+
+# =============================================================================
+# geerlingguy.docker role configuration
+# =============================================================================
+docker_edition: "ce"
+docker_users:
+  - jacobroberts
+

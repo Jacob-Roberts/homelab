@@ -1,0 +1,24 @@
+---
+
+name: static
+
+networks:
+  frontend:
+    external: true
+
+services:
+  static:
+    image: nginx:latest
+    container_name: static
+    restart: unless-stopped
+    networks:
+      - frontend
+    labels:
+      traefik.enable: true
+      traefik.http.routers.static-prod-1-http.entrypoints: web
+      traefik.http.routers.static-prod-1-http.rule: Host(`static.lhr1.jakerob.pro`)
+      traefik.http.routers.static-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.static-prod-1-https.entrypoints: websecure
+      traefik.http.routers.static-prod-1-https.rule: Host(`static.lhr1.jakerob.pro`)
+      traefik.http.routers.static-prod-1-https.tls: true
+      traefik.http.routers.static-prod-1-https.tls.certresolver: cloudflare

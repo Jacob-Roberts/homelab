@@ -1,0 +1,45 @@
+---
+# =============================================================================
+# Security & SSH Hardening
+# =============================================================================
+# Run: ansible-playbook playbooks/01-security.yaml
+#
+# This playbook:
+# - Applies geerlingguy.security role (fail2ban, auto-updates, SSH hardening)
+# - Disables SSH agent forwarding
+# - Denies SSH access to the homelab system user
+# =============================================================================
+
+- name: Security & SSH Hardening
+  hosts: "{{ target_host | default('lhr1-node-1') }}"
+  become: true
+
+  vars_files:
+    - ../vars/main.yaml
+
+  roles:
+    - geerlingguy.security
+
+  tasks:
+    - name: Disable SSH agent forwarding globally
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "^AllowAgentForwarding"
+        line: "AllowAgentForwarding no"
+        state: present
+      notify: restart ssh
+
+    - name: Ensure homelab user cannot SSH interactively
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "^DenyUsers.*{{ homelab_system_user }}.*"
+        line: "DenyUsers {{ homelab_system_user }}"
+        state: present
+      notify: restart ssh
+
+  handlers:
+    - name: restart ssh
+      ansible.builtin.service:
+        name: ssh
+        state: restarted
+

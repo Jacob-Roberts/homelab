@@ -1,0 +1,34 @@
+---
+# =============================================================================
+# NFS Mounts
+# =============================================================================
+# Run: ansible-playbook playbooks/07-nfs-mounts.yaml
+#
+# This playbook:
+# - Installs NFS utilities
+# - Mounts NFS shares from TrueNAS
+# =============================================================================
+
+- name: NFS Mounts
+  hosts: "{{ target_host | default('lhr1-node-1') }}"
+  become: true
+
+  vars_files:
+    - ../vars/main.yaml
+
+  tasks:
+    - name: Ensure NFS utilities are installed
+      ansible.builtin.apt:
+        pkg:
+          - nfs-common
+        state: present
+
+    - name: Mount NFS shares
+      ansible.posix.mount:
+        path: "{{ item.path }}"
+        src: "{{ item.src }}"
+        fstype: "{{ item.fstype }}"
+        opts: rw,noatime,hard,_netdev,timeo=900,retrans=5
+        state: "{{ item.state }}"
+      loop: "{{ nfs_mounts }}"
+

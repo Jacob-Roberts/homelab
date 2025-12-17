@@ -1,0 +1,16 @@
+---
+- name: Install Tailscale
+  hosts: tailscale
+  become: true
+
+  vars_files:
+    - config-secrets.yaml
+
+  vars:
+    # See config-secrets.yaml
+    #TAILSCALE_KEY: "${TAILSCALE_KEY}"
+
+  roles:
+    - role: artis3n.tailscale.machine
+      vars:
+        tailscale_authkey: "{{ TAILSCALE_KEY }}"

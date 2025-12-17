@@ -1,0 +1,45 @@
+---
+- name: Create external Docker networks
+  hosts: docker
+  become: true
+  vars:
+    # Define external networks per host
+    # Add or remove networks as needed for each node
+    docker_networks_by_host:
+      lhr1-node-1:
+        - frontend
+        - tunnel
+      # iad1-vpn-node-1:
+      #   - frontend
+      # iad1-vpn-node-2:
+      #   - frontend
+      # iad1-vpn-node-3:
+      #   - frontend
+      # slc1-node-3:
+      #   - frontend
+      #   - tunnel
+      # sgu1-node-1:
+      #   - frontend
+
+  tasks:
+    - name: Get networks for this host
+      ansible.builtin.set_fact:
+        docker_external_networks: "{{ docker_networks_by_host[inventory_hostname] | default([]) }}"
+
+    - name: Display networks to be created
+      ansible.builtin.debug:
+        msg: "Creating external Docker networks: {{ docker_external_networks }}"
+      when: docker_external_networks | length > 0
+
+    - name: Skip host if no networks defined
+      ansible.builtin.debug:
+        msg: "No external networks defined for {{ inventory_hostname }}, skipping"
+      when: docker_external_networks | length == 0
+
+    - name: Create external Docker networks
+      community.docker.docker_network:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ docker_external_networks }}"
+      when: docker_external_networks | length > 0
+

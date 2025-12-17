@@ -1,0 +1,41 @@
+---
+# =============================================================================
+# Run All Setup Playbooks
+# =============================================================================
+# Run: ansible-playbook playbooks/run-all.yaml
+#
+# This playbook imports all individual setup playbooks in the correct order.
+# Use this to run the complete initial setup, or run individual playbooks
+# for more granular control.
+#
+# Order:
+#   1. Security & SSH hardening
+#   2. Docker installation
+#   3. Users & groups
+#   4. Git repository
+#   5. Service users
+#   6. Service permissions
+#   7. NFS mounts
+# =============================================================================
+
+- name: Run all setup playbooks
+  ansible.builtin.import_playbook: 01-security.yaml
+
+- name: Docker installation
+  ansible.builtin.import_playbook: 02-docker.yaml
+
+- name: Users and groups
+  ansible.builtin.import_playbook: 03-users-groups.yaml
+
+- name: Git repository setup
+  ansible.builtin.import_playbook: 04-git-repo.yaml
+
+- name: Service users
+  ansible.builtin.import_playbook: 05-service-users.yaml
+
+- name: Service permissions
+  ansible.builtin.import_playbook: 06-service-permissions.yaml
+
+- name: NFS mounts
+  ansible.builtin.import_playbook: 07-nfs-mounts.yaml
+

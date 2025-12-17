@@ -1,0 +1,94 @@
+---
+# =============================================================================
+# Git Repository Setup
+# =============================================================================
+# Run: ansible-playbook playbooks/04-git-repo.yaml
+#
+# This playbook:
+# - Creates .ssh directory for homelab user
+# - Generates SSH deploy key for GitHub
+# - Pins GitHub host keys
+# - Clones the homelab repository
+# - Sets correct ownership on the repo
+#
+# Note: Requires 03-users-groups.yaml to have been run first
+# =============================================================================
+
+- name: Git Repository Setup
+  hosts: "{{ target_host | default('lhr1-node-1') }}"
+  become: true
+
+  vars_files:
+    - ../vars/main.yaml
+
+  tasks:
+    - name: Ensure .ssh directory exists
+      ansible.builtin.file:
+        path: "{{ homelab_ssh_dir }}"
+        state: directory
+        owner: "{{ homelab_system_user }}"
+        group: "{{ homelab_system_user }}"
+        mode: "0700"
+
+    - name: Generate SSH deploy key if missing
+      ansible.builtin.openssh_keypair:
+        path: "{{ homelab_ssh_key_path }}"
+        type: ed25519
+        owner: "{{ homelab_system_user }}"
+        group: "{{ homelab_system_user }}"
+        mode: "0600"
+        comment: "homelab@infra"
+      register: deploy_key
+
+    - name: Show public key (for GitHub deploy key)
+      ansible.builtin.debug:
+        msg: "{{ deploy_key.public_key }}"
+      when: deploy_key.changed
+
+    - name: Upload deploy key to GitHub (manual step)
+      ansible.builtin.pause:
+        prompt: "Please add the following SSH public key as a deploy key with read access to the GitHub repo {{ homelab_git_repo_https_url }}settings/keys:\n\n{{ deploy_key.public_key }}\n"
+      when: deploy_key.changed
+
+    - name: Pin GitHub host key
+      ansible.builtin.known_hosts:
+        path: "{{ homelab_ssh_dir }}/known_hosts"
+        name: github.com
+        key: "{{ item }}"
+        state: present
+      # homelab_system_user doesn't have a login shell, so we need these workarounds
+      become_user: "{{ homelab_system_user }}"
+      become_flags: "-H -S -n"
+      vars:
+        ansible_ssh_pipelining: true
+      loop: "{{ github_host_key.split('\n') | select | reject('match', '^#') | list }}"
+
+    - name: Install git if not present
+      ansible.builtin.package:
+        name: git
+        state: present
+
+    - name: Clone homelab repo
+      ansible.builtin.git:
+        repo: "{{ homelab_git_repo_url }}"
+        dest: "{{ homelab_dir }}"
+        version: "{{ homelab_git_version | default('main') }}"
+        force: yes
+        update: yes
+        key_file: "{{ homelab_ssh_key_path }}"
+        ssh_opts: "-o UserKnownHostsFile={{ homelab_ssh_dir }}/known_hosts"
+      # homelab_system_user doesn't have a login shell, so we need these workarounds
+      become_user: "{{ homelab_system_user }}"
+      become_flags: "-H -S -n"
+      vars:
+        ansible_ssh_pipelining: true
+
+    - name: Set homelab repo ownership
+      ansible.builtin.file:
+        path: "{{ homelab_dir }}"
+        state: directory
+        owner: "{{ homelab_system_user }}"
+        group: "{{ homelab_admins_group }}"
+        recurse: yes
+        mode: "2775"  # 2 means that setgid → new files inherit homelab-admins
+

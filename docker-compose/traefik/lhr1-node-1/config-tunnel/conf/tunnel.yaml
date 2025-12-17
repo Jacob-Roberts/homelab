@@ -1,0 +1,50 @@
+# This tunnel only uses http
+http:
+  services:
+    lhr1-traefik:
+      loadBalancer:
+        servers:
+          - url: https://traefik
+
+  routers:
+    # WHOAMI LHR1
+    whoami-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`whoami-tunnel.lhr1.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true
+
+    # AUTHENTIK
+    authentik-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`authentik.lhr1.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true
+
+    # IMMICH
+    immich-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`photos.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true
+
+    # Jellyfin
+    jellyfin-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`jellyfin.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true
+
+    # Karakeep
+    karakeep-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`karakeep.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true
+
+    # Calibre
+    calibre-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`calibre.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true

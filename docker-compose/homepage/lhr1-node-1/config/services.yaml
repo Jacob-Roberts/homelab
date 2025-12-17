@@ -1,0 +1,215 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+
+- Infrastructure and Data:
+    - Proxmox:
+        href: https://proxmox2.lhr1.jakerob.pro:8006
+        icon: proxmox.png
+        description: proxmox on lhr1-node-1
+        siteMonitor: https://proxmox2.lhr1.jakerob.pro:8006
+        widget:
+          type: proxmox
+          url: https://proxmox2.lhr1.jakerob.pro:8006
+          username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
+          password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
+    # - TrueNAS Scale:
+    #     href: https://nas-prod-1.home.clcreative.de
+    #     icon: truenas-scale.png
+    #     description: nas-prod-1 on prx-prod-2
+    #     siteMonitor: https://nas-prod-1.home.clcreative.de
+    #     widget:
+    #         type: truenas
+    #         url: https://nas-prod-1.home.clcreative.de
+    #         key: {{HOMEPAGE_VAR_TRUENAS_KEY}}
+    #         enablePools: false
+    # - InfluxDB:
+    #     href: https://ixdb-prod-1.srv-prod-2.home.clcreative.de/
+    #     icon: influxdb.png
+    #     description: ixdb-prod-1 on srv-prod-2
+
+    - Traefik:
+        href: https://traefik.lhr1.jakerob.pro
+        icon: traefik.png
+        description: traefik on lhr1-node-1
+        widget:
+          type: traefik
+          url: https://traefik.lhr1.jakerob.pro
+
+    - MySpeed:
+        icon: mdi-speedometer-#232835
+        href: https://myspeed.lhr1.jakerob.pro
+        description: internet speed test
+        siteMonitor: https://myspeed.lhr1.jakerob.pro
+        server: my-docker
+        container: myspeed
+        widget:
+          type: myspeed
+          url: https://myspeed.lhr1.jakerob.pro
+          #password: password # only required if password is set
+
+- Management:
+    - Portainer:
+        href: https://portainer.lhr1.jakerob.pro
+        icon: portainer.png
+        description: portainer on lhr1-node-1
+        widget:
+          type: portainer
+          url: https://portainer.lhr1.jakerob.pro
+          env: 1
+          key: "{{HOMEPAGE_VAR_PORTAINER_KEY}}"
+
+- Monitoring:
+    - UptimeKuma:
+        href: https://uptime.lhr1.jakerob.pro
+        description: uptimekuma on lhr1-node-1
+        icon: uptime-kuma.png
+        widget:
+          type: uptimekuma
+          url: https://uptime.lhr1.jakerob.pro
+          slug: default
+    - Grafana:
+        icon: grafana.png
+        href: https://grafana.lhr1.jakerob.pro
+        description: open-source logging system that does not index the contents of the logs, but rather a set of labels for each log stream
+        # widget:
+        #     type: grafana
+        #     url:
+        #     username:
+        #     password:
+    # - Prometheus:
+    #     href: https://prometheus-prod-1.srv-prod-1.home.clcreative.de
+    #     description: prometheus-prod-1 on srv-prod-1
+    #     icon: prometheus.png
+    #     server: srv-prod-1
+    #     container: prometheus-prod-1
+    #     widget:
+    #         type: prometheus
+    #         url: https://prometheus-prod-1.srv-prod-1.home.clcreative.de
+    # - Grafana:
+    #     href: https://grafana-prod-1.srv-prod-1.home.clcreative.de
+    #     description: grafana-prod-1 on srv-prod-1
+    #     icon: grafana.png
+    #     server: srv-prod-1
+    #     container: grafana-prod-1
+    - cAdvisor:
+        icon: cadvisor.png
+        href: https://cadvisor.lhr1.jakerob.pro
+        description: provides container users an understanding of the resource usage and performance characteristics of their running containers
+        # siteMonitor: http://cadvisor:8080
+        # server: my-docker
+        # container: cadvisor
+
+- Security and Identity:
+    - Authentik:
+        href: https://authentik.lhr1.jakerob.pro
+        description: authentik-prod-1 on lhr1-node-1
+        icon: authentik.png
+        widget:
+          type: authentik
+          url: https://authentik.lhr1.jakerob.pro
+          key: "{{HOMEPAGE_VAR_AUTHENTIK_KEY}}"
+    - Bitwarden:
+        href: https://vault.bitwarden.com
+        description: Cloud Bitwarden
+        icon: bitwarden.png
+# - Automation:
+#     - Kestra:
+#         href: https://kestra-demo-1.srv-prod-1.home.clcreative.de
+#         description: kestra-demo-1 on srv-prod-1
+#         icon: https://kestra-io.gallerycdn.vsassets.io/extensions/kestra-io/kestra/0.0.1/1692285562923/Microsoft.VisualStudio.Services.Icons.Default
+
+#     - Ansible Semaphore:
+#         href: https://ansiblesemaphore-prod-1.srv-prod-1.home.clcreative.de
+#         description: ansiblesemaphore-prod-1 on srv-prod-1
+#         icon: si-ansible-#EE0000
+#     - ArgoCD:
+#         href: https://argocd-prod-1.kube-prod-1.home.clcreative.de
+#         description: argocd-prod-1 on kube-prod-1
+#         icon: si-argo-#EF7B4D
+
+# - IoT and Smarthome:
+#     - Home Assistant:
+#         href: https://homeassistant-prod-1.srv-prod-7.home.clcreative.de
+#         icon: home-assistant.png
+#         description: homeassistant-prod-1 on srv-prod-7
+#         widget:
+#             type: homeassistant
+#             url: https://homeassistant-prod-1.srv-prod-7.home.clcreative.de
+#             key: {{HOMEPAGE_VAR_HOMEASSISTANT_KEY}}
+#             custom:
+
+- Services:
+    - Immich:
+        icon: immich.png
+        href: https://photos.jakerob.pro/
+        description: Photos on lhr1-node-1
+        widget:
+          type: immich
+          url: https://photos.jakerob.pro
+          key: "{{HOMEPAGE_VAR_IMMICH_KEY}}"
+
+    - Jellyfin:
+        icon: jellyfin.png
+        href: https://jellyfin.jakerob.pro/
+        description: Jellyfin on lhr1-node-1
+        widget:
+          type: jellyfin
+          url: https://jellyfin.jakerob.pro
+          key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
+          enableBlocks: true # optional, defaults to false
+          enableNowPlaying: true # optional, defaults to true
+
+    - Nextcloud:
+        icon: nextcloud.png
+        href: https://nextcloud.lhr1.jakerob.pro/
+        description: Nextcloud on lhr1-node-1
+        widget:
+          type: nextcloud
+          url: https://nextcloud.lhr1.jakerob.pro
+          key: "{{HOMEPAGE_VAR_NEXTCLOUD_KEY}}"
+
+- Media Management:
+    - Prowlarr:
+        icon: prowlarr.png
+        href: https://prowlarr.lhr1.jakerob.pro/
+        description: Indexer management
+        widget:
+          type: prowlarr
+          url: https://prowlarr.lhr1.jakerob.pro
+          key: "{{HOMEPAGE_VAR_PROWLARR_KEY}}"
+
+    - Sonarr:
+        icon: sonarr.png
+        href: https://sonarr.lhr1.jakerob.pro/
+        description: Series management
+        widget:
+          type: sonarr
+          url: https://sonarr.lhr1.jakerob.pro
+          key: "{{HOMEPAGE_VAR_SONARR_KEY}}"
+
+    - Radarr:
+        icon: radarr.png
+        href: https://radarr.lhr1.jakerob.pro/
+        description: Movie management
+        widget:
+          type: radarr
+          url: https://radarr.lhr1.jakerob.pro
+          key: "{{HOMEPAGE_VAR_RADARR_KEY}}"
+
+    - Gluetun:
+        icon: gluetun.png
+        description: VPN management
+        widget:
+          type: gluetun
+          url: http://gluetun:8000
+
+    - QBittorrent:
+        icon: qbittorrent.png
+        href: https://qbittorrent.lhr1.jakerob.pro/
+        description: Torrent management
+        widget:
+          type: qbittorrent
+          url: https://qbittorrent.lhr1.jakerob.pro
+          username: "{{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}"
+          password: "{{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}"

@@ -1,0 +1,21 @@
+---
+# =============================================================================
+# Docker Installation
+# =============================================================================
+# Run: ansible-playbook playbooks/02-docker.yaml
+#
+# This playbook:
+# - Installs Docker CE via geerlingguy.docker role
+# - Adds specified users to the docker group
+# =============================================================================
+
+- name: Docker Installation
+  hosts: "{{ target_host | default('lhr1-node-1') }}"
+  become: true
+
+  vars_files:
+    - ../vars/main.yaml
+
+  roles:
+    - geerlingguy.docker
+

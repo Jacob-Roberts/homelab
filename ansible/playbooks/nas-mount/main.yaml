@@ -1,0 +1,31 @@
+---
+- name: Setup LHR1-Node-1 with NAS mounts
+  hosts: lhr1-node-1
+  become: true
+  tasks:
+    - name: Ensure NFS utilities exists
+      apt:
+        pkg:
+          - nfs-common
+        state: latest
+        update_cache: true
+    - name: NAS mount Immich
+      ansible.posix.mount:
+        path: /media/immich
+        src: truenas.lhr1.jakerob.pro:/mnt/bulk-slow/encrypted/immich
+        fstype: nfs
+        state: mounted
+
+    - name: NAS mount jellydata
+      ansible.posix.mount:
+        path: /media/jellydata
+        src: truenas.lhr1.jakerob.pro:/mnt/bulk-slow/encrypted/jellyfin
+        fstype: nfs
+        state: mounted
+
+    - name: NAS mount pbj-drive
+      ansible.posix.mount:
+        path: /media/roberts-data
+        src: truenas.lhr1.jakerob.pro:/mnt/bulk-slow/encrypted/pbj-drive
+        fstype: nfs
+        state: mounted

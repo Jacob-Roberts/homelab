@@ -1,0 +1,60 @@
+---
+
+name: socialsignal
+
+networks:
+  frontend:
+    external: true
+  internal:
+    external: false
+
+volumes:
+  postgres_data:
+
+services:
+  socialsignal:
+    image: ghcr.io/jacob-roberts/social-signal-backend:0.0.1-alpha10
+    container_name: socialsignal
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    environment:
+      APP_BASE_URL: "https://socialsignal.jakerob.pro"
+      API_BASE_URL: "https://api.socialsignal.jakerob.pro"
+      JWKS_URL: "https://socialsignal.jakerob.pro/api/auth/jwks"
+      JWT_SECRET: ${JWT_SECRET}
+      DATABASE_TYPE: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: social_signal
+      DATABASE_PASSWORD: "${POSTGRES_PASSWORD}"
+      DATABASE_NAME: social_signal_db
+      DATABASE_SSLMODE: disable
+    networks:
+      - frontend
+      - internal
+    labels:
+      traefik.enable: true
+      traefik.external: true
+      traefik.docker.network: frontend
+      traefik.http.services.socialsignal.loadBalancer.server.port: 8080
+      traefik.http.routers.socialsignal-http.entrypoints: web
+      traefik.http.routers.socialsignal-http.rule: Host(`api.socialsignal.jakerob.pro`)
+      traefik.http.routers.socialsignal-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.socialsignal-https.entrypoints: websecure
+      traefik.http.routers.socialsignal-https.rule: Host(`api.socialsignal.jakerob.pro`)
+      traefik.http.routers.socialsignal-https.tls: true
+      traefik.http.routers.socialsignal-https.tls.certresolver: production
+
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: social_signal
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: social_signal_db
+    networks:
+      - internal
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
