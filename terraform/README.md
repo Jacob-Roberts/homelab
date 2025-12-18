@@ -5,3 +5,7 @@ To make a change, run `tofu plan`, and then `tofu apply`.
 ## Formatting
 
 `tofu fmt`
+
+## View S3 state
+
+`tofu state pull | jq '.'`
