@@ -16,7 +16,12 @@ resource "proxmox_lxc" "lhr1-node-2" {
 
   cores = 2
   memory = 2048
+  swap = 256
 
+
+  features {
+    nesting = true
+  }
 
   ssh_public_keys = local.default_ssh_public_keys
 
