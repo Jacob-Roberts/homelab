@@ -58,4 +58,5 @@ services:
       REPLICAS: "https://pihole2.lhr1.jakerob.pro|${PIHOLE2_PASSWORD}"
       FULL_SYNC: "false"
       SYNC_CONFIG_DNS: "true"
+      SYNC_CONFIG_DNS_EXCLUDE: "listeningMode"
       CRON: "0 * * * *"
