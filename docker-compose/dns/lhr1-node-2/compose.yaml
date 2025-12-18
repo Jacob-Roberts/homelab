@@ -3,7 +3,6 @@ name: dns
 
 volumes:
   pihole_data:
-    driver: local
 
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
