@@ -13,8 +13,8 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     environment:
-      PUID: 1000
-      PGID: 1000
+      PUID: ${DOCKER_USER_ID:-2008}
+      PGID: ${DOCKER_GROUP_ID:-2008}
       LOG_LEVEL: debug
       HOMEPAGE_VAR_PROXMOX_USERNAME: "${HOMEPAGE_VAR_PROXMOX_USERNAME}"
       HOMEPAGE_VAR_PROXMOX_PASSWORD: "${HOMEPAGE_VAR_PROXMOX_PASSWORD}"

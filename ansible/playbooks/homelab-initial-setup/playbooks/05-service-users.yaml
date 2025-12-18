@@ -25,6 +25,7 @@
         gid: "{{ item.gid }}"
         system: yes
       loop: "{{ service_users }}"
+      when: item.nodes is not defined or inventory_hostname in item.nodes
 
     - name: Create service users
       ansible.builtin.user:
@@ -34,4 +35,5 @@
         system: yes
         shell: /usr/sbin/nologin
       loop: "{{ service_users }}"
+      when: item.nodes is not defined or inventory_hostname in item.nodes
 
