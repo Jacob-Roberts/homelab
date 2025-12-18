@@ -44,6 +44,7 @@ all:
     docker:
       hosts:
         lhr1-node-1:
+        lhr1-node-2:
         iad1-vpn-node-1:
         iad1-vpn-node-2:
         iad1-vpn-node-3:

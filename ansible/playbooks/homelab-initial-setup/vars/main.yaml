@@ -3,8 +3,12 @@
 # Shared variables for homelab-initial-setup playbooks
 # =============================================================================
 
+setup_initial_user: false
+initial_user: jacobroberts
+initial_user_ssh_key: "{{ lookup('file', '../../../ssh_keys/jacobroberts.pub') }}"
+
 # Target host configuration
-target_host: lhr1-node-1
+target_host: lhr1-node-2
 
 # User configuration
 homelab_system_user: homelab
@@ -35,24 +39,27 @@ github_host_key: |-
 
 # Service users with fixed UIDs/GIDs for consistency across hosts
 service_users:
-  - name: traefik
-    uid: 2001
-    gid: 2001
-  - name: authentik
-    uid: 2002
-    gid: 2002
-  - name: jellyfin
-    uid: 2003
-    gid: 2003
-  - name: immich
-    uid: 2004
-    gid: 2004
-  - name: paperless
-    uid: 2005
-    gid: 2005
-  - name: calibre
-    uid: 2006
-    gid: 2006
+  - name: pihole
+    uid: 2007
+    gid: 2007
+  # - name: traefik
+  #   uid: 2001
+  #   gid: 2001
+  # - name: authentik
+  #   uid: 2002
+  #   gid: 2002
+  # - name: jellyfin
+  #   uid: 2003
+  #   gid: 2003
+  # - name: immich
+  #   uid: 2004
+  #   gid: 2004
+  # - name: paperless
+  #   uid: 2005
+  #   gid: 2005
+  # - name: calibre
+  #   uid: 2006
+  #   gid: 2006
 
 # NFS mount configuration
 nfs_mounts:

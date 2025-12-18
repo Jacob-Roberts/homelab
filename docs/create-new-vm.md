@@ -28,11 +28,17 @@ all:
 +      ansible_user: ubuntu
 ```
 
+Edit the vars in main.yaml
+```diff
+-setup_initial_user: false
++setup_initial_user: true
+```
+
 Then run the bootstrap command
 
 ```sh
-cd ansible/playbooks/bootstrap
-ansible-playbook main.yaml -l lhr1-node-1
+cd ansible/playbooks/homelab-initial-setup
+ansible-playbook playbooks/00-create-user.yaml -e "target_host=slc1-node-3"
 ```
 
 ### Now finish setup using your admin user
@@ -48,7 +54,13 @@ all:
 +      ansible_user: jacobroberts
 ```
 
+Edit the vars in main.yaml
+```diff
+-setup_initial_user: true
++setup_initial_user: false
+```
+
 ```sh
 cd ansible/playbooks/homelab-initial-setup
-ansible-playbook main.yaml -l lhr1-node-1
+ansible-playbook playbooks/run-all.yaml -e "target_host=slc1-node-3"
 ```

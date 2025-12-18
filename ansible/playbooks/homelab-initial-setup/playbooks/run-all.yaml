@@ -9,6 +9,7 @@
 # for more granular control.
 #
 # Order:
+#   0. Create initial user
 #   1. Security & SSH hardening
 #   2. Docker installation
 #   3. Users & groups
@@ -18,24 +19,34 @@
 #   7. NFS mounts
 # =============================================================================
 
+- name: Create initial user
+  ansible.builtin.import_playbook: 00-create-user.yaml
+  when: lookup('vars', 'setup_initial_user') | default(false)
+
 - name: Run all setup playbooks
   ansible.builtin.import_playbook: 01-security.yaml
+  when: not lookup('vars', 'setup_initial_user') | default(true)
 
 - name: Docker installation
   ansible.builtin.import_playbook: 02-docker.yaml
+  when: not lookup('vars', 'setup_initial_user') | default(true)
 
 - name: Users and groups
   ansible.builtin.import_playbook: 03-users-groups.yaml
+  when: not lookup('vars', 'setup_initial_user') | default(true)
 
 - name: Git repository setup
   ansible.builtin.import_playbook: 04-git-repo.yaml
+  when: not lookup('vars', 'setup_initial_user') | default(true)
 
 - name: Service users
   ansible.builtin.import_playbook: 05-service-users.yaml
+  when: not lookup('vars', 'setup_initial_user') | default(true)
 
-- name: Service permissions
-  ansible.builtin.import_playbook: 06-service-permissions.yaml
+# - name: Service permissions
+#   ansible.builtin.import_playbook: 06-service-permissions.yaml
+#   when: not vars.setup_initial_user | default(true)
 
-- name: NFS mounts
-  ansible.builtin.import_playbook: 07-nfs-mounts.yaml
-
+# - name: NFS mounts
+#   ansible.builtin.import_playbook: 07-nfs-mounts.yaml
+#   when: not vars.setup_initial_user | default(true)
