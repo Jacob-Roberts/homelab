@@ -1,5 +1,7 @@
-config/certs/*
-!config/certs/.gitkeep
-config-tunnel/certs/*
-certs-dump/*
-synced-certs/*
+config/certs
+config/plugins
+config-tunnel/certs
+config-tunnel/plugins
+
+certs-dump
+synced-certs

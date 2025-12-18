@@ -46,8 +46,8 @@ services:
     volumes:
       - ./config/traefik.yaml:/traefik/traefik.yaml:ro
       - ./config/conf:/traefik/conf:ro
-      - ./config/certs:/traefik/certs:rw
       - ./config/plugins:/plugins-storage
+      - ./config/certs:/traefik/certs:rw
       # access docker socket via proxy read-only
       - socket-proxy:/var/run
     labels:
@@ -61,14 +61,16 @@ services:
       traefik.http.routers.traefik-prod-1-https.rule: Host(`traefik.lhr1.jakerob.pro`)
       traefik.http.routers.traefik-prod-1-https.tls: true
       traefik.http.routers.traefik-prod-1-https.tls.certresolver: cloudflare
+
   traefik-certs-dumper:
     image: ldez/traefik-certs-dumper:v2.9.3
+    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
     volumes:
-      - ./config/certs/:/certs
-      - ./extract-certs.sh:/extract-certs.sh
-      - ./synced-certs/:/synced-certs
-
+      - ./extract-certs.sh:/extract-certs.sh:ro
+      - ./config/certs/:/certs:ro
+      - ./synced-certs/:/synced-certs:rw
     entrypoint: "sh -c ' while ! [ -e /certs/cloudflare-acme.json ] || ! [ `jq \".[] | .Certificates | length\" /certs/cloudflare-acme.json | jq -s \"add\" ` != 0 ]; do sleep 1 ; done && traefik-certs-dumper file --version v3 --watch --domain-subdir=true --source /certs/cloudflare-acme.json --dest /etc/traefik/certs --post-hook \"sh /extract-certs.sh\"'"
+
   traefik-tunnel:
     image: traefik:v3
     container_name: traefik-tunnel
@@ -105,6 +107,7 @@ services:
       traefik.http.routers.traefiktunnel-prod-1-https.rule: Host(`traefik-tunnel.lhr1.jakerob.pro`)
       traefik.http.routers.traefiktunnel-prod-1-https.tls: true
       traefik.http.routers.traefiktunnel-prod-1-https.tls.certresolver: cloudflare
+
   socket-proxy:
     image: 11notes/socket-proxy:2
     container_name: traefik-socket-proxy
