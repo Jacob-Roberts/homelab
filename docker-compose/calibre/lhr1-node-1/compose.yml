@@ -14,7 +14,7 @@ services:
       - "PUID=${DOCKER_USER_ID:-2006}"
       - "PGID=${DOCKER_GROUP_ID:-2006}"
       # Edit to match your current timezone https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-      - TZ=UTC
+      - TZ=Europe/London
     networks:
       - frontend
     volumes:
