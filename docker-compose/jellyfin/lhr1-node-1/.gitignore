@@ -1,4 +1,1 @@
-config/*
-!/config/.gitkeep
-cache/*
-!/cache/.gitkeep
+config/
