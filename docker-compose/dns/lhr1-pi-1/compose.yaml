@@ -52,7 +52,10 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     environment:
-      PRIMARY: "http://pihole.lhr1.jakerob.pro|${PIHOLE_PASSWORD}"
-      REPLICAS: "http://pihole2.lhr1.jakerob.pro|${PIHOLE2_PASSWORD}"
-      FULL_SYNC: "true"
+      TZ: 'Europe/London'
+      CLIENT_SKIP_TLS_VERIFICATION: "true"
+      PRIMARY: "https://pihole.lhr1.jakerob.pro|${PIHOLE_PASSWORD}"
+      REPLICAS: "https://pihole2.lhr1.jakerob.pro|${PIHOLE2_PASSWORD}"
+      FULL_SYNC: "false"
+      SYNC_CONFIG_DNS: "true"
       CRON: "0 * * * *"
