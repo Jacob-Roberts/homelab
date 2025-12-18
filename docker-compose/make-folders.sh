@@ -25,6 +25,57 @@ log_error() {
     echo -e "${RED}[ERROR]${NC} $1" >&2
 }
 
+# Function to check if we need sudo for a directory operation
+needs_sudo() {
+    local dir="$1"
+    local parent_dir
+    
+    # If directory exists, check if we can write to it
+    if [ -d "$dir" ]; then
+        [ ! -w "$dir" ]
+        return $?
+    fi
+    
+    # If directory doesn't exist, check parent directories up the chain
+    parent_dir="$dir"
+    while [ "$parent_dir" != "/" ] && [ "$parent_dir" != "." ]; do
+        parent_dir="$(dirname "$parent_dir")"
+        if [ -d "$parent_dir" ]; then
+            [ ! -w "$parent_dir" ]
+            return $?
+        fi
+    done
+    
+    # Default to needing sudo if we can't determine
+    return 0
+}
+
+# Function to execute command with sudo if needed
+run_with_sudo_if_needed() {
+    local cmd="$1"
+    shift
+    
+    # If we're already root, no need for sudo
+    if [ "$(id -u)" -eq 0 ]; then
+        "$cmd" "$@"
+        return $?
+    fi
+    
+    # Try without sudo first
+    if "$cmd" "$@" 2>/dev/null; then
+        return 0
+    fi
+    
+    # If that failed, try with sudo
+    log_warn "Permission denied, retrying with sudo..."
+    if command -v sudo >/dev/null 2>&1; then
+        sudo "$cmd" "$@"
+    else
+        log_error "sudo not available and command failed. Please run script as root or install sudo."
+        return 1
+    fi
+}
+
 # Check if we have at least 2 arguments
 if [ $# -lt 2 ]; then
     log_error "Insufficient arguments provided"
@@ -60,7 +111,7 @@ for DIR in "$@"; do
     fi
     
     log_info "Creating directory: $DIR"
-    if mkdir -p "$DIR"; then
+    if run_with_sudo_if_needed mkdir -p "$DIR"; then
         log_info "Successfully created: $DIR"
     else
         log_error "Failed to create directory: $DIR"
@@ -78,7 +129,7 @@ for DIR in "$@"; do
     
     if [ -d "$DIR" ]; then
         log_info "Setting ownership for: $DIR"
-        if chown "$SERVICE_ID" "$DIR"; then
+        if run_with_sudo_if_needed chown "$SERVICE_ID" "$DIR"; then
             log_info "Successfully set ownership for: $DIR"
         else
             log_error "Failed to set ownership for: $DIR"
