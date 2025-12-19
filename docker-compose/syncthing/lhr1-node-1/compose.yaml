@@ -21,7 +21,7 @@ services:
     networks:
       - frontend
     volumes:
-      - ./config:/config
+      - ./config:/var/syncthing/config
       - /media/jellydata:/jellydata
       - ../../traefik/lhr1-node-1/synced-certs:/etc/syncthing/synced-certs
     labels:
