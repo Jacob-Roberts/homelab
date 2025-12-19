@@ -79,6 +79,10 @@ service_users:
     uid: 2010
     gid: 2010
     nodes: ["lhr1-node-1", "iad1-node-1"]
+  - name: syncthing
+    uid: 2011
+    gid: 2011
+    nodes: ["lhr1-node-1"]
 
 # NFS mount configuration
 nfs_mounts:
