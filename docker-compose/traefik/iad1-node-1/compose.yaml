@@ -11,18 +11,25 @@ services:
   traefik-external:
     image: traefik:v3
     container_name: traefik-external
-    user: 1002:1002
+    command:
+      - "--configFile=/traefik/traefik.yaml"
+    read_only: true
+    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
     security_opt:
       - no-new-privileges:true
+    sysctls:
+      # allow rootless container to access ports < 1024
+      net.ipv4.ip_unprivileged_port_start: 80
     depends_on:
       crowdsec:
         condition: service_healthy
     restart: unless-stopped
     ports:
-      - 10.0.0.13:80:80
-      - 10.0.0.13:443:443
+      - "${HOST_IP:-10.0.0.13}:80:80/tcp"
+      - "${HOST_IP:-10.0.0.13}:443:443/tcp"
     environment:
       CROWDSEC_TRAEFIK_BOUNCER_TOKEN: "${CROWDSEC_TRAEFIK_BOUNCER_TOKEN}"
+      TZ: "${TZ:-America/New_York}"
     networks:
       - frontend
       - internal
@@ -31,8 +38,7 @@ services:
       - ./config-external/conf/:/etc/traefik/conf/:ro
       - ./config-external/certs/acme.json:/etc/traefik/certs/acme.json:rw
       - ./config-external/static-certs/:/etc/traefik/static-certs/:ro
-      - ./config-external/logs:/var/log/traefik
-      - ./config-external/plugins-storage:/plugins-storage/:rw
+      - ./config-external/logs:/var/log/traefik:rw
       - ./config-external/ban.html:/etc/traefik/ban.html:ro
       - ./config-external/captcha.html:/etc/traefik/captcha.html:ro
     labels:
@@ -51,24 +57,27 @@ services:
   traefik-internal:
     image: traefik:v3
     container_name: traefik-internal
-    user: 1002:1002
+    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
     security_opt:
       - no-new-privileges:true
+    sysctls:
+      # allow rootless container to access ports < 1024
+      net.ipv4.ip_unprivileged_port_start: 80
     restart: unless-stopped
-
     ports:
       # Bind on secure IP (local, VPN) only
-      - 100.109.65.68:80:80
-      - 100.109.65.68:443:443
+      - "${VPN_IP:-100.109.65.68}:80:80/tcp"
+      - "${VPN_IP:-100.109.65.68}:443:443/tcp"
     environment:
       CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
+      TZ: "${TZ:-America/New_York}"
     networks:
       - frontend
       - internal
     volumes:
       - ./config-internal/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - ./config-internal/conf/:/etc/traefik/conf/
-      - ./config-internal/certs/:/etc/traefik/certs/
+      - ./config-internal/conf/:/etc/traefik/conf/:rw
+      - ./config-internal/certs/:/etc/traefik/certs/:rw
     labels:
       # Management only exposed internally
       traefik.enable: true
@@ -100,7 +109,7 @@ services:
       CUSTOM_HOSTNAME: crowdsec
       ENROLL_INSTANCE_NAME: pangolin-crowdsec
       ENROLL_TAGS: docker
-      GID: '1002'
+      GID: "${DOCKER_GROUP_ID:-2001}"
       PARSERS: crowdsecurity/whitelists
     networks:
       - internal
@@ -108,9 +117,9 @@ services:
       - ./config-crowdsec:/etc/crowdsec
       - ./crowdsec-db/:/var/lib/crowdsec/data
       - ./config-external/logs:/var/log/traefik
-
     labels:
       traefik.enable: "false"
+
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
     container_name: traefik-socket-proxy

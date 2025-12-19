@@ -7,19 +7,21 @@ networks:
 
 services:
   syncthing:
-    image: lscr.io/linuxserver/syncthing
+    image: syncthing/syncthing:latest
     container_name: syncthing
+    hostname: syncthing-iad1
     restart: unless-stopped
+    user: "${DOCKER_USER_ID:-2011}:${DOCKER_GROUP_ID:-2011}"
     ports:
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers
     environment:
-      PUID: '1002'
-      PGID: '1002'
+      PUID: ${DOCKER_USER_ID:-2011}
+      PGID: ${DOCKER_GROUP_ID:-2011}
     networks:
       - frontend
     volumes:
-      - ./config:/config
+      - ./config:/var/syncthing
       - ../../traefik/iad1-node-1/config-external/static-certs:/etc/syncthing/synced-certs
     labels:
       traefik.enable: true
