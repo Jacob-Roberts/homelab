@@ -5,4 +5,4 @@ set -e
 # Get the directory of this script for reliable path resolution
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-"$SCRIPT_DIR/../../make-folders.sh" "${DOCKER_USER_ID:-2001}" config/plugins config/certs synced-certs
+"$SCRIPT_DIR/../../make-folders.sh" "${DOCKER_USER_ID:-2001}" config/plugins config/certs synced-certs cert-dumper-output

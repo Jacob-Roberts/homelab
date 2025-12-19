@@ -69,7 +69,8 @@ services:
       - ./extract-certs.sh:/extract-certs.sh:ro
       - ./config/certs/:/certs:ro
       - ./synced-certs/:/synced-certs:rw
-    entrypoint: "sh -c ' while ! [ -e /certs/cloudflare-acme.json ] || ! [ `jq \".[] | .Certificates | length\" /certs/cloudflare-acme.json | jq -s \"add\" ` != 0 ]; do sleep 1 ; done && traefik-certs-dumper file --version v3 --watch --domain-subdir=true --source /certs/cloudflare-acme.json --dest /etc/traefik/certs --post-hook \"sh /extract-certs.sh\"'"
+      - ./cert-dumper-output:/output:rw
+    entrypoint: "sh -c ' while ! [ -e /certs/cloudflare-acme.json ] || ! [ `jq \".[] | .Certificates | length\" /certs/cloudflare-acme.json | jq -s \"add\" ` != 0 ]; do sleep 1 ; done && traefik-certs-dumper file --version v3 --watch --domain-subdir=true --source /certs/cloudflare-acme.json --dest /output --post-hook \"sh /extract-certs.sh\"'"
 
   traefik-tunnel:
     image: traefik:v3

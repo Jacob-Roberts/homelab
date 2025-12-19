@@ -18,7 +18,7 @@ calibre.jakerob.pro
 
 for domain in $DOMAINS; do
   echo "Copying $domain"
-  cp -r /etc/traefik/certs/$domain /synced-certs/
+  cp -r /output/$domain /synced-certs/
 done
 
 chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} synced-certs/
