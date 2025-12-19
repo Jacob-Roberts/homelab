@@ -9,6 +9,7 @@ services:
   syncthing:
     image: syncthing/syncthing:latest
     container_name: syncthing
+    hostname: syncthing-lhr1
     restart: unless-stopped
     user: "${DOCKER_USER_ID:-2011}:${DOCKER_GROUP_ID:-2011}"
     ports:
