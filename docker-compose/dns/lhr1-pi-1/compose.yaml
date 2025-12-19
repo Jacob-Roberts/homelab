@@ -9,6 +9,7 @@ services:
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
+    hostname: pihole-lhr1-pi-1
     ports:
       # DNS Ports
       - "${IP:-192.168.42.2}:53:53/tcp"

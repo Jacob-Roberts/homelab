@@ -13,6 +13,7 @@ services:
   jellyfin:
     image: docker.io/jellyfin/jellyfin:10
     container_name: jellyfin
+    hostname: jellyfin-lhr1
     user: "${DOCKER_USER_ID:-2003}:${DOCKER_GROUP_ID:-2003}"
     restart: unless-stopped
     environment:
