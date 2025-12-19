@@ -21,6 +21,12 @@ http:
       service: lhr1-traefik
       tls: true
 
+    pocket-id-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`pocket-id.lhr1.jakerob.pro`)"
+      service: lhr1-traefik
+      tls: true
+
     # IMMICH
     immich-lhr1-https:
       entrypoints: websecure

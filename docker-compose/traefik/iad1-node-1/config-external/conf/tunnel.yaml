@@ -84,6 +84,19 @@ http:
       service: lhr1-tunnel
       tls: true
 
+    pocket-id-lhr1-http:
+      entrypoints: web
+      rule: "Host(`pocket-id.lhr1.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: lhr1-tunnel
+    pocket-id-lhr1-https:
+      entrypoints: websecure
+      rule: "Host(`pocket-id.lhr1.jakerob.pro`)"
+      service: lhr1-tunnel
+      tls: true
+
+
     # WHOAMI SLC1
     # whoami-slc1-http:
     #   entrypoints: web
