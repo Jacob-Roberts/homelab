@@ -1,0 +1,40 @@
+---
+name: pocket-id
+
+networks:
+  frontend:
+    external: true
+
+services:
+  pocket-id:
+    image: ghcr.io/pocket-id/pocket-id:v1-distroless
+    restart: unless-stopped
+    volumes:
+      - "./data:/app/data"
+    networks:
+      - frontend
+    environment:
+      - APP_URL=${APP_URL:-https://pocket-id.lhr1.jakerob.pro}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - TRUST_PROXY=${TRUST_PROXY:-true}
+      - MAXMIND_LICENSE_KEY=${MAXMIND_LICENSE_KEY:-}
+      - DB_PROVIDER=${DB_PROVIDER:-sqlite}
+      - KEYS_STORAGE=${KEYS_STORAGE:-database}
+    read_only: true
+    user: "${DOCKER_USER_ID:-2010}:${DOCKER_USER_ID:-2010}"
+    # Optional healthcheck
+    healthcheck:
+      test: [ "CMD", "/app/pocket-id", "healthcheck" ]
+      interval: 1m30s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pocketid-prod-1-http.entrypoints: web
+      traefik.http.routers.pocketid-prod-1-http.rule: Host(`pocket-id.lhr1.jakerob.pro`)
+      traefik.http.routers.pocketid-prod-1-https.entrypoints: websecure
+      traefik.http.routers.pocketid-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.pocketid-prod-1-https.rule: Host(`pocket-id.lhr1.jakerob.pro`)
+      traefik.http.routers.pocketid-prod-1-https.tls: true
+      traefik.http.routers.pocketid-prod-1-https.tls.certresolver: production
