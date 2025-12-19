@@ -33,8 +33,8 @@ services:
       traefik.enable: true
       traefik.http.routers.pocketid-prod-1-http.entrypoints: web
       traefik.http.routers.pocketid-prod-1-http.rule: Host(`pocket-id.lhr1.jakerob.pro`)
-      traefik.http.routers.pocketid-prod-1-https.entrypoints: websecure
       traefik.http.routers.pocketid-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.pocketid-prod-1-https.entrypoints: websecure
       traefik.http.routers.pocketid-prod-1-https.rule: Host(`pocket-id.lhr1.jakerob.pro`)
       traefik.http.routers.pocketid-prod-1-https.tls: true
-      traefik.http.routers.pocketid-prod-1-https.tls.certresolver: production
+      traefik.http.routers.pocketid-prod-1-https.tls.certresolver: cloudflare
