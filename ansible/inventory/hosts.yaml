@@ -7,30 +7,39 @@ all:
 
     lhr1-node-1:
       ansible_user: jacobroberts
+      ansible_host: lhr1-node-1.jakerob.pro
 
     lhr1-node-2:
       ansible_user: jacobroberts
+      ansible_host: lhr1-node-2.jakerob.pro
 
     lhr1-hv-1:
       ansible_user: root
+      ansible_host: lhr1-hv-1.jakerob.pro
 
     lhr1-storage-1:
       ansible_user: truenas_admin
+      ansible_host: lhr1-storage-1.jakerob.pro
 
     iad1-vpn-node-1:
       ansible_user: jacobroberts
+      ansible_host: iad1-vpn-node-1.jakerob.pro
 
     iad1-vpn-node-2:
       ansible_user: jacobroberts
+      ansible_host: iad1-vpn-node-2.jakerob.pro
 
     iad1-vpn-node-3:
       ansible_user: jacobroberts
+      ansible_host: iad1-vpn-node-3.jakerob.pro
 
     slc1-node-3:
       ansible_user: jacobroberts
+      ansible_host: slc1-node-3.jakerob.pro
 
     sgu1-node-1:
-      ansible_user: jacobroberts
+      ansible_user: jacobrobert
+      ansible_host: sgu1-node-1.jakerob.pros
 
     slc1-pi-1:
       ansible_user: jacobroberts
