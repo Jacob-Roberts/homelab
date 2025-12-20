@@ -15,7 +15,7 @@ services:
     user: "${DOCKER_USER_ID:-2009}:${DOCKER_USER_ID:-2009}"
     environment:
       NEXTAUTH_SECRET: "${NEXTAUTH_SECRET}"
-      NEXTAUTH_URL: "${NEXTAUTH_URL}"
+      NEXTAUTH_URL: "${NEXTAUTH_URL:-https://karakeep.jakerob.pro}"
       MEILI_ADDR: http://meilisearch:7700
       BROWSER_WEB_URL: http://chrome:9222
       DISABLE_SIGNUPS: false
