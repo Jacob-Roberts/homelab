@@ -41,6 +41,17 @@ variable "lhr1-node-2-mac-address" {
   }
 }
 
+variable "lhr1-pbs-1-mac-address" {
+  description = "MAC address of the lhr1-pbs-1"
+  type = string
+  sensitive = true
+  nullable = false
+  validation {
+    condition     = length(var.lhr1-pbs-1-mac-address) > 0
+    error_message = "lhr1-pbs-1-mac-address must be a non-empty string."
+  }
+}
+
 variable "lhr1-node-2-root-password" {
   description = "Root password for lhr1-node-2"
   type = string

@@ -107,3 +107,49 @@ resource "proxmox_vm_qemu" "lhr1-node-1" {
     }
   }
 }
+
+# Docs: https://github.com/Telmate/terraform-provider-proxmox/blob/master/docs/resources/vm_qemu.md
+resource "proxmox_vm_qemu" "lhr1-pbs-1" {
+  name = "lhr1-pbs-1"
+  target_node = "lhr1-hv-2"
+  vmid = 201
+  start_at_node_boot = true
+
+  agent = 1
+  ipconfig0 = "ip=dhcp"
+
+  automatic_reboot = false
+
+  cpu {
+    cores    = 2
+  }
+  # MB
+  memory   = 2048
+
+  qemu_os = "l26"
+
+  define_connection_info = false
+  scsihw                 = "virtio-scsi-single"
+
+  network {
+    id       = 0
+    bridge   = "vmbr0"
+    model    = "virtio"
+    firewall = true
+    macaddr = var.lhr1-pbs-1-mac-address
+  }
+
+  disks {
+    scsi {
+      scsi0 {
+        disk {
+          size      = "32G"
+          storage   = "local-lvm"
+          backup    = true
+          iothread  = true
+          replicate = true
+        }
+      }
+    }
+  }
+}
