@@ -11,7 +11,7 @@ networks:
 
 services:
   traefik:
-    image: traefik:v3
+    image: docker.io/traefik:v3
     container_name: traefik-prod-1
     user: 1000:1000
     security_opt:
@@ -42,7 +42,7 @@ services:
       traefik.http.routers.traefik-prod-1-https.tls: true
       traefik.http.routers.traefik-prod-1-https.tls.certresolver: cloudflare
   traefik-tunnel:
-    image: traefik:v3
+    image: docker.io/traefik:v3
     container_name: traefik-tunnel
     user: 1000:1000
     security_opt:
@@ -109,7 +109,7 @@ services:
       - /run
 
   whoami:
-    image: traefik/whoami
+    image: docker.io/traefik/whoami
     container_name: whoami-prod-1
     command: "--verbose"
     security_opt:
@@ -128,7 +128,7 @@ services:
       traefik.http.routers.whoami-prod-1-https.tls.certresolver: cloudflare
 
   whoami-tunnel:
-    image: traefik/whoami
+    image: docker.io/traefik/whoami
     container_name: whoami-tunnel
     command: "--verbose"
     security_opt:

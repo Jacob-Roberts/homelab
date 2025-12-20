@@ -12,7 +12,7 @@ volumes:
 
 services:
   alloy:
-    image: grafana/alloy:v1.9.2
+    image: docker.io/grafana/alloy:v1.9.2
     container_name: alloy
     command:
       - run

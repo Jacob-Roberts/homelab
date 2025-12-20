@@ -9,7 +9,7 @@ networks:
 
 services:
   traefik-external:
-    image: traefik:v3
+    image: docker.io/traefik:v3
     container_name: traefik-external
     command:
       - "--configFile=/traefik/traefik.yaml"
@@ -55,7 +55,7 @@ services:
       traefik.http.routers.traefikexternal-prod-1-https.tls.certresolver: cloudflare
 
   traefik-internal:
-    image: traefik:v3
+    image: docker.io/traefik:v3
     container_name: traefik-internal
     user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
     security_opt:
@@ -91,7 +91,7 @@ services:
       traefik.http.routers.traefikinternal-prod-1-https.tls: true
       traefik.http.routers.traefikinternal-prod-1-https.tls.certresolver: cloudflare
   crowdsec:
-    image: crowdsecurity/crowdsec:latest
+    image: docker.io/crowdsecurity/crowdsec:latest
     container_name: crowdsec
     command: "-t"
     restart: unless-stopped
@@ -161,7 +161,7 @@ services:
       - /run
 
   whoami-external:
-    image: traefik/whoami
+    image: docker.io/traefik/whoami
     container_name: whoami-external
     command: "--verbose"
     security_opt:
@@ -180,7 +180,7 @@ services:
       traefik.http.routers.whoamiexternal-prod-1-https.tls.certresolver: production
 
   whoami-internal:
-    image: traefik/whoami
+    image: docker.io/traefik/whoami
     container_name: whoami-internal
     command: "--verbose"
     security_opt:

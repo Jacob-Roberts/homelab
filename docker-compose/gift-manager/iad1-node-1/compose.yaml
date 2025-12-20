@@ -7,7 +7,7 @@ networks:
 
 services:
   giftmanager:
-    image: icbest/giftmanager:latest
+    image: docker.io/icbest/giftmanager:latest
     container_name: giftmanager
     security_opt:
       - no-new-privileges:true

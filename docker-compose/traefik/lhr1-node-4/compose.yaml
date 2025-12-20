@@ -15,7 +15,7 @@ networks:
 
 services:
   traefik:
-    image: traefik:v3
+    image: docker.io/traefik:v3
     container_name: traefik-prod-1
     security_opt:
       - no-new-privileges:true
@@ -47,7 +47,7 @@ services:
       traefik.http.routers.traefik-prod-1-https.tls: true
       traefik.http.routers.traefik-prod-1-https.tls.certresolver: cloudflare
   traefik-certs-dumper:
-    image: ldez/traefik-certs-dumper:v2.9.3
+    image: docker.io/ldez/traefik-certs-dumper:v2.9.3
     volumes:
       - ./config/certs/:/certs
       - ./extract-certs.sh:/extract-certs.sh
@@ -95,7 +95,7 @@ services:
       - /run
 
   whoami:
-    image: traefik/whoami
+    image: docker.io/traefik/whoami
     container_name: whoami-prod-1
     command: "--verbose"
     security_opt:

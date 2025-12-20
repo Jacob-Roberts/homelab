@@ -11,7 +11,7 @@ volumes:
 
 services:
   omada-controller:
-    image: mbentley/omada-controller:5.15
+    image: docker.io/mbentley/omada-controller:5.15
     container_name: omada-controller
     restart: unless-stopped
     ports:

@@ -7,7 +7,7 @@ networks:
 
 services:
   calibre-web-automated:
-    image: crocodilestick/calibre-web-automated:latest
+    image: docker.io/crocodilestick/calibre-web-automated:latest
     container_name: calibre-web-automated
     restart: unless-stopped
     environment:

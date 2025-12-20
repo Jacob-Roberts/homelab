@@ -33,7 +33,7 @@ services:
       traefik.http.middlewares.testheader.headers.addvaryheader: true
 
   astro-self-host-example-static:
-    image: y4m4/s3www:latest
+    image: docker.io/y4m4/s3www:latest
     container_name: astro-self-host-example-static
     command:
       - "-endpoint=https://minioapi.lhr1.jakerob.pro"

@@ -9,7 +9,7 @@ networks:
 
 services:
   portainer:
-    image: portainer/portainer-ce:2.26.1-alpine
+    image: docker.io/portainer/portainer-ce:2.26.1-alpine
     container_name: portainer
     command: "-H tcp://socket-proxy:2375"
     user: 1000:1000

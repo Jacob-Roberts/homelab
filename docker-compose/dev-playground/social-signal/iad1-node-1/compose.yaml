@@ -47,7 +47,7 @@ services:
       traefik.http.routers.socialsignal-https.tls.certresolver: production
 
   postgres:
-    image: postgres:15-alpine
+    image: docker.io/postgres:15-alpine
     restart: unless-stopped
     environment:
       POSTGRES_USER: social_signal

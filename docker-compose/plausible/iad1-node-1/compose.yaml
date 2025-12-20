@@ -11,7 +11,7 @@ services:
   plausible_db:
     # Plausible v2.0.0 was tested against PostgreSQL versions 12, 13, and 14
     # https://github.com/plausible/analytics/blob/v2.0.0/.github/workflows/elixir.yml#L16
-    image: postgres:16-alpine
+    image: docker.io/postgres:16-alpine
     container_name: plausible-db
     restart: unless-stopped
     healthcheck:
@@ -25,7 +25,7 @@ services:
     volumes:
       - ./db-data:/var/lib/postgresql/data
   plausible_events_db:
-    image: clickhouse/clickhouse-server:24.12-alpine
+    image: docker.io/clickhouse/clickhouse-server:24.12-alpine
     container_name: plausible-events-db
     restart: unless-stopped
     healthcheck:

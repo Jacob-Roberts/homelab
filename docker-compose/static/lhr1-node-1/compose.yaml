@@ -8,7 +8,7 @@ networks:
 
 services:
   static:
-    image: nginx:latest
+    image: docker.io/nginx:latest
     container_name: static
     restart: unless-stopped
     networks:

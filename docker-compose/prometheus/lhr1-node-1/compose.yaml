@@ -11,7 +11,7 @@ volumes:
 
 services:
   prometheus:
-    image: prom/prometheus:v2.37.9
+    image: docker.io/prom/prometheus:v2.37.9
     container_name: prometheus
     command: "--config.file=/etc/prometheus/prometheus.yaml"
     restart: unless-stopped

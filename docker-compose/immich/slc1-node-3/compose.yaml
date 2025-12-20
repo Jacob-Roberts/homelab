@@ -65,7 +65,7 @@ services:
     volumes:
       - ./model-cache:/cache
   cache:
-    image: registry.hub.docker.com/library/redis:6.2-alpine
+    image: docker.io/library/redis:6.2-alpine
     container_name: immich-cache
     restart: unless-stopped
     healthcheck:
@@ -74,7 +74,7 @@ services:
       - internal
 
   database:
-    image: registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0
+    image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0
     container_name: immich-database
     command: [postgres, "-c", shared_preload_libraries=vectors.so, "-c", "search_path=\"$$user\", public, vectors", "-c", logging_collector=on, "-c", max_wal_size=2GB, "-c", shared_buffers=512MB, "-c", wal_compression=on]
     user: 1000:1000

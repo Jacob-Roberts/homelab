@@ -7,7 +7,7 @@ networks:
 
 services:
   alloy:
-    image: grafana/alloy:latest
+    image: docker.io/grafana/alloy:latest
     container_name: alloy
     command: run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy
     ports:

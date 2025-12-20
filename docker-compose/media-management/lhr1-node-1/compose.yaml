@@ -102,7 +102,7 @@ services:
       traefik.http.routers.bazarr-prod-1-https.tls.certresolver: cloudflare
 
   qbittorrent:
-    image: 11notes/qbittorrent:5
+    image: docker.io/11notes/qbittorrent:5
     container_name: qbittorrent
     read_only: true
     security_opt:
@@ -124,7 +124,7 @@ services:
     network_mode: service:gluetun
 
   radarr:
-    image: 11notes/radarr:5
+    image: docker.io/11notes/radarr:5
     container_name: radarr
     read_only: true
     security_opt:
@@ -143,7 +143,7 @@ services:
     network_mode: service:gluetun
 
   sonarr:
-    image: 11notes/sonarr:4
+    image: docker.io/11notes/sonarr:4
     container_name: sonarr
     read_only: true
     security_opt:
@@ -180,7 +180,7 @@ services:
     network_mode: service:gluetun
 
   prowlarr:
-    image: 11notes/prowlarr:1
+    image: docker.io/11notes/prowlarr:1
     container_name: prowlarr
     read_only: true
     security_opt:
@@ -277,13 +277,13 @@ services:
   #     - /media/jellydata/usenet:/jellydata/usenet:rw
 
   # debug2:
-  #   image: jonlabelle/network-tools
+  #   image: docker.io/jonlabelle/network-tools
   #   container_name: debug2
   #   stdin_open: true
   #   tty: true
 
   # debug:
-  #   image: jonlabelle/network-tools
+  #   image: docker.io/jonlabelle/network-tools
   #   container_name: debug
   #   stdin_open: true
   #   tty: true

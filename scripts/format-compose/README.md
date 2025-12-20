@@ -81,7 +81,7 @@ volumes:
 
 services:
   web:
-    image: nginx
+    image: docker.io/nginx
     # ... service configuration
 ```
 

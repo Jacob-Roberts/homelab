@@ -14,7 +14,7 @@ volumes:
 services:
   # Database (Postgres)
   postgres:
-    image: postgres:16-alpine
+    image: docker.io/postgres:16-alpine
     restart: unless-stopped
     healthcheck:
       test: [CMD-SHELL, pg_isready -U rxresume -d rxresume]
@@ -32,7 +32,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
   minio:
-    image: minio/minio
+    image: docker.io/minio/minio
     command: server /data
     restart: unless-stopped
     environment:
@@ -68,7 +68,7 @@ services:
     networks:
       - internal
   app:
-    image: amruthpillai/reactive-resume:latest
+    image: docker.io/amruthpillai/reactive-resume:latest
     depends_on:
       - postgres
       - minio

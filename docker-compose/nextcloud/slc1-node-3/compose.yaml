@@ -9,7 +9,7 @@ networks:
 
 services:
   app:
-    image: nextcloud:28.0.5
+    image: docker.io/nextcloud:28.0.5
     container_name: nextcloud-app
     depends_on:
       - nextcloud-db
@@ -82,7 +82,7 @@ services:
     volumes:
       - ./nextcloud-db:/var/lib/mysql
   nextcloud-cache:
-    image: redis:alpine3.19
+    image: docker.io/redis:alpine3.19
     container_name: nextcloud-cache
     restart: unless-stopped
     networks:

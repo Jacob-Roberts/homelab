@@ -86,7 +86,7 @@ services:
     volumes:
       - nextcloud-database:/var/lib/mysql
   nextcloud-cache:
-    image: redis:alpine3.19
+    image: docker.io/redis:alpine3.19
     container_name: nextcloud-cache
     restart: unless-stopped
 
