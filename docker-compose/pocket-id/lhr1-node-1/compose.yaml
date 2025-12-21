@@ -21,7 +21,7 @@ services:
       - DB_PROVIDER=${DB_PROVIDER:-sqlite}
       - KEYS_STORAGE=${KEYS_STORAGE:-database}
     read_only: true
-    user: "${DOCKER_USER_ID:-2010}:${DOCKER_USER_ID:-2010}"
+    user: "${DOCKER_USER_ID:-2010}:${DOCKER_GROUP_ID:-2010}"
     # Optional healthcheck
     healthcheck:
       test: [ "CMD", "/app/pocket-id", "healthcheck" ]

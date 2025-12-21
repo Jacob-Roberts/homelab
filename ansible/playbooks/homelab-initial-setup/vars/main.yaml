@@ -83,6 +83,10 @@ service_users:
     uid: 2011
     gid: 2011
     nodes: ["lhr1-node-1"]
+  - name: opencloud
+    uid: 2012
+    gid: 2012
+    nodes: ["lhr1-node-1"]
 
 # NFS mount configuration
 nfs_mounts:
