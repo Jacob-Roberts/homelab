@@ -321,6 +321,15 @@ resource "cloudflare_dns_record" "lhr1-storage-1" {
   content = "192.168.42.14"
 }
 
+resource "cloudflare_dns_record" "lhr1-pbs-1" {
+  name    = "lhr1-pbs-1.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content = "192.168.42.19"
+}
+
 /* Aliases */
 
 resource "cloudflare_dns_record" "proxmox-lhr1-cname" {
