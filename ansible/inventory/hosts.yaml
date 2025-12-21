@@ -21,15 +21,15 @@ all:
       ansible_user: truenas_admin
       ansible_host: lhr1-storage-1.jakerob.pro
 
-    iad1-vpn-node-1:
+    iad1-node-1:
       ansible_user: jacobroberts
       ansible_host: iad1-vpn-node-1.jakerob.pro
 
-    iad1-vpn-node-2:
+    iad1-node-2:
       ansible_user: jacobroberts
       ansible_host: iad1-vpn-node-2.jakerob.pro
 
-    iad1-vpn-node-3:
+    iad1-node-3:
       ansible_user: jacobroberts
       ansible_host: iad1-vpn-node-3.jakerob.pro
 
@@ -54,9 +54,9 @@ all:
       hosts:
         lhr1-node-1:
         lhr1-node-2:
-        iad1-vpn-node-1:
-        iad1-vpn-node-2:
-        iad1-vpn-node-3:
+        iad1-node-1:
+        iad1-node-2:
+        iad1-node-3:
         slc1-node-3:
         sgu1-node-1:
     qemu:
