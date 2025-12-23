@@ -3,12 +3,12 @@ http:
     lhr1-tunnel:
       loadBalancer:
         servers:
-          - url: https://100.89.27.79
+          - url: https://lhr1-node-1-vpn.jakerob.pro
 
     slc1-tunnel:
       loadBalancer:
         servers:
-          - url: http://100.95.11.23
+          - url: http://slc1-node-3-vpn.jakerob.pro
 
   routers:
     # WHOAMI LHR1

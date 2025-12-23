@@ -84,7 +84,7 @@ resource "tailscale_acl" "my_acl" {
 
 	"hosts": {
 		// special devices
-		"lhr1-node-1":         "100.89.27.79",
+		"lhr1-node-1":         "100.81.118.52",
 		"slc1-node-3":         "100.95.11.23",
 		"iad1-node-1":         "100.109.65.68",
 		"iad1-node-3":         "100.70.105.44",
