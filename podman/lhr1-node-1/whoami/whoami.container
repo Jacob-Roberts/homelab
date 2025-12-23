@@ -1,0 +1,14 @@
+[Unit]
+Description=Whoami Service (Podman)
+After=network-online.target
+
+[Container]
+Image=docker.io/traefik/whoami
+ContainerName=whoami-prod-2
+Exec=--verbose
+Label=traefik.enable=true traefik.http.routers.whoami-prod-1-http.entrypoints=web traefik.http.routers.whoami-prod-1-http.rule=Host(`whoami.lhr1.jakerob.pro`) traefik.http.routers.whoami-prod-1-http.middlewares=websecure-redirect-permanent@file traefik.http.routers.whoami-prod-1-https.entrypoints=websecure traefik.http.routers.whoami-prod-1-https.rule=Host(`whoami.lhr1.jakerob.pro`) traefik.http.routers.whoami-prod-1-https.tls=true traefik.http.routers.whoami-prod-1-https.tls.certresolver=cloudflare
+PublishPort=8081:80
+NoNewPrivileges=true
+
+[Service]
+Restart=always

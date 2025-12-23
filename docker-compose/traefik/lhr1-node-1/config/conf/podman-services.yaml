@@ -1,0 +1,15 @@
+http:
+  routers:
+    whoami-podman:
+      rule: "Host(`whoami-pm.lhr1.jakerob.pro`)"
+      service: whoami-podman-service
+      entryPoints:
+        - websecure # or 'web' depending on your setup
+      tls: {}
+
+  services:
+    whoami-podman-service:
+      loadBalancer:
+        servers:
+          # Use the host's IP or 'host.docker.internal' 
+          - url: "http://host.docker.internal:8081"
