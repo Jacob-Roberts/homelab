@@ -95,6 +95,7 @@ services:
     container_name: crowdsec
     command: "-t"
     restart: unless-stopped
+    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
     healthcheck:
       interval: 10s
       retries: 15
@@ -110,6 +111,7 @@ services:
       ENROLL_INSTANCE_NAME: pangolin-crowdsec
       ENROLL_TAGS: docker
       GID: "${DOCKER_GROUP_ID:-2001}"
+      UID: "${DOCKER_USER_ID:-2001}"
       PARSERS: crowdsecurity/whitelists
     networks:
       - internal
