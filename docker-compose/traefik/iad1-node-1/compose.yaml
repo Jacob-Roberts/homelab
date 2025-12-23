@@ -24,6 +24,12 @@ services:
       crowdsec:
         condition: service_healthy
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8082/ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     ports:
       - "${HOST_IP:-10.0.0.13}:80:80/tcp"
       - "${HOST_IP:-10.0.0.13}:443:443/tcp"
@@ -38,6 +44,7 @@ services:
       - ./config-external/conf/:/etc/traefik/conf/:ro
       - ./config-external/certs/acme.json:/etc/traefik/certs/acme.json:rw
       - ./config-external/static-certs/:/etc/traefik/static-certs/:ro
+      - ./config-external/plugins-storage:/plugins-storage/:rw
       - ./config-external/logs:/var/log/traefik:rw
       - ./config-external/ban.html:/etc/traefik/ban.html:ro
       - ./config-external/captcha.html:/etc/traefik/captcha.html:ro
@@ -64,6 +71,12 @@ services:
       # allow rootless container to access ports < 1024
       net.ipv4.ip_unprivileged_port_start: 80
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8082/ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     ports:
       # Bind on secure IP (local, VPN) only
       - "${VPN_IP:-100.109.65.68}:80:80/tcp"
