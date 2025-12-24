@@ -12,6 +12,8 @@ services:
     hostname: syncthing-lhr1
     restart: unless-stopped
     user: "${DOCKER_USER_ID:-2011}:${DOCKER_GROUP_ID:-2011}"
+    group_add:
+      - "${DOCKER_GROUP_ID_CERT_MANAGER:-2013}"
     ports:
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers

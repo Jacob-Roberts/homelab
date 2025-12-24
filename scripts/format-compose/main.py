@@ -31,6 +31,7 @@ class ComposeFormatter:
         "read_only",
         "privileged",
         "user",
+        "group_add",
         "security_opt",
         "sysctls",
         "cap_add",
