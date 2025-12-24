@@ -126,9 +126,11 @@ services:
       GID: "${DOCKER_GROUP_ID:-2001}"
       UID: "${DOCKER_USER_ID:-2001}"
       PARSERS: crowdsecurity/whitelists
+      BOUNCER_KEY_TRAEFIK: "${CROWDSEC_TRAEFIK_BOUNCER_TOKEN}"
     networks:
       - internal
     volumes:
+      - ./acquis.yaml:/etc/crowdsec/acquis.yaml:ro
       - ./config-crowdsec:/etc/crowdsec
       - ./crowdsec-db/:/var/lib/crowdsec/data
       - ./config-external/logs:/var/log/traefik
