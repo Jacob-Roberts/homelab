@@ -87,6 +87,10 @@ service_users:
     uid: 2012
     gid: 2012
     nodes: ["lhr1-node-1"]
+  # Manages TLS certificates via Let's Encrypt
+  - name: cert-manager
+    gid: 2013
+    nodes: ["lhr1-node-1", "iad1-node-1"]
 
 # NFS mount configuration
 nfs_mounts:
