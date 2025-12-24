@@ -15,6 +15,8 @@ services:
       - "--configFile=/traefik/traefik.yaml"
     read_only: true
     user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
+    group_add:
+      - "${DOCKER_GROUP_ID_CERT_MANAGER:-2013}"
     security_opt:
       - no-new-privileges:true
     sysctls:
