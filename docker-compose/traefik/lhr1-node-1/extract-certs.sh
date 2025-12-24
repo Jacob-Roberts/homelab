@@ -21,4 +21,6 @@ for domain in $DOMAINS; do
   cp -r /output/$domain /synced-certs/
 done
 
-chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} synced-certs/
+chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2013} synced-certs/
+chmod -R g+r synced-certs/
+
