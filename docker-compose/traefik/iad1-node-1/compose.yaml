@@ -44,7 +44,7 @@ services:
     volumes:
       - ./config-external/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config-external/conf/:/etc/traefik/conf/:ro
-      - ./config-external/certs/acme.json:/etc/traefik/certs/acme.json:rw
+      - ./config-external/certs:/etc/traefik/certs:rw
       - ./config-external/static-certs/:/etc/traefik/static-certs/:ro
       - ./config-external/plugins-storage:/plugins-storage/:rw
       - ./config-external/logs:/var/log/traefik:rw
