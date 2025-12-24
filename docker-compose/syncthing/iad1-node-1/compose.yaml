@@ -10,16 +10,16 @@ services:
     image: syncthing/syncthing:latest
     container_name: syncthing
     hostname: syncthing-iad1
-    restart: unless-stopped
     user: "${DOCKER_USER_ID:-2011}:${DOCKER_GROUP_ID:-2011}"
     group_add:
       - "${DOCKER_GROUP_ID_CERT_MANAGER:-2013}"
+    restart: unless-stopped
     ports:
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers
     environment:
-      PUID: ${DOCKER_USER_ID:-2011}
-      PGID: ${DOCKER_GROUP_ID:-2011}
+      PUID: "${DOCKER_USER_ID:-2011}"
+      PGID: "${DOCKER_GROUP_ID:-2011}"
     networks:
       - frontend
     volumes:

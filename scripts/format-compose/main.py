@@ -27,6 +27,7 @@ class ComposeFormatter:
         "image",
         "platform",
         "container_name", 
+        "hostname",
         "command",
         "read_only",
         "privileged",

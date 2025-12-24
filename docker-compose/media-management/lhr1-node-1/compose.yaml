@@ -11,6 +11,7 @@ services:
   gluetun:
     image: docker.io/qmcgaw/gluetun:v3
     container_name: gluetun
+    hostname: gluetun
     security_opt:
       - no-new-privileges:true
     cap_add:
@@ -46,7 +47,6 @@ services:
     volumes:
       - ./gluetun-config:/gluetun
       - ./gluetun-config/info:/tmp/gluetun
-    hostname: gluetun
     labels:
       traefik.enable: true
       traefik.docker.network: frontend

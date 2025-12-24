@@ -107,8 +107,8 @@ services:
     image: docker.io/crowdsecurity/crowdsec:latest
     container_name: crowdsec
     command: "-t"
-    restart: unless-stopped
     user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
+    restart: unless-stopped
     healthcheck:
       interval: 10s
       retries: 15

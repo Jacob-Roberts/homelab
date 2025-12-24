@@ -13,14 +13,14 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     environment:
-      OIDC_AUTH_ENABLED: True
-      OIDC_SIGNUP_ENABLED: True
+      OIDC_AUTH_ENABLED: true
+      OIDC_SIGNUP_ENABLED: true
       OIDC_CONFIGURATION_URL: https://pocket-id.iad1.jakerob.pro/.well-known/openid-configuration
       OIDC_CLIENT_ID: "${OIDC_CLIENT_ID}"
       OIDC_CLIENT_SECRET: "${OIDC_CLIENT_SECRET}"
       OIDC_PROVIDER_NAME: Pocket ID
       OIDC_AUTO_REDIRECT: false
-      ALLOW_SIGNUP: 'true'
+      ALLOW_SIGNUP: "true"
       PUID: 1002
       PGID: 1002
       TZ: "${TZ:-Europe/London}"

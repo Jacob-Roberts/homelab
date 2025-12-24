@@ -12,21 +12,14 @@ services:
     image: docker.io/opencloudeu/opencloud:2
     # changelog: https://github.com/opencloud-eu/opencloud/tree/main/changelog
     # release notes: https://docs.opencloud.eu/opencloud_release_notes.html
-    user: "${DOCKER_USER_ID:-2012}:${DOCKER_GROUP_ID:-2012}"
-    networks:
-      - internal
-      - frontend
-    entrypoint:
-      - /bin/sh
-    # run opencloud init to initialize a configuration file with random secrets
-    # it will fail on subsequent runs, because the config file already exists
-    # therefore we ignore the error and then start the opencloud server
     command: ["-c", "opencloud init || true; opencloud server"]
+    user: "${DOCKER_USER_ID:-2012}:${DOCKER_GROUP_ID:-2012}"
+    restart: always
     environment:
       # enable services that are not started automatically
-      OC_ADD_RUN_SERVICES: ${START_ADDITIONAL_SERVICES}
-      OC_URL: https://${OC_DOMAIN:-ocloud.lhr1.jakerob.pro}${TRAEFIK_PORT_HTTPS:+:}${TRAEFIK_PORT_HTTPS:-}
-      OC_LOG_LEVEL: ${LOG_LEVEL:-info}
+      OC_ADD_RUN_SERVICES: "${START_ADDITIONAL_SERVICES}"
+      OC_URL: "https://${OC_DOMAIN:-ocloud.lhr1.jakerob.pro}${TRAEFIK_PORT_HTTPS:+:}${TRAEFIK_PORT_HTTPS:-}"
+      OC_LOG_LEVEL: "${LOG_LEVEL:-info}"
       OC_LOG_COLOR: "${LOG_PRETTY:-false}"
       OC_LOG_PRETTY: "${LOG_PRETTY:-false}"
       # do not use SSL between the reverse proxy and OpenCloud
@@ -48,7 +41,7 @@ services:
       NOTIFICATIONS_SMTP_INSECURE: "${SMTP_INSECURE:-false}"
       NOTIFICATIONS_SMTP_AUTHENTICATION: "${SMTP_AUTHENTICATION}"
       NOTIFICATIONS_SMTP_ENCRYPTION: "${SMTP_TRANSPORT_ENCRYPTION:-none}"
-      FRONTEND_ARCHIVER_MAX_SIZE: "10000000000"
+      FRONTEND_ARCHIVER_MAX_SIZE: '10000000000'
       FRONTEND_CHECK_FOR_UPDATES: "${CHECK_FOR_UPDATES:-true}"
       PROXY_CSP_CONFIG_FILE_LOCATION: /etc/opencloud/csp.yaml
       # enable to allow using the banned passwords list
@@ -62,9 +55,16 @@ services:
       OC_PASSWORD_POLICY_MIN_UPPERCASE_CHARACTERS: "${OC_PASSWORD_POLICY_MIN_UPPERCASE_CHARACTERS:-1}"
       OC_PASSWORD_POLICY_MIN_DIGITS: "${OC_PASSWORD_POLICY_MIN_DIGITS:-1}"
       OC_PASSWORD_POLICY_MIN_SPECIAL_CHARACTERS: "${OC_PASSWORD_POLICY_MIN_SPECIAL_CHARACTERS:-1}"
+    networks:
+      - internal
+      - frontend
     volumes:
       - ./config:/etc/opencloud
       - ./data:/var/lib/opencloud
+    entrypoint:
+      - /bin/sh
+    # run opencloud init to initialize a configuration file with random secrets
+    # it will fail on subsequent runs, because the config file already exists
+    # therefore we ignore the error and then start the opencloud server
     logging:
-      driver: ${LOG_DRIVER:-local}
-    restart: always
+      driver: "${LOG_DRIVER:-local}"

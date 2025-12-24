@@ -69,7 +69,7 @@ services:
     volumes:
       - ./model-cache:/cache
   cache:
-    image: docker.io/valkey/valkey:8-bookworm@sha256:42cba146593a5ea9a622002c1b7cba5da7be248650cbb64ecb9c6c33d29794b1
+    image: "docker.io/valkey/valkey:8-bookworm@sha256:42cba146593a5ea9a622002c1b7cba5da7be248650cbb64ecb9c6c33d29794b1"
     container_name: immich-cache
     restart: unless-stopped
     healthcheck:
@@ -78,7 +78,7 @@ services:
       - internal
 
   database:
-    image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52
+    image: "docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52"
     container_name: immich-database
     command: [postgres, "-c", shared_preload_libraries=vectors.so, "-c", "search_path=\"$$user\", public, vectors", "-c", logging_collector=on, "-c", max_wal_size=2GB, "-c", shared_buffers=512MB, "-c", wal_compression=on]
     restart: unless-stopped

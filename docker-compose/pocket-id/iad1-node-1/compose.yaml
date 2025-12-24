@@ -8,24 +8,24 @@ networks:
 services:
   pocket-id:
     image: ghcr.io/pocket-id/pocket-id:v1-distroless
-    restart: unless-stopped
-    volumes:
-      - "./data:/app/data"
-    networks:
-      - frontend
-    environment:
-      - APP_URL=${APP_URL:-https://pocket-id.iad1.jakerob.pro}
-      - TRUST_PROXY=${TRUST_PROXY:-false}
-      - MAXMIND_LICENSE_KEY=${MAXMIND_LICENSE_KEY:-}
     read_only: true
-    user: '1002:1002'
+    user: 1002:1002
     # Optional healthcheck
+    restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "/app/pocket-id", "healthcheck" ]
+      test: [CMD, /app/pocket-id, healthcheck]
       interval: 1m30s
       timeout: 5s
       retries: 2
       start_period: 10s
+    environment:
+      APP_URL: "${APP_URL:-https://pocket-id.iad1.jakerob.pro}"
+      TRUST_PROXY: "${TRUST_PROXY:-false}"
+      MAXMIND_LICENSE_KEY: "${MAXMIND_LICENSE_KEY:-}"
+    networks:
+      - frontend
+    volumes:
+      - ./data:/app/data
     labels:
       traefik.enable: true
       traefik.external: true

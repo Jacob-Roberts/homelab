@@ -11,9 +11,9 @@ services:
     container_name: giftmanager
     security_opt:
       - no-new-privileges:true
+    restart: unless-stopped
     networks:
       - frontend
-    restart: unless-stopped
     volumes:
       - ./data:/app/data/
     labels:
