@@ -13,6 +13,7 @@
         name: "{{ ansible_user_id }}"
         shell: /usr/bin/zsh
       become: true
+      when: ansible_user_id != 'root'
 
     - name: Clone my dotfiles
       ansible.builtin.git:
