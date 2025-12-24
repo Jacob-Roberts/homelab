@@ -3,7 +3,7 @@ http:
     lhr1-tunnel:
       loadBalancer:
         servers:
-          - url: https://lhr1-node-1-vpn.jakerob.pro
+          - url: https://lhr1-node-1.vpn.jakerob.pro
 
     slc1-tunnel:
       loadBalancer:
