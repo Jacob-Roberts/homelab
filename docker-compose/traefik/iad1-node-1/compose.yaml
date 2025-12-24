@@ -11,8 +11,6 @@ services:
   traefik-external:
     image: docker.io/traefik:v3
     container_name: traefik-external
-    command:
-      - "--configFile=/traefik/traefik.yaml"
     read_only: true
     user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
     group_add:
