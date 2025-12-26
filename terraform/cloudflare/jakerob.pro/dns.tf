@@ -86,9 +86,7 @@ resource "cloudflare_dns_record" "jellyfin" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  # content = "iad1-node-1.jakerob.pro"
-  # TODO: make it public again
-  content = "lhr1-node-1.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "karakeep" {
