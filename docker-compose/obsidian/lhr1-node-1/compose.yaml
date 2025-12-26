@@ -1,0 +1,35 @@
+---
+name: obsidian
+
+networks:
+  frontend:
+    external: true
+
+services:
+  obsidian:
+    image: ghcr.io/sytone/obsidian-remote:latest
+    container_name: obsidian-remote
+    user: "${DOCKER_USER_ID:-2014}:${DOCKER_GROUP_ID:-2014}"
+    group_add:
+      - "${DOCKER_GROUP_ID_NOTE_MANAGER:-2015}"
+    restart: unless-stopped
+    environment:
+      PUID: "${DOCKER_USER_ID:-2014}"
+      PGID: "${DOCKER_GROUP_ID:-2014}"
+      TZ: Europe/London
+      CUSTOM_PORT: '8080'
+      CUSTOM_USER: "${BASIC_AUTH_USERNAME:-jake}"
+      PASSWORD: "${BASIC_AUTH_PASSWORD}"
+    volumes:
+      - ./vaults:/vaults
+      - ./config:/config
+    labels: 
+      traefik.enable: true
+      traefik.http.services.obsidian-prod-1.loadbalancer.server.port: '8080'
+      traefik.http.routers.obsidian-prod-1-http.entrypoints: web
+      traefik.http.routers.obsidian-prod-1-http.rule: Host(`obsidian.lhr1.jakerob.pro`)
+      traefik.http.routers.obsidian-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.obsidian-prod-1-https.entrypoints: websecure
+      traefik.http.routers.obsidian-prod-1-https.rule: Host(`obsidian.lhr1.jakerob.pro`)
+      traefik.http.routers.obsidian-prod-1-https.tls: true
+      traefik.http.routers.obsidian-prod-1-https.tls.certresolver: cloudflare

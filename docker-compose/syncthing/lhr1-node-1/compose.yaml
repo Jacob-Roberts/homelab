@@ -13,6 +13,7 @@ services:
     user: "${DOCKER_USER_ID:-2011}:${DOCKER_GROUP_ID:-2011}"
     group_add:
       - "${DOCKER_GROUP_ID_CERT_MANAGER:-2013}"
+      - "${DOCKER_GROUP_ID_NOTE_MANAGER:-2015}"
     restart: unless-stopped
     ports:
       - 22000:22000/tcp # TCP file transfers
@@ -26,6 +27,7 @@ services:
       - ./config:/var/syncthing
       - /media/jellydata:/jellydata
       - ../../traefik/lhr1-node-1/synced-certs:/etc/syncthing/synced-certs
+      - ../../obsidian/lhr1-node-1/vaults:/etc/syncthing/vaults
     labels:
       traefik.enable: true
       traefik.http.services.syncthing-prod-1.loadbalancer.server.port: '8384'

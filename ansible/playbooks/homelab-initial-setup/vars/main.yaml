@@ -93,6 +93,13 @@ service_users:
   - name: cert-manager
     gid: 2013
     nodes: ["lhr1-node-1", "iad1-node-1"]
+  - name: obsidian
+    uid: 2014
+    gid: 2014
+    nodes: ["lhr1-node-1"]
+  - name: obsidian-note-manager
+    gid: 2015
+    nodes: ["lhr1-node-1"]
 
 # NFS mount configuration
 nfs_mounts:
