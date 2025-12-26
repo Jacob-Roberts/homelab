@@ -13,6 +13,8 @@ services:
     group_add:
       - "${DOCKER_GROUP_ID_NOTE_MANAGER:-2015}"
     restart: unless-stopped
+    networks:
+      - frontend
     environment:
       PUID: "${DOCKER_USER_ID:-2014}"
       PGID: "${DOCKER_GROUP_ID:-2014}"
