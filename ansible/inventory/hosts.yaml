@@ -46,6 +46,10 @@ all:
       ansible_user: jacobroberts
       ansible_host: slc1-node-3.jakerob.pro
 
+    slc1-storage-1:
+      ansible_user: admin
+      ansible_host: slc1-storage-1.jakerob.pro
+
     # Raspberry Pi Model 3
     slc1-pi-1:
       ansible_user: jacobroberts
@@ -85,12 +89,18 @@ all:
       hosts:
         lhr1-node-1:
 
-    nut_primary:
+    nut_primary_lhr1:
       hosts:
         lhr1-pi-1:
-        slc1-pi-1:
-    nut_clients:
+    nut_clients_lhr1:
       hosts:
         # lhr1-storage-1: Truenas doesn't like to be configured by ansible
         lhr1-hv-1:
+
+    nut_primary_slc1:
+      hosts:
+        slc1-pi-1:
+    nut_clients_slc1:
+      hosts:
+        # slc1-storage-1: Truenas doesn't like to be configured by ansible
         slc1-hv-1:
