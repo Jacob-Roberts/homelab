@@ -110,8 +110,8 @@
   tags: client
 
   vars_files:
-    - config.yaml
-    - config-secrets.yaml
+    - "config-{{ site | default('lhr1') }}.yaml"
+    - "config-{{ site | default('lhr1') }}-secrets.yaml"
 
   roles:
     - geerlingguy.nut_client

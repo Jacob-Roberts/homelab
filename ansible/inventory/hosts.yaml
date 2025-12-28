@@ -1,6 +1,7 @@
 ---
 all:
   hosts:
+    #### LHR1 ####
     # Raspberry Pi Model 3
     lhr1-pi-1:
       ansible_user: jacobroberts
@@ -21,6 +22,8 @@ all:
       ansible_user: truenas_admin
       ansible_host: lhr1-storage-1.jakerob.pro
 
+    #### IAD1 ####
+
     iad1-node-1:
       ansible_user: jacobroberts
       ansible_host: iad1-vpn-node-1.jakerob.pro
@@ -33,18 +36,26 @@ all:
       ansible_user: jacobroberts
       ansible_host: iad1-vpn-node-3.jakerob.pro
 
+    #### SLC1 ####
+
+    slc1-hv-1:
+      ansible_user: root
+      ansible_host: slc1-hv-1.jakerob.pro
+
     slc1-node-3:
       ansible_user: jacobroberts
       ansible_host: slc1-node-3.jakerob.pro
-
-    sgu1-node-1:
-      ansible_user: jacobrobert
-      ansible_host: sgu1-node-1.jakerob.pros
 
     # Raspberry Pi Model 3
     slc1-pi-1:
       ansible_user: jacobroberts
       ansible_host: slc1-pi-1.jakerob.pro
+
+    #### SGU1 ####
+
+    sgu1-node-1:
+      ansible_user: jacobrobert
+      ansible_host: sgu1-node-1.jakerob.pros
 
   children:
     bootstrap:
@@ -82,3 +93,4 @@ all:
       hosts:
         # lhr1-storage-1: Truenas doesn't like to be configured by ansible
         lhr1-hv-1:
+        slc1-hv-1:

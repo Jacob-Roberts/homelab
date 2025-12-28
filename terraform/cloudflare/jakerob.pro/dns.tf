@@ -511,8 +511,8 @@ resource "cloudflare_dns_record" "sgu1-node-1" {
   content = "192.168.59.194"
 }
 
-resource "cloudflare_dns_record" "sgu1-proxmox-node-1" {
-  name    = "sgu1-proxmox-node-1.jakerob.pro"
+resource "cloudflare_dns_record" "sgu1-hv-1" {
+  name    = "sgu1-hv-1.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
   proxied = false
   ttl     = 1
@@ -565,8 +565,8 @@ resource "cloudflare_dns_record" "slc1-nut-1" {
   content = "192.168.97.28"
 }
 
-resource "cloudflare_dns_record" "slc1-proxmox-node-1" {
-  name    = "slc1-proxmox-node-1.jakerob.pro"
+resource "cloudflare_dns_record" "slc1-hv-1" {
+  name    = "slc1-hv-1.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
   proxied = false
   ttl     = 1
@@ -726,7 +726,7 @@ resource "cloudflare_dns_record" "proxmox-sgu1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content = "sgu1-proxmox-node-1.jakerob.pro"
+  content = "sgu1-hv-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "proxmox-slc1" {
@@ -735,7 +735,7 @@ resource "cloudflare_dns_record" "proxmox-slc1" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content = "slc1-proxmox-node-1.jakerob.pro"
+  content = "slc1-hv-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "catch_all-sgu1" {
