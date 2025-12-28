@@ -1,0 +1,39 @@
+---
+nut_state: started
+nut_enabled: true
+
+# Scan for your UPS's values: `sudo nut-scanner -U`
+nut_ups_name: slc1-ups-1
+nut_ups_driver: usbhid-ups
+nut_ups_description: "SLC1 cabinet UPS"
+nut_ups_port: auto
+nut_ups_vendorid: '051D'
+nut_ups_productid: '0002'
+nut_ups_product: 'Back-UPS ES 600M1 FW:928.a11 .D USB FW:a10'
+nut_ups_serial: '0B2416L28342'
+nut_ups_vendor: 'American Power Conversion'
+nut_ups_bus: '001'
+nut_shutdown_finaldelay: '180'
+
+nut_ups_admin_user: admin
+
+# See config-slc1-secrets.yaml
+# nut_ups_admin_password: ADMIN_PASSWORD_HERE
+# nut_upsd_users: |
+#   [admin]
+#       password = ADMIN_PASSWORD_HERE
+#       actions = set
+#       actions = fsd
+#       instcmds = all
+#       upsmon primary
+
+#   [observer]
+#       password = OBSERVER_PASSWORD_HERE
+#       upsmon secondary
+
+nut_client_ups: slc1-ups-1
+nut_client_server: 192.168.97.73
+nut_client_username: observer
+
+# See config-secrets.yaml
+# nut_client_password: OBSERVER_PASSWORD_HERE

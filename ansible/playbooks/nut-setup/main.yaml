@@ -6,11 +6,11 @@
   tags: primary
 
   vars_files:
-    - config.yaml
-    - config-secrets.yaml
+    - "config-{{ site | default('lhr1') }}.yaml"
+    - "config-{{ site | default('lhr1') }}-secrets.yaml"
 
-  # roles:
-  #   - geerlingguy.security
+  roles:
+    - geerlingguy.security
 
   handlers:
     - name: restart nut-server

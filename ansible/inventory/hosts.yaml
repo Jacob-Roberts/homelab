@@ -41,9 +41,10 @@ all:
       ansible_user: jacobrobert
       ansible_host: sgu1-node-1.jakerob.pros
 
+    # Raspberry Pi Model 3
     slc1-pi-1:
       ansible_user: jacobroberts
-      ansible_host: 192.168.42.137 ## TODO: Move to real IP
+      ansible_host: slc1-pi-1.jakerob.pro
 
   children:
     bootstrap:
