@@ -91,12 +91,6 @@ graph TD
   end
 ```
 
-## Why do I commit all folders with a .gitkeep?
-
-This ensures that when you clone it, the folders are created with the right ownership.
-
-If they are auto created by the docker containers, sometimes they are still created with ownership of `root`
-
 ## FAQ
 
 - How can I fix the locales issue?
