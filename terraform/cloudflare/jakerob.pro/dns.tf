@@ -520,6 +520,15 @@ resource "cloudflare_dns_record" "sgu1-hv-1" {
   content = "192.168.59.16"
 }
 
+resource "cloudflare_dns_record" "sgu1-pi-1" {
+  name    = "sgu1-pi-1.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content = "192.168.59.105"
+}
+
 resource "cloudflare_dns_record" "slc1-node-1" {
   name    = "slc1-node-1.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
