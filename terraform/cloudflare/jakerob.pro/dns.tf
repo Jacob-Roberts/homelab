@@ -526,7 +526,7 @@ resource "cloudflare_dns_record" "sgu1-pi-1" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content = "192.168.59.105"
+  content = "192.168.59.162"
 }
 
 resource "cloudflare_dns_record" "slc1-node-1" {
