@@ -113,7 +113,7 @@ services:
     image: docker.io/11notes/socket-proxy:2
     container_name: traefik-socket-proxy
     read_only: true
-    user: "0:${DOCKER_GROUP_ID:-988}" # Lookup the docker group ID using `getent group docker`
+    user: "0:${DOCKER_GROUP_ID}" # Lookup the docker group ID using `getent group docker`
     restart: unless-stopped
     environment:
       SOCKET_PROXY_UID: "${DOCKER_USER_ID:-2001}"
