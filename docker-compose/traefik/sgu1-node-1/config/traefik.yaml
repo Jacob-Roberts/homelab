@@ -1,5 +1,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/traefik-v3.json
 
+# Needed for health check
+ping:
+  terminatingStatusCode: 204
+
 global:
   checkNewVersion: false
   sendAnonymousUsage: false
@@ -12,8 +16,8 @@ log:
 #  format: common
 #  filePath: /var/log/traefik/traefik.log
 
-metrics:
-  prometheus: {}
+# metrics:
+#   prometheus: {}
 
 # -- (Optional) Enable Accesslog and change Format here...
 #     - format [common, json, logfmt]
@@ -24,7 +28,7 @@ metrics:
 # -- (Optional) Enable API and Dashboard here, don't do in production
 api:
   dashboard: true
-  insecure: true
+  insecure: false
 
 # -- Change EntryPoints here...
 entryPoints:
@@ -47,7 +51,7 @@ certificatesResolvers:
   cloudflare:
     acme:
       email: jroberts.g1ql8@simplelogin.com
-      storage: /etc/traefik/certs/cloudflare-acme.json
+      storage: /traefik/certs/cloudflare-acme.json
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       dnsChallenge:
         provider: cloudflare
@@ -75,9 +79,9 @@ providers:
   docker:
     # -- (Optional) Enable this, if you want to expose all containers automatically
     exposedByDefault: false
-    endpoint: "tcp://socket-proxy:2375"
+    endpoint: "unix:///var/run/docker.sock"
     watch: true
     network: frontend
   file:
-    directory: /etc/traefik/conf/
+    directory: /traefik/conf/
     watch: false
