@@ -100,6 +100,10 @@ service_users:
   - name: obsidian-note-manager
     gid: 2015
     nodes: ["lhr1-node-1"]
+  - name: unifi
+    uid: 2016
+    gid: 2016
+    nodes: ["sgu1-node-1"]
 
 # NFS mount configuration
 nfs_mounts:

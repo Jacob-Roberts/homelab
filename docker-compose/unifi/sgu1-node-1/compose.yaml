@@ -23,8 +23,8 @@ services:
       - 6789:6789 #optional
       - 5514:5514/udp #optional
     environment:
-      PUID: '1000'
-      PGID: '1000'
+      PUID: ${DOCKER_USER_ID:-2016}
+      PGID: ${DOCKER_GROUP_ID:-2016}
       TZ: Etc/UTC
       MONGO_USER: unifi
       MONGO_PASS: "${MONGO_PASS}"
