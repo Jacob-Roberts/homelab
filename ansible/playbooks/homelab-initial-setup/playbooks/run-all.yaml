@@ -15,8 +15,7 @@
 #   3. Users & groups
 #   4. Git repository
 #   5. Service users
-#   6. Service permissions
-#   7. NFS mounts
+#   6. NFS mounts
 # =============================================================================
 
 - name: Create initial user
@@ -43,10 +42,6 @@
   ansible.builtin.import_playbook: 05-service-users.yaml
   when: not lookup('vars', 'setup_initial_user') | default(true)
 
-# - name: Service permissions
-#   ansible.builtin.import_playbook: 06-service-permissions.yaml
-#   when: not vars.setup_initial_user | default(true)
-
-# - name: NFS mounts
-#   ansible.builtin.import_playbook: 07-nfs-mounts.yaml
-#   when: not vars.setup_initial_user | default(true)
+- name: NFS mounts
+  ansible.builtin.import_playbook: 06-nfs-mounts.yaml
+  when: not vars.setup_initial_user | default(true)

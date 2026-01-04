@@ -2,7 +2,7 @@
 # =============================================================================
 # NFS Mounts
 # =============================================================================
-# Run: ansible-playbook playbooks/07-nfs-mounts.yaml
+# Run: ansible-playbook playbooks/06-nfs-mounts.yaml
 #
 # This playbook:
 # - Installs NFS utilities
@@ -22,6 +22,7 @@
         pkg:
           - nfs-common
         state: present
+      when: nfs_mounts | selectattr('node', 'defined') | selectattr('node', 'equalto', inventory_hostname) | list | length > 0  
 
     - name: Mount NFS shares
       ansible.posix.mount:
@@ -31,4 +32,4 @@
         opts: rw,noatime,hard,_netdev,timeo=900,retrans=5
         state: "{{ item.state }}"
       loop: "{{ nfs_mounts }}"
-
+      when: item.node is defined and item.node == inventory_hostname

@@ -107,14 +107,17 @@ nfs_mounts:
     src: truenas.lhr1.jakerob.pro:/mnt/bulk-slow/encrypted/immich
     fstype: nfs
     state: mounted
+    node: "lhr1-node-1"
   - path: /media/jellydata
     src: truenas.lhr1.jakerob.pro:/mnt/bulk-slow/encrypted/jellyfin
     fstype: nfs
     state: mounted
+    node: "lhr1-node-1"
   - path: /media/roberts-data
     src: truenas.lhr1.jakerob.pro:/mnt/bulk-slow/encrypted/pbj-drive
     fstype: nfs
     state: mounted
+    node: "lhr1-node-1"
 
 # =============================================================================
 # geerlingguy.security role configuration
