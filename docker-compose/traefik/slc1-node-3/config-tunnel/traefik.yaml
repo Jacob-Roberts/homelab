@@ -40,8 +40,8 @@ entryPoints:
 #   stores:
 #     default:
 #       defaultCertificate:
-#         certFile: /etc/traefik/certs/cert.pem
-#         keyFile: /etc/traefik/certs/cert-key.pem
+#         certFile: /traefik/certs/cert.pem
+#         keyFile: /traefik/certs/cert-key.pem
 # -- (Optional) Disable TLS version 1.0 and 1.1
 #   options:
 #     default:
@@ -55,5 +55,5 @@ providers:
     endpoint: "tcp://socket-proxy:2375"
     watch: true
   file:
-    directory: /etc/traefik
+    directory: /traefik/conf
     watch: true
