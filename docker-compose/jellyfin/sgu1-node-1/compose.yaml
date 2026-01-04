@@ -5,22 +5,27 @@ networks:
   frontend:
     external: true
 
+volumes:
+  cache:
+    name: jellyfin_cache
+
 services:
   jellyfin:
-    image: docker.io/jellyfin/jellyfin:10.9.2
+    image: docker.io/jellyfin/jellyfin:10
     container_name: jellyfin
-    user: 1000:1000
+    hostname: jellyfin-sgu1
+    user: "${DOCKER_USER_ID:-2003}:${DOCKER_GROUP_ID:-2003}"
     restart: unless-stopped
     environment:
-      PUID: '1000'
-      PGID: '1000'
+      PUID: "${DOCKER_USER_ID:-2003}"
+      PGID: "${DOCKER_GROUP_ID:-2003}"
       TZ: Europe/London
       JELLYFIN_PublishedServerUrl: https://jellyfin.sgu1.jakerob.pro
     networks:
       - frontend
     volumes:
       - ./config:/config
-      - ./cache:/cache
+      - cache:/cache
       - /media/jellydata:/jellydata
     labels:
       traefik.enable: true

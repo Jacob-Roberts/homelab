@@ -42,7 +42,7 @@ service_users:
   - name: traefik
     uid: 2001
     gid: 2001
-    nodes: ["lhr1-node-1", "iad1-node-1"]
+    nodes: ["lhr1-node-1", "iad1-node-1", "sgu1-node-1", "slc1-node-3"]
     additional_groups: ["cert-manager"]
   - name: authentik
     uid: 2002
@@ -51,7 +51,7 @@ service_users:
   - name: jellyfin
     uid: 2003
     gid: 2003
-    nodes: ["lhr1-node-1"]
+    nodes: ["lhr1-node-1", "sgu1-node-1", "slc1-node-3"]
   - name: immich
     uid: 2004
     gid: 2004
