@@ -9,7 +9,7 @@ networks:
 
 services:
   unifi-network-application:
-    image: lscr.io/linuxserver/unifi-network-application:8.2.93-ls51
+    image: lscr.io/linuxserver/unifi-network-application:10.0.162-ls112
     container_name: unifi-network-application
     restart: unless-stopped
     ports:
