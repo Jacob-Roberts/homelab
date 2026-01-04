@@ -43,7 +43,9 @@ service_users:
     uid: 2001
     gid: 2001
     nodes: ["lhr1-node-1", "iad1-node-1", "sgu1-node-1", "slc1-node-3"]
-    additional_groups: ["cert-manager"]
+    additional_groups:
+      lhr1-node-1: ["cert-manager"]
+      iad1-node-1: ["cert-manager"]
   - name: authentik
     uid: 2002
     gid: 2002
@@ -84,7 +86,9 @@ service_users:
     uid: 2011
     gid: 2011
     nodes: ["lhr1-node-1", "iad1-node-1"]
-    additional_groups: ["cert-manager"]
+    additional_groups:
+      lhr1-node-1: ["cert-manager"]
+      iad1-node-1: ["cert-manager"]
   - name: opencloud
     uid: 2012
     gid: 2012

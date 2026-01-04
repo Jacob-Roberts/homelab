@@ -40,8 +40,11 @@
     - name: Add service users to additional groups
       ansible.builtin.user:
         name: "{{ item.name }}"
-        groups: "{{ item.additional_groups }}"
+        groups: "{{ item.additional_groups[inventory_hostname] }}"
         append: yes
       loop: "{{ service_users }}"
-      when: item.additional_groups is defined and ( item.nodes is not defined or inventory_hostname in item.nodes )
+      when: >
+        item.additional_groups is defined and
+        item.additional_groups[inventory_hostname] is defined and
+        ( item.nodes is not defined or inventory_hostname in item.nodes )
       
