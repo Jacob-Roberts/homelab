@@ -10,13 +10,9 @@ all:
       ansible_user: jacobroberts
       ansible_host: lhr1-node-1.jakerob.pro
 
-    lhr1-node-2:
-      ansible_user: jacobroberts
-      ansible_host: lhr1-node-2.jakerob.pro
-
-    lhr1-hv-1:
+    lhr1-hv-2:
       ansible_user: root
-      ansible_host: lhr1-hv-1.jakerob.pro
+      ansible_host: lhr1-hv-2.jakerob.pro
 
     lhr1-storage-1:
       ansible_user: truenas_admin
@@ -57,9 +53,13 @@ all:
 
     #### SGU1 ####
 
+    sgu1-hv-1:
+      ansible_user: root
+      ansible_host: sgu1-hv-1.jakerob.pro
+
     sgu1-node-1:
-      ansible_user: jacobrobert
-      ansible_host: sgu1-node-1.jakerob.pros
+      ansible_user: jacobroberts
+      ansible_host: sgu1-node-1.jakerob.pro
 
   children:
     bootstrap:
@@ -69,11 +69,23 @@ all:
     docker:
       hosts:
         lhr1-node-1:
-        lhr1-node-2:
         iad1-node-1:
         iad1-node-2:
         iad1-node-3:
         slc1-node-3:
+        sgu1-node-1:
+
+    updatable_apt:
+      hosts:
+        lhr1-pi-1:
+        lhr1-node-1:
+        lhr1-hv-2:
+        iad1-node-1:
+        # iad1-node-2:
+        # iad1-node-3:
+        slc1-hv-1:
+        slc1-node-3:
+        slc1-pi-1:
         sgu1-node-1:
     qemu:
       hosts:
@@ -95,7 +107,7 @@ all:
     nut_clients_lhr1:
       hosts:
         # lhr1-storage-1: Truenas doesn't like to be configured by ansible
-        lhr1-hv-1:
+        lhr1-hv-2:
 
     nut_primary_slc1:
       hosts:
