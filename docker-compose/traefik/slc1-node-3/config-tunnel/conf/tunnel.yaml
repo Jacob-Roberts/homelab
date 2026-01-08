@@ -1,0 +1,15 @@
+# This tunnel only uses http
+http:
+  services:
+    slc1-traefik:
+      loadBalancer:
+        servers:
+          - url: https://traefik
+
+  routers:
+    # WHOAMI SLC1
+    whoami-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`whoami-tunnel.slc1.jakerob.pro`)"
+      service: slc1-traefik
+      tls: true

@@ -8,9 +8,6 @@ networks:
   internal:
     # Contains traefik, socket proxy, and traefik-tunnel
     external: false
-  tunnel:
-    # Contains all the services that will be routed to through the tunnel
-    external: true
 
 volumes:
   socket-proxy:
@@ -81,7 +78,6 @@ services:
       - "${TAILSCALE_IP:-100.95.11.23}:80:80"
       - "${TAILSCALE_IP:-100.95.11.23}:443:443"
     networks:
-      - tunnel
       - internal
     volumes:
       - ./config-tunnel/traefik.yaml:/traefik/traefik.yaml:ro
@@ -142,10 +138,8 @@ services:
     restart: unless-stopped
     networks:
       - frontend
-      - internal
     labels:
       traefik.enable: true
-      traefik.tunnel-external: true
       traefik.http.routers.whoamitunnel-prod-1-http.entrypoints: web
       traefik.http.routers.whoamitunnel-prod-1-http.rule: Host(`whoami-tunnel.slc1.jakerob.pro`)
       traefik.http.routers.whoamitunnel-prod-1-http.middlewares: "websecure-redirect-permanent@file"

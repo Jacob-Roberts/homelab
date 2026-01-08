@@ -79,7 +79,6 @@ providers:
   docker:
     # -- (Optional) Enable this, if you want to expose all containers automatically
     exposedByDefault: false
-    constraints: "!Label(`traefik.tunnel-external`,`true`)"
     endpoint: "unix:///var/run/docker.sock"
     watch: true
     network: frontend

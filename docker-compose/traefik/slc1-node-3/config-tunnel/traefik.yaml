@@ -1,4 +1,10 @@
-# Tunnel Facing Traefik. This does NOT use https
+# yaml-language-server: $schema=https://json.schemastore.org/traefik-v3.json
+
+# Tunnel sitting in between Cloud Traefik and Local Traefik
+
+# Needed for health check
+ping:
+  terminatingStatusCode: 204
 
 global:
   checkNewVersion: false
@@ -8,7 +14,7 @@ global:
 #     - loglevels [DEBUG, INFO, WARNING, ERROR, CRITICAL]
 #     - format [common, json, logfmt]
 log:
-  level: DEBUG
+  level: WARN
 #  format: common
 #  filePath: /var/log/traefik/traefik.log
 
@@ -21,19 +27,19 @@ accesslog:
 # -- (Optional) Enable API and Dashboard here, don't do in production
 api:
   dashboard: true
-  insecure: true
+  insecure: true # TODO: Expose the dashboard securely
 
 # -- Change EntryPoints here...
 entryPoints:
   web:
     address: :80
-    http:
-      middlewares:
-        - https-headers@file
+    
+  websecure:
+    address: :443
 
 # -- (Optional) Disable TLS Cert verification check
-# serversTransport:
-#   insecureSkipVerify: true
+serversTransport:
+  insecureSkipVerify: true
 
 # -- (Optional) Overwrite Default Certificates
 # tls:
@@ -48,12 +54,6 @@ entryPoints:
 #       minVersion: VersionTLS12
 
 providers:
-  docker:
-    # -- (Optional) Enable this, if you want to expose all containers automatically
-    exposedByDefault: false
-    constraints: "Label(`traefik.tunnel-external`,`true`)"
-    endpoint: "tcp://socket-proxy:2375"
-    watch: true
   file:
     directory: /traefik/conf
-    watch: true
+    watch: false

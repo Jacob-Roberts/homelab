@@ -9,9 +9,6 @@ networks:
     # Contains traefik, socket proxy, and traefik-tunnel
     external: false
     name: traefik_internal
-  tunnel:
-    # Contains all the services that will be routed to through the tunnel
-    external: true
 
 volumes:
   socket-proxy:
@@ -92,7 +89,6 @@ services:
     environment:
       TZ: "${TZ:-Europe/London}"
     networks:
-      - tunnel
       - internal
     volumes:
       - ./config-tunnel/traefik.yaml:/traefik/traefik.yaml:ro
@@ -154,7 +150,6 @@ services:
     restart: unless-stopped
     networks:
       - frontend
-      - internal
     labels:
       traefik.enable: true
       traefik.http.routers.whoamitunnel-prod-1-http.entrypoints: web
