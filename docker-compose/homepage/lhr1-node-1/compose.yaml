@@ -32,7 +32,14 @@ services:
     networks:
       - frontend
     volumes:
-      - ./config:/app/config:ro
+      - ./config/bookmarks.yaml:/app/config/bookmarks.yaml:ro
+      - ./config/custom.css:/app/config/custom.css:ro
+      - ./config/custom.js:/app/config/custom.js:ro
+      - ./config/docker.yaml:/app/config/docker.yaml:ro
+      - ./config/kubernetes.yaml:/app/config/kubernetes.yaml:ro
+      - ./config/services.yaml:/app/config/services.yaml:ro
+      - ./config/settings.yaml:/app/config/settings.yaml:ro
+      - ./config/widgets.yaml:/app/config/widgets.yaml:ro
       - ./logs:/app/config/logs:rw
       # - ./images:/app/public/images:ro
       # - ./icons:/app/public/icons:ro
