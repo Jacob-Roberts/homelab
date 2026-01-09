@@ -4,13 +4,13 @@
 
 - Infrastructure and Data:
     - Proxmox:
-        href: https://proxmox2.lhr1.jakerob.pro:8006
+        href: https://proxmox.lhr1.jakerob.pro:8006
         icon: proxmox.png
         description: proxmox on lhr1-node-1
-        siteMonitor: https://proxmox2.lhr1.jakerob.pro:8006
+        siteMonitor: https://proxmox.lhr1.jakerob.pro:8006
         widget:
           type: proxmox
-          url: https://proxmox2.lhr1.jakerob.pro:8006
+          url: https://proxmox.lhr1.jakerob.pro:8006
           username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
           password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
     # - TrueNAS Scale:

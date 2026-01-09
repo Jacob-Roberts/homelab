@@ -24,7 +24,7 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url      = "https://proxmox2.lhr1.jakerob.pro:8006/api2/json"
+  pm_api_url      = "https://proxmox.lhr1.jakerob.pro:8006/api2/json"
   pm_tls_insecure = true # By default Proxmox Virtual Environment uses self-signed certificates.
 
   pm_api_token_id     = var.PM_API_TOKEN_ID
