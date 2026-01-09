@@ -33,6 +33,7 @@ services:
       - frontend
     volumes:
       - ./config:/app/config:ro
+      - ./logs:/app/config/logs:rw
       # - ./images:/app/public/images:ro
       # - ./icons:/app/public/icons:ro
       # - /var/run/docker.sock:/var/run/docker.sock:ro
