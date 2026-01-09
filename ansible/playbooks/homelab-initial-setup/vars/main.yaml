@@ -112,6 +112,10 @@ service_users:
     uid: 2017
     gid: 2017
     nodes: ["lhr1-node-1"]
+  - name: uptimekuma
+    uid: 2018
+    gid: 2018
+    nodes: ["lhr1-node-1"]
 
 # NFS mount configuration
 nfs_mounts:
