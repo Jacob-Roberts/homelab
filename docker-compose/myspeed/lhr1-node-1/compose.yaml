@@ -16,7 +16,7 @@ services:
     networks:
       - frontend
     volumes:
-      - ./data:/myspeed/data
+      - ./data:/myspeed/data:rw
     environment:
       PUID: "${DOCKER_USER_ID:-2017}"
       PGID: "${DOCKER_GROUP_ID:-2017}"
