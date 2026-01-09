@@ -11,6 +11,7 @@ services:
     container_name: myspeed
     security_opt:
       - no-new-privileges:true
+    user: "${DOCKER_USER_ID:-2017}:${DOCKER_GROUP_ID:-2017}"
     restart: unless-stopped
     networks:
       - frontend

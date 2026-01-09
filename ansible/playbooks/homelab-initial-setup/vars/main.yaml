@@ -108,6 +108,10 @@ service_users:
     uid: 2016
     gid: 2016
     nodes: ["sgu1-node-1"]
+  - name: myspeed
+    uid: 2017
+    gid: 2017
+    nodes: ["lhr1-node-1"]
 
 # NFS mount configuration
 nfs_mounts:
