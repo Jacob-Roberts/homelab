@@ -7,8 +7,9 @@ networks:
 
 services:
   uptimekuma:
-    image: docker.io/louislam/uptime-kuma:2
+    image: docker.io/louislam/uptime-kuma:2-rootless
     container_name: uptimekuma
+    user: "${DOCKER_USER_ID:-2018}:${DOCKER_GROUP_ID:-2018}"
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
