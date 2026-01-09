@@ -11,6 +11,7 @@ services:
     container_name: homepage-prod-1
     security_opt:
       - no-new-privileges:true
+    user: "${DOCKER_USER_ID:-2008}:${DOCKER_GROUP_ID:-2008}"
     restart: unless-stopped
     environment:
       PUID: "${DOCKER_USER_ID:-2008}"
