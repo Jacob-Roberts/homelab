@@ -17,6 +17,9 @@ services:
       - frontend
     volumes:
       - ./data:/myspeed/data
+    environment:
+      PUID: "${DOCKER_USER_ID:-2017}"
+      PGID: "${DOCKER_GROUP_ID:-2017}"
     labels:
       traefik.enable: true
       traefik.http.services.myspeed-prod-1.loadBalancer.server.port: 5216
