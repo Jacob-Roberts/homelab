@@ -319,6 +319,15 @@ resource "cloudflare_dns_record" "lhr1-pbs-1" {
   content = "192.168.42.19"
 }
 
+resource "cloudflare_dns_record" "pbs-lhr1" {
+  name    = "pbs.lhr1.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "lhr1-pbs-1.jakerob.pro"
+}
+
 resource "cloudflare_dns_record" "slc1-node-3-vpn" {
   name    = "slc1-node-3.vpn.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
