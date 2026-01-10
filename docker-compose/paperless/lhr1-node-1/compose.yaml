@@ -37,12 +37,12 @@ services:
           "openid_connect": {
             "APPS": [
               {
-                "provider_id": "pocketid",
+                "provider_id": "pocket-id",
                 "name": "Pocket ID",
                 "client_id": "${PAPERLESS_SOCIALACCOUNT_CLIENT_ID}",
                 "secret": "${PAPERLESS_SOCIALACCOUNT_CLIENT_SECRET}",
                 "settings": {
-                  "server_url": "https://pocket-id.lhr1.jakerob.pro/.well-known/openid-configuration"
+                  "server_url": "https://pocket-id.lhr1.jakerob.pro"
                 }
               }
             ],
