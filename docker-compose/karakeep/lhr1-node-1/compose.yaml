@@ -11,7 +11,7 @@ networks:
 services:
   web:
     image: ghcr.io/karakeep-app/karakeep:release
-    user: "${DOCKER_USER_ID:-2009}:${DOCKER_USER_ID:-2009}"
+    user: "${DOCKER_USER_ID:-2009}:${DOCKER_GROUP_ID:-2009}"
     restart: unless-stopped
     environment:
       NEXTAUTH_SECRET: "${NEXTAUTH_SECRET}"
@@ -59,7 +59,7 @@ services:
       - internal
   meilisearch:
     image: docker.io/getmeili/meilisearch:v1.13.3
-    user: "${DOCKER_USER_ID:-2009}:${DOCKER_USER_ID:-2009}"
+    user: "${DOCKER_USER_ID:-2009}:${DOCKER_GROUP_ID:-2009}"
     restart: unless-stopped
     environment:
       MEILI_MASTER_KEY: "${MEILI_MASTER_KEY}"

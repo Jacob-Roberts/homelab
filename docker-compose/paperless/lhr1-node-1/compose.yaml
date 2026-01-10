@@ -10,7 +10,7 @@ networks:
 services:
   broker:
     image: docker.io/library/redis:8
-    user: '1000'
+    user: "${DOCKER_USER_ID:-2019}:${DOCKER_GROUP_ID:-2019}"
     restart: unless-stopped
     networks:
       - internal
@@ -18,7 +18,7 @@ services:
       - ./redisdata:/data
   webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
-    user: '1000'
+    user: "${DOCKER_USER_ID:-2019}:${DOCKER_GROUP_ID:-2019}"
     depends_on:
       - broker
     restart: unless-stopped
@@ -27,8 +27,8 @@ services:
       PAPERLESS_URL: https://paperless.lhr1.jakerob.pro
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
-      USERMAP_UID: 1000
-      USERMAP_GID: 1000
+      USERMAP_UID: "${DOCKER_USER_ID:-2019}"
+      USERMAP_GID: "${DOCKER_GROUP_ID:-2019}"
       PAPERLESS_ADMIN_USER: "${PAPERLESS_ADMIN_USER}"
       PAPERLESS_ADMIN_MAIL: "${PAPERLESS_ADMIN_MAIL}"
       PAPERLESS_ADMIN_PASSWORD: "${PAPERLESS_ADMIN_PASSWORD}"
@@ -37,12 +37,12 @@ services:
           "openid_connect": {
             "APPS": [
               {
-                "provider_id": "authentik",
-                "name": "Authentik",
+                "provider_id": "pocketid",
+                "name": "Pocket ID",
                 "client_id": "${PAPERLESS_SOCIALACCOUNT_CLIENT_ID}",
                 "secret": "${PAPERLESS_SOCIALACCOUNT_CLIENT_SECRET}",
                 "settings": {
-                  "server_url": "https://authentik.lhr1.jakerob.pro/application/o/paperless/.well-known/openid-configuration"
+                  "server_url": "https://pocket-id.lhr1.jakerob.pro/.well-known/openid-configuration"
                 }
               }
             ],

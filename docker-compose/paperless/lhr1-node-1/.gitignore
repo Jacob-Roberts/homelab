@@ -1,6 +1,3 @@
-data/*
-!data/.gitkeep
-redisdata/*
-!redisdata/.gitkeep
-export/*
-!export/.gitkeep
+data
+redisdata
+export
