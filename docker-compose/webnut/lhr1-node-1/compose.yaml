@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
     environment:
       UPSD_ADDR: "${UPS_ADDR:-192.168.42.2}"
-      UPSD_USER: "${UPS_USER}"
+      UPSD_USER: "${UPS_USER:-observer}"
       UPSD_PASS: "${UPS_PASSWORD}"
     networks:
       - frontend
