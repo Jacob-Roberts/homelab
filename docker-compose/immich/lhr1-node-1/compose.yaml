@@ -35,8 +35,8 @@ services:
     networks:
       - frontend
       - internal
-    devices:
-      - /dev/dri:/dev/dri
+    # devices:
+    #   - /dev/dri:/dev/dri
     volumes:
       - /media/immich:/data
       - /etc/localtime:/etc/localtime:ro
