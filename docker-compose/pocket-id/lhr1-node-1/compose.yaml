@@ -7,11 +7,11 @@ networks:
 
 services:
   pocket-id:
-    image: ghcr.io/pocket-id/pocket-id:v1-distroless
+    image: ghcr.io/pocket-id/pocket-id:v2-distroless
     read_only: true
     user: "${DOCKER_USER_ID:-2010}:${DOCKER_GROUP_ID:-2010}"
-    # Optional healthcheck
     restart: unless-stopped
+    # Optional healthcheck
     healthcheck:
       test: [CMD, /app/pocket-id, healthcheck]
       interval: 1m30s
@@ -23,8 +23,6 @@ services:
       ENCRYPTION_KEY: "${ENCRYPTION_KEY}"
       TRUST_PROXY: "${TRUST_PROXY:-true}"
       MAXMIND_LICENSE_KEY: "${MAXMIND_LICENSE_KEY:-}"
-      DB_PROVIDER: "${DB_PROVIDER:-sqlite}"
-      KEYS_STORAGE: "${KEYS_STORAGE:-database}"
     networks:
       - frontend
     volumes:
