@@ -11,7 +11,7 @@ services:
   immich-server:
     image: ghcr.io/immich-app/immich-server:v2.3.1
     container_name: immich_server
-    user: 1000:1000
+    user: "${DOCKER_USER_ID:-2004}:${DOCKER_GROUP_ID:-2004}"
     security_opt:
       # Prevent escalation of privileges after the container is started
       - no-new-privileges:true
@@ -56,7 +56,7 @@ services:
     container_name: immich_machine_learning
         # For hardware acceleration, add one of -[armnn, cuda, openvino] to the image tag.
         # Example tag: ${IMMICH_VERSION:-release}-cuda
-    user: 1000:1000
+    user: "${DOCKER_USER_ID:-2004}:${DOCKER_GROUP_ID:-2004}"
     security_opt:
       # Prevent escalation of privileges after the container is started
       - no-new-privileges:true
@@ -88,7 +88,7 @@ services:
   database:
     image: "ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:41eacbe83eca995561fe43814fd4891e16e39632806253848efaf04d3c8a8b84"
     container_name: immich_postgres
-    user: 1000:1000
+    user: "${DOCKER_USER_ID:-2004}:${DOCKER_GROUP_ID:-2004}"
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: "${DB_PASSWORD}"

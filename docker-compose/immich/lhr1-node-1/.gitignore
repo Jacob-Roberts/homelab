@@ -1,6 +1,3 @@
-database/*
-!database/.gitkeep
-immich/*
-!immich/.gitkeep
-model-cache/*
-!model-cache/.gitkeep
+database
+immich
+model-cache
