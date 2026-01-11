@@ -62,6 +62,8 @@ services:
   traefik-certs-dumper:
     image: docker.io/ldez/traefik-certs-dumper:v2.9.3
     user: "${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001}"
+    group_add:
+      - "${DOCKER_GROUP_ID_CERT_MANAGER:-2013}"
     volumes:
       - ./extract-certs.sh:/extract-certs.sh:ro
       - ./config/certs/:/certs:ro
