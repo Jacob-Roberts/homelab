@@ -5,6 +5,7 @@ all:
     # Raspberry Pi Model 3
     lhr1-pi-1:
       ansible_user: jacobroberts
+      ansible_host: lhr1-pi-1.jakerob.pro
 
     lhr1-node-1:
       ansible_user: jacobroberts
