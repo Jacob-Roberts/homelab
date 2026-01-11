@@ -23,7 +23,7 @@ done
 echo "Done copying certs, setting permissions"
 
 for domain in $DOMAINS; do
-  chgrp -R ${DOCKER_GROUP_ID:-2013} "/synced-certs/$domain"
+  chgrp -R ${DOCKER_GROUP_ID_CERT_MANAGER:-2013} "/synced-certs/$domain"
   chmod -R g+r /synced-certs/$domain
 done
 
