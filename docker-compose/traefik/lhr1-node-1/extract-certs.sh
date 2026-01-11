@@ -21,6 +21,11 @@ for domain in $DOMAINS; do
   cp -r /output/$domain /synced-certs/
 done
 
-chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2013} synced-certs/
-chmod -R g+r synced-certs/
+echo "Done copying certs, setting permissions"
+
+for domain in $DOMAINS; do
+  chgrp -R ${DOCKER_GROUP_ID:-2013} "synced-certs/$domain"
+  chmod -R g+r synced-certs/
+done
+
 
