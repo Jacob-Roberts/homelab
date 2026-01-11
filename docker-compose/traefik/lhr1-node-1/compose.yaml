@@ -20,7 +20,7 @@ services:
     command:
       - "--configFile=/traefik/traefik.yaml"
     read_only: true
-    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
+    user: "${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001}"
     security_opt:
       - no-new-privileges:true
     sysctls:
@@ -61,7 +61,7 @@ services:
 
   traefik-certs-dumper:
     image: docker.io/ldez/traefik-certs-dumper:v2.9.3
-    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
+    user: "${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001}"
     volumes:
       - ./extract-certs.sh:/extract-certs.sh:ro
       - ./config/certs/:/certs:ro
@@ -75,7 +75,7 @@ services:
     command:
       - "--configFile=/traefik/traefik.yaml"
     read_only: true
-    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
+    user: "${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001}"
     security_opt:
       - no-new-privileges:true
     sysctls:
@@ -112,8 +112,8 @@ services:
     user: "0:${DOCKER_GROUP_ID}" # Lookup the docker group ID using `getent group docker`
     restart: unless-stopped
     environment:
-      SOCKET_PROXY_UID: "${DOCKER_USER_ID:-2001}"
-      SOCKET_PROXY_GID: "${DOCKER_GROUP_ID:-2001}"
+      SOCKET_PROXY_UID: "${TRAEFIK_SRV_ID:-2001}"
+      SOCKET_PROXY_GID: "${TRAEFIK_GROUP_ID:-2001}"
     networks:
       - internal
     volumes:
