@@ -15,6 +15,7 @@ services:
       - "${DOCKER_GROUP_ID_CERT_MANAGER:-2013}"
     cap_add:
       - CHOWN
+      - FOWNER
     restart: unless-stopped
     ports:
       - 22000:22000/tcp # TCP file transfers
