@@ -115,7 +115,7 @@ service_users:
   - name: uptimekuma
     uid: 2018
     gid: 2018
-    nodes: ["lhr1-node-1"]
+    nodes: ["lhr1-node-1", "lhr1-pi-1"]
   - name: paperless
     uid: 2019
     gid: 2019
