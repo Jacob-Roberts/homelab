@@ -30,6 +30,13 @@ services:
         condition: service_healthy
         restart: true
     restart: unless-stopped
+    healthcheck:
+      # https://doc.traefik.io/traefik/operations/cli/#healthcheck
+      test: [CMD, traefik, healthcheck, "--ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
     ports:
       - "${HOST_IP:-192.168.97.133}:80:80/tcp"
       - "${HOST_IP:-192.168.97.133}:443:443/tcp"
@@ -73,6 +80,13 @@ services:
         condition: service_healthy
         restart: true
     restart: unless-stopped
+    healthcheck:
+      # https://doc.traefik.io/traefik/operations/cli/#healthcheck
+      test: [CMD, traefik, healthcheck, "--ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
     ports:
       # Bind on Tailscale interface only
       - "${TAILSCALE_IP:-100.95.11.23}:80:80"
@@ -92,7 +106,7 @@ services:
       traefik.http.routers.traefiktunnel-prod-1-https.rule: Host(`traefik-tunnel.slc1.jakerob.pro`)
       traefik.http.routers.traefiktunnel-prod-1-https.tls: true
       traefik.http.routers.traefiktunnel-prod-1-https.tls.certresolver: cloudflare
-  
+
   socket-proxy:
     image: docker.io/11notes/socket-proxy:2
     container_name: traefik-socket-proxy

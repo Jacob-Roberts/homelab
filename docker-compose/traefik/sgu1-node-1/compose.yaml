@@ -28,6 +28,13 @@ services:
         condition: service_healthy
         restart: true
     restart: unless-stopped
+    healthcheck:
+      # https://doc.traefik.io/traefik/operations/cli/#healthcheck
+      test: [CMD, traefik, healthcheck, "--ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
     ports:
       - "${HOST_IP:-192.168.59.194}:80:80/tcp"
       - "${HOST_IP:-192.168.59.194}:443:443/tcp"
@@ -54,7 +61,7 @@ services:
       traefik.http.routers.traefik-prod-1-https.rule: Host(`traefik.sgu1.jakerob.pro`)
       traefik.http.routers.traefik-prod-1-https.tls: true
       traefik.http.routers.traefik-prod-1-https.tls.certresolver: cloudflare
-  
+
   socket-proxy:
     image: docker.io/11notes/socket-proxy:2
     container_name: traefik-socket-proxy
