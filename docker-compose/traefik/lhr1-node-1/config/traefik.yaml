@@ -2,6 +2,7 @@
 
 # Needed for health check
 ping:
+  entryPoint: websecure
   terminatingStatusCode: 204
 
 global:
