@@ -42,7 +42,7 @@ service_users:
   - name: traefik
     uid: 2001
     gid: 2001
-    nodes: ["lhr1-node-1", "iad1-node-1", "sgu1-node-1", "slc1-node-3"]
+    nodes: ["lhr1-node-1", "lhr1-pi-1", "iad1-node-1", "sgu1-node-1", "slc1-node-3"]
     additional_groups:
       lhr1-node-1: ["cert-manager"]
       iad1-node-1: ["cert-manager"]

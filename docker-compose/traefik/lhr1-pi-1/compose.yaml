@@ -1,0 +1,96 @@
+---
+name: traefik
+
+networks:
+  frontend:
+    # Contains all the services that will be routed to
+    external: true
+  internal:
+    # Contains traefik, socket proxy, and traefik-tunnel
+    external: false
+    name: traefik_internal
+
+volumes:
+  socket-proxy:
+
+services:
+  traefik:
+    image: docker.io/traefik:v3
+    container_name: traefik-primary
+    command:
+      - "--configFile=/traefik/traefik.yaml"
+    read_only: true
+    user: "${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001}"
+    security_opt:
+      - no-new-privileges:true
+    sysctls:
+      # allow rootless container to access ports < 1024
+      net.ipv4.ip_unprivileged_port_start: 80
+    depends_on:
+      socket-proxy:
+        condition: service_healthy
+        restart: true
+    restart: unless-stopped
+    ports:
+      - "${HOST_IP:-192.168.42.2}:80:80/tcp"
+      - "${HOST_IP:-192.168.42.2}:443:443/tcp"
+    environment:
+      CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
+      TZ: "${TZ:-Europe/London}"
+    networks:
+      - frontend
+      - internal
+    volumes:
+      - ./config/traefik.yaml:/traefik/traefik.yaml:ro
+      - ./config/conf:/traefik/conf:ro
+      - ./config/plugins:/plugins-storage
+      - ./config/certs:/traefik/certs:rw
+      # access docker socket via proxy read-only
+      - socket-proxy:/var/run
+    labels:
+      traefik.enable: true
+      traefik.http.routers.traefik-prod-1-http.service: "api@internal"
+      traefik.http.routers.traefik-prod-1-https.service: "api@internal"
+      traefik.http.routers.traefik-prod-1-http.entrypoints: web
+      traefik.http.routers.traefik-prod-1-http.rule: Host(`traefik.lhr1-pi-1.jakerob.pro`)
+      traefik.http.routers.traefik-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.traefik-prod-1-https.entrypoints: websecure
+      traefik.http.routers.traefik-prod-1-https.rule: Host(`traefik.lhr1-pi-1.jakerob.pro`)
+      traefik.http.routers.traefik-prod-1-https.tls: true
+      traefik.http.routers.traefik-prod-1-https.tls.certresolver: cloudflare
+
+  socket-proxy:
+    image: docker.io/11notes/socket-proxy:2
+    container_name: traefik-socket-proxy
+    read_only: true
+    user: "0:${DOCKER_GROUP_ID}" # Lookup the docker group ID using `getent group docker`
+    restart: unless-stopped
+    environment:
+      SOCKET_PROXY_UID: "${TRAEFIK_SRV_ID:-2001}"
+      SOCKET_PROXY_GID: "${TRAEFIK_GROUP_ID:-2001}"
+    networks:
+      - internal
+    volumes:
+      # mount host docker socket, the :ro does not mean read-only for the socket, just for the actual file
+      - /run/docker.sock:/run/docker.sock:ro
+      # this socket is run as 1000:1000, not as root!
+      - socket-proxy:/run/proxy
+
+  whoami:
+    image: docker.io/traefik/whoami
+    container_name: whoami-prod-1
+    command: "--verbose"
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      - frontend
+    labels:
+      traefik.enable: true
+      traefik.http.routers.whoami-prod-1-http.entrypoints: web
+      traefik.http.routers.whoami-prod-1-http.rule: Host(`whoami.lhr1-pi-1.jakerob.pro`)
+      traefik.http.routers.whoami-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.whoami-prod-1-https.entrypoints: websecure
+      traefik.http.routers.whoami-prod-1-https.rule: Host(`whoami.lhr1-pi-1.jakerob.pro`)
+      traefik.http.routers.whoami-prod-1-https.tls: true
+      traefik.http.routers.whoami-prod-1-https.tls.certresolver: cloudflare
