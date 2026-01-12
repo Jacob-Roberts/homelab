@@ -1,0 +1,13 @@
+http:
+  routers:
+    ping-http:
+      rule: "(Host(`traefik-external.iad1vpn.jakerob.pro`) || Host(`traefik-external.iad1.jakerob.pro`)) && PathPrefix(`/ping`)"
+      service: "ping@internal"
+      entryPoints:
+        - web
+    ping-https:
+      rule: "(Host(`traefik-external.iad1vpn.jakerob.pro`) || Host(`traefik-external.iad1.jakerob.pro`)) && PathPrefix(`/ping`)"
+      service: "ping@internal"
+      entryPoints:
+        - websecure
+      tls: {}

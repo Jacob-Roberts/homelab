@@ -91,9 +91,9 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.whoami-prod-1-http.entrypoints: web
-      traefik.http.routers.whoami-prod-1-http.rule: Host(`whoami.sgu1.jakerob.pro`)
+      traefik.http.routers.whoami-prod-1-http.rule: Host(`whoami.sgu1.jakerob.pro`) && !PathPrefix(`/ping`)
       traefik.http.routers.whoami-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.whoami-prod-1-https.entrypoints: websecure
-      traefik.http.routers.whoami-prod-1-https.rule: Host(`whoami.sgu1.jakerob.pro`)
+      traefik.http.routers.whoami-prod-1-https.rule: Host(`whoami.sgu1.jakerob.pro`) && !PathPrefix(`/ping`)
       traefik.http.routers.whoami-prod-1-https.tls: true
       traefik.http.routers.whoami-prod-1-https.tls.certresolver: cloudflare
