@@ -1,0 +1,13 @@
+http:
+  routers:
+    ping-http:
+      rule: "Path(`/ping`)"
+      service: "ping@internal"
+      entryPoints:
+        - web
+    ping-https:
+      rule: "Path(`/ping`)"
+      service: "ping@internal"
+      entryPoints:
+        - websecure
+      tls: {}
