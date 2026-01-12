@@ -28,7 +28,6 @@ services:
       - internal
     volumes:
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - ./config/conf/:/etc/traefik/conf/
       - ./config/certs/:/etc/traefik/certs/
     labels:
       traefik.enable: true

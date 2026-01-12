@@ -1,4 +1,2 @@
-data/*
-!data/.gitkeep
-db-data/*
-!db-data/.gitkeep
+data
+db-data

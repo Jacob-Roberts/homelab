@@ -54,6 +54,3 @@ providers:
     constraints: "Label(`traefik.tunnel-external`,`true`)"
     endpoint: "tcp://socket-proxy:2375"
     watch: true
-  file:
-    directory: /etc/traefik
-    watch: true

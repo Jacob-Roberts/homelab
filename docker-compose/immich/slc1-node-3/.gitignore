@@ -1,4 +1,2 @@
-database/*
-!database/.gitkeep
-model-cache/*
-!model-cache/.gitkeep
+database
+model-cache
