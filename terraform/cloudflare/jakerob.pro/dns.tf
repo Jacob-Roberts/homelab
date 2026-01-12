@@ -301,6 +301,15 @@ resource "cloudflare_dns_record" "lhr1-pi-1" {
   content = "192.168.42.2"
 }
 
+resource "cloudflare_dns_record" "wildcard-lhr1-pi-1" {
+  name    = "*.lhr1-pi-1.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "lhr1-pi-1.jakerob.pro"
+}
+
 resource "cloudflare_dns_record" "lhr1-storage-1" {
   name    = "lhr1-storage-1.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
