@@ -51,6 +51,7 @@ services:
       #- './etc-dnsmasq.d:/etc/dnsmasq.d'
     labels:
       traefik.enable: true
+      traefik.http.services.pihole-prod-1.loadbalancer.server.port: "80"
       traefik.http.routers.pihole-prod-1-http.entrypoints: web
       traefik.http.routers.pihole-prod-1-http.rule: Host(`pihole.lhr1.jakerob.pro`)
       traefik.http.routers.pihole-prod-1-http.middlewares: "websecure-redirect-permanent@file"
