@@ -25,10 +25,6 @@ services:
       # DNS Ports
       - "${IP:-192.168.42.2}:53:53/tcp"
       - "${IP:-192.168.42.2}:53:53/udp"
-      # Default HTTP Port
-      - 80:80/tcp
-      # Default HTTPs Port. FTL will generate a self-signed certificate
-      - 443:443/tcp
       # Uncomment the line below if you are using Pi-hole as your DHCP server
       #- "67:67/udp"
       # Uncomment the line below if you are using Pi-hole as your NTP server
@@ -47,6 +43,15 @@ services:
       - pihole_data:/etc/pihole
       # Uncomment the below if you have custom dnsmasq config files that you want to persist. Not needed for most starting fresh with Pi-hole v6. If you're upgrading from v5 you and have used this directory before, you should keep it enabled for the first v6 container start to allow for a complete migration. It can be removed afterwards. Needs environment variable FTLCONF_misc_etc_dnsmasq_d: 'true'
       #- './etc-dnsmasq.d:/etc/dnsmasq.d'
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pihole-prod-1-http.entrypoints: web
+      traefik.http.routers.pihole-prod-1-http.rule: Host(`pihole.lhr1.jakerob.pro`)
+      traefik.http.routers.pihole-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.pihole-prod-1-https.entrypoints: websecure
+      traefik.http.routers.pihole-prod-1-https.rule: Host(`pihole.lhr1.jakerob.pro`)
+      traefik.http.routers.pihole-prod-1-https.tls: true
+      traefik.http.routers.pihole-prod-1-https.tls.certresolver: cloudflare
   nebula-sync:
     image: ghcr.io/lovelaze/nebula-sync:latest
     container_name: nebula-sync
