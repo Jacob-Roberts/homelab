@@ -9,17 +9,17 @@ services:
   myspeed:
     image: docker.io/germannewsmaker/myspeed:1.0.9
     container_name: myspeed
+    user: "${DOCKER_USER_ID:-2017}:${DOCKER_GROUP_ID:-2017}"
     security_opt:
       - no-new-privileges:true
-    user: "${DOCKER_USER_ID:-2017}:${DOCKER_GROUP_ID:-2017}"
     restart: unless-stopped
+    environment:
+      PUID: "${DOCKER_USER_ID:-2017}"
+      PGID: "${DOCKER_GROUP_ID:-2017}"
     networks:
       - frontend
     volumes:
       - ./data:/myspeed/data:rw
-    environment:
-      PUID: "${DOCKER_USER_ID:-2017}"
-      PGID: "${DOCKER_GROUP_ID:-2017}"
     labels:
       traefik.enable: true
       traefik.http.services.myspeed-prod-1.loadBalancer.server.port: 5216

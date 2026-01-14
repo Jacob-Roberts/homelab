@@ -6,16 +6,16 @@ services:
     image: docker.io/factoriotools/factorio:stable-rootless
     container_name: factorio
     user: "${DOCKER_USER_ID:-2020}:${DOCKER_GROUP_ID:-2020}"
+    restart: unless-stopped
     ports:
-      - "34197:34197/udp"
-      - "27015:27015/tcp"
+      - 34197:34197/udp
+      - 27015:27015/tcp
+    environment:
+      GENERATE_NEW_SAVE: "true"
+      SAVE_NAME: "${SAVE_NAME:-my-save}"
+      UPDATE_MODS_ON_START: "true"
+      DLC_SPACE_AGE: "${DLC_SPACE_AGE:-false}"
+      USERNAME: "${USERNAME}"
+      TOKEN: "${TOKEN}"
     volumes:
       - ./data:/factorio
-    environment:
-      - GENERATE_NEW_SAVE=true
-      - SAVE_NAME=${SAVE_NAME:-my-save}
-      - UPDATE_MODS_ON_START=true
-      - DLC_SPACE_AGE=${DLC_SPACE_AGE:-false}
-      - USERNAME=${USERNAME}
-      - TOKEN=${TOKEN}
-    restart: unless-stopped
