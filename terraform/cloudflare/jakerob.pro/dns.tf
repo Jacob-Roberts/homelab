@@ -724,6 +724,7 @@ resource "cloudflare_dns_record" "factorio_srv" {
   zone_id = cloudflare_zone.jakerob_pro.id
   proxied = false
   ttl     = 1
+  priority = 0
   type    = "SRV"
   data = {
     port = 34197
