@@ -7,6 +7,11 @@ networks:
   internal:
     external: false
 
+volumes:
+  postgres.etc:
+  postgres.var:
+  postgres.backup:
+
 services:
   joplin:
     image: docker.io/11notes/joplin:3
@@ -52,7 +57,7 @@ services:
       traefik.http.routers.joplin-prod-1-https.tls.certresolver: production
   db:
     image: "11notes/postgres:18"
-    user: "${DOCKER_USER_ID:-2021}:${DOCKER_GROUP_ID:-2021}"
+    user: "2021:2021"
     # prevents write access to the image itself
     read_only: true
     # prevents any process within the container to gain more privileges
@@ -62,15 +67,17 @@ services:
     environment:
       TZ: "${TZ:-UTC}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-      POSTGRES_USER: "${POSTGRES_USER:-joplin}"
-      POSTGRES_DB: "${POSTGRES_DATABASE:-joplin}"
+      # make a full and compressed database backup each day at 03:00
       POSTGRES_BACKUP_SCHEDULE: "0 3 * * *"
+      # only keep the last five backups
+      POSTGRES_BACKUP_RETENTION: 5
     volumes:
-      - "./data/postgres/etc:/postgres/etc"
-      - "./data/postgres/var:/postgres/var"
-      - "./data/postgres/backup:/postgres/backup"
+      - "postgres.etc:/postgres/etc"
+      - "postgres.var:/postgres/var"
+      - "postgres.backup:/postgres/backup"
     tmpfs:
-      - "/postgres/run:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
-      - "/postgres/log:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
+      # needed for read-only
+      - "/postgres/run:uid=2021,gid=2021"
+      - "/postgres/log:uid=2021,gid=2021"
     networks:
       - internal
