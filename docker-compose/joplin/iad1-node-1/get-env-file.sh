@@ -12,4 +12,4 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Pass through any command line arguments to the main script
 # This allows using --force, --backup, etc. from this wrapper
-"$SCRIPT_DIR/../../../get-env-file.sh" "$@" "$PROJECT_ID" "$ENVIRONMENT" "$SECRET_PATH"
+"$SCRIPT_DIR/../../get-env-file.sh" "$@" "$PROJECT_ID" "$ENVIRONMENT" "$SECRET_PATH"
