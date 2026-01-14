@@ -710,6 +710,20 @@ resource "cloudflare_dns_record" "factorio" {
   content = "iad1-node-1.jakerob.pro"
 }
 
+resource "cloudflare_dns_record" "factorio_srv" {
+  name    = "_factorio._udp.factorio.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "SRV"
+  data = {
+    port = 34197
+    priority = 0
+    weight = 0
+    target = "factorio.jakerob.pro"
+  }
+}
+
 resource "cloudflare_dns_record" "nextjsrenderingdemo-fullcf" {
   name    = "nextjsrenderingdemo-fullcf.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
