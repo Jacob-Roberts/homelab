@@ -701,6 +701,15 @@ resource "cloudflare_dns_record" "minecraft" {
   content = "iad1-node-1.jakerob.pro"
 }
 
+resource "cloudflare_dns_record" "factorio" {
+  name    = "factorio.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "iad1-node-1.jakerob.pro"
+}
+
 resource "cloudflare_dns_record" "nextjsrenderingdemo-fullcf" {
   name    = "nextjsrenderingdemo-fullcf.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
