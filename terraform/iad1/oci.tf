@@ -139,6 +139,31 @@ resource "oci_core_security_list" "default_security_list" {
   }
 
   ingress_security_rules {
+    description = "Factorio TCP"
+    protocol    = "6"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    tcp_options {
+      max = 27015
+      min = 27015
+    }
+  }
+  ingress_security_rules {
+    description = "Factorio UDP"
+    protocol    = "17"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    udp_options {
+      max = 34197
+      min = 34197
+    }
+  }
+
+  ingress_security_rules {
     description = "Mindustry TCP"
     protocol    = "6"
     source      = "0.0.0.0/0"

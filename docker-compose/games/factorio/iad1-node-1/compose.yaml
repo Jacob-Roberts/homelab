@@ -13,6 +13,7 @@ services:
       - ./data:/factorio
     environment:
       - GENERATE_NEW_SAVE=true
+      - SAVE_NAME=${SAVE_NAME:-my-save}
       - UPDATE_MODS_ON_START=true
       - DLC_SPACE_AGE=${DLC_SPACE_AGE:-false}
       - USERNAME=${USERNAME}
