@@ -98,6 +98,15 @@ resource "cloudflare_dns_record" "karakeep" {
   content = "iad1-node-1.jakerob.pro"
 }
 
+resource "cloudflare_dns_record" "joplin" {
+  name    = "joplin.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "iad1-node-1.jakerob.pro"
+}
+
 resource "cloudflare_dns_record" "calibre" {
   name    = "calibre.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
