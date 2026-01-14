@@ -33,6 +33,13 @@ services:
     networks:
       - frontend
       - internal
+    tmpfs:
+      - /.cache/yarn:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}
+      - /.npm:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}
+      - /.pm2:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}
+      - /.yarn:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}
+      - /home/joplin/packages/server/logs:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}
+      - /home/joplin/packages/server/temp:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}
     labels:
       traefik.enable: true
       traefik.external: true
