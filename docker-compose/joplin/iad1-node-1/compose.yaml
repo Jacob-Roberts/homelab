@@ -18,8 +18,7 @@ services:
       - "no-new-privileges=true"
     depends_on:
       db:
-        condition: "service_healthy"
-        restart: true
+        condition: service_started
     restart: unless-stopped
     environment:
       TZ: "${TZ:-UTC}"
