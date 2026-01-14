@@ -40,6 +40,7 @@ services:
       - /.yarn:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}
       - /home/joplin/packages/server/logs:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}
       - /home/joplin/packages/server/temp:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}
+      - /opt/pm2:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}
     labels:
       traefik.enable: true
       traefik.external: true
