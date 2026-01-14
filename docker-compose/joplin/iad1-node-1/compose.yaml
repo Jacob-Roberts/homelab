@@ -9,7 +9,7 @@ networks:
 
 services:
   joplin:
-    image: docker.io/joplin/server:2
+    image: docker.io/joplin/server:arm64-3
     user: "${DOCKER_USER_ID:-2021}:${DOCKER_GROUP_ID:-2021}"
     security_opt:
       - no-new-privileges:true
