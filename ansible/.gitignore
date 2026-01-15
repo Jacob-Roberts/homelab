@@ -1,2 +1,1 @@
-ssh_keys/*
-!ssh_keys/.gitkeep
+ssh_keys
