@@ -188,9 +188,12 @@ services:
   prowlarr:
     image: docker.io/11notes/prowlarr:1
     container_name: prowlarr
+    # prevents write access to the image itself
     read_only: true
+    user: "${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022}"
+    # prevents any process within the container to gain more privileges
     security_opt:
-      - no-new-privileges:true
+      - "no-new-privileges=true"
     restart: unless-stopped
     environment:
       TZ: "${TZ:-Europe/London}"
@@ -198,7 +201,7 @@ services:
       - ./prowlarr-config:/prowlarr/etc/
     tmpfs:
       # required for read-only image
-      - /tmp:uid=1000,gid=1000
+      - /tmp:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022}
     network_mode: service:gluetun
 
   flaresolverr:
@@ -224,8 +227,8 @@ services:
       - 8266:8266 # server port
     environment:
       TZ: Europe/London
-      PUID: "${PUID:-1000}"
-      PGID: "${PGID:-1000}"
+      PUID: "${PUID:-2022}"
+      PGID: "${PGID:-2022}"
       UMASK_SET: '002'
       serverIP: 0.0.0.0
       serverPort: '8266'
@@ -261,26 +264,6 @@ services:
       traefik.http.routers.tdarr-prod-1-https.rule: Host(`tdarr.lhr1.jakerob.pro`)
       traefik.http.routers.tdarr-prod-1-https.tls: true
       traefik.http.routers.tdarr-prod-1-https.tls.certresolver: cloudflare
-
-  # sabnzbd:
-  #   container_name: sabnzbd
-  #   image: lscr.io/linuxserver/sabnzbd:4.3.1
-  #   restart: unless-stopped
-  #   logging:
-  #     driver: json-file
-  #   ports:
-  #     # - 8080:8080
-  #     - 9090:9090
-  #   networks:
-  #     - internal
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=Europe/London
-  #   volumes:
-  #     - /etc/localtime:/etc/localtime:ro
-  #     - ./sabnzbd-config:/config
-  #     - /media/jellydata/usenet:/jellydata/usenet:rw
 
   # debug2:
   #   image: docker.io/jonlabelle/network-tools

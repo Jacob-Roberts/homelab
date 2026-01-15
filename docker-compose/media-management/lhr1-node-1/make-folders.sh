@@ -5,4 +5,4 @@ set -e
 # Get the directory of this script for reliable path resolution
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-"$SCRIPT_DIR/../../make-folders.sh" "${DOCKER_USER_ID:-2022}" qbittorrent-config qbittorrent-config/etc qbittorrent-config/var radarr-config bazarr-config
+"$SCRIPT_DIR/../../make-folders.sh" "${DOCKER_USER_ID:-2022}" qbittorrent-config qbittorrent-config/etc qbittorrent-config/var radarr-config bazarr-config sonarr-config prowlarr-config tdarr-config
