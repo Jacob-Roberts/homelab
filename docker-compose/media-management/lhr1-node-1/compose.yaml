@@ -126,9 +126,12 @@ services:
   radarr:
     image: docker.io/11notes/radarr:5
     container_name: radarr
+    # prevents write access to the image itself
     read_only: true
+    user: "${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022}"
+    # prevents any process within the container to gain more privileges
     security_opt:
-      - no-new-privileges:true
+      - "no-new-privileges=true"
     restart: unless-stopped
     environment:
       TZ: "${TZ:-Europe/London}"
@@ -137,7 +140,7 @@ services:
       - /media/jellydata:/jellydata
     tmpfs:
       # required for read-only image
-      - /tmp:uid=1000,gid=1000
+      - /tmp:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022}
     logging:
       driver: json-file
     network_mode: service:gluetun
@@ -145,9 +148,12 @@ services:
   sonarr:
     image: docker.io/11notes/sonarr:4
     container_name: sonarr
+    # prevents write access to the image itself
     read_only: true
+    user: "${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022}"
+    # prevents any process within the container to gain more privileges
     security_opt:
-      - no-new-privileges:true
+      - "no-new-privileges=true"
     restart: unless-stopped
     environment:
       TZ: "${TZ:-Europe/London}"
@@ -156,7 +162,7 @@ services:
       - /media/jellydata:/jellydata
     tmpfs:
       # required for read-only image
-      - /tmp:uid=1000,gid=1000
+      - /tmp:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022}
     logging:
       driver: json-file
     network_mode: service:gluetun
@@ -168,8 +174,8 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     environment:
-      PUID: '1000'
-      PGID: '1000'
+      PUID: '${DOCKER_USER_ID:-2022}'
+      PGID: '${DOCKER_GROUP_ID:-2022}'
       TZ: Europe/London
     volumes:
       - /etc/localtime:/etc/localtime:ro
