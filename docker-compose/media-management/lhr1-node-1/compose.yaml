@@ -104,17 +104,17 @@ services:
   qbittorrent:
     image: docker.io/11notes/qbittorrent:5
     container_name: qbittorrent
+    # prevents write access to the image itself
     read_only: true
+    # prevents any process within the container to gain more privileges
+    user: "${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022}"
     security_opt:
-      - no-new-privileges:true
+      - no-new-privileges=true
     depends_on:
       - gluetun
     restart: unless-stopped
     environment:
-      PUID: '1000'
-      PGID: '1000'
       TZ: Europe/London
-      WEBUI_PORT: '8080'
     volumes:
       - ./qbittorrent-config/etc:/qbittorrent/etc
       - ./qbittorrent-config/var:/qbittorrent/var

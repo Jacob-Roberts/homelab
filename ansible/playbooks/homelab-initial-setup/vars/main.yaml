@@ -128,6 +128,10 @@ service_users:
     uid: 2021
     gid: 2021
     nodes: ["iad1-node-1"]
+  - name: arr
+    uid: 2022
+    gid: 2022
+    nodes: ["lhr1-node-1"]
 
 # NFS mount configuration
 nfs_mounts:
