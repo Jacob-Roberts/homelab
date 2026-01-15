@@ -245,8 +245,8 @@ services:
       NVIDIA_VISIBLE_DEVICES: all
     networks:
       - frontend
-    devices:
-      - /dev/dri:/dev/dri
+    # devices:
+    #   - /dev/dri:/dev/dri
     volumes:
       - ./tdarr-config/server:/app/server
       - ./tdarr-config/configs:/app/configs
