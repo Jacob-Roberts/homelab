@@ -124,7 +124,7 @@ services:
     network_mode: service:gluetun
 
   radarr:
-    image: docker.io/11notes/radarr:5
+    image: docker.io/11notes/radarr:6
     container_name: radarr
     # prevents write access to the image itself
     read_only: true
@@ -186,7 +186,7 @@ services:
     network_mode: service:gluetun
 
   prowlarr:
-    image: docker.io/11notes/prowlarr:1
+    image: docker.io/11notes/prowlarr:2
     container_name: prowlarr
     # prevents write access to the image itself
     read_only: true
@@ -205,7 +205,7 @@ services:
     network_mode: service:gluetun
 
   flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:v3.3.21
+    image: ghcr.io/flaresolverr/flaresolverr:v3.4.6
     container_name: flaresolverr
     security_opt:
       - no-new-privileges:true
