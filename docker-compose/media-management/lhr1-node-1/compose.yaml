@@ -215,7 +215,7 @@ services:
       LOG_HTML: "${LOG_HTML:-false}"
       CAPTCHA_SOLVER: "${CAPTCHA_SOLVER:-none}"
       TZ: Europe/London
-    network_mode: service:gluetun
+    network_mode: service:gluetun # http://gluetun:8191/
 
   tdarr:
     image: ghcr.io/haveagitgat/tdarr:latest
