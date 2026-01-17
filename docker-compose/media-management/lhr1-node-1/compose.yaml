@@ -235,8 +235,8 @@ services:
       - 8266:8266 # server port
     environment:
       TZ: Europe/London
-      PUID: "${PUID:-2022}"
-      PGID: "${PGID:-2022}"
+      PUID: "${PUID:-2003}"
+      PGID: "${PGID:-2003}"
       UMASK_SET: '002'
       serverIP: 0.0.0.0
       serverPort: '8266'
