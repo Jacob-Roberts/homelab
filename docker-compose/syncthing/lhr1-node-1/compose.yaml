@@ -14,6 +14,7 @@ services:
     group_add:
       - "${DOCKER_GROUP_ID_CERT_MANAGER:-2013}"
       - "${DOCKER_GROUP_ID_NOTE_MANAGER:-2015}"
+      - "${DOCKER_GROUP_ID_JELLYFIN:-2003}"
     restart: unless-stopped
     ports:
       - 22000:22000/tcp # TCP file transfers
