@@ -108,6 +108,8 @@ services:
     read_only: true
     # prevents any process within the container to gain more privileges
     user: "${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022}"
+    group_add:
+      - "${DOCKER_GROUP_ID_JELLYFIN:-2003}"
     security_opt:
       - no-new-privileges=true
     depends_on:
@@ -129,6 +131,8 @@ services:
     # prevents write access to the image itself
     read_only: true
     user: "${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022}"
+    group_add:
+      - "${DOCKER_GROUP_ID_JELLYFIN:-2003}"
     # prevents any process within the container to gain more privileges
     security_opt:
       - "no-new-privileges=true"
@@ -151,6 +155,8 @@ services:
     # prevents write access to the image itself
     read_only: true
     user: "${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022}"
+    group_add:
+      - "${DOCKER_GROUP_ID_JELLYFIN:-2003}"
     # prevents any process within the container to gain more privileges
     security_opt:
       - "no-new-privileges=true"
@@ -191,6 +197,8 @@ services:
     # prevents write access to the image itself
     read_only: true
     user: "${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022}"
+    group_add:
+      - "${DOCKER_GROUP_ID_JELLYFIN:-2003}"
     # prevents any process within the container to gain more privileges
     security_opt:
       - "no-new-privileges=true"
