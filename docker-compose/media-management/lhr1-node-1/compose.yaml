@@ -260,7 +260,7 @@ services:
       - ./tdarr-config/configs:/app/configs
       - ./tdarr-config/logs:/app/logs
       - /media/jellydata/media:/media:rw
-      - ./tdarr-config/transcode-cache:/temp
+      - /media/jellydata/transcode_cache:/tcache
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
