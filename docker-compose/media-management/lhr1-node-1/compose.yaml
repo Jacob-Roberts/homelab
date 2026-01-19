@@ -185,7 +185,7 @@ services:
       TZ: Europe/London
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./subcleaner/subcleaner.py:/opt/subcleaner/subcleaner.py:ro
+      - ./subcleaner:/opt/subcleaner/:ro
       - ./bazarr-config:/config
       - /media/jellydata/media:/jellydata/media
     logging:
