@@ -1,0 +1,3 @@
+[submodule "docker-compose/media-management/lhr1-node-1/subcleaner"]
+	path = docker-compose/media-management/lhr1-node-1/subcleaner
+	url = https://github.com/KBlixt/subcleaner.git
