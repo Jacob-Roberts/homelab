@@ -11,18 +11,24 @@ volumes:
     name: pocket-id-data
 
 services:
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: "alpine"
+    entrypoint: ["/bin/ash", "-c"]
+    command:
+      - |
+        chown -R ${DOCKER_USER_ID:-2010}:${DOCKER_GROUP_ID:-2010} /app/data
+    volumes:
+      - "data:/app/data"
+
   pocket-id:
     image: ghcr.io/pocket-id/pocket-id:v2-distroless
+    depends_on:
+      chown:
+        condition: service_completed_successfully
     read_only: true
     user: "${DOCKER_USER_ID:-2010}:${DOCKER_GROUP_ID:-2010}"
     restart: unless-stopped
-    # Optional healthcheck
-    healthcheck:
-      test: [CMD, /app/pocket-id, healthcheck]
-      interval: 1m30s
-      timeout: 5s
-      retries: 2
-      start_period: 10s
     environment:
       APP_URL: "${APP_URL:-https://pocket-id.lhr1.jakerob.pro}"
       ENCRYPTION_KEY: "${ENCRYPTION_KEY}"
