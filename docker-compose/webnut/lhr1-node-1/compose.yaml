@@ -5,12 +5,34 @@ networks:
   frontend:
     external: true
 
+volumes:
+  config-data:
+    external: true
+    name: webnut-config-data
+
 services:
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: alpine
+    command:
+      - |
+        chown -R ${DOCKER_USER_ID:-2023}:${DOCKER_GROUP_ID:-2023} /etc/nut_webgui
+    volumes:
+      - config-data:/etc/nut_webgui
+    stdin_open: true
+    entrypoint: [/bin/ash, "-c"]
   nut:
-    image: ghcr.io/superioone/nut_webgui:latest
+    image: ghcr.io/superioone/nut_webgui:0.8.1
     container_name: webnut
+    read_only: true
+    user: "${DOCKER_USER_ID:-2023}:${DOCKER_GROUP_ID:-2023}"
+    group_add:
+      - nut_webgui
     security_opt:
       - no-new-privileges:true
+    depends_on:
+      chown:
+        condition: service_completed_successfully
     restart: unless-stopped
     environment:
       UPSD_ADDR: "${UPS_ADDR:-192.168.42.2}"
@@ -18,6 +40,8 @@ services:
       UPSD_PASS: "${UPS_PASSWORD}"
     networks:
       - frontend
+    volumes:
+      - config-data:/etc/nut_webgui
     labels:
       traefik.enable: true
       traefik.http.services.webnut-prod-1.loadBalancer.server.port: 9000
