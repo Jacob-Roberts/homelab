@@ -5,6 +5,11 @@ networks:
   frontend:
     external: true
 
+volumes:
+  data:
+    external: true
+    name: pocket-id-data
+
 services:
   pocket-id:
     image: ghcr.io/pocket-id/pocket-id:v2-distroless
@@ -26,7 +31,7 @@ services:
     networks:
       - frontend
     volumes:
-      - ./data:/app/data
+      - data:/app/data
     labels:
       traefik.enable: true
       traefik.http.routers.pocketid-prod-1-http.entrypoints: web
