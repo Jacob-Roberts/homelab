@@ -190,7 +190,7 @@ services:
       - ./bazarr-config:/config
       - /media/jellydata/media:/jellydata/media
     tmpfs:
-      - /run:uid=1000,gid=1000,exec
+      - /run:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022},exec
     logging:
       driver: json-file
     network_mode: service:gluetun
