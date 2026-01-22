@@ -57,7 +57,7 @@ service_users:
   - name: immich
     uid: 2004
     gid: 2004
-    nodes: ["lhr1-node-1"]
+    nodes: ["lhr1-node-1", "slc1-node-3"]
   - name: paperless
     uid: 2005
     gid: 2005
@@ -73,7 +73,7 @@ service_users:
   - name: homepage
     uid: 2008
     gid: 2008
-    nodes: ["lhr1-node-1", "iad1-node-1"]
+    nodes: ["lhr1-node-1", "iad1-node-1", "slc1-node-3"]
   - name: karakeep
     uid: 2009
     gid: 2009
@@ -152,6 +152,11 @@ nfs_mounts:
     fstype: nfs
     state: mounted
     node: "lhr1-node-1"
+  - path: /media/immich
+    src: truenas.slc1.jakerob.pro:/mnt/default-pool/encrypted/immich
+    fstype: nfs
+    state: mounted
+    node: "slc1-node-3"
 
 # =============================================================================
 # geerlingguy.security role configuration
