@@ -135,7 +135,7 @@ services:
       - "${DOCKER_GROUP_ID_JELLYFIN:-2003}"
     # prevents any process within the container to gain more privileges
     security_opt:
-      - "no-new-privileges=true"
+      - no-new-privileges=true
     restart: unless-stopped
     environment:
       TZ: "${TZ:-Europe/London}"
@@ -144,7 +144,7 @@ services:
       - /media/jellydata:/jellydata
     tmpfs:
       # required for read-only image
-      - /tmp:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022}
+      - "/tmp:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022}"
     logging:
       driver: json-file
     network_mode: service:gluetun
@@ -159,7 +159,7 @@ services:
       - "${DOCKER_GROUP_ID_JELLYFIN:-2003}"
     # prevents any process within the container to gain more privileges
     security_opt:
-      - "no-new-privileges=true"
+      - no-new-privileges=true
     restart: unless-stopped
     environment:
       TZ: "${TZ:-Europe/London}"
@@ -168,7 +168,7 @@ services:
       - /media/jellydata:/jellydata
     tmpfs:
       # required for read-only image
-      - /tmp:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022}
+      - "/tmp:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022}"
     logging:
       driver: json-file
     network_mode: service:gluetun
@@ -179,15 +179,18 @@ services:
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
+    user: "${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022}"
+    group_add:
+      - "${DOCKER_GROUP_ID_JELLYFIN:-2003}"
     environment:
-      PUID: '${DOCKER_USER_ID:-2022}'
-      PGID: '${DOCKER_GROUP_ID:-2022}'
       TZ: Europe/London
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./subcleaner:/opt/subcleaner/
       - ./bazarr-config:/config
       - /media/jellydata/media:/jellydata/media
+    tmpfs:
+      - /run:uid=1000,gid=1000,exec
     logging:
       driver: json-file
     network_mode: service:gluetun
@@ -202,7 +205,7 @@ services:
       - "${DOCKER_GROUP_ID_JELLYFIN:-2003}"
     # prevents any process within the container to gain more privileges
     security_opt:
-      - "no-new-privileges=true"
+      - no-new-privileges=true
     restart: unless-stopped
     environment:
       TZ: "${TZ:-Europe/London}"
@@ -210,7 +213,7 @@ services:
       - ./prowlarr-config:/prowlarr/etc/
     tmpfs:
       # required for read-only image
-      - /tmp:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022}
+      - "/tmp:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022}"
     network_mode: service:gluetun
 
   flaresolverr:
