@@ -10,7 +10,7 @@ volumes:
 
 services:
   homepage:
-    image: ghcr.io/gethomepage/homepage:v0.9.3
+    image: ghcr.io/gethomepage/homepage:v1
     container_name: homepage-prod-1
     user: "${DOCKER_USER_ID:-2008}:${DOCKER_GROUP_ID:-2008}"
     security_opt:
