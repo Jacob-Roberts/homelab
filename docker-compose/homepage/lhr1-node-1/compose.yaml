@@ -39,6 +39,7 @@ services:
     networks:
       - frontend
     volumes:
+      - ./config/proxmox.yaml:/app/config/proxmox.yaml:ro
       - ./config/bookmarks.yaml:/app/config/bookmarks.yaml:ro
       - ./config/custom.css:/app/config/custom.css:ro
       - ./config/custom.js:/app/config/custom.js:ro
