@@ -5,6 +5,9 @@ networks:
   frontend:
     external: true
 
+volumes:
+  logs:
+
 services:
   homepage:
     image: ghcr.io/gethomepage/homepage:v0.9.3
@@ -40,10 +43,7 @@ services:
       - ./config/services.yaml:/app/config/services.yaml:ro
       - ./config/settings.yaml:/app/config/settings.yaml:ro
       - ./config/widgets.yaml:/app/config/widgets.yaml:ro
-      - ./logs:/app/config/logs:rw
-      # - ./images:/app/public/images:ro
-      # - ./icons:/app/public/icons:ro
-      # - /var/run/docker.sock:/var/run/docker.sock:ro
+      - logs:/app/config/logs:rw
     labels:
       traefik.enable: true
       traefik.http.routers.homepage-prod-1-http.entrypoints: web
