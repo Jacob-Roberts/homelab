@@ -15,9 +15,13 @@ services:
     user: "${DOCKER_USER_ID:-2008}:${DOCKER_GROUP_ID:-2008}"
     security_opt:
       - no-new-privileges:true
+    depends_on:
+      chown:
+        condition: service_completed_successfully
     restart: unless-stopped
     environment:
       LOG_LEVEL: debug
+      HOMEPAGE_ALLOWED_HOSTS: "homepage.lhr1.jakerob.pro"
       HOMEPAGE_VAR_PROXMOX_USERNAME: "${HOMEPAGE_VAR_PROXMOX_USERNAME}"
       HOMEPAGE_VAR_PROXMOX_PASSWORD: "${HOMEPAGE_VAR_PROXMOX_PASSWORD}"
       HOMEPAGE_VAR_PORTAINER_KEY: "${HOMEPAGE_VAR_PORTAINER_KEY}"
