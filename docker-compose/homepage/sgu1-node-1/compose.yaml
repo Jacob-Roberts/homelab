@@ -1,0 +1,62 @@
+---
+name: homepage
+
+networks:
+  frontend:
+    external: true
+
+volumes:
+  logs:
+
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:v1
+    container_name: homepage-prod-1
+    user: "${DOCKER_USER_ID:-2008}:${DOCKER_GROUP_ID:-2008}"
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      chown:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    environment:
+      PUID: "${DOCKER_USER_ID:-2008}"
+      PGID: "${DOCKER_GROUP_ID:-2008}"
+      LOG_LEVEL: debug
+      HOMEPAGE_ALLOWED_HOSTS: "homepage.sgu1.jakerob.pro"
+      HOMEPAGE_VAR_PROXMOX_USERNAME: "${HOMEPAGE_VAR_PROXMOX_USERNAME}"
+      HOMEPAGE_VAR_PROXMOX_PASSWORD: "${HOMEPAGE_VAR_PROXMOX_PASSWORD}"
+      HOMEPAGE_VAR_PORTAINER_KEY: "${HOMEPAGE_VAR_PORTAINER_KEY}"
+      HOMEPAGE_VAR_JELLYFIN_KEY: "${HOMEPAGE_VAR_JELLYFIN_KEY}"
+    networks:
+      - frontend
+    volumes:
+      - ./config/proxmox.yaml:/app/config/proxmox.yaml:ro
+      - ./config/bookmarks.yaml:/app/config/bookmarks.yaml:ro
+      - ./config/custom.css:/app/config/custom.css:ro
+      - ./config/custom.js:/app/config/custom.js:ro
+      - ./config/docker.yaml:/app/config/docker.yaml:ro
+      - ./config/kubernetes.yaml:/app/config/kubernetes.yaml:ro
+      - ./config/services.yaml:/app/config/services.yaml:ro
+      - ./config/settings.yaml:/app/config/settings.yaml:ro
+      - ./config/widgets.yaml:/app/config/widgets.yaml:ro
+      - logs:/app/config/logs:rw
+    labels:
+      traefik.enable: true
+      traefik.http.routers.homepage-prod-1-http.entrypoints: web
+      traefik.http.routers.homepage-prod-1-http.rule: Host(`homepage.sgu1.jakerob.pro`)
+      traefik.http.routers.homepage-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.homepage-prod-1-https.entrypoints: websecure
+      traefik.http.routers.homepage-prod-1-https.rule: Host(`homepage.sgu1.jakerob.pro`)
+      traefik.http.routers.homepage-prod-1-https.tls: true
+      traefik.http.routers.homepage-prod-1-https.tls.certresolver: cloudflare
+
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: alpine
+    command:
+      - |
+        chown -R ${DOCKER_USER_ID:-2008}:${DOCKER_GROUP_ID:-2008} /app/config/logs
+    volumes:
+      - logs:/app/config/logs
+    entrypoint: [/bin/ash, "-c"]
