@@ -20,6 +20,8 @@ services:
         condition: service_completed_successfully
     restart: unless-stopped
     environment:
+      PUID: "${DOCKER_USER_ID:-2008}"
+      PGID: "${DOCKER_GROUP_ID:-2008}"
       LOG_LEVEL: debug
       HOMEPAGE_ALLOWED_HOSTS: "homepage.lhr1.jakerob.pro"
       HOMEPAGE_VAR_PROXMOX_USERNAME: "${HOMEPAGE_VAR_PROXMOX_USERNAME}"
