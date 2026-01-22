@@ -5,6 +5,9 @@ networks:
   frontend:
     external: true
 
+volumes:
+  logs:
+
 services:
   homepage:
     image: ghcr.io/gethomepage/homepage:v0.9.3
@@ -14,8 +17,6 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     environment:
-      PUID: "${DOCKER_USER_ID:-2008}"
-      PGID: "${DOCKER_GROUP_ID:-2008}"
       LOG_LEVEL: debug
       HOMEPAGE_VAR_PROXMOX_USERNAME: "${HOMEPAGE_VAR_PROXMOX_USERNAME}"
       HOMEPAGE_VAR_PROXMOX_PASSWORD: "${HOMEPAGE_VAR_PROXMOX_PASSWORD}"
@@ -40,6 +41,7 @@ services:
       - ./config/services.yaml:/app/config/services.yaml:ro
       - ./config/settings.yaml:/app/config/settings.yaml:ro
       - ./config/widgets.yaml:/app/config/widgets.yaml:ro
+      - logs:/app/config/logs:rw
     labels:
       traefik.enable: true
       traefik.http.routers.homepage-prod-1-http.entrypoints: web
@@ -49,3 +51,13 @@ services:
       traefik.http.routers.homepage-prod-1-https.rule: Host(`homepage.lhr1.jakerob.pro`)
       traefik.http.routers.homepage-prod-1-https.tls: true
       traefik.http.routers.homepage-prod-1-https.tls.certresolver: cloudflare
+
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: alpine
+    command:
+      - |
+        chown -R ${DOCKER_USER_ID:-2008}:${DOCKER_GROUP_ID:-2008} /app/config/logs
+    volumes:
+      - logs:/app/config/logs
+    entrypoint: [/bin/ash, "-c"]
