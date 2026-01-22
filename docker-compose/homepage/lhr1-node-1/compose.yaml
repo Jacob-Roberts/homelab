@@ -65,6 +65,7 @@ services:
     command:
       - |
         chown -R ${DOCKER_USER_ID:-2008}:${DOCKER_GROUP_ID:-2008} /app/config/logs
+    networks: []
     volumes:
       - logs:/app/config/logs
     entrypoint: [/bin/ash, "-c"]

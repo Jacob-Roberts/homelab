@@ -11,16 +11,6 @@ volumes:
     name: webnut-config-data
 
 services:
-  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
-  chown:
-    image: alpine
-    command:
-      - |
-        chown -R ${DOCKER_USER_ID:-2023}:${DOCKER_GROUP_ID:-2023} /etc/nut_webgui
-    volumes:
-      - config-data:/etc/nut_webgui
-    stdin_open: true
-    entrypoint: [/bin/ash, "-c"]
   nut:
     image: ghcr.io/superioone/nut_webgui:0.8.1
     container_name: webnut
@@ -52,3 +42,15 @@ services:
       traefik.http.routers.webnut-prod-1-https.rule: Host(`webnut.lhr1.jakerob.pro`)
       traefik.http.routers.webnut-prod-1-https.tls: true
       traefik.http.routers.webnut-prod-1-https.tls.certresolver: cloudflare
+
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: alpine
+    command:
+      - |
+        chown -R ${DOCKER_USER_ID:-2023}:${DOCKER_GROUP_ID:-2023} /etc/nut_webgui
+    networks: []
+    volumes:
+      - config-data:/etc/nut_webgui
+    stdin_open: true
+    entrypoint: [/bin/ash, "-c"]

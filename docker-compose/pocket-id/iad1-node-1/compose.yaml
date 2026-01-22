@@ -11,16 +11,6 @@ volumes:
     name: pocket-id-data
 
 services:
-  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
-  chown:
-    image: alpine
-    command:
-      - |
-        chown -R ${DOCKER_USER_ID:-2010}:${DOCKER_GROUP_ID:-2010} /app/data
-    volumes:
-      - data:/app/data
-    entrypoint: [/bin/ash, "-c"]
-
   pocket-id:
     image: ghcr.io/pocket-id/pocket-id:v2-distroless
     read_only: true
@@ -47,3 +37,14 @@ services:
       traefik.http.routers.pocketid-prod-1-https.rule: Host(`pocket-id.iad1.jakerob.pro`)
       traefik.http.routers.pocketid-prod-1-https.tls: true
       traefik.http.routers.pocketid-prod-1-https.tls.certresolver: cloudflare
+
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: alpine
+    command:
+      - |
+        chown -R ${DOCKER_USER_ID:-2010}:${DOCKER_GROUP_ID:-2010} /app/data
+    networks: []
+    volumes:
+      - data:/app/data
+    entrypoint: [/bin/ash, "-c"]
