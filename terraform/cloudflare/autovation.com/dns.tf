@@ -59,6 +59,15 @@ resource "cloudflare_dns_record" "autovation_www_record" {
   content = "cname.vercel-dns.com"
 }
 
+resource "cloudflare_dns_record" "photos" {
+  name    = "photos.autovation.com"
+  zone_id = cloudflare_zone.autovation_com.id
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "slc1-node-3.jakerob.pro"
+}
+
 ////////////////////////
 //    Main Records    //
 ////////////////////////
@@ -99,15 +108,6 @@ resource "cloudflare_dns_record" "googlef26116410a115f1f" {
   type    = "CNAME"
   content = "google.com"
   comment = "google gmail verification"
-}
-
-resource "cloudflare_dns_record" "photos_autovation" {
-  name    = "photos.autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "bwproxy.autovation.com"
 }
 
 resource "cloudflare_dns_record" "s1_domainkey_autovation" {
