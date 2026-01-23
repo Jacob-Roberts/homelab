@@ -258,3 +258,33 @@ resource "cloudflare_dns_record" "autovation_com_dmarc" {
   type    = "TXT"
   content   = "\"v=DMARC1;p=reject;rua=mailto:7b7233315f@rua.easydmarc.eu;ruf=mailto:7b7233315f@ruf.easydmarc.eu;fo=1;adkim=s;aspf=s;\""
 }
+
+// Resend
+
+resource "cloudflare_dns_record" "resend_domain_key" {
+  name = "resend._domainkey.srv"
+  zone_id = cloudflare_zone.autovation_com.id
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content = "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7F0zQnrEOxTPgdgtAEh5ndwH5Bevre75iBeL29omZFjJaq3Etq5fGZIufk45uyBGZsMqkfDBQ0qAgukgpKrGxryYRGa2whNhwQ315lX/5xww56MWpeHwgWbKCIgDhZByz1CgKGmWd5V45uUc6qqiTP2SBgH5Ll6WWAU446Hr4PQIDAQAB"
+}
+
+resource "cloudflare_dns_record" "resend_srv" {
+  name     = "send.srv"
+  zone_id  = cloudflare_zone.autovation_com.id
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  priority = 10
+  content  = "feedback-smtp.us-east-1.amazonses.com"
+}
+
+resource "cloudflare_dns_record" "resend_srv_txt" {
+  name = "send.srv"
+  zone_id = cloudflare_zone.autovation_com.id
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content = "v=spf1 include:amazonses.com ~all"
+}
