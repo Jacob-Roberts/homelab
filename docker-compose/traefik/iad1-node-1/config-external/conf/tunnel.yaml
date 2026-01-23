@@ -8,7 +8,7 @@ http:
     slc1-tunnel:
       loadBalancer:
         servers:
-          - url: http://slc1-node-3-vpn.jakerob.pro
+          - url: http://slc1-node-3.vpn.jakerob.pro
 
   routers:
     # WHOAMI LHR1
@@ -84,6 +84,29 @@ http:
       service: lhr1-tunnel
       tls: true
 
+    pocket-id-slc1-http:
+      entrypoints: web
+      rule: "Host(`auth.autovation.com`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: slc1-tunnel
+    pocket-id-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`auth.autovation.com`)"
+      service: slc1-tunnel
+      tls: true
+
+    photos-slc1-http:
+      entrypoints: web
+      rule: "Host(`photos.autovation.com`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: slc1-tunnel
+    photos-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`photos.autovation.com`)"
+      service: slc1-tunnel
+      tls: true
 
     # WHOAMI SLC1
     # whoami-slc1-http:
