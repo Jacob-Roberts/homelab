@@ -1,0 +1,40 @@
+---
+name: syncthing
+
+networks:
+  frontend:
+    external: true
+
+services:
+  syncthing:
+    image: syncthing/syncthing:latest
+    container_name: syncthing
+    hostname: syncthing-slc1
+    user: "${DOCKER_USER_ID:-2011}:${DOCKER_GROUP_ID:-2011}"
+    group_add:
+      - "${DOCKER_GROUP_ID_CERT_MANAGER:-2013}"
+      - "${DOCKER_GROUP_ID_NOTE_MANAGER:-2015}"
+      - "${DOCKER_GROUP_ID_JELLYFIN:-2003}"
+    restart: unless-stopped
+    ports:
+      - 22000:22000/tcp # TCP file transfers
+      - 22000:22000/udp # QUIC file transfers
+    environment:
+      PUID: "${DOCKER_USER_ID:-2011}"
+      PGID: "${DOCKER_GROUP_ID:-2011}"
+    networks:
+      - frontend
+    volumes:
+      - ./config:/var/syncthing
+      # - /media/jellydata:/jellydata
+      - ../../traefik/slc1-node-3/synced-certs:/etc/syncthing/synced-certs
+    labels:
+      traefik.enable: true
+      traefik.http.services.syncthing-prod-1.loadbalancer.server.port: '8384'
+      traefik.http.routers.syncthing-prod-1-http.entrypoints: web
+      traefik.http.routers.syncthing-prod-1-http.rule: Host(`syncthing.slc1.jakerob.pro`)
+      traefik.http.routers.syncthing-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.syncthing-prod-1-https.entrypoints: websecure
+      traefik.http.routers.syncthing-prod-1-https.rule: Host(`syncthing.slc1.jakerob.pro`)
+      traefik.http.routers.syncthing-prod-1-https.tls: true
+      traefik.http.routers.syncthing-prod-1-https.tls.certresolver: cloudflare
