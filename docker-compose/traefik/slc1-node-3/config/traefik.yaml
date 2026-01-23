@@ -12,7 +12,7 @@ global:
 #     - loglevels [DEBUG, INFO, WARNING, ERROR, CRITICAL]
 #     - format [common, json, logfmt]
 log:
-  level: ERROR
+  level: WARN
 #  format: common
 #  filePath: /var/log/traefik/traefik.log
 

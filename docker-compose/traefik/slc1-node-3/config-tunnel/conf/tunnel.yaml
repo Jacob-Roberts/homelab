@@ -13,3 +13,16 @@ http:
       rule: "Host(`whoami-tunnel.slc1.jakerob.pro`)"
       service: slc1-traefik
       tls: true
+
+    pocket-id-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`auth.autovation.com`)"
+      service: slc1-traefik
+      tls: true
+
+    # IMMICH
+    immich-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`photos.autovation.com`)"
+      service: slc1-traefik
+      tls: true

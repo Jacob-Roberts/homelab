@@ -1,12 +1,12 @@
 http:
   routers:
     ping-http:
-      rule: "Host(`whoami.slc1.jakerob.pro`) && PathPrefix(`/ping`)"
+      rule: "Host(`traefik.slc1.jakerob.pro`) && PathPrefix(`/ping`)"
       service: "ping@internal"
       entryPoints:
         - web
     ping-https:
-      rule: "Host(`whoami.slc1.jakerob.pro`) && PathPrefix(`/ping`)"
+      rule: "Host(`traefik.slc1.jakerob.pro`) && PathPrefix(`/ping`)"
       service: "ping@internal"
       entryPoints:
         - websecure

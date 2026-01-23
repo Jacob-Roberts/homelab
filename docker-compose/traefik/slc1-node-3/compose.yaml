@@ -8,6 +8,7 @@ networks:
   internal:
     # Contains traefik, socket proxy, and traefik-tunnel
     external: false
+    name: traefik_internal
 
 volumes:
   socket-proxy:
@@ -19,7 +20,7 @@ services:
     command:
       - "--configFile=/traefik/traefik.yaml"
     read_only: true
-    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
+    user: "${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001}"
     security_opt:
       - no-new-privileges:true
     sysctls:
@@ -63,22 +64,31 @@ services:
       traefik.http.routers.traefik-prod-1-https.rule: "Host(`traefik.slc1.jakerob.pro`) && !PathPrefix(`/ping`)"
       traefik.http.routers.traefik-prod-1-https.tls: true
       traefik.http.routers.traefik-prod-1-https.tls.certresolver: cloudflare
+
+  traefik-certs-dumper:
+    image: docker.io/ldez/traefik-certs-dumper:v2.9.3
+    user: "${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001}"
+    group_add:
+      - "${DOCKER_GROUP_ID_CERT_MANAGER:-2013}"
+    volumes:
+      - ./extract-certs.sh:/extract-certs.sh:ro
+      - ./config/certs/:/certs:ro
+      - ./synced-certs/:/synced-certs:rw
+      - ./cert-dumper-output:/output:rw
+    entrypoint: "sh -c ' while ! [ -e /certs/cloudflare-acme.json ] || ! [ `jq \".[] | .Certificates | length\" /certs/cloudflare-acme.json | jq -s \"add\" ` != 0 ]; do sleep 1 ; done && traefik-certs-dumper file --version v3 --watch --domain-subdir=true --source /certs/cloudflare-acme.json --dest /output --post-hook \"sh /extract-certs.sh\"'"
+
   traefik-tunnel:
     image: docker.io/traefik:v3
     container_name: traefik-tunnel
     command:
       - "--configFile=/traefik/traefik.yaml"
     read_only: true
-    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
+    user: "${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001}"
     security_opt:
       - no-new-privileges:true
     sysctls:
       # allow rootless container to access ports < 1024
       net.ipv4.ip_unprivileged_port_start: 80
-    depends_on:
-      socket-proxy:
-        condition: service_healthy
-        restart: true
     restart: unless-stopped
     healthcheck:
       # https://doc.traefik.io/traefik/operations/cli/#healthcheck
@@ -98,7 +108,8 @@ services:
       - ./config-tunnel/conf/:/traefik/conf/:ro
     labels:
       traefik.enable: true
-      traefik.http.services.traefiktunnel-prod-1.loadBalancer.server.port: 8080  # TODO: Expose this securely
+      traefik.docker.network: traefik_internal
+      traefik.http.services.traefiktunnel-prod-1.loadBalancer.server.port: 8080 # TODO: Expose this securely
       traefik.http.routers.traefiktunnel-prod-1-http.entrypoints: web
       traefik.http.routers.traefiktunnel-prod-1-http.rule: "Host(`traefik-tunnel.slc1.jakerob.pro`) && !PathPrefix(`/ping`)"
       traefik.http.routers.traefiktunnel-prod-1-http.middlewares: "websecure-redirect-permanent@file"
@@ -114,8 +125,8 @@ services:
     user: "0:${DOCKER_GROUP_ID}" # Lookup the docker group ID using `getent group docker`
     restart: unless-stopped
     environment:
-      SOCKET_PROXY_UID: "${DOCKER_USER_ID:-2001}"
-      SOCKET_PROXY_GID: "${DOCKER_GROUP_ID:-2001}"
+      SOCKET_PROXY_UID: "${TRAEFIK_SRV_ID:-2001}"
+      SOCKET_PROXY_GID: "${TRAEFIK_GROUP_ID:-2001}"
     networks:
       - internal
     volumes:
@@ -145,7 +156,7 @@ services:
 
   whoami-tunnel:
     image: docker.io/traefik/whoami
-    container_name: whoami-tunnel
+    container_name: whoami-tunnel-prod-1
     command: "--verbose"
     security_opt:
       - no-new-privileges:true

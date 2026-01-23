@@ -1,1 +1,8 @@
 config/certs
+config/plugins
+config-tunnel/certs
+config-tunnel/plugins
+
+certs-dump
+synced-certs
+cert-dumper-output

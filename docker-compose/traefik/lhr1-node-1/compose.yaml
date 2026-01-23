@@ -49,9 +49,9 @@ services:
       - internal
     volumes:
       - ./config/traefik.yaml:/traefik/traefik.yaml:ro
-      - ./config/conf:/traefik/conf:ro
+      - ./config/conf/:/traefik/conf:ro
       - ./config/plugins:/plugins-storage
-      - ./config/certs:/traefik/certs:rw
+      - ./config/certs/:/traefik/certs:rw
       # access docker socket via proxy read-only
       - socket-proxy:/var/run
     labels:
