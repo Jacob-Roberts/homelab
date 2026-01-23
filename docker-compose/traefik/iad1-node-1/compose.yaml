@@ -61,11 +61,13 @@ services:
       - ./config-external/logs:/var/log/traefik:rw
       - ./config-external/ban.html:/traefik/ban.html:ro
       - ./config-external/captcha.html:/traefik/captcha.html:ro
+      # access docker socket via proxy read-only
+      - socket-proxy:/var/run
     labels:
       # Management only exposed internally
       traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.services.traefikexternal-prod-1.loadBalancer.server.port: 8080
+      traefik.http.routers.traefikexternal-prod-1-http.service: "api@internal"
+      traefik.http.routers.traefikexternal-prod-1-https.service: "api@internal"
       traefik.http.routers.traefikexternal-prod-1-http.entrypoints: web
       traefik.http.routers.traefikexternal-prod-1-http.rule: "Host(`traefik-external.iad1vpn.jakerob.pro`)  && !PathPrefix(`/ping`)"
       traefik.http.routers.traefikexternal-prod-1-http.middlewares: "websecure-redirect-permanent@file"
@@ -118,7 +120,7 @@ services:
       # Management only exposed internally
       traefik.enable: true
       traefik.http.routers.traefikinternal-prod-1-http.service: "api@internal"
-      traefik.http.routers.traefikinternal-prod-1-https.service: "api@internal"      
+      traefik.http.routers.traefikinternal-prod-1-https.service: "api@internal"
       traefik.http.routers.traefikinternal-prod-1-http.entrypoints: web
       traefik.http.routers.traefikinternal-prod-1-http.rule: "Host(`traefik-internal.iad1vpn.jakerob.pro`) && !PathPrefix(`/ping`)"
       traefik.http.routers.traefikinternal-prod-1-http.middlewares: "websecure-redirect-permanent@file"
