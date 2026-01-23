@@ -64,7 +64,7 @@ accesslog: # We enable access logs as json
 # -- (Optional) Enable API and Dashboard here, don't do in production
 api:
   dashboard: true
-  insecure: false
+  insecure: true # TODO: Expose the dashboard securely
 
 # -- Change EntryPoints here...
 entryPoints:

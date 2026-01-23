@@ -66,8 +66,8 @@ services:
     labels:
       # Management only exposed internally
       traefik.enable: true
-      traefik.http.routers.traefikexternal-prod-1-http.service: "api@internal"
-      traefik.http.routers.traefikexternal-prod-1-https.service: "api@internal"
+      traefik.docker.network: traefik_internal
+      traefik.http.services.traefikexternal-prod-1.loadBalancer.server.port: 8080 # TODO: Expose this securely
       traefik.http.routers.traefikexternal-prod-1-http.entrypoints: web
       traefik.http.routers.traefikexternal-prod-1-http.rule: "Host(`traefik-external.iad1vpn.jakerob.pro`)  && !PathPrefix(`/ping`)"
       traefik.http.routers.traefikexternal-prod-1-http.middlewares: "websecure-redirect-permanent@file"
