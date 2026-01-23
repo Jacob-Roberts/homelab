@@ -27,7 +27,7 @@ services:
       - frontend
     volumes:
       - ./config:/var/syncthing
-      - ../../traefik/iad1-node-1/config-external/static-certs:/etc/syncthing/synced-certs
+      - ../../traefik/iad1-node-1/config-external/static-certs-lhr1:/etc/syncthing/synced-certs-lhr1
       - ../../traefik/iad1-node-1/config-external/static-certs-slc1:/etc/syncthing/synced-certs-slc1
     labels:
       traefik.enable: true

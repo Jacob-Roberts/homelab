@@ -1,17 +1,17 @@
 tls:
   certificates:
-    - certFile: /traefik/static-certs/whoami-tunnel.lhr1.jakerob.pro/certificate.crt
-      keyFile: /traefik/static-certs/whoami-tunnel.lhr1.jakerob.pro/privatekey.key
-    - certFile: /traefik/static-certs/pocket-id.lhr1.jakerob.pro/certificate.crt
-      keyFile: /traefik/static-certs/pocket-id.lhr1.jakerob.pro/privatekey.key
-    - certFile: /traefik/static-certs/photos.jakerob.pro/certificate.crt
-      keyFile: /traefik/static-certs/photos.jakerob.pro/privatekey.key
-    - certFile: /traefik/static-certs/jellyfin.jakerob.pro/certificate.crt
-      keyFile: /traefik/static-certs/jellyfin.jakerob.pro/privatekey.key
-    - certFile: /traefik/static-certs/karakeep.jakerob.pro/certificate.crt
-      keyFile: /traefik/static-certs/karakeep.jakerob.pro/privatekey.key
-    - certFile: /traefik/static-certs/calibre.jakerob.pro/certificate.crt
-      keyFile: /traefik/static-certs/calibre.jakerob.pro/privatekey.key
+    - certFile: /traefik/static-certs-lhr1/whoami-tunnel.lhr1.jakerob.pro/certificate.crt
+      keyFile: /traefik/static-certs-lhr1/whoami-tunnel.lhr1.jakerob.pro/privatekey.key
+    - certFile: /traefik/static-certs-lhr1/pocket-id.lhr1.jakerob.pro/certificate.crt
+      keyFile: /traefik/static-certs-lhr1/pocket-id.lhr1.jakerob.pro/privatekey.key
+    - certFile: /traefik/static-certs-lhr1/photos.jakerob.pro/certificate.crt
+      keyFile: /traefik/static-certs-lhr1/photos.jakerob.pro/privatekey.key
+    - certFile: /traefik/static-certs-lhr1/jellyfin.jakerob.pro/certificate.crt
+      keyFile: /traefik/static-certs-lhr1/jellyfin.jakerob.pro/privatekey.key
+    - certFile: /traefik/static-certs-lhr1/karakeep.jakerob.pro/certificate.crt
+      keyFile: /traefik/static-certs-lhr1/karakeep.jakerob.pro/privatekey.key
+    - certFile: /traefik/static-certs-lhr1/calibre.jakerob.pro/certificate.crt
+      keyFile: /traefik/static-certs-lhr1/calibre.jakerob.pro/privatekey.key
     - certFile: /traefik/static-certs-slc1/whoami-tunnel.slc1.jakerob.pro/certificate.crt
       keyFile: /traefik/static-certs-slc1/whoami-tunnel.slc1.jakerob.pro/privatekey.key
     - certFile: /traefik/static-certs-slc1/auth.autovation.com/certificate.crt
