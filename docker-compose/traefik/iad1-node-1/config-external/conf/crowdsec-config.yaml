@@ -3,8 +3,8 @@ http:
     crowdsec:
       plugin:
         crowdsec:
-          banHTMLFilePath: /etc/traefik/ban.html
-          captchaHTMLFilePath: /etc/traefik/captcha.html
+          banHTMLFilePath: /traefik/ban.html
+          captchaHTMLFilePath: /traefik/captcha.html
           clientTrustedIPs:
             - 10.0.0.0/8
             - 172.16.0.0/12

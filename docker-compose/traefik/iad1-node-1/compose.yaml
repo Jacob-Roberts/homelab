@@ -3,16 +3,24 @@ name: traefik
 
 networks:
   frontend:
+    # Contains all the services that will be routed to
     external: true
   internal:
+    # Contains traefik, socket proxy, and traefik-tunnel
     external: false
+    name: traefik_internal
+
+volumes:
+  socket-proxy:
 
 services:
   traefik-external:
     image: docker.io/traefik:v3
     container_name: traefik-external
+    command:
+      - "--configFile=/traefik/traefik.yaml"
     read_only: true
-    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
+    user: "${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001}"
     group_add:
       - "${DOCKER_GROUP_ID_CERT_MANAGER:-2013}"
     security_opt:
@@ -23,6 +31,9 @@ services:
     depends_on:
       crowdsec:
         condition: service_healthy
+      socket-proxy:
+        condition: service_healthy
+        restart: true
     restart: unless-stopped
     healthcheck:
       # https://doc.traefik.io/traefik/operations/cli/#healthcheck
@@ -41,15 +52,15 @@ services:
       - frontend
       - internal
     volumes:
-      - ./config-external/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - ./config-external/conf/:/etc/traefik/conf/:ro
-      - ./config-external/certs:/etc/traefik/certs:rw
-      - ./config-external/static-certs/:/etc/traefik/static-certs/:ro
-      - ./config-external/static-certs-slc1/:/etc/traefik/static-certs-slc1/:ro
-      - ./config-external/plugins-storage:/plugins-storage/:rw
+      - ./config-external/traefik.yaml:/traefik/traefik.yaml:ro
+      - ./config-external/conf/:/traefik/conf/:ro
+      - ./config-external/plugins/:/plugins-storage/:rw
+      - ./config-external/certs/:/traefik/certs:rw
+      - ./config-external/static-certs/:/traefik/static-certs-lhr1/:ro
+      - ./config-external/static-certs-slc1/:/traefik/static-certs-slc1/:ro
       - ./config-external/logs:/var/log/traefik:rw
-      - ./config-external/ban.html:/etc/traefik/ban.html:ro
-      - ./config-external/captcha.html:/etc/traefik/captcha.html:ro
+      - ./config-external/ban.html:/traefik/ban.html:ro
+      - ./config-external/captcha.html:/traefik/captcha.html:ro
     labels:
       # Management only exposed internally
       traefik.enable: true
@@ -66,12 +77,19 @@ services:
   traefik-internal:
     image: docker.io/traefik:v3
     container_name: traefik-internal
+    command:
+      - "--configFile=/traefik/traefik.yaml"
+    read_only: true
     user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
     security_opt:
       - no-new-privileges:true
     sysctls:
       # allow rootless container to access ports < 1024
       net.ipv4.ip_unprivileged_port_start: 80
+    depends_on:
+      socket-proxy:
+        condition: service_healthy
+        restart: true
     restart: unless-stopped
     healthcheck:
       # https://doc.traefik.io/traefik/operations/cli/#healthcheck
@@ -91,9 +109,11 @@ services:
       - frontend
       - internal
     volumes:
-      - ./config-internal/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - ./config-internal/conf/:/etc/traefik/conf/:rw
-      - ./config-internal/certs/:/etc/traefik/certs/:rw
+      - ./config-internal/traefik.yaml:/traefik/traefik.yaml:ro
+      - ./config-internal/conf/:/traefik/conf/:rw
+      - ./config-internal/certs/:/traefik/certs/:rw
+      # access docker socket via proxy read-only
+      - socket-proxy:/var/run
     labels:
       # Management only exposed internally
       traefik.enable: true

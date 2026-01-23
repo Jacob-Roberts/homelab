@@ -1,4 +1,8 @@
-# Internal Traefik
+# yaml-language-server: $schema=https://json.schemastore.org/traefik-v3.json
+
+# Needed for health check
+ping:
+  terminatingStatusCode: 204
 
 global:
   checkNewVersion: false
@@ -8,7 +12,7 @@ global:
 #     - loglevels [DEBUG, INFO, WARNING, ERROR, CRITICAL]
 #     - format [common, json, logfmt]
 log:
-  level: ERROR
+  level: WARN
 #  format: common
 #  filePath: /var/log/traefik/traefik.log
 
@@ -21,7 +25,7 @@ log:
 # -- (Optional) Enable API and Dashboard here, don't do in production
 api:
   dashboard: true
-  insecure: true
+  insecure: false
 
 # -- Change EntryPoints here...
 entryPoints:
@@ -44,7 +48,7 @@ certificatesResolvers:
   cloudflare:
     acme:
       email: jroberts.g1ql8@simplelogin.com
-      storage: /etc/traefik/certs/cloudflare-acme.json
+      storage: /traefik/certs/cloudflare-acme.json
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       dnsChallenge:
         provider: cloudflare
@@ -61,8 +65,8 @@ certificatesResolvers:
 #   stores:
 #     default:
 #       defaultCertificate:
-#         certFile: /etc/traefik/certs/cert.pem
-#         keyFile: /etc/traefik/certs/cert-key.pem
+#         certFile: /traefik/certs/cert.pem
+#         keyFile: /traefik/certs/cert-key.pem
 # -- (Optional) Disable TLS version 1.0 and 1.1
 #   options:
 #     default:
@@ -73,8 +77,9 @@ providers:
     # -- (Optional) Enable this, if you want to expose all containers automatically
     exposedByDefault: false
     constraints: "!Label(`traefik.external`,`true`)"
-    endpoint: "tcp://socket-proxy:2375"
+    endpoint: "unix:///var/run/docker.sock"
     watch: true
+    network: frontend
   file:
-    directory: /etc/traefik/conf/
+    directory: /traefik/conf/
     watch: false

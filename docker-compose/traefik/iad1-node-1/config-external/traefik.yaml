@@ -1,6 +1,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/traefik-v3.json
 
-# Public Facing Traefik
+
+# Needed for health check
+ping:
+  terminatingStatusCode: 204
 
 global:
   checkNewVersion: false
@@ -89,14 +92,14 @@ certificatesResolvers:
   staging:
     acme:
       email: jroberts.g1ql8@simplelogin.com
-      storage: /etc/traefik/certs/acme.json
+      storage: /traefik/certs/acme.json
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
   production:
     acme:
       email: jroberts.g1ql8@simplelogin.com
-      storage: /etc/traefik/certs/acme.json
+      storage: /traefik/certs/acme.json
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
@@ -110,8 +113,8 @@ serversTransport:
 #   stores:
 #     default:
 #       defaultCertificate:
-#         certFile: /etc/traefik/certs/cert.pem
-#         keyFile: /etc/traefik/certs/cert-key.pem
+#         certFile: /traefik/certs/cert.pem
+#         keyFile: /traefik/certs/cert-key.pem
 # -- (Optional) Disable TLS version 1.0 and 1.1
 #   options:
 #     default:
@@ -125,7 +128,7 @@ providers:
     endpoint: "tcp://socket-proxy:2375"
     watch: true
   file:
-    directory: /etc/traefik/conf/
+    directory: /traefik/conf/
     watch: false
 
 experimental:
