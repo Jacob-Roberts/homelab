@@ -13,7 +13,6 @@ services:
     user: "${DOCKER_USER_ID:-2011}:${DOCKER_GROUP_ID:-2011}"
     group_add:
       - "${DOCKER_GROUP_ID_CERT_MANAGER:-2013}"
-      - "${DOCKER_GROUP_ID_NOTE_MANAGER:-2015}"
       - "${DOCKER_GROUP_ID_JELLYFIN:-2003}"
     restart: unless-stopped
     ports:
