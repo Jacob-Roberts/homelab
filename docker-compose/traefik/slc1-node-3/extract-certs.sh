@@ -9,6 +9,7 @@ echo "Copying the tunneled certs to the synced-certs folder"
 DOMAINS="
 photos.autovation.com
 auth.autovation.com
+whoami-tunnel.slc1.jakerob.pro
 "
 
 for domain in $DOMAINS; do
