@@ -84,6 +84,18 @@ http:
       service: lhr1-tunnel
       tls: true
 
+    whoami-tunnel-slc1-http:
+      entrypoints: web
+      rule: "Host(`whoami-tunnel.slc1.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: slc1-tunnel
+    whoami-tunnel-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`whoami-tunnel.slc1.jakerob.pro`)"
+      service: slc1-tunnel
+      tls: true
+
     pocket-id-slc1-http:
       entrypoints: web
       rule: "Host(`auth.autovation.com`)"
