@@ -1,0 +1,50 @@
+---
+name: pocket-id
+
+networks:
+  frontend:
+    external: true
+
+volumes:
+  data:
+    external: true
+    name: pocket-id-data
+
+services:
+  pocket-id:
+    image: ghcr.io/pocket-id/pocket-id:v2-distroless
+    read_only: true
+    user: "${DOCKER_USER_ID:-2010}:${DOCKER_GROUP_ID:-2010}"
+    depends_on:
+      chown:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    environment:
+      APP_URL: "${APP_URL:-https://auth.autovation.com}"
+      ENCRYPTION_KEY: "${ENCRYPTION_KEY}"
+      TRUST_PROXY: "${TRUST_PROXY:-true}"
+      MAXMIND_LICENSE_KEY: "${MAXMIND_LICENSE_KEY:-}"
+    networks:
+      - frontend
+    volumes:
+      - data:/app/data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pocketid-prod-1-http.entrypoints: web
+      traefik.http.routers.pocketid-prod-1-http.rule: Host(`auth.autovation.com`)
+      traefik.http.routers.pocketid-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.pocketid-prod-1-https.entrypoints: websecure
+      traefik.http.routers.pocketid-prod-1-https.rule: Host(`auth.autovation.com`)
+      traefik.http.routers.pocketid-prod-1-https.tls: true
+      traefik.http.routers.pocketid-prod-1-https.tls.certresolver: cloudflare
+
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: alpine
+    command:
+      - |
+        chown -R ${DOCKER_USER_ID:-2010}:${DOCKER_GROUP_ID:-2010} /app/data
+    networks: []
+    volumes:
+      - data:/app/data
+    entrypoint: [/bin/ash, "-c"]
