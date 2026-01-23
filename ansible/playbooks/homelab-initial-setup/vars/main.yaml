@@ -46,6 +46,7 @@ service_users:
     additional_groups:
       lhr1-node-1: ["cert-manager"]
       iad1-node-1: ["cert-manager"]
+      slc1-node-3: ["cert-manager"]
   - name: jellyfin
     uid: 2003
     gid: 2003
@@ -81,10 +82,11 @@ service_users:
   - name: syncthing
     uid: 2011
     gid: 2011
-    nodes: ["lhr1-node-1", "iad1-node-1"]
+    nodes: ["lhr1-node-1", "iad1-node-1", "slc1-node-3"]
     additional_groups:
       lhr1-node-1: ["cert-manager"]
       iad1-node-1: ["cert-manager"]
+      slc1-node-3: ["cert-manager"]
   - name: opencloud
     uid: 2012
     gid: 2012
@@ -92,7 +94,7 @@ service_users:
   # Manages TLS certificates via Let's Encrypt
   - name: cert-manager
     gid: 2013
-    nodes: ["lhr1-node-1", "iad1-node-1"]
+    nodes: ["lhr1-node-1", "iad1-node-1", "slc1-node-3"]
   - name: obsidian
     uid: 2014
     gid: 2014
