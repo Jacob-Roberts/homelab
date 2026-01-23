@@ -29,8 +29,8 @@ services:
       # allow rootless container to access ports < 1024
       net.ipv4.ip_unprivileged_port_start: 80
     depends_on:
-      crowdsec:
-        condition: service_healthy
+      # crowdsec:
+      #   condition: service_healthy
       socket-proxy:
         condition: service_healthy
         restart: true
@@ -117,8 +117,8 @@ services:
     labels:
       # Management only exposed internally
       traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.services.traefikinternal-prod-1.loadBalancer.server.port: 8080
+      traefik.http.routers.traefikinternal-prod-1-http.service: "api@internal"
+      traefik.http.routers.traefikinternal-prod-1-https.service: "api@internal"      
       traefik.http.routers.traefikinternal-prod-1-http.entrypoints: web
       traefik.http.routers.traefikinternal-prod-1-http.rule: "Host(`traefik-internal.iad1vpn.jakerob.pro`) && !PathPrefix(`/ping`)"
       traefik.http.routers.traefikinternal-prod-1-http.middlewares: "websecure-redirect-permanent@file"
