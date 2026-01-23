@@ -65,7 +65,7 @@ resource "cloudflare_dns_record" "photos" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content = "slc1-node-3.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "pocket-id" {
@@ -74,7 +74,7 @@ resource "cloudflare_dns_record" "pocket-id" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content = "slc1-node-3.jakerob.pro"
+  content = "iad1-node-1.jakerob.pro"
 }
 
 ////////////////////////
