@@ -35,27 +35,6 @@ locations:
       - backblaze
     cron: '0 2 * * *' # Every day at 2 AM
 
-  authentik-config:
-    from:
-      - ~/homelab/authentik/lhr1-node-1/certs
-      - ~/homelab/authentik/lhr1-node-1/custom-templates
-      - ~/homelab/authentik/lhr1-node-1/media
-    to:
-      - slctruenas
-      - backblaze
-    cron: '0 2 * * *'
-
-  authentik-data:
-    from:
-      - ~/homelab/authentik/lhr1-node-1/backups
-    to:
-      - slctruenas
-      - backblaze
-    cron: '0 2 * * *'
-    options:
-      forget:
-        keep-last: 5 # always keep at least 5 snapshots
-
   immich:
     from:
       - ~/homelab/immich/lhr1-node-1/database

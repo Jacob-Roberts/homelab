@@ -72,14 +72,6 @@
     #     container: grafana-prod-1
 
 - Security and Identity:
-    - Authentik:
-        href: https://authentik.slc1.jakerob.pro
-        description: authentik-prod-1 on slc1-node-2
-        icon: authentik.png
-        widget:
-          type: authentik
-          url: https://authentik.slc1.jakerob.pro
-          key: "{{HOMEPAGE_VAR_AUTHENTIK_KEY}}"
     - Bitwarden:
         href: https://vault.bitwarden.com
         description: Cloud Bitwarden

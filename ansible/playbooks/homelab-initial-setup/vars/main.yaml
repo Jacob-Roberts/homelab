@@ -46,10 +46,6 @@ service_users:
     additional_groups:
       lhr1-node-1: ["cert-manager"]
       iad1-node-1: ["cert-manager"]
-  - name: authentik
-    uid: 2002
-    gid: 2002
-    nodes: ["lhr1-node-1", "iad1-node-1", "sgu1-node-1", "slc1-node-3"]
   - name: jellyfin
     uid: 2003
     gid: 2003

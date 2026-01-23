@@ -9,7 +9,6 @@ echo "Copying the tunneled certs to the synced-certs folder"
 DOMAINS="
 photos.jakerob.pro
 jellyfin.jakerob.pro
-authentik.lhr1.jakerob.pro
 pocket-id.lhr1.jakerob.pro
 whoami-tunnel.lhr1.jakerob.pro
 "

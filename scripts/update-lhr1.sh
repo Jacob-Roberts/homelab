@@ -4,9 +4,6 @@ git pull --prune
 
 HOMELAB_ROOT=$HOME/homelab
 
-cd $HOMELAB_ROOT/authentik/lhr1-node-1
-docker compose up -d --pull always --remove-orphans
-
 cd $HOMELAB_ROOT/cadvisor/lhr1-node-1
 docker compose up -d --pull always --remove-orphans
 

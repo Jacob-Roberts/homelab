@@ -610,15 +610,6 @@ resource "cloudflare_dns_record" "api-spotify-iad1" {
   content = "iad1-node-1.jakerob.pro"
 }
 
-resource "cloudflare_dns_record" "authentik-lhr1" {
-  name    = "authentik.lhr1.jakerob.pro"
-  zone_id = cloudflare_zone.jakerob_pro.id
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "iad1-node-1.jakerob.pro"
-}
-
 resource "cloudflare_dns_record" "pocket-id-lhr1" {
   name    = "pocket-id.lhr1.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id

@@ -72,18 +72,6 @@ http:
       service: lhr1-tunnel
       tls: true
 
-    authentik-lhr1-http:
-      entrypoints: web
-      rule: "Host(`authentik.lhr1.jakerob.pro`)"
-      middlewares:
-        - websecure-redirect-permanent@file
-      service: lhr1-tunnel
-    authentik-lhr1-https:
-      entrypoints: websecure
-      rule: "Host(`authentik.lhr1.jakerob.pro`)"
-      service: lhr1-tunnel
-      tls: true
-
     pocket-id-lhr1-http:
       entrypoints: web
       rule: "Host(`pocket-id.lhr1.jakerob.pro`)"

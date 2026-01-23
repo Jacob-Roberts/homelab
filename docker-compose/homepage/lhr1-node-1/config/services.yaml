@@ -101,14 +101,6 @@
         # container: cadvisor
 
 - Security and Identity:
-    - Authentik:
-        href: https://authentik.lhr1.jakerob.pro
-        description: authentik-prod-1 on lhr1-node-1
-        icon: authentik.png
-        widget:
-          type: authentik
-          url: https://authentik.lhr1.jakerob.pro
-          key: "{{HOMEPAGE_VAR_AUTHENTIK_KEY}}"
     - Bitwarden:
         href: https://vault.bitwarden.com
         description: Cloud Bitwarden

@@ -17,7 +17,6 @@ services:
       PGID: 1002
       LOG_LEVEL: debug
       HOMEPAGE_VAR_PORTAINER_KEY: "${HOMEPAGE_VAR_PORTAINER_KEY}"
-      HOMEPAGE_VAR_AUTHENTIK_KEY: "${HOMEPAGE_VAR_AUTHENTIK_KEY}"
     networks:
       - frontend
     volumes:

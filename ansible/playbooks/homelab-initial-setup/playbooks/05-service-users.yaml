@@ -8,7 +8,7 @@
 # - Creates service groups with fixed GIDs
 # - Creates service users with fixed UIDs (for consistent file ownership)
 #
-# Services: traefik, authentik, jellyfin, immich, paperless
+# Services: traefik, jellyfin, immich, paperless
 # =============================================================================
 
 - name: Service Users Setup
