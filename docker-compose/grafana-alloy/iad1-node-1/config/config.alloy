@@ -17,7 +17,7 @@ otelcol.receiver.otlp "traefik" {
 otelcol.processor.batch "default" {
   output {
     traces  = [otelcol.exporter.otlp.grafana_cloud.input]
-    logs    = [otelcol.exporter.otlp.grafana_cloud.input]
+    logs    = [otelcol.exporter.loki.grafana_cloud.input]
   }
 }
 

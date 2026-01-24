@@ -112,6 +112,7 @@ services:
     networks:
       - frontend
       - internal
+      - otel
     volumes:
       - ./config-internal/traefik.yaml:/traefik/traefik.yaml:ro
       - ./config-internal/conf/:/traefik/conf/:rw
