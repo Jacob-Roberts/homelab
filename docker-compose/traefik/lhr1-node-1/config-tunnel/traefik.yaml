@@ -36,6 +36,9 @@ entryPoints:
     
   websecure:
     address: :443
+    http:
+      middlewares:
+        - identify-node@file
 
 # -- (Optional) Disable TLS Cert verification check
 serversTransport:
