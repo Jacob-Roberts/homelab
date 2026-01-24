@@ -3,5 +3,4 @@ http:
     identify-node:
       headers:
         customResponseHeaders:
-          # This pulls the HOSTNAME env var from the OS
           X-Traefik-iad1-node-1-external: "true"

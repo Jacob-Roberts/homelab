@@ -3,4 +3,4 @@ http:
     identify-node:
       headers:
         customResponseHeaders:
-          X-Traefik-iad1-node-1-internal: "true"
+          X-Traefik-slc1-node-3: "true"
