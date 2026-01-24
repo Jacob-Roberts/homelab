@@ -15,10 +15,19 @@ global:
   sendAnonymousUsage: false
 
 # -- (Optional) Change Log Level and Format here...
-#     - loglevels [DEBUG, INFO, WARNING, ERROR, CRITICAL]
+#     - loglevels [TRACE, DEBUG, INFO, WARN, ERROR, FATAL, and PANIC]
 #     - format [common, json, logfmt]
 log:
-  level: WARN
+  level: INFO
+  format: json
+  otlp:
+    grpc:
+      endpoint: alloy:4137
+      insecure: true
+
+experimental:
+  otlpLogs: true
+
 #  format: common
 #  filePath: /var/log/traefik/traefik.log
 

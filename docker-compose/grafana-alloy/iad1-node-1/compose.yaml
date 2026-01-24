@@ -20,6 +20,8 @@ services:
     environment:
       - TEMPO_URL
       - TEMPO_USER
+      - LOKI_URL
+      - LOKI_USER_ID
       - GRAFANA_CLOUD_TOKEN
     labels:
       traefik.enable: true

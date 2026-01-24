@@ -9,6 +9,7 @@ otelcol.receiver.otlp "traefik" {
 
   output {
     traces  = [otelcol.processor.batch.default.input]
+    logs    = [otelcol.processor.batch.default.input]
   }
 }
 
@@ -16,7 +17,24 @@ otelcol.receiver.otlp "traefik" {
 otelcol.processor.batch "default" {
   output {
     traces  = [otelcol.exporter.otlp.grafana_cloud.input]
+    logs    = [otelcol.exporter.otlp.grafana_cloud.input]
   }
+}
+
+otelcol.exporter.loki "grafana_cloud" {
+  forward_to = [loki.write.grafana_cloud.receiver]
+}
+
+loki.write "grafana_cloud" {
+  endpoint {
+    url  = sys.env("LOKI_URL") // e.g. https://logs-prod-xxx.grafana.net/loki/api/v1/push
+    auth = loki.auth.basic.grafana_cloud.handler
+  }
+}
+
+loki.auth.basic "grafana_cloud" {
+  username = sys.env("LOKI_USER_ID")
+  password = sys.env("GRAFANA_CLOUD_TOKEN")
 }
 
 // Send to Grafana Cloud

@@ -9,7 +9,7 @@ global:
   sendAnonymousUsage: false
 
 # -- (Optional) Change Log Level and Format here...
-#     - loglevels [TRACE, DEBUG, INFO, WARN, ERROR, FATAL, PANIC]
+#     - loglevels [TRACE, DEBUG, INFO, WARN, ERROR, FATAL, and PANIC]
 #     - format [common, json, logfmt]
 log:
   level: WARN
