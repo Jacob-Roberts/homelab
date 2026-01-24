@@ -88,6 +88,7 @@ entryPoints:
       middlewares:
         - crowdsec@file
         - geoblock@file
+        - identify-node@file
   # -- (Optional) Add custom Entrypoint
   # custom:
   #   address: :8080

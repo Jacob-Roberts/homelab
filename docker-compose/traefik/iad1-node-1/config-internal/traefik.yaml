@@ -54,6 +54,9 @@ entryPoints:
     #       scheme: https
   websecure:
     address: :443
+    http:
+      middlewares:
+        - identify-node@file
   # -- (Optional) Add custom Entrypoint
   # custom:
   #   address: :8080
