@@ -23,9 +23,11 @@ services:
       - GRAFANA_CLOUD_TOKEN
     labels:
       traefik.enable: true
+      traefik.http.services.grafana-alloy-prod-1.loadBalancer.server.port: 12345
       traefik.http.routers.grafana-alloy-prod-1-http.entrypoints: web
       traefik.http.routers.grafana-alloy-prod-1-http.rule: Host(`grafana-alloy.iad1vpn.jakerob.pro`)
+      traefik.http.routers.grafana-alloy-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.grafana-alloy-prod-1-https.entrypoints: websecure
       traefik.http.routers.grafana-alloy-prod-1-https.rule: Host(`grafana-alloy.iad1vpn.jakerob.pro`)
-      # traefik.http.routers.grafana-alloy-prod-1-https.tls: true
-      # traefik.http.routers.grafana-alloy-prod-1-https.tls.certresolver: production
+      traefik.http.routers.grafana-alloy-prod-1-https.tls: true
+      traefik.http.routers.grafana-alloy-prod-1-https.tls.certresolver: cloudflare
