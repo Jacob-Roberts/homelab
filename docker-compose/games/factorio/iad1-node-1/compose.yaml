@@ -3,7 +3,7 @@ name: factorio
 
 services:
   factorio:
-    image: docker.io/factoriotools/factorio:stable-rootless
+    image: docker.io/factoriotools/factorio:2.0.73-rootless
     container_name: factorio
     user: "${DOCKER_USER_ID:-2020}:${DOCKER_GROUP_ID:-2020}"
     restart: unless-stopped
