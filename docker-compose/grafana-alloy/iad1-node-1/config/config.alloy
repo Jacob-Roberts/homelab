@@ -28,13 +28,12 @@ otelcol.exporter.loki "grafana_cloud" {
 loki.write "grafana_cloud" {
   endpoint {
     url  = sys.env("LOKI_URL") // e.g. https://logs-prod-xxx.grafana.net/loki/api/v1/push
-    auth = loki.auth.basic.grafana_cloud.handler
+    
+    basic_auth {
+      username = sys.env("LOKI_USER_ID")
+      password = sys.env("GRAFANA_CLOUD_TOKEN")
+    }
   }
-}
-
-loki.auth.basic "grafana_cloud" {
-  username = sys.env("LOKI_USER_ID")
-  password = sys.env("GRAFANA_CLOUD_TOKEN")
 }
 
 // Send to Grafana Cloud
