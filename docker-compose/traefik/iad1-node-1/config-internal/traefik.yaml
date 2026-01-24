@@ -4,6 +4,12 @@
 ping:
   terminatingStatusCode: 204
 
+tracing:
+  otlp:
+    grpc:
+      endpoint: "alloy:4137"
+      insecure: true
+
 global:
   checkNewVersion: false
   sendAnonymousUsage: false

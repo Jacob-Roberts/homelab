@@ -9,6 +9,8 @@ networks:
     # Contains traefik, socket proxy, and traefik-tunnel
     external: false
     name: traefik_internal
+  otel:
+    external: true
 
 volumes:
   socket-proxy:
