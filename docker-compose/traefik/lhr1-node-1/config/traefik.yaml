@@ -34,6 +34,15 @@ api:
 entryPoints:
   web:
     address: :80
+    http:
+      encodedCharacters:
+        allowEncodedBackSlash: false
+        allowEncodedHash: false
+        allowEncodedPercent: false
+        allowEncodedNullCharacter: false
+        allowEncodedQuestionMark: false
+        allowEncodedSemicolon: false
+        allowEncodedSlash: false
     # -- (Optional) Redirect all HTTP to HTTPS
     # http:
     #   redirections:
@@ -45,6 +54,14 @@ entryPoints:
     http:
       middlewares:
         - identify-node@file
+      encodedCharacters:
+        allowEncodedBackSlash: false
+        allowEncodedHash: false
+        allowEncodedPercent: false
+        allowEncodedNullCharacter: false
+        allowEncodedQuestionMark: false
+        allowEncodedSemicolon: false
+        allowEncodedSlash: false
   # -- (Optional) Add custom Entrypoint
   # custom:
   #   address: :8080

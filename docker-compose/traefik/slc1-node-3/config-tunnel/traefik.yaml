@@ -33,12 +33,29 @@ api:
 entryPoints:
   web:
     address: :80
+    http:
+      encodedCharacters:
+        allowEncodedBackSlash: false
+        allowEncodedHash: false
+        allowEncodedPercent: false
+        allowEncodedNullCharacter: false
+        allowEncodedQuestionMark: false
+        allowEncodedSemicolon: false
+        allowEncodedSlash: false
     
   websecure:
     address: :443
     http:
       middlewares:
         - identify-node@file
+      encodedCharacters:
+        allowEncodedBackSlash: false
+        allowEncodedHash: false
+        allowEncodedPercent: false
+        allowEncodedNullCharacter: false
+        allowEncodedQuestionMark: false
+        allowEncodedSemicolon: false
+        allowEncodedSlash: false
 
 # -- (Optional) Disable TLS Cert verification check
 serversTransport:

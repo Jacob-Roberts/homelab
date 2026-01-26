@@ -36,8 +36,26 @@ entryPoints:
     #     entryPoint:
     #       to: websecure
     #       scheme: https
+    http:
+      encodedCharacters:
+        allowEncodedBackSlash: false
+        allowEncodedHash: false
+        allowEncodedPercent: false
+        allowEncodedNullCharacter: false
+        allowEncodedQuestionMark: false
+        allowEncodedSemicolon: false
+        allowEncodedSlash: false
   websecure:
     address: :443
+    http:
+      encodedCharacters:
+        allowEncodedBackSlash: false
+        allowEncodedHash: false
+        allowEncodedPercent: false
+        allowEncodedNullCharacter: false
+        allowEncodedQuestionMark: false
+        allowEncodedSemicolon: false
+        allowEncodedSlash: false
   # -- (Optional) Add custom Entrypoint
   # custom:
   #   address: :8080

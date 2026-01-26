@@ -30,6 +30,14 @@ entryPoints:
     http:
       middlewares:
         - https-headers@file
+      encodedCharacters:
+        allowEncodedBackSlash: false
+        allowEncodedHash: false
+        allowEncodedPercent: false
+        allowEncodedNullCharacter: false
+        allowEncodedQuestionMark: false
+        allowEncodedSemicolon: false
+        allowEncodedSlash: false
 
 # -- (Optional) Disable TLS Cert verification check
 # serversTransport:
