@@ -290,12 +290,13 @@ services:
   shelfmark:
     image: ghcr.io/calibrain/shelfmark-lite:latest
     container_name: shelfmark
-    user: "${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022}"
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
     environment:
       EXT_BYPASSER_URL: http://gluetun:8191
+      PUID: ${DOCKER_USER_ID:-2022}
+      PGUID: ${DOCKER_GROUP_ID:-2022}
     volumes:
       - ./shelfmark/books:/books # Default destination for book downloads
       - ./shelfmark/config:/config # App configuration
