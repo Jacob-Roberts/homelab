@@ -294,9 +294,11 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     environment:
+      USING_EXTERNAL_BYPASSER: true
       EXT_BYPASSER_URL: http://gluetun:8191
       PUID: ${DOCKER_USER_ID:-2022}
       PGUID: ${DOCKER_GROUP_ID:-2022}
+      CALIBRE_WEB_URL: https://calibre.jakerob.pro
     volumes:
       - ./shelfmark/books:/books # Default destination for book downloads
       - ./shelfmark/config:/config # App configuration
