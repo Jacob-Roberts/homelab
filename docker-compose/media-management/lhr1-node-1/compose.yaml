@@ -299,6 +299,8 @@ services:
       PUID: ${CALIBRE_USER_ID:-2006}
       PGUID: ${CALIBRE_GROUP_ID:-2006}
       CALIBRE_WEB_URL: https://calibre.jakerob.pro
+      HARDCOVER_ENABLED: true
+      HARDCOVER_API_KEY: ${HARDCOVER_API_KEY}
     volumes:
       - ../../calibre/lhr1-node-1/ingest:/books # Default destination for book downloads
       - ./shelfmark/config:/config # App configuration
