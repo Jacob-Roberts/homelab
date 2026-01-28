@@ -301,7 +301,7 @@ services:
       - ./shelfmark/config:/config # App configuration
       # Required for torrent / usenet - path must match your download client's volume exactly
       # - /path/to/downloads:/path/to/downloads
-
+    network_mode: service:gluetun # http://gluetun:8084/
 
   # debug2:
   #   image: docker.io/jonlabelle/network-tools
