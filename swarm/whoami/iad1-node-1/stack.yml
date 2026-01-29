@@ -9,10 +9,7 @@ networks:
 services:
   whoami-swarm-internal:
     image: docker.io/traefik/whoami:latest
-    container_name: whoami-swarm-internal
     command: "--verbose"
-    security_opt:
-      - no-new-privileges:true
     networks:
       - dokploy-network
     labels:
