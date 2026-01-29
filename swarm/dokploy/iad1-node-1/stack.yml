@@ -63,7 +63,13 @@ services:
       - dokploy-network
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./dokploy-data:/etc/dokploy
+      - ./dokploy-data/applications:/etc/dokploy/applications
+      - ./dokploy-data/logs:/etc/dokploy/logs
+      - ./dokploy-data/monitoring:/etc/dokploy/monitoring
+      - ./dokploy-data/schedules:/etc/dokploy/schedules
+      - ./dokploy-data/ssh:/etc/dokploy/ssh
+      - ./dokploy-data/volume-backups:/etc/dokploy/volume-backups
+      - ../../../docker-compose/traefik/iad1-node-1/config-external/conf/dokploy-dynamic/:/etc/dokploy/traefik
       - dokploy-docker:/root/.docker
     deploy:
       placement:
