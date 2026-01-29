@@ -69,7 +69,7 @@ services:
       - ./dokploy-data/schedules:/etc/dokploy/schedules
       - ./dokploy-data/ssh:/etc/dokploy/ssh
       - ./dokploy-data/volume-backups:/etc/dokploy/volume-backups
-      - ../../../docker-compose/traefik/iad1-node-1/config-external/conf/dokploy-dynamic/:/etc/dokploy/traefik
+      - ../../../docker-compose/traefik/iad1-node-1/config-external/conf/dokploy/:/etc/dokploy/traefik
       - dokploy-docker:/root/.docker
     deploy:
       placement:
