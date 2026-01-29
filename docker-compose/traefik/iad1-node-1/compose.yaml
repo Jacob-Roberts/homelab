@@ -47,6 +47,7 @@ services:
     ports:
       - "${HOST_IP:-10.0.0.13}:80:80/tcp"
       - "${HOST_IP:-10.0.0.13}:443:443/tcp"
+      - "${HOST_IP:-10.0.0.13}:443:443/udp"
     environment:
       CROWDSEC_TRAEFIK_BOUNCER_TOKEN: "${CROWDSEC_TRAEFIK_BOUNCER_TOKEN}"
       TZ: "${TZ:-America/New_York}"
@@ -106,6 +107,7 @@ services:
       # Bind on secure IP (local, VPN) only
       - "${VPN_IP:-100.109.65.68}:80:80/tcp"
       - "${VPN_IP:-100.109.65.68}:443:443/tcp"
+      - "${VPN_IP:-100.109.65.68}:443:443/udp"
     environment:
       CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
       TZ: "${TZ:-America/New_York}"
