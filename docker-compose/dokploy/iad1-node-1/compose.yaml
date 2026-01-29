@@ -1,0 +1,85 @@
+---
+name: dokploy
+
+networks:
+  frontend:
+    external: true
+  dokploy-network:
+    driver: bridge
+    attachable: true
+    name: dokploy-network
+
+volumes:
+  dokploy-postgres:
+    name: dokploy_postgres
+  dokploy-redis:
+    name: dokploy_redis
+  dokploy-docker:
+    name: dokploy_docker
+
+secrets:
+  dokploy_postgres_password:
+    file: dokploy_postgres_password.txt
+
+services:
+  dokploy-postgres:
+    image: postgres:16
+    restart: unless-stopped
+    secrets:
+      - dokploy_postgres_password
+    environment:
+      POSTGRES_USER: dokploy
+      POSTGRES_DB: dokploy
+      POSTGRES_PASSWORD_FILE: /run/secrets/dokploy_postgres_password
+    networks:
+      - dokploy-network
+    volumes:
+      - dokploy-postgres:/var/lib/postgresql/data
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+
+  dokploy-redis:
+    image: redis:7
+    restart: unless-stopped
+    networks:
+      - dokploy-network
+    volumes:
+      - dokploy-redis:/data
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+
+  dokploy:
+    image: docker.io/dokploy/dokploy:v0.26.6
+    depends_on:
+      - dokploy-postgres
+      - dokploy-redis
+    restart: unless-stopped
+    secrets:
+      - dokploy_postgres_password
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/dokploy_postgres_password
+      # - ADVERTISE_ADDR=${ADVERTISE_ADDR:-localhost}
+      # - RELEASE_TAG=${RELEASE_TAG:-latest}
+    networks:
+      - dokploy-network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./dokploy-data:/etc/dokploy
+      - dokploy-docker:/root/.docker
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+    labels:
+      traefik.enable: true
+      traefik.http.routers.dokploy-prod-1-http.entrypoints: web
+      traefik.http.routers.dokploy-prod-1-http.rule: Host(`dokploy.iad1vpn.jakerob.pro`)
+      traefik.http.routers.dokploy-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.dokploy-prod-1-https.entrypoints: websecure
+      traefik.http.routers.dokploy-prod-1-https.rule: Host(`dokploy.iad1vpn.jakerob.pro`)
+      traefik.http.routers.dokploy-prod-1-https.tls: true
+      traefik.http.routers.dokploy-prod-1-https.tls.certresolver: cloudflare
