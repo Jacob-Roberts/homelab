@@ -112,14 +112,22 @@ entryPoints:
 
 # -- Configure your CertificateResolver here...
 certificatesResolvers:
-  staging:
+  # deprecated
+  production:
+    acme:
+      email: jroberts.g1ql8@simplelogin.com
+      storage: /traefik/certs/acme.json
+      caServer: "https://acme-v02.api.letsencrypt.org/directory"
+      httpChallenge:
+        entryPoint: web
+  letsencrypt-stg:
     acme:
       email: jroberts.g1ql8@simplelogin.com
       storage: /traefik/certs/acme.json
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
-  production:
+  letsencrypt:
     acme:
       email: jroberts.g1ql8@simplelogin.com
       storage: /traefik/certs/acme.json
@@ -153,7 +161,7 @@ providers:
     network: frontend
   file:
     directory: /traefik/conf/
-    watch: false
+    watch: true
 
 experimental:
   plugins:
