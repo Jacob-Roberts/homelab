@@ -18,8 +18,7 @@ volumes:
     name: dokploy_docker
 
 secrets:
-  dokploy_postgres_password:
-    file: dokploy_postgres_password.txt
+  dokploy_postgres_password: {}
 
 services:
   dokploy-postgres:
