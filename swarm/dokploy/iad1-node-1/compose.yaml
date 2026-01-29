@@ -17,9 +17,6 @@ volumes:
   dokploy-docker:
     name: dokploy_docker
 
-secrets:
-  dokploy_postgres_password: {}
-
 services:
   dokploy-postgres:
     image: postgres:16
