@@ -11,6 +11,11 @@ networks:
     name: traefik_internal
   otel:
     external: true
+  dokploy-network:
+    driver: overlay
+    attachable: true
+    name: dokploy-network
+    external: true
 
 volumes:
   socket-proxy:
@@ -54,6 +59,7 @@ services:
     networks:
       - frontend
       - internal
+      - dokploy-network
     volumes:
       - ./config-external/traefik.yaml:/traefik/traefik.yaml:ro
       - ./config-external/conf/:/traefik/conf/:ro
@@ -115,6 +121,7 @@ services:
       - frontend
       - internal
       - otel
+      - dokploy-network
     volumes:
       - ./config-internal/traefik.yaml:/traefik/traefik.yaml:ro
       - ./config-internal/conf/:/traefik/conf/:rw
