@@ -24,7 +24,6 @@ secrets:
 services:
   dokploy-postgres:
     image: postgres:16
-    restart: unless-stopped
     secrets:
       - dokploy_postgres_password
     environment:
@@ -42,7 +41,6 @@ services:
 
   dokploy-redis:
     image: redis:7
-    restart: unless-stopped
     networks:
       - dokploy-network
     volumes:
@@ -57,7 +55,6 @@ services:
     depends_on:
       - dokploy-postgres
       - dokploy-redis
-    restart: unless-stopped
     secrets:
       - dokploy_postgres_password
     environment:
