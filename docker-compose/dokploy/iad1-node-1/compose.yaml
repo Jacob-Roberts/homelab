@@ -65,6 +65,7 @@ services:
       # - ADVERTISE_ADDR=${ADVERTISE_ADDR:-localhost}
       # - RELEASE_TAG=${RELEASE_TAG:-latest}
     networks:
+      - frontend
       - dokploy-network
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
