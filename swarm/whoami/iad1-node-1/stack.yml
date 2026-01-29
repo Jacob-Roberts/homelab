@@ -13,15 +13,14 @@ services:
     command: "--verbose"
     security_opt:
       - no-new-privileges:true
-    restart: unless-stopped
     networks:
       - frontend
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.docker.network: dokploy-network
       traefik.http.routers.whoamiswarminternal-prod-1-http.entrypoints: web
       traefik.http.routers.whoamiswarminternal-prod-1-http.rule: Host(`whoami-swarm.iad1vpn.jakerob.pro`)
       traefik.http.routers.whoamiswarminternal-prod-1-https.entrypoints: websecure
       traefik.http.routers.whoamiswarminternal-prod-1-https.rule: Host(`whoami-swarm.iad1vpn.jakerob.pro`)
-      traefik.http.routers.whoamiswarminternal-prod-1-https.tls: true
+      traefik.http.routers.whoamiswarminternal-prod-1-https.tls: "true"
       traefik.http.routers.whoamiswarminternal-prod-1-https.tls.certresolver: cloudflare
