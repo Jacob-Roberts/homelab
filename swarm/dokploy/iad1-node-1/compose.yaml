@@ -73,6 +73,7 @@ services:
           - node.role==manager
     labels:
       traefik.enable: "true"
+      traefik.docker.network: "dokploy-network"
       traefik.http.routers.dokploy-prod-1-http.entrypoints: web
       traefik.http.routers.dokploy-prod-1-http.rule: Host(`dokploy.iad1vpn.jakerob.pro`)
       traefik.http.routers.dokploy-prod-1-http.middlewares: "websecure-redirect-permanent@file"
