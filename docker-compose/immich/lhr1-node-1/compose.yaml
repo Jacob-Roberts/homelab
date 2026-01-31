@@ -12,7 +12,7 @@ volumes:
 
 services:
   immich-server:
-    image: ghcr.io/immich-app/immich-server:v2.4.1
+    image: ghcr.io/immich-app/immich-server:v2.5.2
     container_name: immich_server
     user: "${DOCKER_USER_ID:-2004}:${DOCKER_GROUP_ID:-2004}"
     security_opt:
@@ -32,6 +32,7 @@ services:
       DB_USERNAME: "${DB_USERNAME:-postgres}"
       DB_HOSTNAME: database
       DB_DATABASE_NAME: "${DB_DATABASE_NAME:-immich}"
+      IMMICH_ALLOW_SETUP: "false"
     networks:
       - frontend
       - internal
@@ -52,7 +53,7 @@ services:
       traefik.http.routers.immich-prod-1-https.tls.certresolver: cloudflare
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:v2.4.1
+    image: ghcr.io/immich-app/immich-machine-learning:v2.5.2
         # extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/ml-hardware-acceleration
         #   file: hwaccel.ml.yml
         #   service: cpu # set to one of [armnn, cuda, openvino, openvino-wsl] for accelerated inference - use the `-wsl` version for WSL2 where applicable
@@ -80,7 +81,7 @@ services:
       - model-cache:/cache
 
   redis:
-    image: "docker.io/valkey/valkey:9@sha256:fb8d272e529ea567b9bf1302245796f21a2672b8368ca3fcb938ac334e613c8f"
+    image: "docker.io/valkey/valkey:9@sha256:546304417feac0874c3dd576e0952c6bb8f06bb4093ea0c9ca303c73cf458f63"
     container_name: immich_redis
     restart: unless-stopped
     healthcheck:
