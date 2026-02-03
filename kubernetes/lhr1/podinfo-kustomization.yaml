@@ -17,17 +17,6 @@ spec:
   targetNamespace: default
   timeout: 3m0s
   wait: true
-  rules:
-  - host: podinfo.lhr1.jakerob.pro
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: podinfo
-            port:
-              number: 9898
   patches:
     - patch: |-
         apiVersion: autoscaling/v2
