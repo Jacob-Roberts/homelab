@@ -908,7 +908,7 @@ resource "cloudflare_dns_record" "lhr1-node-6" {
   content = "192.168.42.89"
 }
 
-resource "cloudflare_dns_record" "podinfo-lhr1" {
+resource "cloudflare_dns_record" "lhr1-kubernetes-catch-all" {
   name = "*.lhr1-k.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
   proxied = false
