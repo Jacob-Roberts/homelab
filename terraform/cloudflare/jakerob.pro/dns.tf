@@ -909,7 +909,7 @@ resource "cloudflare_dns_record" "lhr1-node-6" {
 }
 
 resource "cloudflare_dns_record" "podinfo-lhr1" {
-  name = "podinfo.lhr1.jakerob.pro"
+  name = "*.lhr1-k.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
   proxied = false
   ttl     = 1

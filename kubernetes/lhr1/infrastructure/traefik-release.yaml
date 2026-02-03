@@ -11,6 +11,10 @@ spec:
         kind: HelmRepository
         name: traefik
   interval: 1h
+  valuesFrom:
+    - kind: ConfigMap
+      name: values
+      valuesKey: traefik-values.yaml
   values:
     service:
       type: NodePort
