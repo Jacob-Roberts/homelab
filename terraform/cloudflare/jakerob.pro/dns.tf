@@ -889,3 +889,30 @@ resource "cloudflare_dns_record" "docker-node-2-lhr1" {
   type    = "TXT"
   content = "S4aCW3ZO18lffYiT6b9bv4ZS29UmIGU0hjHNP9vLQOc"
 }
+
+resource "cloudflare_dns_record" "lhr1-node-5" {
+  name    = "lhr1-node-5.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content = "192.168.42.114"
+}
+
+resource "cloudflare_dns_record" "lhr1-node-6" {
+  name    = "lhr1-node-6.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content = "192.168.42.89"
+}
+
+resource "cloudflare_dns_record" "podinfo-lhr1" {
+  name = "podinfo.lhr1.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "lhr1-node-6.jakerob.pro"
+}
