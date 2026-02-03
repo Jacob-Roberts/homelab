@@ -7,19 +7,71 @@ spec:
   chart:
     spec:
       chart: traefik
+      version: ">=29.0.0"
       sourceRef:
         kind: HelmRepository
         name: traefik
+        namespace: flux-system
   interval: 1h
-  valuesFrom:
-    - kind: ConfigMap
-      name: values
-      valuesKey: traefik-values.yaml
+  targetNamespace: traefik-system
+  createNamespace: true
   values:
     service:
       type: NodePort
     ports:
       web:
-        nodePort: 30080 # This will be your HTTP port
+        nodePort: 30080
+        expose: true
       websecure:
-        nodePort: 30443 # This will be your HTTPS port
+        nodePort: 30443
+        expose: true
+        tls:
+          enabled: true
+    ingressRoute:
+      dashboard:
+        enabled: true
+        matchRule: Host(`traefik.lhr1-k.jakerob.pro`)
+        entryPoints:
+          - websecure
+        tls:
+          secretName: traefik-dashboard-tls
+    providers:
+      kubernetesIngress:
+        enabled: true
+        publishedService:
+          enabled: true
+      kubernetesCRD:
+        enabled: true
+        allowCrossNamespace: true
+      kubernetesGateway:
+        enabled: true
+    certificatesResolvers:
+      letsencrypt:
+        acme:
+          email: jake@jakerob.pro
+          storage: /data/acme.json
+          httpChallenge:
+            entryPoint: web
+    globalArguments:
+      - "--api.dashboard=true"
+      - "--log.level=INFO"
+      - "--accesslog=true"
+      - "--metrics.prometheus=true"
+    additionalArguments:
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.letsencrypt.acme.email=jake@jakerob.pro"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/data/acme.json"
+    persistence:
+      enabled: true
+      size: 128Mi
+      storageClass: "local-path"
+    securityContext:
+      capabilities:
+        drop: [ALL]
+      readOnlyRootFilesystem: true
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
+    podSecurityContext:
+      fsGroupChangePolicy: "OnRootMismatch"
+      runAsNonRoot: true
