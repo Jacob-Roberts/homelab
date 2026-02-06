@@ -11,3 +11,8 @@ spec:
       services:
         - name: whoami
           port: 80
+    - match: Host(`whoami.lhr1-k.jakerob.pro:30080`)
+      kind: Rule
+      services:
+        - name: whoami
+          port: 80
