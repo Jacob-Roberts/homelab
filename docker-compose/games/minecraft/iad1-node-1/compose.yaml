@@ -20,10 +20,8 @@ services:
       ENABLE_WHITELIST: "false"
       WHITELIST: |
         Po_tato11
-        nitromite
       OPS: |
         Po_tato11
-        nitromite
       ENABLE_RCON: "true"
       MEMORY: "2048M"
       ONLINE_MODE: "false"
