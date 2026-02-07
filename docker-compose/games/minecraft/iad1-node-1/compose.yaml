@@ -28,6 +28,5 @@ services:
       MEMORY: "2048M"
       ONLINE_MODE: "false"
       USE_AIKAR_FLAGS: "true"
-      USE_MEOWICE_FLAGS: "true"
     volumes:
       - ./data:/data
