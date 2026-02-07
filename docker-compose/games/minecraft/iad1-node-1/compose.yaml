@@ -1,0 +1,33 @@
+---
+name: minecraft
+
+services:
+  minecraft:
+    image: docker.io/itzg/minecraft-server
+    container_name: minecraft
+    restart: unless-stopped
+    user: "${DOCKER_USER_ID:-2023}:${DOCKER_GROUP_ID:-2023}"
+    ports:
+      - 25565:25565
+    tty: true
+    stdin_open: true
+    environment:
+      UID: "${DOCKER_USER_ID:-2023}"
+      GID: "${DOCKER_GROUP_ID:-2023}"
+      EULA: "TRUE"
+      DIFFICULTY: "normal"
+      MODE: "survival"
+      ENABLE_WHITELIST: "false"
+      WHITELIST: |
+        Po_tato11
+        nitromite
+      OPS: |
+        Po_tato11
+        nitromite
+      ENABLE_RCON: "true"
+      MEMORY: "2048M"
+      ONLINE_MODE: "false"
+      USE_AIKAR_FLAGS: "true"
+      USE_MEOWICE_FLAGS: "true"
+    volumes:
+      - ./data:/data

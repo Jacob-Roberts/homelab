@@ -132,6 +132,10 @@ service_users:
     additional_groups:
       lhr1-node-1: ["jellyfin"]
     nodes: ["lhr1-node-1"]
+  - name: minecraft
+    uid: 2023
+    gid: 2023
+    nodes: ["iad1-node-1"]
 
 # NFS mount configuration
 nfs_mounts:
