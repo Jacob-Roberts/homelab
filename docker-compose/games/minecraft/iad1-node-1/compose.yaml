@@ -17,7 +17,7 @@ services:
       EULA: "TRUE"
       DIFFICULTY: "normal"
       MODE: "survival"
-      ENABLE_WHITELIST: "false"
+      ENABLE_WHITELIST: "true"
       WHITELIST: |
         Po_tato11
         nitromite
