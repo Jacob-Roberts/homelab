@@ -26,7 +26,7 @@ services:
         nitromite
       ENABLE_RCON: "true"
       MEMORY: "2048M"
-      ONLINE_MODE: "false"
+      ONLINE_MODE: "true"
       USE_AIKAR_FLAGS: "true"
     volumes:
       - ./data:/data
