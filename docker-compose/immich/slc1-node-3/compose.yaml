@@ -13,7 +13,7 @@ volumes:
 
 services:
   immich-server:
-    image: ghcr.io/immich-app/immich-server:v2.5.2
+    image: ghcr.io/immich-app/immich-server:v2.5.5
     container_name: immich_server
     user: "${DOCKER_USER_ID:-2004}:${DOCKER_GROUP_ID:-2004}"
     security_opt:
@@ -54,7 +54,7 @@ services:
       traefik.http.routers.immich-prod-1-https.tls.certresolver: cloudflare
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:v2.5.2
+    image: ghcr.io/immich-app/immich-machine-learning:v2.5.5
         # extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/ml-hardware-acceleration
         #   file: hwaccel.ml.yml
         #   service: cpu # set to one of [armnn, cuda, openvino, openvino-wsl] for accelerated inference - use the `-wsl` version for WSL2 where applicable
