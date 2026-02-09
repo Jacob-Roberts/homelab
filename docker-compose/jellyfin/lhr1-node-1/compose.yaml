@@ -8,6 +8,13 @@ networks:
 volumes:
   cache:
     name: jellyfin_cache
+  config:
+    name: jellyfin_config
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=lhr1-storage-1.jakerob.pro,nfsvers=4.1,soft,nolock,rw
+      device: ":/mnt/default-pool/encrypted/container-volumes/jellyfin_config"
 
 services:
   jellyfin:
@@ -26,7 +33,7 @@ services:
     # devices:
     #   - /dev/dri:/dev/dri
     volumes:
-      - ./config:/config
+      - config:/config
       - cache:/cache
       - /media/jellydata:/jellydata
     # group_add:
