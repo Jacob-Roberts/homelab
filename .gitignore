@@ -21,3 +21,5 @@ packer_cache/
 *.ova
 
 **/mise.local.toml
+
+.infisical.json
