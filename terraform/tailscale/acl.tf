@@ -27,7 +27,7 @@ resource "tailscale_acl" "my_acl" {
 		// I can access everything from my personal devices
 		{
 			"action": "accept",
-			"src":    ["Jacob-Roberts@github"],
+			"src":    ["Jacob-Roberts@github", "jacob-roberts@passkey"],
 			"dst":    ["*:*"],
 		},
 		// Allow all users and apple tvs to use any exit node
