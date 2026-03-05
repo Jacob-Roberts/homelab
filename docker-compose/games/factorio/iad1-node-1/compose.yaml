@@ -18,4 +18,4 @@ services:
       USERNAME: "${USERNAME}"
       TOKEN: "${TOKEN}"
     volumes:
-      - ./data:/factorio
+      - ${DOCKER_DATA_DIR}/factorio/data:/factorio
