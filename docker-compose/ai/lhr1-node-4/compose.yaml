@@ -25,7 +25,7 @@ services:
     networks:
       - frontend
     volumes:
-      - ./openwebui-data:/app/backend/data
+      - ${DOCKER_DATA:-.}/openwebui-data:/app/backend/data:rw
     extra_hosts:
       - host.docker.internal:host-gateway
     labels:

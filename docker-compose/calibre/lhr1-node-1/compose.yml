@@ -18,10 +18,10 @@ services:
     networks:
       - frontend
     volumes:
-      - ./config:/config
+      - ${DOCKER_DATA_DIR:-.}/config:/config
       # This is an ingest dir, NOT a library one. Anything added here will be automatically added to your library according to the settings you have configured in CWA Settings page. All files placed here are REMOVED AFTER PROCESSING
-      - ./ingest:/cwa-book-ingest
-      - ./library:/calibre-library
+      - ${DOCKER_DATA_DIR:-.}/ingest:/cwa-book-ingest
+      - ${DOCKER_DATA_DIR:-.}/library:/calibre-library
     labels:
       traefik.enable: true
       traefik.http.routers.calibre-prod-1-http.entrypoints: web
