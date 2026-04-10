@@ -24,6 +24,16 @@ services:
       ENCRYPTION_KEY: "${ENCRYPTION_KEY}"
       TRUST_PROXY: "${TRUST_PROXY:-true}"
       MAXMIND_LICENSE_KEY: "${MAXMIND_LICENSE_KEY:-}"
+      UI_CONFIG_DISABLED: true
+      SMTP_FROM: "${SMTP_FROM}"
+      SMTP_HOST: "${SMTP_HOST}"
+      SMTP_PASSWORD: "${SMTP_PASSWORD}"
+      SMTP_PORT: "${SMTP_PORT}"
+      SMTP_TLS: "${SMTP_TLS}"
+      SMTP_USER: "${SMTP_USER}"
+      EMAIL_LOGIN_NOTIFICATION_ENABLED: "true"
+      EMAIL_ONE_TIME_ACCESS_AS_ADMIN_ENABLED: "true"
+      EMAIL_API_KEY_EXPIRATION_ENABLED: "true"
     networks:
       - frontend
     volumes:
