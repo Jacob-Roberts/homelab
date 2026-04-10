@@ -288,3 +288,14 @@ resource "cloudflare_dns_record" "resend_srv_txt" {
   type    = "TXT"
   content = "v=spf1 include:amazonses.com ~all"
 }
+
+// ZOHO
+
+resource "cloudflare_dns_record" "zoho_mail" {
+  name    = "@"
+  zone_id = cloudflare_zone.autovation_com.id
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content = "zoho-verification=zb27101284.zmverify.zoho.com"
+}

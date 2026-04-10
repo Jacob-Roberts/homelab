@@ -13,12 +13,12 @@ terraform {
   }
 
     backend "s3" {
-    bucket                      = "jakerob-pro-terraform-state"
+    bucket                      = "jakerob-pro-terraform-state-2"
     key                         = "cloudflare/autovation.com.json"
     skip_credentials_validation = true
     skip_region_validation      = true
     endpoint                    = "https://s3.us-west-002.backblazeb2.com"
-    region                      = "us-west-004"
+    region                      = "us-west-002"
     # access_key                  = env(AWS_ACCESS_KEY_ID) (backblaze keyID)
     # secret_key                  = env(AWS_SECRET_ACCESS_KEY) (backblaze applicationKey)
     encrypt                     = true
