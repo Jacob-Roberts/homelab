@@ -238,7 +238,7 @@ resource "cloudflare_dns_record" "SPF1_autovation" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "\"v=spf1 include:_spf.google.com ~all\""
+  content = "\"v=spf1 include:zohomail.com include:_spf.google.com ~all\""
 }
 
 resource "cloudflare_dns_record" "DKIM_autovation" {
