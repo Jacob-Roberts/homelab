@@ -7,6 +7,12 @@ networks:
   internal:
     external: false
 
+volumes:
+  db-data:
+  event-data:
+  event-logs:
+  plausible-data:
+
 services:
   plausible_db:
     # Plausible v2.0.0 was tested against PostgreSQL versions 12, 13, and 14
@@ -23,7 +29,7 @@ services:
     networks:
       - internal
     volumes:
-      - ./db-data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
 
   plausible_events_db:
     image: docker.io/clickhouse/clickhouse-server:24.12-alpine
@@ -38,8 +44,8 @@ services:
     networks:
       - internal
     volumes:
-      - ./event-data:/var/lib/clickhouse
-      - ./event-logs:/var/log/clickhouse-server
+      - event-data:/var/lib/clickhouse
+      - event-logs:/var/log/clickhouse-server
       - ./clickhouse/logs.xml:/etc/clickhouse-server/config.d/logs.xml:ro
       # This makes ClickHouse bind to IPv4 only, since Docker doesn't enable IPv6 in bridge networks by default.
       # Fixes "Listen [::]:9000 failed: Address family for hostname not supported" warnings.
@@ -85,7 +91,7 @@ services:
       - frontend
       - internal
     volumes:
-      - ./plausible-data:/var/lib/plausible
+      - plausible-data:/var/lib/plausible
     ulimits:
       nofile:
         soft: 65535
