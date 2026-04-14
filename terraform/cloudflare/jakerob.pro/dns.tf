@@ -711,17 +711,17 @@ resource "cloudflare_dns_record" "factorio" {
 }
 
 resource "cloudflare_dns_record" "factorio_srv" {
-  name    = "_factorio._udp.factorio.jakerob.pro"
-  zone_id = cloudflare_zone.jakerob_pro.id
-  proxied = false
-  ttl     = 1
+  name     = "_factorio._udp.factorio.jakerob.pro"
+  zone_id  = cloudflare_zone.jakerob_pro.id
+  proxied  = false
+  ttl      = 1
   priority = 0
-  type    = "SRV"
+  type     = "SRV"
   data = {
-    port = 34197
+    port     = 34197
     priority = 0
-    weight = 0
-    target = "factorio.jakerob.pro"
+    weight   = 0
+    target   = "factorio.jakerob.pro"
   }
 }
 
@@ -909,7 +909,7 @@ resource "cloudflare_dns_record" "lhr1-node-6" {
 }
 
 resource "cloudflare_dns_record" "lhr1-kubernetes-catch-all" {
-  name = "*.lhr1-k.jakerob.pro"
+  name    = "*.lhr1-k.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
   proxied = false
   ttl     = 1
