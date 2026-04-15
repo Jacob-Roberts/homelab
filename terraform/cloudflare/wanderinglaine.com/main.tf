@@ -3,29 +3,45 @@
 # Initial Provider Configuration for Cloudflare
 
 terraform {
-  required_version = ">= 0.13.0"
+  required_version = ">= 1.11.0"
 
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
       version = "~> 5.3"
     }
+
+    infisical = {
+      source  = "infisical/infisical"
+      version = "~> 0.16.15"
+    }
   }
 
   backend "s3" {
-    bucket                      = "jakerob-pro-terraform-state"
-    key                         = "cloudflare/wanderinglaine.com.json"
+    bucket                      = "jakerob-pro-terraform-state-2"
+    key                         = "cloudflare/wanderinglaine.json"
     skip_credentials_validation = true
     skip_region_validation      = true
     endpoint                    = "https://s3.us-west-002.backblazeb2.com"
-    region                      = "us-west-004"
+    region                      = "us-west-002"
     # access_key                  = env(AWS_ACCESS_KEY_ID) (backblaze keyID)
     # secret_key                  = env(AWS_SECRET_ACCESS_KEY) (backblaze applicationKey)
-    encrypt                     = true
+    encrypt = true
     # sse_customer_key            = env(AWS_SSE_CUSTOMER_KEY) (openssl rand -base64 32)
   }
 }
 
 provider "cloudflare" {
-  api_token = var.cloudflare_api_token
+  api_token = ephemeral.infisical_secret.cloudflare_api_token.value
+}
+
+provider "infisical" {
+  host = "https://app.infisical.com"
+
+  auth = {
+    universal = {
+      client_id     = var.infisical_client_id
+      client_secret = var.infisical_client_secret
+    }
+  }
 }
