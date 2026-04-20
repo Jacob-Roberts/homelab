@@ -414,7 +414,7 @@ resource "cloudflare_dns_record" "DMARC" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "v=DMARC1;p=reject;rua=mailto:9f5383a0b0@rua.easydmarc.us;ruf=mailto:9f5383a0b0@ruf.easydmarc.us;fo=1;"
+  content = "\"v=DMARC1;p=reject;rua=mailto:9f5383a0b0@rua.easydmarc.us;ruf=mailto:9f5383a0b0@ruf.easydmarc.us;fo=1;\""
 }
 
 resource "cloudflare_dns_record" "resend" {
@@ -423,7 +423,7 @@ resource "cloudflare_dns_record" "resend" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlMd9zYib1bBHY+6i05IKnqIUDhR25u8FG+XA7pen3x3Rdhtyi1aINvKbwcdRTuididreQJAzmigYPkFupkCAjj3E+Z7axYw7OPVzNFqOUs+nSef49l2PFaN9aTf/61UwAodRF7eFV1c8ZCiYv5ojVEuabofBPCiKOjEF3v9gxwwIDAQAB"
+  content = "\"p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlMd9zYib1bBHY+6i05IKnqIUDhR25u8FG+XA7pen3x3Rdhtyi1aINvKbwcdRTuididreQJAzmigYPkFupkCAjj3E+Z7axYw7OPVzNFqOUs+nSef49l2PFaN9aTf/61UwAodRF7eFV1c8ZCiYv5ojVEuabofBPCiKOjEF3v9gxwwIDAQAB\""
 }
 
 resource "cloudflare_dns_record" "send" {
@@ -432,7 +432,7 @@ resource "cloudflare_dns_record" "send" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "v=spf1 include:amazonses.com ~all"
+  content = "\"v=spf1 include:amazonses.com ~all\""
 }
 
 
@@ -472,7 +472,7 @@ resource "cloudflare_dns_record" "SPF" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "v=spf1 include:zohomail.com ~all"
+  content = "\"v=spf1 include:zohomail.com ~all\""
 }
 
 resource "cloudflare_dns_record" "zoho-verification" {
@@ -481,7 +481,7 @@ resource "cloudflare_dns_record" "zoho-verification" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "zoho-verification=zb40496945.zmverify.zoho.com"
+  content = "\"zoho-verification=zb40496945.zmverify.zoho.com\""
 }
 
 resource "cloudflare_dns_record" "zmail-_domainkey" {
@@ -859,7 +859,7 @@ resource "cloudflare_dns_record" "_acme-challenge-traefik-tunnel-lhr12" {
   proxied = false
   ttl     = 120
   type    = "TXT"
-  content = "cocrI7O8eQTznLTjxNU893UG0hD8mttFUXACE22ne-U"
+  content = "\"cocrI7O8eQTznLTjxNU893UG0hD8mttFUXACE22ne-U\""
 }
 
 resource "cloudflare_dns_record" "_atproto" {
@@ -878,7 +878,7 @@ resource "cloudflare_dns_record" "docker-node-2-lhr1" {
   proxied = false
   ttl     = 120
   type    = "TXT"
-  content = "S4aCW3ZO18lffYiT6b9bv4ZS29UmIGU0hjHNP9vLQOc"
+  content = "\"S4aCW3ZO18lffYiT6b9bv4ZS29UmIGU0hjHNP9vLQOc\""
 }
 
 resource "cloudflare_dns_record" "lhr1-node-5" {
