@@ -683,6 +683,15 @@ resource "cloudflare_dns_record" "it-tools" {
   content = "iad1-node-1.jakerob.pro"
 }
 
+resource "cloudflare_dns_record" "convertx" {
+  name    = "convert.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "iad1-node-1.jakerob.pro"
+}
+
 resource "cloudflare_dns_record" "mealie" {
   name    = "mealie.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
