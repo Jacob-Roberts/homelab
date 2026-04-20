@@ -1,0 +1,32 @@
+---
+
+networks:
+  frontend:
+    external: true
+
+volumes:
+  data:
+
+services:
+  convertx:
+    image: ghcr.io/c4illin/convertx:v0.17.0
+    user: "${CONVERTX_SRV_ID:-2025}:${CONVERTX_GROUP_ID:-2025}"
+    container_name: convertx
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      - data:/app/data
+    networks:
+      - frontend
+    labels:
+      traefik.enable: true
+      traefik.external: true
+      traefik.http.routers.convertx-prod-1-http.entrypoints: web
+      traefik.http.routers.convertx-prod-1-http.rule: Host(`convert.jakerob.pro`)
+      traefik.http.routers.convertx-prod-1-https.entrypoints: websecure
+      traefik.http.routers.convertx-prod-1-https.rule: Host(`convert.jakerob.pro`)
+      traefik.http.routers.convertx-prod-1-https.tls: true
+      traefik.http.routers.convertx-prod-1-https.tls.certresolver: production
