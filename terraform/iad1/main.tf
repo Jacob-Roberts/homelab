@@ -6,11 +6,6 @@ terraform {
       source  = "oracle/oci"
       version = "~> 6.35"
     }
-
-    infisical = {
-      source  = "infisical/infisical"
-      version = "~> 0.16.15"
-    }
   }
 
   backend "s3" {
@@ -30,20 +25,9 @@ terraform {
 
 provider "oci" {
   auth         = "ApiKey"
-  tenancy_ocid = ephemeral.infisical_secret.tenancy_ocid.value
-  user_ocid    = ephemeral.infisical_secret.user_ocid.value
-  private_key  = ephemeral.infisical_secret.rsa_private_key.value
-  fingerprint  = ephemeral.infisical_secret.fingerprint.value
+  tenancy_ocid = var.tenancy_ocid
+  user_ocid    = var.user_ocid
+  private_key  = var.rsa_private_key
+  fingerprint  = var.fingerprint
   region       = var.region
-}
-
-provider "infisical" {
-  host = "https://app.infisical.com"
-
-  auth = {
-    universal = {
-      client_id     = var.infisical_client_id
-      client_secret = var.infisical_client_secret
-    }
-  }
 }

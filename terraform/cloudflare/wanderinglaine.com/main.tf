@@ -10,11 +10,6 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 5.3"
     }
-
-    infisical = {
-      source  = "infisical/infisical"
-      version = "~> 0.16.15"
-    }
   }
 
   backend "s3" {
@@ -32,16 +27,5 @@ terraform {
 }
 
 provider "cloudflare" {
-  api_token = ephemeral.infisical_secret.cloudflare_api_token.value
-}
-
-provider "infisical" {
-  host = "https://app.infisical.com"
-
-  auth = {
-    universal = {
-      client_id     = var.infisical_client_id
-      client_secret = var.infisical_client_secret
-    }
-  }
+  api_token = var.cloudflare_api_token
 }
