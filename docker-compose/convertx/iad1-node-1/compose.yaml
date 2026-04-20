@@ -41,7 +41,7 @@ services:
     image: alpine
     command:
       - |
-        chown -R ${CONVERTX_SRV_ID:-2008}:${CONVERTX_GROUP_ID:-2008} /app/data
+        chown -R ${CONVERTX_SRV_ID:-2025}:${CONVERTX_GROUP_ID:-2025} /app/data
     networks: []
     volumes:
       - data:/app/data
