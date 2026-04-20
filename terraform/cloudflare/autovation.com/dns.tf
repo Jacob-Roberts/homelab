@@ -247,7 +247,7 @@ resource "cloudflare_dns_record" "DKIM_autovation" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmayEOPZ+ojneaEM6YT+rkvv9MA7Kggo/wlObPlUaE5XSWBju6bmmwk7vO7tYNZPgvct88Raop3D6vHOauP4sfsQxIiS+tclNyxSuMkia3K81dmvYzP1Ncys+aoGJgH72DcqiKrbr+AJi7+pIKewxxEdjejrzKbH1A4362lI0KmsXUh0tUpanEtYfGT0oz42TA1z3tA/c4AiWkdM61NIpQKuYN6tfTv7SnbAD3HMSvMOAie6/sWh3XUZKCqr8m6aoewnuFGfPqVF+NcCLrqVObDrZWCVC/Bn3AuFU+iEpjxXmKPEUoEvfgIVJX8t1wHloiuGml4of1d5aPG+A8mhJ9wIDAQAB"
+  content = "\"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmayEOPZ+ojneaEM6YT+rkvv9MA7Kggo/wlObPlUaE5XSWBju6bmmwk7vO7tYNZPgvct88Raop3D6vHOauP4sfsQxIiS+tclNyxSuMkia3K81dmvYzP1Ncys+aoGJgH72DcqiKrbr+AJi7+pIKewxxEdjejrzKbH1A4362lI0KmsXUh0tUpanEtYfGT0oz42TA1z3tA/c4AiWkdM61NIpQKuYN6tfTv7SnbAD3HMSvMOAie6/sWh3XUZKCqr8m6aoewnuFGfPqVF+NcCLrqVObDrZWCVC/Bn3AuFU+iEpjxXmKPEUoEvfgIVJX8t1wHloiuGml4of1d5aPG+A8mhJ9wIDAQAB\""
 }
 
 resource "cloudflare_dns_record" "DKIM_zoho" {
@@ -276,7 +276,7 @@ resource "cloudflare_dns_record" "resend_domain_key" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7F0zQnrEOxTPgdgtAEh5ndwH5Bevre75iBeL29omZFjJaq3Etq5fGZIufk45uyBGZsMqkfDBQ0qAgukgpKrGxryYRGa2whNhwQ315lX/5xww56MWpeHwgWbKCIgDhZByz1CgKGmWd5V45uUc6qqiTP2SBgH5Ll6WWAU446Hr4PQIDAQAB"
+  content = "\"p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7F0zQnrEOxTPgdgtAEh5ndwH5Bevre75iBeL29omZFjJaq3Etq5fGZIufk45uyBGZsMqkfDBQ0qAgukgpKrGxryYRGa2whNhwQ315lX/5xww56MWpeHwgWbKCIgDhZByz1CgKGmWd5V45uUc6qqiTP2SBgH5Ll6WWAU446Hr4PQIDAQAB\""
 }
 
 resource "cloudflare_dns_record" "resend_srv" {
@@ -295,7 +295,7 @@ resource "cloudflare_dns_record" "resend_srv_txt" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "v=spf1 include:amazonses.com ~all"
+  content = "\"v=spf1 include:amazonses.com ~all\""
 }
 
 // ZOHO
@@ -306,5 +306,5 @@ resource "cloudflare_dns_record" "zoho_mail" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "zoho-verification=zb27101284.zmverify.zoho.com"
+  content = "\"zoho-verification=zb27101284.zmverify.zoho.com\""
 }
