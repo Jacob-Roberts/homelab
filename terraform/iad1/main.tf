@@ -1,30 +1,49 @@
 terraform {
+  required_version = ">= 1.11.0"
+
   required_providers {
     oci = {
       source  = "oracle/oci"
       version = "~> 6.35"
     }
+
+    infisical = {
+      source  = "infisical/infisical"
+      version = "~> 0.16.15"
+    }
   }
 
   backend "s3" {
-    bucket                      = "jakerob-pro-terraform-state"
+    bucket                      = "jakerob-pro-terraform-state-2"
     key                         = "iad1.json"
     skip_credentials_validation = true
     skip_region_validation      = true
     endpoint                    = "https://s3.us-west-002.backblazeb2.com"
-    region                      = "us-west-004"
+    region                      = "us-west-002"
     # access_key                  = env(AWS_ACCESS_KEY_ID) (backblaze keyID)
     # secret_key                  = env(AWS_SECRET_ACCESS_KEY) (backblaze applicationKey)
-    encrypt                     = true
+    encrypt = true
     # sse_customer_key            = env(AWS_SSE_CUSTOMER_KEY) (openssl rand -base64 32)
   }
 }
 
 
 provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  private_key_path = var.rsa_private_key_path
-  fingerprint      = var.fingerprint
-  region           = var.region
+  auth         = "ApiKey"
+  tenancy_ocid = ephemeral.infisical_secret.tenancy_ocid.value
+  user_ocid    = ephemeral.infisical_secret.user_ocid.value
+  private_key  = ephemeral.infisical_secret.rsa_private_key.value
+  fingerprint  = ephemeral.infisical_secret.fingerprint.value
+  region       = var.region
+}
+
+provider "infisical" {
+  host = "https://app.infisical.com"
+
+  auth = {
+    universal = {
+      client_id     = var.infisical_client_id
+      client_secret = var.infisical_client_secret
+    }
+  }
 }

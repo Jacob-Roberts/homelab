@@ -34,7 +34,6 @@ variable "infisical_client_secret" {
 variable "infisical_project_id" {
   description = "Infisical Project ID (formerly workspace_id)"
   type        = string
-  default     = "f3732b81-3a85-430d-a547-43b85c363ad6"
 }
 
 variable "infisical_env_slug" {
