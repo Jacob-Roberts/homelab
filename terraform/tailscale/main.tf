@@ -8,11 +8,6 @@ terraform {
       source  = "tailscale/tailscale"
       version = "~> 0.19.0"
     }
-
-    infisical = {
-      source  = "infisical/infisical"
-      version = "~> 0.16.15"
-    }
   }
 
   backend "s3" {
@@ -30,17 +25,6 @@ terraform {
 }
 
 provider "tailscale" {
-  oauth_client_id     = ephemeral.infisical_secret.tailscale_oauth_client_id.value
-  oauth_client_secret = ephemeral.infisical_secret.tailscale_oauth_client_secret.value
-}
-
-provider "infisical" {
-  host = "https://app.infisical.com"
-
-  auth = {
-    universal = {
-      client_id     = var.infisical_client_id
-      client_secret = var.infisical_client_secret
-    }
-  }
+  oauth_client_id     = var.tailscale_oauth_client_id
+  oauth_client_secret = var.tailscale_oauth_client_secret
 }
