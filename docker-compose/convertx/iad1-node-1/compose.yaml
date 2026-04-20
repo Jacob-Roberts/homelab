@@ -17,6 +17,9 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
+    depends_on:
+      chown:
+        condition: service_completed_successfully
     environment:
       - JWT_SECRET=${JWT_SECRET}
     volumes:
@@ -32,3 +35,14 @@ services:
       traefik.http.routers.convertx-prod-1-https.rule: Host(`convert.jakerob.pro`)
       traefik.http.routers.convertx-prod-1-https.tls: true
       traefik.http.routers.convertx-prod-1-https.tls.certresolver: production
+
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: alpine
+    command:
+      - |
+        chown -R ${CONVERTX_SRV_ID:-2008}:${CONVERTX_GROUP_ID:-2008} /app/data
+    networks: []
+    volumes:
+      - data:/app/data
+    entrypoint: [/bin/ash, "-c"]
