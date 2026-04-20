@@ -1,8 +1,7 @@
-import dns from "./dns.json";
 const util = require("node:util");
 const exec = util.promisify(require("node:child_process").exec);
 
-async function tofuImport(
+export async function tofuImport(
   item,
   domain = "jakerob.pro",
   zoneID = "6e98165e20ed0ba1b018f543c6ab4285",
@@ -34,7 +33,4 @@ async function tofuImport(
   console.error(`stderr: ${stderr}`);
 }
 
-const results = dns.result;
-for (let data of results) {
-  await tofuImport(data, "jakerob.pro", "notIncluded");
-}
+

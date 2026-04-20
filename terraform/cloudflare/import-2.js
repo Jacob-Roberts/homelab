@@ -1,7 +1,6 @@
-import dns from "./dns.json";
 import fs from "node:fs/promises";
 
-async function createTerraformRecord(
+export async function createTerraformRecord(
   item,
   output = "./dns.tf",
   domain = "jakerob.pro",
@@ -39,14 +38,4 @@ resource "cloudflare_dns_record" "${nameID}" {
 }
 `;
   await fs.appendFile(output, data);
-}
-
-const results = dns.result;
-for (let data of results) {
-  await createTerraformRecord(
-    data,
-    "./dns-new.tf",
-    "jakerob.pro",
-    "jakerob_pro",
-  );
 }

@@ -283,15 +283,6 @@ resource "cloudflare_dns_record" "lhr1-node-3" {
   content = "192.168.42.13"
 }
 
-resource "cloudflare_dns_record" "lhr1-node-4" {
-  name    = "lhr1-node-4.jakerob.pro"
-  zone_id = cloudflare_zone.jakerob_pro.id
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  content = "192.168.42.156"
-}
-
 resource "cloudflare_dns_record" "lhr1-dev-1" {
   name    = "lhr1-dev-1.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
@@ -375,15 +366,6 @@ resource "cloudflare_dns_record" "lhr1_catch_all" {
   ttl     = 1
   type    = "CNAME"
   content = "lhr1-node-1.jakerob.pro"
-}
-
-resource "cloudflare_dns_record" "lhr1-node-4_catch_all" {
-  name    = "*.lhr1-4.jakerob.pro"
-  zone_id = cloudflare_zone.jakerob_pro.id
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "lhr1-node-4.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "lhr1-nut-1" {
@@ -508,7 +490,7 @@ resource "cloudflare_dns_record" "zmail-_domainkey" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC496gruPELcl8TYnoCGcw4CVgVBX8iSaHwNL5VurwSY7WpQxbdRsBGObnnIsVVmV8jlSR7Of81W/zAuM4gOe/y+J667bJ3tKeuz0FImKjuMBVn0nSWKB4qy7Y0T9b2iTD3zZH1IzrQlzMsF1oLidk+5ch+MUH2W2TEa0aBQaP6IwIDAQAB"
+  content = "\"v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC496gruPELcl8TYnoCGcw4CVgVBX8iSaHwNL5VurwSY7WpQxbdRsBGObnnIsVVmV8jlSR7Of81W/zAuM4gOe/y+J667bJ3tKeuz0FImKjuMBVn0nSWKB4qy7Y0T9b2iTD3zZH1IzrQlzMsF1oLidk+5ch+MUH2W2TEa0aBQaP6IwIDAQAB\""
 }
 
 resource "cloudflare_dns_record" "sgu1-node-1" {
