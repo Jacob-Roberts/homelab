@@ -6,6 +6,8 @@
 **/.envrc
 **/.env
 
+.devcontainer/devcontainer-lock.json
+
 **/.terraform
 **/.terraform.tfstate.*
 **/terraform.tfstate

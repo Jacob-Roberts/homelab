@@ -187,8 +187,8 @@ resource "cloudflare_dns_record" "iad1_catch_all" {
 //      IAD1 VPN      //
 ////////////////////////
 
-resource "cloudflare_dns_record" "iad1-vpn-node-1" {
-  name    = "iad1-vpn-node-1.jakerob.pro"
+resource "cloudflare_dns_record" "iad1-node-1-vpn" {
+  name    = "iad1-node-1.vpn.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
   proxied = false
   ttl     = 1
@@ -196,8 +196,8 @@ resource "cloudflare_dns_record" "iad1-vpn-node-1" {
   content = "100.109.65.68"
 }
 
-resource "cloudflare_dns_record" "iad1-vpn-node-2" {
-  name    = "iad1-vpn-node-2.jakerob.pro"
+resource "cloudflare_dns_record" "iad1-node-2-vpn" {
+  name    = "iad1-node-2.vpn.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
   proxied = false
   ttl     = 1
@@ -205,8 +205,8 @@ resource "cloudflare_dns_record" "iad1-vpn-node-2" {
   content = "100.107.169.91"
 }
 
-resource "cloudflare_dns_record" "iad1-vpn-node-3" {
-  name    = "iad1-vpn-node-3.jakerob.pro"
+resource "cloudflare_dns_record" "iad1-node-3-vpn" {
+  name    = "iad1-node-3.vpn.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
   proxied = false
   ttl     = 1
@@ -220,7 +220,7 @@ resource "cloudflare_dns_record" "iad1_vpn_catch_all" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content = "iad1-vpn-node-1.jakerob.pro"
+  content = "iad1-node-1.vpn.jakerob.pro"
 }
 
 ////////////////////////
