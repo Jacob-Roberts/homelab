@@ -39,12 +39,15 @@ services:
       retries: 3
       start_period: 5s
     ports:
-      - "${HOST_IP:-192.168.42.2}:80:80/tcp"
-      - "${HOST_IP:-192.168.42.2}:443:443/tcp"
-      - "${HOST_IP:-192.168.42.2}:443:443/udp"
+      - "${HOST_IP_V4}:80:80/tcp"
+      - "${HOST_IP_V4}:443:443/tcp"
+      - "${HOST_IP_V4}:443:443/udp"
+      - "${HOST_IP_V6}:80:80/tcp"
+      - "${HOST_IP_V6}:443:443/tcp"
+      - "${HOST_IP_V6}:443:443/udp"
     environment:
       CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
-      TZ: "${TZ:-Europe/London}"
+      TZ: "${TZ:-UTC}"
     networks:
       - frontend
       - internal
