@@ -16,9 +16,9 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.static-prod-1-http.entrypoints: web
-      traefik.http.routers.static-prod-1-http.rule: Host(`static.lhr1.jakerob.pro`)
+      traefik.http.routers.static-prod-1-http.rule: Host(`${STATIC_URL:-static.lhr1.jakerob.pro}`)
       traefik.http.routers.static-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.static-prod-1-https.entrypoints: websecure
-      traefik.http.routers.static-prod-1-https.rule: Host(`static.lhr1.jakerob.pro`)
+      traefik.http.routers.static-prod-1-https.rule: Host(`${STATIC_URL:-static.lhr1.jakerob.pro}`)
       traefik.http.routers.static-prod-1-https.tls: true
       traefik.http.routers.static-prod-1-https.tls.certresolver: cloudflare

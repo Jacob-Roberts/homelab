@@ -36,10 +36,10 @@ services:
       traefik.enable: true
       traefik.http.services.webnut-prod-1.loadBalancer.server.port: 9000
       traefik.http.routers.webnut-prod-1-http.entrypoints: web
-      traefik.http.routers.webnut-prod-1-http.rule: Host(`webnut.lhr1.jakerob.pro`)
+      traefik.http.routers.webnut-prod-1-http.rule: Host(`${WEBNUT_URL:-webnut.lhr1.jakerob.pro}`)
       traefik.http.routers.webnut-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.webnut-prod-1-https.entrypoints: websecure
-      traefik.http.routers.webnut-prod-1-https.rule: Host(`webnut.lhr1.jakerob.pro`)
+      traefik.http.routers.webnut-prod-1-https.rule: Host(`${WEBNUT_URL:-webnut.lhr1.jakerob.pro}`)
       traefik.http.routers.webnut-prod-1-https.tls: true
       traefik.http.routers.webnut-prod-1-https.tls.certresolver: cloudflare
 

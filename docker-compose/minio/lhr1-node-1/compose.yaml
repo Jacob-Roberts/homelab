@@ -21,22 +21,22 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.minioweb-prod-1-http.entrypoints: web
-      traefik.http.routers.minioweb-prod-1-http.rule: Host(`minio.lhr1.jakerob.pro`)
+      traefik.http.routers.minioweb-prod-1-http.rule: Host(`${MINIO_URL:-minio.lhr1.jakerob.pro}`)
       traefik.http.routers.minioweb-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.minioweb-prod-1-http.service: minioweb-prod-1
       traefik.http.routers.minioweb-prod-1-https.entrypoints: websecure
-      traefik.http.routers.minioweb-prod-1-https.rule: Host(`minio.lhr1.jakerob.pro`)
+      traefik.http.routers.minioweb-prod-1-https.rule: Host(`${MINIO_URL:-minio.lhr1.jakerob.pro}`)
       traefik.http.routers.minioweb-prod-1-https.service: minioweb-prod-1
       traefik.http.routers.minioweb-prod-1-https.tls: true
       traefik.http.routers.minioweb-prod-1-https.tls.certresolver: cloudflare
       traefik.http.services.minioweb-prod-1.loadBalancer.server.port: 9001
 
       traefik.http.routers.minioapi-prod-1-http.entrypoints: web
-      traefik.http.routers.minioapi-prod-1-http.rule: Host(`minioapi.lhr1.jakerob.pro`)
+      traefik.http.routers.minioapi-prod-1-http.rule: Host(`${MINIOAPI_URL:-minioapi.lhr1.jakerob.pro}`)
       traefik.http.routers.minioapi-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.minioapi-prod-1-http.service: minioapi-prod-1
       traefik.http.routers.minioapi-prod-1-https.entrypoints: websecure
-      traefik.http.routers.minioapi-prod-1-https.rule: Host(`minioapi.lhr1.jakerob.pro`)
+      traefik.http.routers.minioapi-prod-1-https.rule: Host(`${MINIOAPI_URL:-minioapi.lhr1.jakerob.pro}`)
       traefik.http.routers.minioapi-prod-1-https.service: minioapi-prod-1
       traefik.http.routers.minioapi-prod-1-https.tls: true
       traefik.http.routers.minioapi-prod-1-https.tls.certresolver: cloudflare

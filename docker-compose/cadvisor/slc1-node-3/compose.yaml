@@ -24,6 +24,6 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.cadvisor-prod-1.entrypoints: websecure
-      traefik.http.routers.cadvisor-prod-1.rule: Host(`cadvisor.slc1.jakerob.pro`)
+      traefik.http.routers.cadvisor-prod-1.rule: Host(`${CADVISOR_URL:-cadvisor.slc1.jakerob.pro}`)
       traefik.http.routers.cadvisor-prod-1.tls: true
       traefik.http.routers.cadvisor-prod-1.tls.certresolver: cloudflare

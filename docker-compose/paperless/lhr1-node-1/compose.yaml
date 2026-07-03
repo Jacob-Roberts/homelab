@@ -62,9 +62,9 @@ services:
       traefik.docker.network: frontend
       traefik.http.services.paperless-prod-1.loadBalancer.server.port: 8000
       traefik.http.routers.paperless-prod-1-http.entrypoints: web
-      traefik.http.routers.paperless-prod-1-http.rule: Host(`paperless.lhr1.jakerob.pro`)
+      traefik.http.routers.paperless-prod-1-http.rule: Host(`${PAPERLESS_URL:-paperless.lhr1.jakerob.pro}`)
       traefik.http.routers.paperless-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.paperless-prod-1-https.entrypoints: websecure
-      traefik.http.routers.paperless-prod-1-https.rule: Host(`paperless.lhr1.jakerob.pro`)
+      traefik.http.routers.paperless-prod-1-https.rule: Host(`${PAPERLESS_URL:-paperless.lhr1.jakerob.pro}`)
       traefik.http.routers.paperless-prod-1-https.tls: true
       traefik.http.routers.paperless-prod-1-https.tls.certresolver: cloudflare

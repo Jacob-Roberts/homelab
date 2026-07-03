@@ -20,10 +20,10 @@ services:
       traefik.docker.network: frontend
       traefik.http.services.nextjsrenderingdemo-demo-1.loadBalancer.server.port: 3000
       traefik.http.routers.nextjsrenderingdemo-demo-1-http.entrypoints: web
-      traefik.http.routers.nextjsrenderingdemo-demo-1-http.rule: Host(`nextjsrenderingdemo.iad1.jakerob.pro`)
+      traefik.http.routers.nextjsrenderingdemo-demo-1-http.rule: Host(`${NEXTJSRENDERINGDEMO_URL:-nextjsrenderingdemo.iad1.jakerob.pro}`)
       traefik.http.routers.nextjsrenderingdemo-demo-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.nextjsrenderingdemo-demo-1-https.entrypoints: websecure
-      traefik.http.routers.nextjsrenderingdemo-demo-1-https.rule: Host(`nextjsrenderingdemo.iad1.jakerob.pro`)
+      traefik.http.routers.nextjsrenderingdemo-demo-1-https.rule: Host(`${NEXTJSRENDERINGDEMO_URL:-nextjsrenderingdemo.iad1.jakerob.pro}`)
       traefik.http.routers.nextjsrenderingdemo-demo-1-https.tls: true
       traefik.http.routers.nextjsrenderingdemo-demo-1-https.tls.certresolver: production
 
@@ -41,10 +41,10 @@ services:
       traefik.docker.network: frontend
       traefik.http.services.nextjsrenderingdemocdn-demo-1.loadBalancer.server.port: 3000
       traefik.http.routers.nextjsrenderingdemocdn-demo-1-http.entrypoints: web
-      traefik.http.routers.nextjsrenderingdemocdn-demo-1-http.rule: "Host(`nextjsrenderingdemo-cdn.iad1.jakerob.pro`) || ( Host(`cdn.jakerob.pro`) && PathPrefix(`/_next/static`) )"
+      traefik.http.routers.nextjsrenderingdemocdn-demo-1-http.rule: "Host(`${NEXTJSRENDERINGDEMO_CDN_URL:-nextjsrenderingdemo-cdn.iad1.jakerob.pro}`) || ( Host(`${CDN_URL:-cdn.jakerob.pro}`) && PathPrefix(`/_next/static`) )"
       traefik.http.routers.nextjsrenderingdemocdn-demo-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.nextjsrenderingdemocdn-demo-1-https.entrypoints: websecure
-      traefik.http.routers.nextjsrenderingdemocdn-demo-1-https.rule: "Host(`nextjsrenderingdemo-cdn.iad1.jakerob.pro`) || ( Host(`cdn.jakerob.pro`) && PathPrefix(`/_next/static`) )"
+      traefik.http.routers.nextjsrenderingdemocdn-demo-1-https.rule: "Host(`${NEXTJSRENDERINGDEMO_CDN_URL:-nextjsrenderingdemo-cdn.iad1.jakerob.pro}`) || ( Host(`${CDN_URL:-cdn.jakerob.pro}`) && PathPrefix(`/_next/static`) )"
       traefik.http.routers.nextjsrenderingdemocdn-demo-1-https.tls: true
       traefik.http.routers.nextjsrenderingdemocdn-demo-1-https.tls.certresolver: production
       "traefik.http.routers.nextjsrenderingdemocdn-demo-1-https.tls.domains[0].main": nextjsrenderingdemo-cdn.iad1.jakerob.pro
@@ -63,10 +63,10 @@ services:
       traefik.docker.network: frontend
       traefik.http.services.nextjsrenderingdemoppr-demo-1.loadBalancer.server.port: 3000
       traefik.http.routers.nextjsrenderingdemoppr-demo-1-http.entrypoints: web
-      traefik.http.routers.nextjsrenderingdemoppr-demo-1-http.rule: Host(`nextjsrenderingdemo-ppr.iad1.jakerob.pro`)
+      traefik.http.routers.nextjsrenderingdemoppr-demo-1-http.rule: Host(`${NEXTJSRENDERINGDEMO_PPR_URL:-nextjsrenderingdemo-ppr.iad1.jakerob.pro}`)
       traefik.http.routers.nextjsrenderingdemoppr-demo-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.nextjsrenderingdemoppr-demo-1-https.entrypoints: websecure
-      traefik.http.routers.nextjsrenderingdemoppr-demo-1-https.rule: Host(`nextjsrenderingdemo-ppr.iad1.jakerob.pro`)
+      traefik.http.routers.nextjsrenderingdemoppr-demo-1-https.rule: Host(`${NEXTJSRENDERINGDEMO_PPR_URL:-nextjsrenderingdemo-ppr.iad1.jakerob.pro}`)
       traefik.http.routers.nextjsrenderingdemoppr-demo-1-https.tls: true
       traefik.http.routers.nextjsrenderingdemoppr-demo-1-https.tls.certresolver: production
 
@@ -84,10 +84,10 @@ services:
       traefik.docker.network: frontend
       traefik.http.services.nextjsrenderingdemopprcdn-demo-1.loadBalancer.server.port: 3000
       traefik.http.routers.nextjsrenderingdemopprcdn-demo-1-http.entrypoints: web
-      traefik.http.routers.nextjsrenderingdemopprcdn-demo-1-http.rule: "Host(`nextjsrenderingdemo-pprcdn.iad1.jakerob.pro`) || ( Host(`cdn-ppr.jakerob.pro`) && PathPrefix(`/_next/static`) )"
+      traefik.http.routers.nextjsrenderingdemopprcdn-demo-1-http.rule: "Host(`${NEXTJSRENDERINGDEMO_PPRCDN_URL:-nextjsrenderingdemo-pprcdn.iad1.jakerob.pro}`) || ( Host(`${CDN_PPR_URL:-cdn-ppr.jakerob.pro}`) && PathPrefix(`/_next/static`) )"
       traefik.http.routers.nextjsrenderingdemopprcdn-demo-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.nextjsrenderingdemopprcdn-demo-1-https.entrypoints: websecure
-      traefik.http.routers.nextjsrenderingdemopprcdn-demo-1-https.rule: "Host(`nextjsrenderingdemo-pprcdn.iad1.jakerob.pro`) || ( Host(`cdn-ppr.jakerob.pro`) && PathPrefix(`/_next/static`) )"
+      traefik.http.routers.nextjsrenderingdemopprcdn-demo-1-https.rule: "Host(`${NEXTJSRENDERINGDEMO_PPRCDN_URL:-nextjsrenderingdemo-pprcdn.iad1.jakerob.pro}`) || ( Host(`${CDN_PPR_URL:-cdn-ppr.jakerob.pro}`) && PathPrefix(`/_next/static`) )"
       traefik.http.routers.nextjsrenderingdemopprcdn-demo-1-https.tls: true
       traefik.http.routers.nextjsrenderingdemopprcdn-demo-1-https.tls.certresolver: production
       "traefik.http.routers.nextjsrenderingdemopprcdn-demo-1-https.tls.domains[0].main": nextjsrenderingdemo-pprcdn.iad1.jakerob.pro
@@ -106,8 +106,8 @@ services:
       traefik.docker.network: frontend
       traefik.http.services.nextjsrenderingdemofullcf-demo-1.loadBalancer.server.port: 3000
       traefik.http.routers.nextjsrenderingdemofullcf-demo-1-http.entrypoints: web
-      traefik.http.routers.nextjsrenderingdemofullcf-demo-1-http.rule: Host(`nextjsrenderingdemo-fullcf.jakerob.pro`)
+      traefik.http.routers.nextjsrenderingdemofullcf-demo-1-http.rule: Host(`${NEXTJSRENDERINGDEMO_FULLCF_URL:-nextjsrenderingdemo-fullcf.jakerob.pro}`)
       # Cloudflare needs https, but we can't get a cert because of cloudflare tunneling. So we use a self-signed cert.
       traefik.http.routers.nextjsrenderingdemofullcf-demo-1-https.entrypoints: websecure
-      traefik.http.routers.nextjsrenderingdemofullcf-demo-1-https.rule: Host(`nextjsrenderingdemo-fullcf.jakerob.pro`)
+      traefik.http.routers.nextjsrenderingdemofullcf-demo-1-https.rule: Host(`${NEXTJSRENDERINGDEMO_FULLCF_URL:-nextjsrenderingdemo-fullcf.jakerob.pro}`)
       traefik.http.routers.nextjsrenderingdemofullcf-demo-1-https.tls: true

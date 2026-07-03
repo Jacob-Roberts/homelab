@@ -21,8 +21,8 @@ services:
       traefik.external: true
       traefik.http.services.giftmanager-prod-1.loadBalancer.server.port: 5000
       traefik.http.routers.giftmanager-prod-1-http.entrypoints: web
-      traefik.http.routers.giftmanager-prod-1-http.rule: Host(`secret-santa.jakerob.pro`)
+      traefik.http.routers.giftmanager-prod-1-http.rule: Host(`${SECRET_SANTA_URL:-secret-santa.jakerob.pro}`)
       traefik.http.routers.giftmanager-prod-1-https.entrypoints: websecure
-      traefik.http.routers.giftmanager-prod-1-https.rule: Host(`secret-santa.jakerob.pro`)
+      traefik.http.routers.giftmanager-prod-1-https.rule: Host(`${SECRET_SANTA_URL:-secret-santa.jakerob.pro}`)
       traefik.http.routers.giftmanager-prod-1-https.tls: true
       traefik.http.routers.giftmanager-prod-1-https.tls.certresolver: production

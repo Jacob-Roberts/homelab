@@ -39,10 +39,10 @@ services:
       traefik.docker.network: frontend
       traefik.http.services.socialsignal.loadBalancer.server.port: 8080
       traefik.http.routers.socialsignal-http.entrypoints: web
-      traefik.http.routers.socialsignal-http.rule: Host(`api.socialsignal.jakerob.pro`)
+      traefik.http.routers.socialsignal-http.rule: Host(`${API_SOCIALSIGNAL_URL:-api.socialsignal.jakerob.pro}`)
       traefik.http.routers.socialsignal-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.socialsignal-https.entrypoints: websecure
-      traefik.http.routers.socialsignal-https.rule: Host(`api.socialsignal.jakerob.pro`)
+      traefik.http.routers.socialsignal-https.rule: Host(`${API_SOCIALSIGNAL_URL:-api.socialsignal.jakerob.pro}`)
       traefik.http.routers.socialsignal-https.tls: true
       traefik.http.routers.socialsignal-https.tls.certresolver: production
 

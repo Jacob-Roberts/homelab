@@ -101,10 +101,10 @@ services:
       traefik.external: true
       traefik.docker.network: frontend
       traefik.http.routers.plausible-prod-1-http.entrypoints: web
-      traefik.http.routers.plausible-prod-1-http.rule: Host(`plausible.iad1.jakerob.pro`)
+      traefik.http.routers.plausible-prod-1-http.rule: Host(`${PLAUSIBLE_URL:-plausible.iad1.jakerob.pro}`)
       traefik.http.routers.plausible-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.plausible-prod-1-https.entrypoints: websecure
-      traefik.http.routers.plausible-prod-1-https.rule: Host(`plausible.iad1.jakerob.pro`)
+      traefik.http.routers.plausible-prod-1-https.rule: Host(`${PLAUSIBLE_URL:-plausible.iad1.jakerob.pro}`)
       traefik.http.routers.plausible-prod-1-https.tls: true
       traefik.http.routers.plausible-prod-1-https.tls.certresolver: production
       traefik.http.services.plausible-prod-1.loadbalancer.server.port: '8000'

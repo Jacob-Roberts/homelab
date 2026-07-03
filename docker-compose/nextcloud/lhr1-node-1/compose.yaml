@@ -52,10 +52,10 @@ services:
       traefik.enable: true
       traefik.docker.network: frontend
       traefik.http.routers.nextcloud-prod-1-http.entrypoints: web
-      traefik.http.routers.nextcloud-prod-1-http.rule: Host(`nextcloud.lhr1.jakerob.pro`)
+      traefik.http.routers.nextcloud-prod-1-http.rule: Host(`${NEXTCLOUD_URL:-nextcloud.lhr1.jakerob.pro}`)
       traefik.http.routers.nextcloud-prod-1-http.middlewares: "nc-header,websecure-redirect-permanent@file"
       traefik.http.routers.nextcloud-prod-1-https.entrypoints: websecure
-      traefik.http.routers.nextcloud-prod-1-https.rule: Host(`nextcloud.lhr1.jakerob.pro`)
+      traefik.http.routers.nextcloud-prod-1-https.rule: Host(`${NEXTCLOUD_URL:-nextcloud.lhr1.jakerob.pro}`)
       traefik.http.middlewares.nc-rep.redirectregex.regex: "https://(.*)/.well-known/(card|cal)dav"
       traefik.http.middlewares.nc-rep.redirectregex.replacement: https://$$1/remote.php/dav/
       traefik.http.middlewares.nc-rep.redirectregex.permanent: true
@@ -110,9 +110,9 @@ services:
       traefik.docker.network: frontend
       traefik.http.services.office-prod-1.loadbalancer.server.port: 9980
       traefik.http.routers.office-prod-1-http.entrypoints: web
-      traefik.http.routers.office-prod-1-http.rule: Host(`office.lhr1.jakerob.pro`)
+      traefik.http.routers.office-prod-1-http.rule: Host(`${OFFICE_URL:-office.lhr1.jakerob.pro}`)
       traefik.http.routers.office-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.office-prod-1-https.entrypoints: websecure
-      traefik.http.routers.office-prod-1-https.rule: Host(`office.lhr1.jakerob.pro`)
+      traefik.http.routers.office-prod-1-https.rule: Host(`${OFFICE_URL:-office.lhr1.jakerob.pro}`)
       traefik.http.routers.office-prod-1-https.tls: true
       traefik.http.routers.office-prod-1-https.tls.certresolver: cloudflare

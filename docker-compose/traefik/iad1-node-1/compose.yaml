@@ -78,10 +78,10 @@ services:
       traefik.docker.network: traefik_internal
       traefik.http.services.traefikexternal-prod-1.loadBalancer.server.port: 8080 # TODO: Expose this securely
       traefik.http.routers.traefikexternal-prod-1-http.entrypoints: web
-      traefik.http.routers.traefikexternal-prod-1-http.rule: "Host(`traefik-external.iad1vpn.jakerob.pro`)  && !PathPrefix(`/ping`)"
+      traefik.http.routers.traefikexternal-prod-1-http.rule: "Host(`${TRAEFIK_EXTERNAL_URL:-traefik-external.iad1vpn.jakerob.pro}`)  && !PathPrefix(`/ping`)"
       traefik.http.routers.traefikexternal-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.traefikexternal-prod-1-https.entrypoints: websecure
-      traefik.http.routers.traefikexternal-prod-1-https.rule: "Host(`traefik-external.iad1vpn.jakerob.pro`)  && !PathPrefix(`/ping`)"
+      traefik.http.routers.traefikexternal-prod-1-https.rule: "Host(`${TRAEFIK_EXTERNAL_URL:-traefik-external.iad1vpn.jakerob.pro}`)  && !PathPrefix(`/ping`)"
       traefik.http.routers.traefikexternal-prod-1-https.tls: true
       traefik.http.routers.traefikexternal-prod-1-https.tls.certresolver: cloudflare
 
@@ -134,10 +134,10 @@ services:
       traefik.http.routers.traefikinternal-prod-1-http.service: "api@internal"
       traefik.http.routers.traefikinternal-prod-1-https.service: "api@internal"
       traefik.http.routers.traefikinternal-prod-1-http.entrypoints: web
-      traefik.http.routers.traefikinternal-prod-1-http.rule: "Host(`traefik-internal.iad1vpn.jakerob.pro`) && !PathPrefix(`/ping`)"
+      traefik.http.routers.traefikinternal-prod-1-http.rule: "Host(`${TRAEFIK_INTERNAL_URL:-traefik-internal.iad1vpn.jakerob.pro}`) && !PathPrefix(`/ping`)"
       traefik.http.routers.traefikinternal-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.traefikinternal-prod-1-https.entrypoints: websecure
-      traefik.http.routers.traefikinternal-prod-1-https.rule: "Host(`traefik-internal.iad1vpn.jakerob.pro`) && !PathPrefix(`/ping`)"
+      traefik.http.routers.traefikinternal-prod-1-https.rule: "Host(`${TRAEFIK_INTERNAL_URL:-traefik-internal.iad1vpn.jakerob.pro}`) && !PathPrefix(`/ping`)"
       traefik.http.routers.traefikinternal-prod-1-https.tls: true
       traefik.http.routers.traefikinternal-prod-1-https.tls.certresolver: cloudflare
   crowdsec:
@@ -204,9 +204,9 @@ services:
       traefik.enable: true
       traefik.external: true
       traefik.http.routers.whoamiexternal-prod-1-http.entrypoints: web
-      traefik.http.routers.whoamiexternal-prod-1-http.rule: Host(`whoami.iad1.jakerob.pro`)
+      traefik.http.routers.whoamiexternal-prod-1-http.rule: Host(`${WHOAMI_URL:-whoami.iad1.jakerob.pro}`)
       traefik.http.routers.whoamiexternal-prod-1-https.entrypoints: websecure
-      traefik.http.routers.whoamiexternal-prod-1-https.rule: Host(`whoami.iad1.jakerob.pro`)
+      traefik.http.routers.whoamiexternal-prod-1-https.rule: Host(`${WHOAMI_URL:-whoami.iad1.jakerob.pro}`)
       traefik.http.routers.whoamiexternal-prod-1-https.tls: true
       traefik.http.routers.whoamiexternal-prod-1-https.tls.certresolver: production
 
@@ -222,8 +222,8 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.whoamiinternal-prod-1-http.entrypoints: web
-      traefik.http.routers.whoamiinternal-prod-1-http.rule: Host(`whoami.iad1vpn.jakerob.pro`)
+      traefik.http.routers.whoamiinternal-prod-1-http.rule: Host(`${WHOAMI_URL:-whoami.iad1vpn.jakerob.pro}`)
       traefik.http.routers.whoamiinternal-prod-1-https.entrypoints: websecure
-      traefik.http.routers.whoamiinternal-prod-1-https.rule: Host(`whoami.iad1vpn.jakerob.pro`)
+      traefik.http.routers.whoamiinternal-prod-1-https.rule: Host(`${WHOAMI_URL:-whoami.iad1vpn.jakerob.pro}`)
       traefik.http.routers.whoamiinternal-prod-1-https.tls: true
       traefik.http.routers.whoamiinternal-prod-1-https.tls.certresolver: cloudflare

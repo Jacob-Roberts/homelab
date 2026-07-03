@@ -43,7 +43,7 @@ services:
       traefik.http.services.alloy.loadbalancer.server.port: '12345'
       traefik.http.services.alloy.loadbalancer.server.scheme: http
       traefik.http.routers.alloy.service: alloy
-      traefik.http.routers.alloy.rule: Host(`alloy.lhr1.jakerob.pro`)
+      traefik.http.routers.alloy.rule: Host(`${ALLOY_URL:-alloy.lhr1.jakerob.pro}`)
       traefik.http.routers.alloy.entrypoints: websecure
       traefik.http.routers.alloy.tls: "true"
       traefik.http.routers.alloy.tls.certresolver: cloudflare
