@@ -3,4 +3,4 @@
 set -e
 
 # Pass through any arguments to the infisical run command, which will execute the given command with the secrets from the specified path in Infisical.
-infisical run --path="/global/terraform/sfo1-proxmox-node-1" -- "$@"
+infisical run --path="/global/terraform/pbj-proxmox-node-1" -- "$@"

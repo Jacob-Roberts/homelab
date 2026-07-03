@@ -13,8 +13,9 @@ service
 
 Where Region is one of:
 
-- `lhr1`
+- `pbj` (Special region that represents wherever we live)
 - `slc1`
+- `pvu1`
 - `iad1`
 - `sgu1`
 
