@@ -23,7 +23,7 @@ services:
       # - "9120:9120" # Prometheus metrics
     # For all available environment variables and explanations, see https://github.com/kimdre/doco-cd/wiki/App-Settings
     environment:
-      TZ: Europe/London
+      TZ: ${TZ:-UTC}
       GIT_ACCESS_TOKEN: xxx
       # WEBHOOK_SECRET: xxx  # Uncomment this line and the webhook port above and set a secure secret if you want to use webhooks.
       <<: *poll-config  # Uncomment this line to use the poll configuration from above (the `x-poll-config` section).

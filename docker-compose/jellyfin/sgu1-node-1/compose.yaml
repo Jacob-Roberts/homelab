@@ -19,7 +19,7 @@ services:
     environment:
       PUID: "${DOCKER_USER_ID:-2003}"
       PGID: "${DOCKER_GROUP_ID:-2003}"
-      TZ: Europe/London
+      TZ: ${TZ:-UTC}
       JELLYFIN_PublishedServerUrl: https://jellyfin.sgu1.jakerob.pro
     networks:
       - frontend

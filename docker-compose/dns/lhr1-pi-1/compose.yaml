@@ -66,7 +66,7 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     environment:
-      TZ: Europe/London
+      TZ: ${TZ:-UTC}
       CLIENT_SKIP_TLS_VERIFICATION: "true"
       PRIMARY: "https://pihole.lhr1.jakerob.pro|${PIHOLE_PASSWORD}"
       REPLICAS: "https://pihole2.lhr1.jakerob.pro|${PIHOLE2_PASSWORD}"

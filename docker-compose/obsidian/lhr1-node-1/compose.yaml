@@ -16,7 +16,7 @@ services:
     environment:
       PUID: "${DOCKER_USER_ID:-2014}"
       PGID: "${DOCKER_GROUP_ID:-2014}"
-      TZ: Europe/London
+      TZ: ${TZ:-UTC}
       CUSTOM_PORT: '8080'
       CUSTOM_USER: "${BASIC_AUTH_USERNAME:-jake}"
       PASSWORD: "${BASIC_AUTH_PASSWORD}"

@@ -12,7 +12,7 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     environment:
-      TZ: Europe/London
+      TZ: ${TZ:-UTC}
       SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
       UID: 1002
       GID: 1002

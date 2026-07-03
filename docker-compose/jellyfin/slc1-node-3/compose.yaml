@@ -14,7 +14,7 @@ services:
     environment:
       PUID: '1000'
       PGID: '1000'
-      TZ: Europe/London
+      TZ: ${TZ:-UTC}
       JELLYFIN_PublishedServerUrl: https://jellyfin.slc1.jakerob.pro
     networks:
       - frontend

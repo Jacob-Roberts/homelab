@@ -25,7 +25,7 @@ services:
       - 6881:6881/tcp   # qBittorrent Torrent Port TCP
       - 6881:6881/udp   # qBittorrent Torrent Port UDP
     environment:
-      - TZ=Europe/London
+      - "TZ=${TZ:-UTC}"
       - VPN_SERVICE_PROVIDER=protonvpn
       - VPN_TYPE=wireguard
       - "WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}"
@@ -126,7 +126,7 @@ services:
       - gluetun
     restart: unless-stopped
     environment:
-      TZ: Europe/London
+      TZ: ${TZ:-UTC}
     volumes:
       - ./qbittorrent-config/etc:/qbittorrent/etc
       - ./qbittorrent-config/var:/qbittorrent/var
@@ -148,7 +148,7 @@ services:
       - no-new-privileges=true
     restart: unless-stopped
     environment:
-      TZ: "${TZ:-Europe/London}"
+      TZ: "${TZ:-UTC}"
     volumes:
       - ./radarr-config:/radarr/etc/
       - /media/jellydata:/jellydata
@@ -172,7 +172,7 @@ services:
       - no-new-privileges=true
     restart: unless-stopped
     environment:
-      TZ: "${TZ:-Europe/London}"
+      TZ: "${TZ:-UTC}"
     volumes:
       - ./sonarr-config:/sonarr/etc/
       - /media/jellydata:/jellydata
@@ -193,7 +193,7 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     environment:
-      TZ: Europe/London
+      TZ: ${TZ:-UTC}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./subcleaner:/opt/subcleaner/
@@ -218,7 +218,7 @@ services:
       - no-new-privileges=true
     restart: unless-stopped
     environment:
-      TZ: "${TZ:-Europe/London}"
+      TZ: "${TZ:-UTC}"
     volumes:
       - ./prowlarr-config:/prowlarr/etc/
     tmpfs:
@@ -236,7 +236,7 @@ services:
       LOG_LEVEL: "${LOG_LEVEL:-info}"
       LOG_HTML: "${LOG_HTML:-false}"
       CAPTCHA_SOLVER: "${CAPTCHA_SOLVER:-none}"
-      TZ: Europe/London
+      TZ: ${TZ:-UTC}
     network_mode: service:gluetun # http://gluetun:8191/
 
   tdarr:
@@ -248,7 +248,7 @@ services:
     ports:
       - 8266:8266 # server port
     environment:
-      TZ: Europe/London
+      TZ: ${TZ:-UTC}
       PUID: "${PUID:-2003}"
       PGID: "${PGID:-2003}"
       UMASK_SET: '002'

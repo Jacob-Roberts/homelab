@@ -21,7 +21,7 @@ services:
       - nextcloud-cache
     restart: unless-stopped
     environment:
-      TZ: Europe/London
+      TZ: ${TZ:-UTC}
       MYSQL_DATABASE: $MYSQL_DATABASE
       MYSQL_USER: $MYSQL_USER
       MYSQL_PASSWORD: $MYSQL_PASSWORD
