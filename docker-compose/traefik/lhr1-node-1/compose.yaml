@@ -63,10 +63,10 @@ services:
       traefik.http.routers.traefik-prod-1-http.service: "api@internal"
       traefik.http.routers.traefik-prod-1-https.service: "api@internal"
       traefik.http.routers.traefik-prod-1-http.entrypoints: web
-      traefik.http.routers.traefik-prod-1-http.rule: "Host(`traefik.lhr1.jakerob.pro`) && !PathPrefix(`/ping`)"
+      traefik.http.routers.traefik-prod-1-http.rule: "Host(`${TRAEFIK_URL:-traefik.lhr1.jakerob.pro}`) && !PathPrefix(`/ping`)"
       traefik.http.routers.traefik-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.traefik-prod-1-https.entrypoints: websecure
-      traefik.http.routers.traefik-prod-1-https.rule: "Host(`traefik.lhr1.jakerob.pro`) && !PathPrefix(`/ping`)"
+      traefik.http.routers.traefik-prod-1-https.rule: "Host(`${TRAEFIK_URL:-traefik.lhr1.jakerob.pro}`) && !PathPrefix(`/ping`)"
       traefik.http.routers.traefik-prod-1-https.tls: true
       traefik.http.routers.traefik-prod-1-https.tls.certresolver: cloudflare
 
@@ -118,10 +118,10 @@ services:
       traefik.docker.network: traefik_internal
       traefik.http.services.traefiktunnel-prod-1.loadBalancer.server.port: 8080 # TODO: Expose this securely
       traefik.http.routers.traefiktunnel-prod-1-http.entrypoints: web
-      traefik.http.routers.traefiktunnel-prod-1-http.rule: "Host(`traefik-tunnel.lhr1.jakerob.pro`) && !PathPrefix(`/ping`)"
+      traefik.http.routers.traefiktunnel-prod-1-http.rule: "Host(`${TRAEFIK_TUNNEL_URL:-traefik-tunnel.lhr1.jakerob.pro}`) && !PathPrefix(`/ping`)"
       traefik.http.routers.traefiktunnel-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.traefiktunnel-prod-1-https.entrypoints: websecure
-      traefik.http.routers.traefiktunnel-prod-1-https.rule: "Host(`traefik-tunnel.lhr1.jakerob.pro`) && !PathPrefix(`/ping`)"
+      traefik.http.routers.traefiktunnel-prod-1-https.rule: "Host(`${TRAEFIK_TUNNEL_URL:-traefik-tunnel.lhr1.jakerob.pro}`) && !PathPrefix(`/ping`)"
       traefik.http.routers.traefiktunnel-prod-1-https.tls: true
       traefik.http.routers.traefiktunnel-prod-1-https.tls.certresolver: cloudflare
 
@@ -154,10 +154,10 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.whoami-prod-1-http.entrypoints: web
-      traefik.http.routers.whoami-prod-1-http.rule: Host(`whoami.lhr1.jakerob.pro`)
+      traefik.http.routers.whoami-prod-1-http.rule: Host(`${WHOAMI_URL:-whoami.lhr1.jakerob.pro}`)
       traefik.http.routers.whoami-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.whoami-prod-1-https.entrypoints: websecure
-      traefik.http.routers.whoami-prod-1-https.rule: Host(`whoami.lhr1.jakerob.pro`)
+      traefik.http.routers.whoami-prod-1-https.rule: Host(`${WHOAMI_URL:-whoami.lhr1.jakerob.pro}`)
       traefik.http.routers.whoami-prod-1-https.tls: true
       traefik.http.routers.whoami-prod-1-https.tls.certresolver: cloudflare
 
@@ -173,9 +173,9 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.whoamitunnel-prod-1-http.entrypoints: web
-      traefik.http.routers.whoamitunnel-prod-1-http.rule: Host(`whoami-tunnel.lhr1.jakerob.pro`)
+      traefik.http.routers.whoamitunnel-prod-1-http.rule: Host(`${WHOAMI_TUNNEL_URL:-whoami-tunnel.lhr1.jakerob.pro}`)
       traefik.http.routers.whoamitunnel-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.whoamitunnel-prod-1-https.entrypoints: websecure
-      traefik.http.routers.whoamitunnel-prod-1-https.rule: Host(`whoami-tunnel.lhr1.jakerob.pro`)
+      traefik.http.routers.whoamitunnel-prod-1-https.rule: Host(`${WHOAMI_TUNNEL_URL:-whoami-tunnel.lhr1.jakerob.pro}`)
       traefik.http.routers.whoamitunnel-prod-1-https.tls: true
       traefik.http.routers.whoamitunnel-prod-1-https.tls.certresolver: cloudflare
