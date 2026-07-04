@@ -26,6 +26,7 @@ services:
     sysctls:
       # allow rootless container to access ports < 1024
       net.ipv4.ip_unprivileged_port_start: 80
+      net.ipv6.ip_unprivileged_port_start: 80
     depends_on:
       socket-proxy:
         condition: service_healthy
