@@ -1,0 +1,7 @@
+---
+# Environment overrides for sgu1-home-1 (direct socket)
+services:
+  portainer:
+    labels:
+      traefik.http.routers.portainer-prod-1-http.rule: Host(`${PORTAINER_URL:-portainer.sgu1.jakerob.pro}`)
+      traefik.http.routers.portainer-prod-1-https.rule: Host(`${PORTAINER_URL:-portainer.sgu1.jakerob.pro}`)

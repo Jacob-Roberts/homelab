@@ -1,0 +1,41 @@
+---
+name: cadvisor
+
+networks:
+  frontend:
+    external: true
+
+services:
+  cadvisor:
+    image: ghcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: cadvisor
+    command:
+      - "--housekeeping_interval=15s"
+      - "--docker_only"
+      - "-store_container_labels=false"
+    privileged: true
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      - frontend
+    devices:
+      - /dev/kmsg
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 256M
+    labels:
+      traefik.enable: true
+      traefik.http.routers.cadvisor-prod-1.entrypoints: websecure
+      traefik.http.routers.cadvisor-prod-1.rule: Host(`${CADVISOR_URL}`)
+      traefik.http.routers.cadvisor-prod-1.tls: true
+      traefik.http.routers.cadvisor-prod-1.tls.certresolver: cloudflare

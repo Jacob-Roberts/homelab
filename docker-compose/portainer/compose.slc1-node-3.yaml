@@ -1,0 +1,64 @@
+---
+# Environment overrides for slc1-node-3 (socket-proxy)
+networks:
+  internal:
+    external: false
+
+services:
+  portainer:
+    command: "-H tcp://socket-proxy:2375"
+    user: 1000:1000
+    networks:
+      - frontend
+      - internal
+    volumes:
+      - ./data:/data
+    labels:
+      traefik.http.routers.portainer-prod-1-http.rule: Host(`${PORTAINER_URL:-portainer.slc1.jakerob.pro}`)
+      traefik.http.routers.portainer-prod-1-https.rule: Host(`${PORTAINER_URL:-portainer.slc1.jakerob.pro}`)
+
+  socket-proxy:
+    image: lscr.io/linuxserver/socket-proxy:latest
+    container_name: portainer-socket-proxy
+    read_only: true
+    restart: unless-stopped
+    environment:
+      - ALLOW_START=1 #optional
+      - ALLOW_STOP=1 #optional
+      - ALLOW_RESTARTS=1 #optional
+      - AUTH=0 #optional
+      - BUILD=0 #optional
+      - COMMIT=0 #optional
+      - CONFIGS=0 #optional
+      - CONTAINERS=1 #optional
+      - DISABLE_IPV6=0 #optional
+      - DISTRIBUTION=0 #optional
+      - EVENTS=1 #optional
+      - EXEC=0 #optional
+      - IMAGES=1 #optional
+      - INFO=1 #optional
+      - NETWORKS=1 #optional
+      - NODES=0 #optional
+      - PING=1 #optional
+      - POST=0 #optional
+      - PLUGINS=0 #optional
+      - SECRETS=0 #optional
+      - SERVICES=1 #optional
+      - SESSION=0 #optional
+      - SWARM=0 #optional
+      - SYSTEM=0 #optional
+      - TASKS=1 #optional
+      - VERSION=1 #optional
+      - VOLUMES=1 #optional
+    networks:
+      - internal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    tmpfs:
+      - /run
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.20"
+          memory: 128M

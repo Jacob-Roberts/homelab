@@ -1,0 +1,6 @@
+---
+# Environment overrides for lhr1-node-1
+services:
+  cadvisor:
+    labels:
+      traefik.http.routers.cadvisor-prod-1.rule: Host(`${CADVISOR_URL:-cadvisor.lhr1.jakerob.pro}`)

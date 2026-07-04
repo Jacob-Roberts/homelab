@@ -1,0 +1,6 @@
+---
+# Environment overrides for slc1-node-3
+services:
+  cadvisor:
+    labels:
+      traefik.http.routers.cadvisor-prod-1.rule: Host(`${CADVISOR_URL:-cadvisor.slc1.jakerob.pro}`)
