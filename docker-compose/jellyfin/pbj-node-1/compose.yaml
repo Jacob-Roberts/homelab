@@ -10,19 +10,24 @@ volumes:
     name: jellyfin_cache
   config:
     name: jellyfin_config
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${STORAGE_URL:-pbj-storage-1.jakerob.pro},nfsvers=4.1,soft,nolock,rw
+      device: ":/mnt/default-pool/encrypted/container-volumes/jellyfin_config"
 
 services:
   jellyfin:
     image: docker.io/jellyfin/jellyfin:10
     container_name: jellyfin
-    hostname: jellyfin-lhr1
+    hostname: jellyfin-pbj
     user: "${DOCKER_USER_ID:-2003}:${DOCKER_GROUP_ID:-2003}"
     restart: unless-stopped
     environment:
       PUID: "${DOCKER_USER_ID:-2003}"
       PGID: "${DOCKER_GROUP_ID:-2003}"
       TZ: ${TZ:-UTC}
-      JELLYFIN_PublishedServerUrl: ${APP_URL:-https://jellyfin.lhr1.jakerob.pro}
+      JELLYFIN_PublishedServerUrl: ${APP_URL:-https://jellyfin.jakerob.pro}
     networks:
       - frontend
     # devices:
