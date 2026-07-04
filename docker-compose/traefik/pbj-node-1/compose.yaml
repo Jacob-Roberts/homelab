@@ -31,6 +31,8 @@ services:
         condition: service_healthy
         restart: true
     restart: unless-stopped
+    logging:
+      driver: local
     healthcheck:
       # https://doc.traefik.io/traefik/operations/cli/#healthcheck
       test: [CMD, traefik, healthcheck, "--ping"]
@@ -87,7 +89,8 @@ services:
       - ./synced-certs/:/synced-certs:rw
       - ./cert-dumper-output:/output:rw
     entrypoint: "sh -c ' while ! [ -e /certs/cloudflare-acme.json ] || ! [ `jq \".[] | .Certificates | length\" /certs/cloudflare-acme.json | jq -s \"add\" ` != 0 ]; do sleep 1 ; done && traefik-certs-dumper file --version v3 --watch --domain-subdir=true --source /certs/cloudflare-acme.json --dest /output --post-hook \"sh /extract-certs.sh\"'"
-
+    logging:
+      driver: local
     deploy:
       resources:
         limits:
@@ -125,7 +128,8 @@ services:
     volumes:
       - ./config-tunnel/traefik.yaml:/traefik/traefik.yaml:ro
       - ./config-tunnel/conf/:/traefik/conf/:ro
-
+    logging:
+      driver: local
     deploy:
       resources:
         limits:
@@ -159,7 +163,8 @@ services:
       - /run/docker.sock:/run/docker.sock:ro
       # this socket is run as 1000:1000, not as root!
       - socket-proxy:/run/proxy
-
+    logging:
+      driver: local
     deploy:
       resources:
         limits:
@@ -175,7 +180,8 @@ services:
     restart: unless-stopped
     networks:
       - frontend
-
+    logging:
+      driver: local
     deploy:
       resources:
         limits:
@@ -200,7 +206,8 @@ services:
     restart: unless-stopped
     networks:
       - frontend
-
+    logging:
+      driver: local
     deploy:
       resources:
         limits:
