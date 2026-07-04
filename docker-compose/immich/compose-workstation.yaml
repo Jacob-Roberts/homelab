@@ -6,13 +6,12 @@ volumes:
 
 services:
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:v2.5.2-cuda
+    image: ghcr.io/immich-app/immich-machine-learning:v3.0.1-cuda
     container_name: immich-machine-learning
     # For hardware acceleration, add one of -[armnn, cuda, openvino] to the image tag.
     # Example tag: ${IMMICH_VERSION:-release}-cuda
     security_opt:
       - no-new-privileges:true
-
     restart: unless-stopped
     ports:
       - 3003:3003
