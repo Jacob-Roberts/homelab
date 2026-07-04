@@ -42,6 +42,12 @@ services:
     volumes:
       - /media/immich:/data
       - /etc/localtime:/etc/localtime:ro
+
+    deploy:
+      resources:
+        limits:
+          cpus: "2.00"
+          memory: 3G
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
@@ -81,6 +87,12 @@ services:
     volumes:
       - model-cache:/cache
 
+    deploy:
+      resources:
+        limits:
+          cpus: "4.00"
+          memory: 8G
+
   redis:
     image: "docker.io/valkey/valkey:9@sha256:3b55fbaa0cd93cf0d9d961f405e4dfcc70efe325e2d84da207a0a8e6d8fde4f9"
     container_name: immich_redis
@@ -89,6 +101,12 @@ services:
       test: "redis-cli ping || exit 1"
     networks:
       - internal
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
 
   database:
     image: "ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23"
@@ -109,6 +127,12 @@ services:
       - database:/var/lib/postgresql/data
     shm_size: 128mb
 
+    deploy:
+      resources:
+        limits:
+          cpus: "1.50"
+          memory: 2G
+
   # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
   chown:
     image: alpine
@@ -119,3 +143,9 @@ services:
     volumes:
       - database:/var/lib/postgresql/data
     entrypoint: [/bin/ash, "-c"]
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M

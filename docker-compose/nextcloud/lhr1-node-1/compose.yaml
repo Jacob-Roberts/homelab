@@ -48,6 +48,12 @@ services:
     volumes:
       - ./data:/var/www/html
       - ./app-hooks/post-installation:/docker-entrypoint-hooks.d/post-installation
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.50"
+          memory: 2G
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
@@ -85,6 +91,12 @@ services:
       - internal
     volumes:
       - nextcloud-database:/var/lib/mysql
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.50"
+          memory: 2G
   nextcloud-cache:
     image: docker.io/redis:alpine3.19
     container_name: nextcloud-cache
@@ -92,6 +104,12 @@ services:
 
     networks:
       - internal
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
   office:
     image: docker.io/collabora/code:24.04.5.2.1
     container_name: nextcloud-office
@@ -105,6 +123,12 @@ services:
       extra_params: "--o:ssl.enable=false --o:ssl.termination=true"
     networks:
       - frontend
+
+    deploy:
+      resources:
+        limits:
+          cpus: "2.00"
+          memory: 2G
     labels:
       traefik.enable: true
       traefik.docker.network: frontend

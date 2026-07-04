@@ -18,6 +18,12 @@ services:
       - frontend
     volumes:
       - ./data:/data
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.50"
+          memory: 2G
     labels:
       traefik.enable: true
       traefik.http.routers.minioweb-prod-1-http.entrypoints: web

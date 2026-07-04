@@ -27,6 +27,12 @@ services:
         max-size: 1m
         max-file: '1'
 
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+
   searxng:
     image: docker.io/searxng/searxng:latest
     container_name: searxng
@@ -44,6 +50,12 @@ services:
       options:
         max-size: 1m
         max-file: '1'
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 768M
     labels:
       traefik.enable: true
       traefik.external: true

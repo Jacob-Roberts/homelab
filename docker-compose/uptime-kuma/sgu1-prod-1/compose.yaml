@@ -16,6 +16,12 @@ services:
       - frontend
     volumes:
       - ./data:/app/data
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.routers.uptimekuma-prod-1-http.entrypoints: web

@@ -29,6 +29,12 @@ services:
     volumes:
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config/certs/:/etc/traefik/certs/
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
@@ -80,6 +86,12 @@ services:
     tmpfs:
       - /run
 
+    deploy:
+      resources:
+        limits:
+          cpus: "0.20"
+          memory: 128M
+
   whoami:
     image: docker.io/traefik/whoami
     container_name: whoami-prod-1
@@ -89,6 +101,12 @@ services:
     restart: unless-stopped
     networks:
       - frontend
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 64M
     labels:
       traefik.enable: true
       traefik.http.routers.whoami-prod-1-http.entrypoints: web

@@ -20,6 +20,9 @@ services:
       - model-cache:/cache
     deploy:
       resources:
+        limits:
+          cpus: "4.00"
+          memory: 8G
         reservations:
           devices:
             - driver: nvidia

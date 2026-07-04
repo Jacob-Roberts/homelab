@@ -18,6 +18,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
     # devices:
     #   - /dev/ttyACMO
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.services.homeassistant-prod-1.loadbalancer.server.port: 8123

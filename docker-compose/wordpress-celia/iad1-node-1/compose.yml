@@ -29,6 +29,12 @@ services:
 
     volumes:
       - ./data:/var/www/html
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 1G
     labels:
       traefik.enable: true
       traefik.external: true
@@ -59,12 +65,24 @@ services:
 
     volumes:
       - db:/var/lib/mysql
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
   phpmyadmin:
     image: docker.io/adminer
     container_name: wordpress-celia-phpmyadmin
     networks:
       - frontend
       - internal
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.20"
+          memory: 128M
     labels:
       traefik.enable: true
       traefik.docker.network: frontend

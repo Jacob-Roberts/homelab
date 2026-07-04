@@ -20,6 +20,12 @@ services:
       - frontend
     volumes:
       - ./data:/myspeed/data:rw
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.services.myspeed-prod-1.loadBalancer.server.port: 5216

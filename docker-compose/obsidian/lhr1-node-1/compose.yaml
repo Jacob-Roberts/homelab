@@ -25,6 +25,12 @@ services:
     volumes:
       - ./vaults:/vaults
       - ./config:/config
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.services.obsidian-prod-1.loadbalancer.server.port: '8080'

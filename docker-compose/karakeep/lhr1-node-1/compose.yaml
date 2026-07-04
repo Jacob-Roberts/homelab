@@ -41,6 +41,12 @@ services:
       - internal
     volumes:
       - ./data:/data
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.services.karakeep-prod-1.loadBalancer.server.port: 3000
@@ -63,6 +69,12 @@ services:
     restart: unless-stopped
     networks:
       - internal
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
   meilisearch:
     image: docker.io/getmeili/meilisearch:v1.13.3
     user: "${DOCKER_USER_ID:-2009}:${DOCKER_GROUP_ID:-2009}"
@@ -74,3 +86,9 @@ services:
       - internal
     volumes:
       - ./meilisearch:/meili_data
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M

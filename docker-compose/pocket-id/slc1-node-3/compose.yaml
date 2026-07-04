@@ -38,6 +38,12 @@ services:
       - frontend
     volumes:
       - data:/app/data
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.routers.pocketid-prod-1-http.entrypoints: web
@@ -58,3 +64,9 @@ services:
     volumes:
       - data:/app/data
     entrypoint: [/bin/ash, "-c"]
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M

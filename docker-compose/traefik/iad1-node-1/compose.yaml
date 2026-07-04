@@ -72,6 +72,12 @@ services:
       - ./config-external/captcha.html:/traefik/captcha.html:ro
       # access docker socket via proxy read-only
       - socket-proxy:/var/run
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 512M
     labels:
       # Management only exposed internally
       traefik.enable: true
@@ -128,6 +134,12 @@ services:
       - ./config-internal/certs/:/traefik/certs/:rw
       # access docker socket via proxy read-only
       - socket-proxy:/var/run
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 512M
     labels:
       # Management only exposed internally
       traefik.enable: true
@@ -171,6 +183,12 @@ services:
       - ./config-crowdsec:/etc/crowdsec
       - ./crowdsec-db/:/var/lib/crowdsec/data
       - ./config-external/logs:/var/log/traefik
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: "false"
 
@@ -191,6 +209,12 @@ services:
       # this socket is run as 1000:1000, not as root!
       - socket-proxy:/run/proxy
 
+    deploy:
+      resources:
+        limits:
+          cpus: "0.20"
+          memory: 128M
+
   whoami-external:
     image: docker.io/traefik/whoami
     container_name: whoami-external
@@ -200,6 +224,12 @@ services:
     restart: unless-stopped
     networks:
       - frontend
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 64M
     labels:
       traefik.enable: true
       traefik.external: true
@@ -219,6 +249,12 @@ services:
     restart: unless-stopped
     networks:
       - frontend
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 64M
     labels:
       traefik.enable: true
       traefik.http.routers.whoamiinternal-prod-1-http.entrypoints: web

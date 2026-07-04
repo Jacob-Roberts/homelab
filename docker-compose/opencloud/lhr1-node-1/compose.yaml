@@ -68,3 +68,9 @@ services:
     # therefore we ignore the error and then start the opencloud server
     logging:
       driver: "${LOG_DRIVER:-local}"
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M

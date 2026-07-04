@@ -7,8 +7,20 @@ services:
 
     ports:
       - 3100:3100
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 1G
   promtail:
     image: docker.io/grafana/promtail:2.9.7
     command: "-config.file=/etc/promtail/config.yml"
     volumes:
       - /var/log:/var/log
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 256M

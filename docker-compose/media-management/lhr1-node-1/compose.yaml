@@ -47,6 +47,12 @@ services:
     volumes:
       - ./gluetun-config:/gluetun
       - ./gluetun-config/info:/tmp/gluetun
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
@@ -135,6 +141,12 @@ services:
     ## qBittorrent MUST always use a VPN / Secure Internet connection
     network_mode: service:gluetun
 
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 1G
+
   radarr:
     image: docker.io/11notes/radarr:6
     container_name: radarr
@@ -158,6 +170,12 @@ services:
     logging:
       driver: json-file
     network_mode: service:gluetun
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
 
   sonarr:
     image: docker.io/11notes/sonarr:4
@@ -183,6 +201,12 @@ services:
       driver: json-file
     network_mode: service:gluetun
 
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+
   bazarr:
     image: lscr.io/linuxserver/bazarr:1.5.4
     container_name: bazarr
@@ -205,6 +229,12 @@ services:
       driver: json-file
     network_mode: service:gluetun
 
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+
   prowlarr:
     image: docker.io/11notes/prowlarr:2
     container_name: prowlarr
@@ -226,6 +256,12 @@ services:
       - "/tmp:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022}"
     network_mode: service:gluetun
 
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:v3.4.6
     container_name: flaresolverr
@@ -238,6 +274,12 @@ services:
       CAPTCHA_SOLVER: "${CAPTCHA_SOLVER:-none}"
       TZ: ${TZ:-UTC}
     network_mode: service:gluetun # http://gluetun:8191/
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 1G
 
   tdarr:
     image: ghcr.io/haveagitgat/tdarr:latest
@@ -275,6 +317,12 @@ services:
       - ./tdarr-config/logs:/app/logs
       - /media/jellydata/media:/media:rw
       - /media/jellydata/transcode_cache:/tcache
+
+    deploy:
+      resources:
+        limits:
+          cpus: "2.00"
+          memory: 2G
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
@@ -308,6 +356,12 @@ services:
       # Required for torrent / usenet - path must match your download client's volume exactly
       # - /path/to/downloads:/path/to/downloads
     network_mode: service:gluetun # http://gluetun:8084/
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
 
   # debug2:
   #   image: docker.io/jonlabelle/network-tools

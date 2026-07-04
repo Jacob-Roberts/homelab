@@ -41,6 +41,12 @@ services:
       - "/home/joplin/packages/server/logs:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
       - "/home/joplin/packages/server/temp:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
       - "/opt/pm2:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 768M
     labels:
       traefik.enable: true
       traefik.external: true
@@ -72,3 +78,9 @@ services:
     tmpfs:
       - "/var/run/postgresql:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
       - "/tmp:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 1G

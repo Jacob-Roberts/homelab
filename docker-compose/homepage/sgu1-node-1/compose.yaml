@@ -41,6 +41,12 @@ services:
       - ./config/settings.yaml:/app/config/settings.yaml:ro
       - ./config/widgets.yaml:/app/config/widgets.yaml:ro
       - logs:/app/config/logs:rw
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.routers.homepage-prod-1-http.entrypoints: web
@@ -61,3 +67,9 @@ services:
     volumes:
       - logs:/app/config/logs
     entrypoint: [/bin/ash, "-c"]
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M

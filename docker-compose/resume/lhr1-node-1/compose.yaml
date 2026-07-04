@@ -31,6 +31,12 @@ services:
       - internal
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 1G
   minio:
     image: docker.io/minio/minio
     command: server /data
@@ -43,6 +49,12 @@ services:
       - frontend
     volumes:
       - minio_data:/data
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.50"
+          memory: 2G
     labels:
       traefik.enable: true
       traefik.http.services.resumestorage-prod-1.loadbalancer.server.port: 9000
@@ -67,6 +79,12 @@ services:
 
     networks:
       - internal
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
   app:
     image: docker.io/amruthpillai/reactive-resume:latest
     depends_on:
@@ -124,6 +142,12 @@ services:
     networks:
       - internal
       - frontend
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.50"
+          memory: 2G
     labels:
       traefik.enable: true
       traefik.http.services.resume-prod-1.loadbalancer.server.port: 3000

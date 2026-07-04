@@ -21,6 +21,12 @@ services:
     volumes:
       - ./config:/config
       - /media/jellydata:/jellydata
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.services.syncthing-prod-1.loadbalancer.server.port: '8384'

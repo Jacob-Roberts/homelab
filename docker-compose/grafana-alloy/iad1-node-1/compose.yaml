@@ -23,6 +23,12 @@ services:
       - LOKI_URL
       - LOKI_USER_ID
       - GRAFANA_CLOUD_TOKEN
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.services.grafana-alloy-prod-1.loadBalancer.server.port: 12345

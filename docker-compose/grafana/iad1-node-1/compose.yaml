@@ -30,6 +30,12 @@ services:
       - frontend
     volumes:
       - ./data:/var/lib/grafana
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.routers.grafana-prod-1-http.entrypoints: web

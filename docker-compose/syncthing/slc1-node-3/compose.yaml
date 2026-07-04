@@ -27,6 +27,12 @@ services:
       - ./config:/var/syncthing
       # - /media/jellydata:/jellydata
       - ../../traefik/slc1-node-3/synced-certs:/etc/syncthing/synced-certs
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 768M
     labels:
       traefik.enable: true
       traefik.http.services.syncthing-prod-1.loadbalancer.server.port: '8384'

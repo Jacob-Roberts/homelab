@@ -28,6 +28,12 @@ services:
       - ${DOCKER_DATA_DIR}/ai/openwebui-data:/app/backend/data:rw
     extra_hosts:
       - host.docker.internal:host-gateway
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 1G
     labels:
       traefik.enable: true
       traefik.http.services.authentik-prod-1.loadBalancer.server.port: 8080

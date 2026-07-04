@@ -26,6 +26,12 @@ services:
     volumes:
       - n8n_data:/home/node/.n8n
       - ./files:/files
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 1G
     labels:
       traefik.enable: true
       traefik.external: true

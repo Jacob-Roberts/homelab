@@ -22,6 +22,12 @@ services:
       - ./config:/config
       - ./cache:/cache
       - /nfs/jellydata:/jellydata
+
+    deploy:
+      resources:
+        limits:
+          cpus: "2.00"
+          memory: 2G
     labels:
       traefik.enable: true
       traefik.http.services.jellyfin-prod-1.loadBalancer.server.port: 8096

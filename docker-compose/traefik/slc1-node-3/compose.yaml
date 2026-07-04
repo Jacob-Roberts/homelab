@@ -54,6 +54,12 @@ services:
       - ./config/certs/:/traefik/certs:rw
       # access docker socket via proxy read-only
       - socket-proxy:/var/run
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.routers.traefik-prod-1-http.service: "api@internal"
@@ -77,6 +83,12 @@ services:
       - ./synced-certs/:/synced-certs:rw
       - ./cert-dumper-output:/output:rw
     entrypoint: "sh -c ' while ! [ -e /certs/cloudflare-acme.json ] || ! [ `jq \".[] | .Certificates | length\" /certs/cloudflare-acme.json | jq -s \"add\" ` != 0 ]; do sleep 1 ; done && traefik-certs-dumper file --version v3 --watch --domain-subdir=true --source /certs/cloudflare-acme.json --dest /output --post-hook \"sh /extract-certs.sh\"'"
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
 
   traefik-tunnel:
     image: docker.io/traefik:v3
@@ -107,6 +119,12 @@ services:
     volumes:
       - ./config-tunnel/traefik.yaml:/traefik/traefik.yaml:ro
       - ./config-tunnel/conf/:/traefik/conf/:ro
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.docker.network: traefik_internal
@@ -136,6 +154,12 @@ services:
       # this socket is run as 1000:1000, not as root!
       - socket-proxy:/run/proxy
 
+    deploy:
+      resources:
+        limits:
+          cpus: "0.20"
+          memory: 128M
+
   whoami:
     image: docker.io/traefik/whoami
     container_name: whoami-prod-1
@@ -145,6 +169,12 @@ services:
     restart: unless-stopped
     networks:
       - frontend
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 64M
     labels:
       traefik.enable: true
       traefik.http.routers.whoami-prod-1-http.entrypoints: web
@@ -164,6 +194,12 @@ services:
     restart: unless-stopped
     networks:
       - frontend
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 64M
     labels:
       traefik.enable: true
       traefik.http.routers.whoamitunnel-prod-1-http.entrypoints: web

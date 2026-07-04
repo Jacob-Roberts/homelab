@@ -35,6 +35,12 @@ services:
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config/conf/:/etc/traefik/conf/:ro
       - ./config/certs/:/etc/traefik/certs/
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.routers.traefik-prod-1-http.service: "api@internal"
@@ -54,6 +60,12 @@ services:
       - ./synced-certs/:/synced-certs
 
     entrypoint: "sh -c ' while ! [ -e /certs/cloudflare-acme.json ] || ! [ `jq \".[] | .Certificates | length\" /certs/cloudflare-acme.json | jq -s \"add\" ` != 0 ]; do sleep 1 ; done && traefik-certs-dumper file --version v3 --watch --domain-subdir=true --source /certs/cloudflare-acme.json --dest /etc/traefik/certs --post-hook \"sh /extract-certs.sh\"'"
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
     container_name: traefik-socket-proxy
@@ -94,6 +106,12 @@ services:
     tmpfs:
       - /run
 
+    deploy:
+      resources:
+        limits:
+          cpus: "0.20"
+          memory: 128M
+
   whoami:
     image: docker.io/traefik/whoami
     container_name: whoami-prod-1
@@ -103,6 +121,12 @@ services:
     restart: unless-stopped
     networks:
       - frontend
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 64M
     labels:
       traefik.enable: true
       traefik.http.routers.whoami-prod-1-http.entrypoints: web

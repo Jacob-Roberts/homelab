@@ -32,6 +32,12 @@ services:
       - frontend
     volumes:
       - config-data:/etc/nut_webgui
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.services.webnut-prod-1.loadBalancer.server.port: 9000
@@ -54,3 +60,9 @@ services:
       - config-data:/etc/nut_webgui
     stdin_open: true
     entrypoint: [/bin/ash, "-c"]
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M

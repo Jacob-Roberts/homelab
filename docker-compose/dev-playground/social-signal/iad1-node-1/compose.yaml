@@ -33,6 +33,12 @@ services:
     networks:
       - frontend
       - internal
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.external: true
@@ -57,4 +63,10 @@ services:
       - internal
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 1G
 

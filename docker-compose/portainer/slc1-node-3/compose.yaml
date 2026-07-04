@@ -21,6 +21,12 @@ services:
       - internal
     volumes:
       - ./data:/data
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
@@ -72,3 +78,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     tmpfs:
       - /run
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.20"
+          memory: 128M

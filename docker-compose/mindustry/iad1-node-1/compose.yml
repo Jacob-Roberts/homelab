@@ -17,3 +17,9 @@ services:
       - 6567:6567/udp
     networks:
       - frontend
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M

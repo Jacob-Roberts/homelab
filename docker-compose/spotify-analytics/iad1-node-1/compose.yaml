@@ -25,6 +25,12 @@ services:
     networks:
       - internal
       - frontend
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.external: true
@@ -49,6 +55,12 @@ services:
       - internal
     volumes:
       - ./your_spotify_db:/data/db
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 1G
   web:
     image: docker.io/yooooomi/your_spotify_client:1.14.0
     container_name: spotify-analytics-web
@@ -59,6 +71,12 @@ services:
       API_ENDPOINT: https://api.spotify.iad1.jakerob.pro
     networks:
       - frontend
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.external: true

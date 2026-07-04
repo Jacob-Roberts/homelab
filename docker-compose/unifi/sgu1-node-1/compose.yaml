@@ -39,6 +39,12 @@ services:
       - internal
     volumes:
       - ./config:/config
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
@@ -69,3 +75,9 @@ services:
     volumes:
       - ./data:/data/db
       - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 1G

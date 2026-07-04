@@ -36,3 +36,9 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.50"
+          memory: 2G

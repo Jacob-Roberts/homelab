@@ -14,3 +14,9 @@ services:
       - frontend
     volumes:
       - ./config/config.alloy:/etc/alloy/config.alloy
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M

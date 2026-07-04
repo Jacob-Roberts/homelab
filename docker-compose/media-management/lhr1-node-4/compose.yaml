@@ -37,3 +37,9 @@ services:
       - ./tdarr-config/logs:/app/logs
       - /media/jellydata/media:/media:rw
       - ./tdarr-config/transcode_cache:/temp
+
+    deploy:
+      resources:
+        limits:
+          cpus: "4.00"
+          memory: 4G

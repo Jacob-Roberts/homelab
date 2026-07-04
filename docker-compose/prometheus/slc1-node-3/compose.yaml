@@ -20,6 +20,12 @@ services:
     volumes:
       - ./config/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
       - prometheus-data:/prometheus
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 1G
     labels:
       traefik.enable: true
       traefik.http.routers.prometheus-prod-1-http.entrypoints: web

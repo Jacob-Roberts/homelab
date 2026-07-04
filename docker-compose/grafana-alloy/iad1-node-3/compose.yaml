@@ -19,3 +19,9 @@ services:
       - /sys:/host/sys:ro
       - /etc/os-release:/etc/os-release:ro
       - ./config/config.alloy:/etc/alloy/config.alloy
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M

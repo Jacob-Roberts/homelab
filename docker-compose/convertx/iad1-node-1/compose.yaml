@@ -26,6 +26,12 @@ services:
       - data:/app/data
     networks:
       - frontend
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.external: true
@@ -47,3 +53,9 @@ services:
     volumes:
       - data:/app/data
     entrypoint: [/bin/ash, "-c"]
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M

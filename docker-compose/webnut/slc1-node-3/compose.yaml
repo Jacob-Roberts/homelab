@@ -19,6 +19,12 @@ services:
       UPS_PASSWORD: "${UPS_PASSWORD}"
     networks:
       - frontend
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.http.services.webnut-prod-1.loadBalancer.server.port: 6543

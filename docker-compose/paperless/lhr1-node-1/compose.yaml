@@ -16,6 +16,12 @@ services:
       - internal
     volumes:
       - ./redisdata:/data
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
   webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
     user: "${DOCKER_USER_ID:-2019}:${DOCKER_GROUP_ID:-2019}"
@@ -57,6 +63,12 @@ services:
       - /media/roberts-data/paperless:/usr/src/paperless/media
       - ./export:/usr/src/paperless/export
       - ./consume:/usr/src/paperless/consume
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.docker.network: frontend

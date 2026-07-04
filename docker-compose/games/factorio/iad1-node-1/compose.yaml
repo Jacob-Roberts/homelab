@@ -19,3 +19,9 @@ services:
       TOKEN: "${TOKEN}"
     volumes:
       - ${DOCKER_DATA_DIR}/factorio/data:/factorio
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 1G

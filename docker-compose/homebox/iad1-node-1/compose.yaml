@@ -27,6 +27,12 @@ services:
       - frontend
     volumes:
       - homebox-data:/data/
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
     labels:
       traefik.enable: true
       traefik.external: true

@@ -43,6 +43,12 @@ services:
     volumes:
       - ./data:/var/www/html
       - ./app-hooks/post-installation:/docker-entrypoint-hooks.d/post-installation
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.50"
+          memory: 2G
     labels:
       traefik.enable: true
       traefik.docker.network: frontend
@@ -81,9 +87,21 @@ services:
       - internal
     volumes:
       - ./nextcloud-db:/var/lib/mysql
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.50"
+          memory: 2G
   nextcloud-cache:
     image: docker.io/redis:alpine3.19
     container_name: nextcloud-cache
     restart: unless-stopped
     networks:
       - internal
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
