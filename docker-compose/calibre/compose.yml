@@ -1,6 +1,14 @@
 ---
 name: calibre
 
+volumes:
+  calibre-config:
+    driver: local
+  calibre-ingest:
+    driver: local
+  calibre-library:
+    driver: local
+
 networks:
   frontend:
     external: true
@@ -18,11 +26,12 @@ services:
     networks:
       - frontend
     volumes:
-      - ${DOCKER_DATA_DIR}/calibre/config:/config
+      - calibre-config:/config
       # This is an ingest dir, NOT a library one. Anything added here will be automatically added to your library according to the settings you have configured in CWA Settings page. All files placed here are REMOVED AFTER PROCESSING
-      - ${DOCKER_DATA_DIR}/calibre/ingest:/cwa-book-ingest
-      - ${DOCKER_DATA_DIR}/calibre/library:/calibre-library
-
+      - calibre-ingest:/cwa-book-ingest
+      - calibre-library:/calibre-library
+    logging:
+      driver: "local"
     deploy:
       resources:
         limits:
