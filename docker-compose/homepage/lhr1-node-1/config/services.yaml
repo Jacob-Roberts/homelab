@@ -4,13 +4,13 @@
 
 - Infrastructure and Data:
     - Proxmox:
-        href: https://proxmox.lhr1.jakerob.pro:8006
+        href: https://proxmox.pbj.jakerob.pro:8006
         icon: proxmox.png
-        description: proxmox on lhr1-node-1
-        siteMonitor: https://proxmox.lhr1.jakerob.pro:8006
+        description: proxmox on pbj-node-1
+        siteMonitor: https://proxmox.pbj.jakerob.pro:8006
         widget:
           type: proxmox
-          url: https://proxmox.lhr1.jakerob.pro:8006
+          url: https://proxmox.pbj.jakerob.pro:8006
           username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
           password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
     # - TrueNAS Scale:
@@ -29,48 +29,48 @@
     #     description: ixdb-prod-1 on srv-prod-2
 
     - Traefik:
-        href: https://traefik.lhr1.jakerob.pro
+        href: https://traefik.pbj.jakerob.pro
         icon: traefik.png
-        description: traefik on lhr1-node-1
+        description: traefik on pbj-node-1
         widget:
           type: traefik
-          url: https://traefik.lhr1.jakerob.pro
+          url: https://traefik.pbj.jakerob.pro
 
     - MySpeed:
         icon: mdi-speedometer-#232835
-        href: https://myspeed.lhr1.jakerob.pro
+        href: https://myspeed.pbj.jakerob.pro
         description: internet speed test
-        siteMonitor: https://myspeed.lhr1.jakerob.pro
+        siteMonitor: https://myspeed.pbj.jakerob.pro
         server: my-docker
         container: myspeed
         widget:
           type: myspeed
-          url: https://myspeed.lhr1.jakerob.pro
+          url: https://myspeed.pbj.jakerob.pro
           #password: password # only required if password is set
 
 - Management:
     - Portainer:
-        href: https://portainer.lhr1.jakerob.pro
+        href: https://portainer.pbj.jakerob.pro
         icon: portainer.png
-        description: portainer on lhr1-node-1
+        description: portainer on pbj-node-1
         widget:
           type: portainer
-          url: https://portainer.lhr1.jakerob.pro
+          url: https://portainer.pbj.jakerob.pro
           env: 1
           key: "{{HOMEPAGE_VAR_PORTAINER_KEY}}"
 
 - Monitoring:
     - UptimeKuma:
-        href: https://uptime.lhr1.jakerob.pro
-        description: uptimekuma on lhr1-node-1
+        href: https://uptime.pbj.jakerob.pro
+        description: uptimekuma on pbj-node-1
         icon: uptime-kuma.png
         widget:
           type: uptimekuma
-          url: https://uptime.lhr1.jakerob.pro
+          url: https://uptime.pbj.jakerob.pro
           slug: default
     - Grafana:
         icon: grafana.png
-        href: https://grafana.lhr1.jakerob.pro
+        href: https://grafana.pbj.jakerob.pro
         description: open-source logging system that does not index the contents of the logs, but rather a set of labels for each log stream
         # widget:
         #     type: grafana
@@ -94,7 +94,7 @@
     #     container: grafana-prod-1
     - cAdvisor:
         icon: cadvisor.png
-        href: https://cadvisor.lhr1.jakerob.pro
+        href: https://cadvisor.pbj.jakerob.pro
         description: provides container users an understanding of the resource usage and performance characteristics of their running containers
         # siteMonitor: http://cadvisor:8080
         # server: my-docker
@@ -135,7 +135,7 @@
     - Immich:
         icon: immich.png
         href: https://photos.jakerob.pro/
-        description: Photos on lhr1-node-1
+        description: Photos on pbj-node-1
         widget:
           type: immich
           url: https://photos.jakerob.pro
@@ -144,7 +144,7 @@
     - Jellyfin:
         icon: jellyfin.png
         href: https://jellyfin.jakerob.pro/
-        description: Jellyfin on lhr1-node-1
+        description: Jellyfin on pbj-node-1
         widget:
           type: jellyfin
           url: https://jellyfin.jakerob.pro
@@ -154,39 +154,39 @@
 
     - Nextcloud:
         icon: nextcloud.png
-        href: https://nextcloud.lhr1.jakerob.pro/
-        description: Nextcloud on lhr1-node-1
+        href: https://nextcloud.pbj.jakerob.pro/
+        description: Nextcloud on pbj-node-1
         widget:
           type: nextcloud
-          url: https://nextcloud.lhr1.jakerob.pro
+          url: https://nextcloud.pbj.jakerob.pro
           key: "{{HOMEPAGE_VAR_NEXTCLOUD_KEY}}"
 
 - Media Management:
     - Prowlarr:
         icon: prowlarr.png
-        href: https://prowlarr.lhr1.jakerob.pro/
+        href: https://prowlarr.pbj.jakerob.pro/
         description: Indexer management
         widget:
           type: prowlarr
-          url: https://prowlarr.lhr1.jakerob.pro
+          url: https://prowlarr.pbj.jakerob.pro
           key: "{{HOMEPAGE_VAR_PROWLARR_KEY}}"
 
     - Sonarr:
         icon: sonarr.png
-        href: https://sonarr.lhr1.jakerob.pro/
+        href: https://sonarr.pbj.jakerob.pro/
         description: Series management
         widget:
           type: sonarr
-          url: https://sonarr.lhr1.jakerob.pro
+          url: https://sonarr.pbj.jakerob.pro
           key: "{{HOMEPAGE_VAR_SONARR_KEY}}"
 
     - Radarr:
         icon: radarr.png
-        href: https://radarr.lhr1.jakerob.pro/
+        href: https://radarr.pbj.jakerob.pro/
         description: Movie management
         widget:
           type: radarr
-          url: https://radarr.lhr1.jakerob.pro
+          url: https://radarr.pbj.jakerob.pro
           key: "{{HOMEPAGE_VAR_RADARR_KEY}}"
 
     - Gluetun:
@@ -198,10 +198,10 @@
 
     - QBittorrent:
         icon: qbittorrent.png
-        href: https://qbittorrent.lhr1.jakerob.pro/
+        href: https://qbittorrent.pbj.jakerob.pro/
         description: Torrent management
         widget:
           type: qbittorrent
-          url: https://qbittorrent.lhr1.jakerob.pro
+          url: https://qbittorrent.pbj.jakerob.pro
           username: "{{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}"
           password: "{{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}"

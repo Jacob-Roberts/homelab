@@ -7,6 +7,10 @@ networks:
   internal:
     external: false
 
+volumes:
+  calibre_calibre-ingest:
+    external: true
+
 services:
   gluetun:
     image: docker.io/qmcgaw/gluetun:v3
@@ -60,60 +64,60 @@ services:
       traefik.http.routers.qbittorrent-prod-1-http.service: qbittorrent-prod-1
       traefik.http.routers.qbittorrent-prod-1-https.service: qbittorrent-prod-1
       traefik.http.routers.qbittorrent-prod-1-http.entrypoints: web
-      traefik.http.routers.qbittorrent-prod-1-http.rule: Host(`${QBITTORRENT_URL:-qbittorrent.lhr1.jakerob.pro}`)
+      traefik.http.routers.qbittorrent-prod-1-http.rule: Host(`${QBITTORRENT_URL:-qbittorrent.pbj.jakerob.pro}`)
       traefik.http.routers.qbittorrent-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.qbittorrent-prod-1-https.entrypoints: websecure
-      traefik.http.routers.qbittorrent-prod-1-https.rule: Host(`${QBITTORRENT_URL:-qbittorrent.lhr1.jakerob.pro}`)
+      traefik.http.routers.qbittorrent-prod-1-https.rule: Host(`${QBITTORRENT_URL:-qbittorrent.pbj.jakerob.pro}`)
       traefik.http.routers.qbittorrent-prod-1-https.tls: true
       traefik.http.routers.qbittorrent-prod-1-https.tls.certresolver: cloudflare
       traefik.http.services.prowlarr-prod-1.loadBalancer.server.port: 9696
       traefik.http.routers.prowlarr-prod-1-http.service: prowlarr-prod-1
       traefik.http.routers.prowlarr-prod-1-https.service: prowlarr-prod-1
       traefik.http.routers.prowlarr-prod-1-http.entrypoints: web
-      traefik.http.routers.prowlarr-prod-1-http.rule: Host(`${PROWLARR_URL:-prowlarr.lhr1.jakerob.pro}`)
+      traefik.http.routers.prowlarr-prod-1-http.rule: Host(`${PROWLARR_URL:-prowlarr.pbj.jakerob.pro}`)
       traefik.http.routers.prowlarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.prowlarr-prod-1-https.entrypoints: websecure
-      traefik.http.routers.prowlarr-prod-1-https.rule: Host(`${PROWLARR_URL:-prowlarr.lhr1.jakerob.pro}`)
+      traefik.http.routers.prowlarr-prod-1-https.rule: Host(`${PROWLARR_URL:-prowlarr.pbj.jakerob.pro}`)
       traefik.http.routers.prowlarr-prod-1-https.tls: true
       traefik.http.routers.prowlarr-prod-1-https.tls.certresolver: cloudflare
       traefik.http.services.radarr-prod-1.loadBalancer.server.port: 7878
       traefik.http.routers.radarr-prod-1-http.service: radarr-prod-1
       traefik.http.routers.radarr-prod-1-https.service: radarr-prod-1
       traefik.http.routers.radarr-prod-1-http.entrypoints: web
-      traefik.http.routers.radarr-prod-1-http.rule: Host(`${RADARR_URL:-radarr.lhr1.jakerob.pro}`)
+      traefik.http.routers.radarr-prod-1-http.rule: Host(`${RADARR_URL:-radarr.pbj.jakerob.pro}`)
       traefik.http.routers.radarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.radarr-prod-1-https.entrypoints: websecure
-      traefik.http.routers.radarr-prod-1-https.rule: Host(`${RADARR_URL:-radarr.lhr1.jakerob.pro}`)
+      traefik.http.routers.radarr-prod-1-https.rule: Host(`${RADARR_URL:-radarr.pbj.jakerob.pro}`)
       traefik.http.routers.radarr-prod-1-https.tls: true
       traefik.http.routers.radarr-prod-1-https.tls.certresolver: cloudflare
       traefik.http.services.sonarr-prod-1.loadBalancer.server.port: 8989
       traefik.http.routers.sonarr-prod-1-http.service: sonarr-prod-1
       traefik.http.routers.sonarr-prod-1-https.service: sonarr-prod-1
       traefik.http.routers.sonarr-prod-1-http.entrypoints: web
-      traefik.http.routers.sonarr-prod-1-http.rule: Host(`${SONARR_URL:-sonarr.lhr1.jakerob.pro}`)
+      traefik.http.routers.sonarr-prod-1-http.rule: Host(`${SONARR_URL:-sonarr.pbj.jakerob.pro}`)
       traefik.http.routers.sonarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.sonarr-prod-1-https.entrypoints: websecure
-      traefik.http.routers.sonarr-prod-1-https.rule: Host(`${SONARR_URL:-sonarr.lhr1.jakerob.pro}`)
+      traefik.http.routers.sonarr-prod-1-https.rule: Host(`${SONARR_URL:-sonarr.pbj.jakerob.pro}`)
       traefik.http.routers.sonarr-prod-1-https.tls: true
       traefik.http.routers.sonarr-prod-1-https.tls.certresolver: cloudflare
       traefik.http.services.bazarr-prod-1.loadBalancer.server.port: 6767
       traefik.http.routers.bazarr-prod-1-http.service: bazarr-prod-1
       traefik.http.routers.bazarr-prod-1-https.service: bazarr-prod-1
       traefik.http.routers.bazarr-prod-1-http.entrypoints: web
-      traefik.http.routers.bazarr-prod-1-http.rule: Host(`${BAZARR_URL:-bazarr.lhr1.jakerob.pro}`)
+      traefik.http.routers.bazarr-prod-1-http.rule: Host(`${BAZARR_URL:-bazarr.pbj.jakerob.pro}`)
       traefik.http.routers.bazarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.bazarr-prod-1-https.entrypoints: websecure
-      traefik.http.routers.bazarr-prod-1-https.rule: Host(`${BAZARR_URL:-bazarr.lhr1.jakerob.pro}`)
+      traefik.http.routers.bazarr-prod-1-https.rule: Host(`${BAZARR_URL:-bazarr.pbj.jakerob.pro}`)
       traefik.http.routers.bazarr-prod-1-https.tls: true
       traefik.http.routers.bazarr-prod-1-https.tls.certresolver: cloudflare
       traefik.http.services.shelfmark-prod-1.loadBalancer.server.port: 8084
       traefik.http.routers.shelfmark-prod-1-http.service: shelfmark-prod-1
       traefik.http.routers.shelfmark-prod-1-https.service: shelfmark-prod-1
       traefik.http.routers.shelfmark-prod-1-http.entrypoints: web
-      traefik.http.routers.shelfmark-prod-1-http.rule: Host(`${SHELFMARK_URL:-shelfmark.lhr1.jakerob.pro}`)
+      traefik.http.routers.shelfmark-prod-1-http.rule: Host(`${SHELFMARK_URL:-shelfmark.pbj.jakerob.pro}`)
       traefik.http.routers.shelfmark-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.shelfmark-prod-1-https.entrypoints: websecure
-      traefik.http.routers.shelfmark-prod-1-https.rule: Host(`${SHELFMARK_URL:-shelfmark.lhr1.jakerob.pro}`)
+      traefik.http.routers.shelfmark-prod-1-https.rule: Host(`${SHELFMARK_URL:-shelfmark.pbj.jakerob.pro}`)
       traefik.http.routers.shelfmark-prod-1-https.tls: true
       traefik.http.routers.shelfmark-prod-1-https.tls.certresolver: cloudflare
 
@@ -300,7 +304,7 @@ services:
       internalNode: "true"
       inContainer: "true"
       ffmpegVersion: '7'
-      nodeName: lhr1-node-1
+      nodeName: pbj-node-1
       auth: "false"
       openBrowser: "true"
       maxLogSizeMB: '10'
@@ -328,10 +332,10 @@ services:
       traefik.docker.network: frontend
       traefik.http.services.tdarr-prod-1.loadBalancer.server.port: 8265
       traefik.http.routers.tdarr-prod-1-http.entrypoints: web
-      traefik.http.routers.tdarr-prod-1-http.rule: Host(`${TDARR_URL:-tdarr.lhr1.jakerob.pro}`)
+      traefik.http.routers.tdarr-prod-1-http.rule: Host(`${TDARR_URL:-tdarr.pbj.jakerob.pro}`)
       traefik.http.routers.tdarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.tdarr-prod-1-https.entrypoints: websecure
-      traefik.http.routers.tdarr-prod-1-https.rule: Host(`${TDARR_URL:-tdarr.lhr1.jakerob.pro}`)
+      traefik.http.routers.tdarr-prod-1-https.rule: Host(`${TDARR_URL:-tdarr.pbj.jakerob.pro}`)
       traefik.http.routers.tdarr-prod-1-https.tls: true
       traefik.http.routers.tdarr-prod-1-https.tls.certresolver: cloudflare
 
@@ -351,7 +355,7 @@ services:
       HARDCOVER_ENABLED: true
       HARDCOVER_API_KEY: ${HARDCOVER_API_KEY}
     volumes:
-      - ../../calibre/lhr1-node-1/ingest:/books # Default destination for book downloads
+      - calibre_calibre-ingest:/books # Default destination for book downloads
       - ./shelfmark/config:/config # App configuration
       # Required for torrent / usenet - path must match your download client's volume exactly
       # - /path/to/downloads:/path/to/downloads
