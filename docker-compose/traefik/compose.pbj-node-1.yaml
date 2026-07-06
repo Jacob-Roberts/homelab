@@ -1,0 +1,83 @@
+---
+
+services:
+  traefik-certs-dumper:
+    extends:
+      file: compose.yaml
+      service: traefik-certs-dumper
+
+  traefik-tunnel:
+    image: docker.io/traefik:v3
+    container_name: traefik-tunnel
+    command:
+      - "--configFile=/traefik/traefik.yaml"
+    read_only: true
+    user: "${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001}"
+    security_opt:
+      - no-new-privileges:true
+    sysctls:
+      # allow rootless container to access ports < 1024
+      net.ipv4.ip_unprivileged_port_start: 80
+    restart: unless-stopped
+    healthcheck:
+      # https://doc.traefik.io/traefik/operations/cli/#healthcheck
+      test: [CMD, traefik, healthcheck, "--ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    ports:
+      # Bind on Tailscale interface only
+      - "${TAILSCALE_IP:-100.81.118.52}:80:80"
+      - "${TAILSCALE_IP:-100.81.118.52}:443:443"
+    environment:
+      TZ: "${TZ:-Europe/London}"
+    networks:
+      - internal
+    volumes:
+      - ./config/traefik-tunnel.yaml:/traefik/traefik.yaml:ro
+      - ./config/conf-tunnel/:/traefik/conf/:ro
+    logging:
+      driver: local
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 512M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik_internal
+      traefik.http.services.traefiktunnel-prod-1.loadBalancer.server.port: 8080 # TODO: Expose this securely
+      traefik.http.routers.traefiktunnel-prod-1-http.entrypoints: web
+      traefik.http.routers.traefiktunnel-prod-1-http.rule: "Host(`${TRAEFIK_TUNNEL_URL}`) && !PathPrefix(`/ping`)"
+      traefik.http.routers.traefiktunnel-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.traefiktunnel-prod-1-https.entrypoints: websecure
+      traefik.http.routers.traefiktunnel-prod-1-https.rule: "Host(`${TRAEFIK_TUNNEL_URL}`) && !PathPrefix(`/ping`)"
+      traefik.http.routers.traefiktunnel-prod-1-https.tls: true
+      traefik.http.routers.traefiktunnel-prod-1-https.tls.certresolver: cloudflare
+
+  whoami-tunnel:
+    image: docker.io/traefik/whoami
+    container_name: whoami-tunnel-prod-1
+    command: "--verbose"
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      - frontend
+    logging:
+      driver: local
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 64M
+    labels:
+      traefik.enable: true
+      traefik.http.routers.whoamitunnel-prod-1-http.entrypoints: web
+      traefik.http.routers.whoamitunnel-prod-1-http.rule: Host(`${WHOAMI_TUNNEL_URL}`)
+      traefik.http.routers.whoamitunnel-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.whoamitunnel-prod-1-https.entrypoints: websecure
+      traefik.http.routers.whoamitunnel-prod-1-https.rule: Host(`${WHOAMI_TUNNEL_URL}`)
+      traefik.http.routers.whoamitunnel-prod-1-https.tls: true
+      traefik.http.routers.whoamitunnel-prod-1-https.tls.certresolver: cloudflare

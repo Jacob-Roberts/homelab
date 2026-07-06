@@ -1,49 +1,49 @@
 # This tunnel only uses http
 http:
   services:
-    lhr1-traefik:
+    pbj-traefik:
       loadBalancer:
         servers:
           - url: https://traefik
 
   routers:
-    # WHOAMI LHR1
-    whoami-lhr1-https:
+    # WHOAMI PBJ
+    whoami-pbj-https:
       entrypoints: websecure
-      rule: "Host(`whoami-tunnel.lhr1.jakerob.pro`)"
-      service: lhr1-traefik
+      rule: "Host(`whoami-tunnel.pbj.jakerob.pro`)"
+      service: pbj-traefik
       tls: true
 
-    pocket-id-lhr1-https:
+    pocket-id-pbj-https:
       entrypoints: websecure
-      rule: "Host(`pocket-id.lhr1.jakerob.pro`)"
-      service: lhr1-traefik
+      rule: "Host(`pocket-id.pbj.jakerob.pro`)"
+      service: pbj-traefik
       tls: true
 
     # IMMICH
-    immich-lhr1-https:
+    immich-pbj-https:
       entrypoints: websecure
       rule: "Host(`photos.jakerob.pro`)"
-      service: lhr1-traefik
+      service: pbj-traefik
       tls: true
 
     # Jellyfin
-    jellyfin-lhr1-https:
+    jellyfin-pbj-https:
       entrypoints: websecure
       rule: "Host(`jellyfin.jakerob.pro`)"
-      service: lhr1-traefik
+      service: pbj-traefik
       tls: true
 
     # Karakeep
-    karakeep-lhr1-https:
+    karakeep-pbj-https:
       entrypoints: websecure
       rule: "Host(`karakeep.jakerob.pro`)"
-      service: lhr1-traefik
+      service: pbj-traefik
       tls: true
 
     # Calibre
-    calibre-lhr1-https:
+    calibre-pbj-https:
       entrypoints: websecure
       rule: "Host(`calibre.jakerob.pro`)"
-      service: lhr1-traefik
+      service: pbj-traefik
       tls: true

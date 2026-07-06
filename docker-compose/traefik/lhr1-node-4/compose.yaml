@@ -46,10 +46,10 @@ services:
       traefik.http.routers.traefik-prod-1-http.service: "api@internal"
       traefik.http.routers.traefik-prod-1-https.service: "api@internal"
       traefik.http.routers.traefik-prod-1-http.entrypoints: web
-      traefik.http.routers.traefik-prod-1-http.rule: Host(`${TRAEFIK_URL:-traefik.lhr1-4.jakerob.pro}`)
+      traefik.http.routers.traefik-prod-1-http.rule: Host(`${TRAEFIK_URL:-traefik.pbj-4.jakerob.pro}`)
       traefik.http.routers.traefik-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.traefik-prod-1-https.entrypoints: websecure
-      traefik.http.routers.traefik-prod-1-https.rule: Host(`${TRAEFIK_URL:-traefik.lhr1-4.jakerob.pro}`)
+      traefik.http.routers.traefik-prod-1-https.rule: Host(`${TRAEFIK_URL:-traefik.pbj-4.jakerob.pro}`)
       traefik.http.routers.traefik-prod-1-https.tls: true
       traefik.http.routers.traefik-prod-1-https.tls.certresolver: cloudflare
   traefik-certs-dumper:
@@ -130,9 +130,9 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.whoami-prod-1-http.entrypoints: web
-      traefik.http.routers.whoami-prod-1-http.rule: Host(`${WHOAMI_URL:-whoami.lhr1-4.jakerob.pro}`)
+      traefik.http.routers.whoami-prod-1-http.rule: Host(`${WHOAMI_URL:-whoami.pbj-4.jakerob.pro}`)
       traefik.http.routers.whoami-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.whoami-prod-1-https.entrypoints: websecure
-      traefik.http.routers.whoami-prod-1-https.rule: Host(`${WHOAMI_URL:-whoami.lhr1-4.jakerob.pro}`)
+      traefik.http.routers.whoami-prod-1-https.rule: Host(`${WHOAMI_URL:-whoami.pbj-4.jakerob.pro}`)
       traefik.http.routers.whoami-prod-1-https.tls: true
       traefik.http.routers.whoami-prod-1-https.tls.certresolver: cloudflare

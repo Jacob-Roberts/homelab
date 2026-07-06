@@ -1,7 +1,7 @@
 http:
   routers:
     whoami-podman:
-      rule: "Host(`whoami-pm.lhr1.jakerob.pro`)"
+      rule: "Host(`whoami-pm.pbj.jakerob.pro`)"
       service: whoami-podman-service
       entryPoints:
         - websecure # or 'web' depending on your setup

@@ -12,6 +12,9 @@ networks:
 
 volumes:
   socket-proxy:
+  plugins:
+  certs-storage:
+    external: true
 
 services:
   traefik:
@@ -31,6 +34,8 @@ services:
         condition: service_healthy
         restart: true
     restart: unless-stopped
+    logging:
+      driver: local
     healthcheck:
       # https://doc.traefik.io/traefik/operations/cli/#healthcheck
       test: [CMD, traefik, healthcheck, "--ping"]
@@ -53,12 +58,11 @@ services:
       - internal
     volumes:
       - ./config/traefik.yaml:/traefik/traefik.yaml:ro
-      - ./config/conf:/traefik/conf:ro
-      - ./config/plugins:/plugins-storage
-      - ./config/certs:/traefik/certs:rw
+      - ./config/conf/:/traefik/conf:ro
+      - plugins:/plugins-storage/:rw
+      - certs-storage:/traefik/certs:rw
       # access docker socket via proxy read-only
       - socket-proxy:/var/run
-
     deploy:
       resources:
         limits:
@@ -92,7 +96,8 @@ services:
       - /run/docker.sock:/run/docker.sock:ro
       # this socket is run as 1000:1000, not as root!
       - socket-proxy:/run/proxy
-
+    logging:
+      driver: local
     deploy:
       resources:
         limits:
@@ -108,7 +113,8 @@ services:
     restart: unless-stopped
     networks:
       - frontend
-
+    logging:
+      driver: local
     deploy:
       resources:
         limits:

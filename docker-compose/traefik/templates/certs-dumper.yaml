@@ -1,0 +1,26 @@
+---
+
+volumes:
+  certs-storage:
+    external: true
+
+
+services:
+  traefik-certs-dumper:
+    image: docker.io/ldez/traefik-certs-dumper:v2.9.3
+    user: "${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001}"
+    group_add:
+      - "${DOCKER_GROUP_ID_CERT_MANAGER:-2013}"
+    volumes:
+      - ./scripts/extract-certs.sh:/extract-certs.sh:ro
+      - certs-storage:/certs:ro
+      - ./synced-certs/:/synced-certs:rw
+      - ./cert-dumper-output:/output:rw
+    entrypoint: "sh -c ' while ! [ -e /certs/cloudflare-acme.json ] || ! [ `jq \".[] | .Certificates | length\" /certs/cloudflare-acme.json | jq -s \"add\" ` != 0 ]; do sleep 1 ; done && traefik-certs-dumper file --version v3 --watch --domain-subdir=true --source /certs/cloudflare-acme.json --dest /output --post-hook \"sh /extract-certs.sh\"'"
+    logging:
+      driver: local
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M

@@ -3,4 +3,4 @@ http:
     identify-node:
       headers:
         customResponseHeaders:
-          X-Traefik-lhr1-node-1: "true"
+          X-Traefik-pbj-node-1-tunnel: "true"
