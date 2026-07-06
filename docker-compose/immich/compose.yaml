@@ -115,6 +115,10 @@ services:
   database:
     image: "ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23"
     container_name: immich_postgres
+    user: "${DOCKER_USER_ID:-2004}:${DOCKER_GROUP_ID:-2004}"
+    depends_on:
+      chown:
+        condition: service_completed_successfully
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: "${DB_PASSWORD}"
@@ -133,3 +137,21 @@ services:
         limits:
           cpus: "1.50"
           memory: 2G
+
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: alpine
+    command:
+      - |
+        chown -R ${DOCKER_USER_ID:-2004}:${DOCKER_GROUP_ID:-2004} /var/lib/postgresql/data
+    networks: []
+    volumes:
+      - database:/var/lib/postgresql/data
+    entrypoint: [/bin/ash, "-c"]
+    logging:
+      driver: local
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
