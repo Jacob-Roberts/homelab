@@ -14,9 +14,9 @@ http:
       service: pbj-traefik
       tls: true
 
-    pocket-id-pbj-https:
+    auth-https:
       entrypoints: websecure
-      rule: "Host(`pocket-id.pbj.jakerob.pro`)"
+      rule: "Host(`auth.jakerob.pro`)"
       service: pbj-traefik
       tls: true
 
