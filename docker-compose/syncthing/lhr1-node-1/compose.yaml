@@ -27,7 +27,7 @@ services:
     volumes:
       - ./config:/var/syncthing
       - /media/jellydata:/jellydata
-      - ../../traefik/lhr1-node-1/synced-certs:/etc/syncthing/synced-certs
+      - ../../traefik/synced-certs:/etc/syncthing/synced-certs
       - ../../obsidian/lhr1-node-1/vaults:/etc/syncthing/vaults
 
     deploy:
