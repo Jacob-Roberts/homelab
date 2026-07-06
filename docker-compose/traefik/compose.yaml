@@ -14,7 +14,6 @@ volumes:
   socket-proxy:
   plugins:
   certs-storage:
-    external: true
 
 services:
   traefik:
