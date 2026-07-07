@@ -2,8 +2,8 @@ tls:
   certificates:
     - certFile: /traefik/static-certs-pbj/whoami-tunnel.pbj.jakerob.pro/certificate.crt
       keyFile: /traefik/static-certs-pbj/whoami-tunnel.pbj.jakerob.pro/privatekey.key
-    - certFile: /traefik/static-certs-pbj/auth.jakerob.pro/certificate.crt
-      keyFile: /traefik/static-certs-pbj/auth.jakerob.pro/privatekey.key
+    - certFile: /traefik/static-certs-pbj/pocket-id.pbj.jakerob.pro/certificate.crt
+      keyFile: /traefik/static-certs-pbj/pocket-id.pbj.jakerob.pro/privatekey.key
     - certFile: /traefik/static-certs-pbj/photos.jakerob.pro/certificate.crt
       keyFile: /traefik/static-certs-pbj/photos.jakerob.pro/privatekey.key
     - certFile: /traefik/static-certs-pbj/jellyfin.jakerob.pro/certificate.crt
