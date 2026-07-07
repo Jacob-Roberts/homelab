@@ -20,7 +20,7 @@ services:
         condition: service_completed_successfully
     restart: unless-stopped
     environment:
-      APP_URL: "${APP_URL:-https://auth.jakerob.pro}"
+      APP_URL: "${APP_URL:-https://pocket-id.lhr1.jakerob.pro}"
       ENCRYPTION_KEY: "${ENCRYPTION_KEY}"
       TRUST_PROXY: "${TRUST_PROXY:-true}"
       MAXMIND_LICENSE_KEY: "${MAXMIND_LICENSE_KEY:-}"
@@ -47,10 +47,10 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.pocketid-prod-1-http.entrypoints: web
-      traefik.http.routers.pocketid-prod-1-http.rule: Host(`${POCKET_ID_URL:-auth.jakerob.pro}`)
+      traefik.http.routers.pocketid-prod-1-http.rule: Host(`${POCKET_ID_URL:-pocket-id.lhr1.jakerob.pro}`)
       traefik.http.routers.pocketid-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.pocketid-prod-1-https.entrypoints: websecure
-      traefik.http.routers.pocketid-prod-1-https.rule: Host(`${POCKET_ID_URL:-auth.jakerob.pro}`)
+      traefik.http.routers.pocketid-prod-1-https.rule: Host(`${POCKET_ID_URL:-pocket-id.lhr1.jakerob.pro}`)
       traefik.http.routers.pocketid-prod-1-https.tls: true
       traefik.http.routers.pocketid-prod-1-https.tls.certresolver: cloudflare
 
