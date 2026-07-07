@@ -74,13 +74,13 @@ http:
 
     pocket-id-pbj-http:
       entrypoints: web
-      rule: "Host(`pocket-id.pbj.jakerob.pro`)"
+      rule: "Host(`pocket-id.lhr1.jakerob.pro`)"
       middlewares:
         - websecure-redirect-permanent@file
       service: pbj-tunnel
     pocket-id-pbj-https:
       entrypoints: websecure
-      rule: "Host(`pocket-id.pbj.jakerob.pro`)"
+      rule: "Host(`pocket-id.lhr1.jakerob.pro`)"
       service: pbj-tunnel
       tls: true
 
