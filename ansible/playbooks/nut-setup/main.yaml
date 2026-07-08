@@ -1,13 +1,13 @@
 ---
 - name: Set up NUT Server on main Pi.
-  hosts: nut_primary_{{ site | default('lhr1') }}
+  hosts: nut_primary_{{ site | default('pbj') }}
   become: true
   gather_facts: true
   tags: primary
 
   vars_files:
-    - "config-{{ site | default('lhr1') }}.yaml"
-    - "config-{{ site | default('lhr1') }}-secrets.yaml"
+    - "config-{{ site | default('pbj') }}.yaml"
+    - "config-{{ site | default('pbj') }}-secrets.yaml"
 
   # roles:
   #   - geerlingguy.security
@@ -104,14 +104,14 @@
       when: not ansible_check_mode
 
 - name: Set up NUT Client on other servers.
-  hosts: nut_clients_{{ site | default('lhr1') }}
+  hosts: nut_clients_{{ site | default('pbj') }}
   become: true
   gather_facts: true
   tags: client
 
   vars_files:
-    - "config-{{ site | default('lhr1') }}.yaml"
-    - "config-{{ site | default('lhr1') }}-secrets.yaml"
+    - "config-{{ site | default('pbj') }}.yaml"
+    - "config-{{ site | default('pbj') }}-secrets.yaml"
 
   roles:
     - geerlingguy.nut_client
