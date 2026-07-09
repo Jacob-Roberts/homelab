@@ -1,5 +1,5 @@
 ---
-  - hosts: all
+  - hosts: example
     become: true
     tasks:
       - name: Print OS info
