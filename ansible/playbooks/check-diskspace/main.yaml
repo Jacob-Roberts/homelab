@@ -3,13 +3,6 @@
   hosts: "all"
   become: yes
 
-  vars_files:
-    - config-secrets.yaml
-
-  vars:
-    # See config-secrets.yaml
-    #discord_webhook_url: DISCORD_WEBHOOK_URL_HERE
-
   tasks:
     - name: Get disk usage
       command: df -h
@@ -22,7 +15,7 @@
     # Send Discord message when disk space is over 80%
     - name: Send Discord message
       uri:
-        url: "{{ discord_webhook_url }}"
+        url: "{{ DISCORD_WEBHOOK_URL }}"
         method: POST
         body_format: json
         body: '{"content": "Disk space on {{ inventory_hostname }} is above 80%!"}'
