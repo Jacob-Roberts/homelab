@@ -3,8 +3,11 @@ name: semaphore
 
 volumes:
   semaphore_data:
+    driver: local
   semaphore_config:
+    driver: local
   semaphore_tmp:
+    driver: local
 
 networks:
   frontend:
@@ -12,15 +15,15 @@ networks:
 
 services:
   semaphore:
-    ports:
-      - 3000:3000
     image: semaphoreui/semaphore:v2.18.12
     environment:
       SEMAPHORE_DB_DIALECT: sqlite
-      SEMAPHORE_ADMIN: admin
-      SEMAPHORE_ADMIN_PASSWORD: ${SEMAPHORE_ADMIN_PASSWORD}
+      SEMAPHORE_ADMIN: ${SEMAPHORE_ADMIN}
       SEMAPHORE_ADMIN_NAME: Admin
       SEMAPHORE_ADMIN_EMAIL: ${SEMAPHORE_ADMIN_EMAIL}
+      SEMAPHORE_ADMIN_PASSWORD: ${SEMAPHORE_ADMIN_PASSWORD}
+      SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: ${SEMAPHORE_ACCESS_KEY_ENCRYPTION}
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
@@ -39,6 +42,7 @@ services:
       - semaphore_tmp:/tmp/semaphore
     labels:
       traefik.enable: true
+      traefik.http.services.semaphore-prod-1.loadbalancer.server.port: 3000
       traefik.http.routers.semaphore-prod-1-http.entrypoints: web
       traefik.http.routers.semaphore-prod-1-http.rule: Host(`${SEMAPHORE_URL}`)
       traefik.http.routers.semaphore-prod-1-http.middlewares: "websecure-redirect-permanent@file"
