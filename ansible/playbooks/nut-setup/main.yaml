@@ -120,6 +120,8 @@
 
   vars_files:
     - "config-{{ site | default('pbj') }}.yaml"
+  vars:
+    nut_client_password: "{{ lookup('env', 'NUT_CLIENT_PASSWORD') }}"
 
   roles:
     - geerlingguy.nut_client
