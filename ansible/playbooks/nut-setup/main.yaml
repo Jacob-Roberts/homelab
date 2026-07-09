@@ -7,7 +7,6 @@
 
   vars_files:
     - "config-{{ site | default('pbj') }}.yaml"
-    - "config-{{ site | default('pbj') }}-secrets.yaml"
 
   # roles:
   #   - geerlingguy.security
@@ -111,7 +110,6 @@
 
   vars_files:
     - "config-{{ site | default('pbj') }}.yaml"
-    - "config-{{ site | default('pbj') }}-secrets.yaml"
 
   roles:
     - geerlingguy.nut_client

@@ -34,6 +34,5 @@ nut_ups_admin_user: admin
 nut_client_ups: pbj-ups-1
 nut_client_server: 192.168.42.240
 nut_client_username: observer
-
-# See config-secrets.yaml
 # nut_client_password: OBSERVER_PASSWORD_HERE
+nut_client_type: secondary
