@@ -12,7 +12,7 @@ all:
       ansible_host: pbj-node-1.jakerob.pro
 
     pbj-hv-1:
-      ansible_user: root
+      ansible_user: ansible-robot
       ansible_host: pbj-hv-1.jakerob.pro
 
     pbj-storage-1:
