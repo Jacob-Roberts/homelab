@@ -2,6 +2,5 @@
   - become: true
     tasks:
       - name: Print OS info
-        ansible.builtin.package:
-          name: "{{ ansible_distribution }}"
-          state: present
+        ansible.builtin.debug:
+          msg: "OS: {{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_architecture }})"
