@@ -1,23 +1,23 @@
 ---
 all:
   hosts:
-    #### LHR1 ####
+    #### PBJ ####
     # Raspberry Pi Model 3
-    lhr1-pi-1:
-      ansible_user: jacobroberts
-      ansible_host: lhr1-pi-1.jakerob.pro
+    pbj-pi-1:
+      ansible_user: ansible-robot
+      ansible_host: pbj-pi-1.jakerob.pro
 
-    lhr1-node-1:
-      ansible_user: jacobroberts
-      ansible_host: lhr1-node-1.jakerob.pro
+    pbj-node-1:
+      ansible_user: ansible-robot
+      ansible_host: pbj-node-1.jakerob.pro
 
-    lhr1-hv-2:
+    pbj-hv-1:
       ansible_user: root
-      ansible_host: lhr1-hv-2.jakerob.pro
+      ansible_host: pbj-hv-1.jakerob.pro
 
-    lhr1-storage-1:
+    pbj-storage-1:
       ansible_user: truenas_admin
-      ansible_host: lhr1-storage-1.jakerob.pro
+      ansible_host: pbj-storage-1.jakerob.pro
 
     #### IAD1 ####
 
@@ -65,22 +65,26 @@ all:
   children:
     bootstrap:
       hosts:
-        lhr1-node-1:
+        pbj-node-1:
 
     docker:
       hosts:
-        lhr1-node-1:
+        pbj-node-1:
         iad1-node-1:
         iad1-node-2:
         iad1-node-3:
         slc1-node-3:
         sgu1-node-1:
 
+    example:
+      hosts:
+        pbj-pi-1:
+
     updatable_apt:
       hosts:
-        lhr1-pi-1:
-        lhr1-node-1:
-        lhr1-hv-2:
+        pbj-pi-1:
+        pbj-node-1:
+        pbj-hv-1:
         iad1-node-1:
         # iad1-node-2:
         # iad1-node-3:
@@ -90,25 +94,25 @@ all:
         sgu1-node-1:
     qemu:
       hosts:
-        lhr1-node-1:
+        pbj-node-1:
         sgu1-node-1:
         slc1-node-3:
 
     pihole:
       hosts:
-        lhr1-pi-1:
+        pbj-pi-1:
 
     tailscale:
       hosts:
-        lhr1-node-1:
+        pbj-node-1:
 
-    nut_primary_lhr1:
+    nut_primary_pbj:
       hosts:
-        lhr1-pi-1:
-    nut_clients_lhr1:
+        pbj-pi-1:
+    nut_clients_pbj:
       hosts:
-        # lhr1-storage-1: Truenas doesn't like to be configured by ansible
-        lhr1-hv-2:
+        # pbj-storage-1: Truenas doesn't like to be configured by ansible
+        pbj-hv-1:
 
     nut_primary_slc1:
       hosts:
