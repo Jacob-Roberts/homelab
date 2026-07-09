@@ -1,5 +1,6 @@
 ---
-  - become: true
+  - hosts: all
+    become: true
     tasks:
       - name: Print OS info
         ansible.builtin.debug:
