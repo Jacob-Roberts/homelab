@@ -65,14 +65,14 @@
         marker: "# {mark} ANSIBLE MANAGED BLOCK"
         block: |
           [admin]
-              password = {{ nut_ups_admin_password }}
+              password = {{ lookup('env', 'NUT_UPS_ADMIN_PASSWORD') }}
               actions = set
               actions = fsd
               instcmds = all
               upsmon primary
 
           [observer]
-              password = {{ nut_client_password }}
+              password = {{ lookup('env', 'NUT_CLIENT_PASSWORD') }}
               upsmon secondary
         state: present
         mode: 0640
@@ -89,7 +89,7 @@
       notify: restart nut-monitor
       with_items:
         - regexp: '^MONITOR.+'
-          line: "MONITOR {{ nut_ups_name }}@localhost 1 {{ nut_ups_admin_user }} {{ nut_ups_admin_password }} primary"
+          line: "MONITOR {{ nut_ups_name }}@localhost 1 {{ nut_ups_admin_user }} {{ lookup('env', 'NUT_UPS_ADMIN_PASSWORD') }} primary"
         - regexp: '^FINALDELAY.+'
           line: "FINALDELAY {{ nut_shutdown_finaldelay }}"
 
