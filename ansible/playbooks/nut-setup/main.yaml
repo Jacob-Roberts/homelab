@@ -63,7 +63,17 @@
       blockinfile:
         path: /etc/nut/upsd.users
         marker: "# {mark} ANSIBLE MANAGED BLOCK"
-        block: "{{ nut_upsd_users }}"
+        block: |
+          [admin]
+              password = {{ nut_ups_admin_password }}
+              actions = set
+              actions = fsd
+              instcmds = all
+              upsmon primary
+
+          [observer]
+              password = {{ nut_client_password }}
+              upsmon secondary
         state: present
         mode: 0640
       notify: restart nut-server
