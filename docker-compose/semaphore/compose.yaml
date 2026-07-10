@@ -8,6 +8,8 @@ volumes:
     driver: local
   semaphore_tmp:
     driver: local
+  ts_state:
+    driver: local
 
 networks:
   frontend:
@@ -27,8 +29,7 @@ services:
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
-    networks:
-      - frontend
+    network_mode: "service:tailscale"
     logging:
       driver: local
     deploy:
@@ -40,6 +41,25 @@ services:
       - semaphore_data:/var/lib/semaphore
       - semaphore_config:/etc/semaphore
       - semaphore_tmp:/tmp/semaphore
+
+  tailscale:
+    container_name: tailscale
+    image: docker.io/tailscale/tailscale:latest
+    hostname: tailscale-semaphore
+    environment:
+      - TS_AUTHKEY=${TAILSCALE_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=true
+    volumes:
+      - ts_state:/var/lib/tailscale
+    cap_add:
+      - net_admin
+      - net_raw
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - frontend
+    restart: unless-stopped
     labels:
       traefik.enable: true
       traefik.http.services.semaphore-prod-1.loadbalancer.server.port: 3000
