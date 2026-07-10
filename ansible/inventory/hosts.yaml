@@ -16,50 +16,50 @@ all:
       ansible_host: pbj-hv-1.jakerob.pro
 
     pbj-storage-1:
-      ansible_user: truenas_admin
+      ansible_user: ansible-robot
       ansible_host: pbj-storage-1.jakerob.pro
 
     #### IAD1 ####
 
     iad1-node-1:
-      ansible_user: jacobroberts
+      ansible_user: ansible-robot
       ansible_host: iad1-node-1.vpn.jakerob.pro
 
     iad1-node-2:
-      ansible_user: jacobroberts
-      ansible_host: iad1-vpn-node-2.jakerob.pro
+      ansible_user: ansible-robot
+      ansible_host: iad1-node-2.vpn.jakerob.pro
 
     iad1-node-3:
-      ansible_user: jacobroberts
-      ansible_host: iad1-vpn-node-3.jakerob.pro
+      ansible_user: ansible-robot
+      ansible_host: iad1-node-3.vpn.jakerob.pro
 
     #### SLC1 ####
 
     slc1-hv-1:
-      ansible_user: root
+      ansible_user: ansible-robot
       ansible_host: slc1-hv-1.jakerob.pro
 
     slc1-node-3:
-      ansible_user: jacobroberts
+      ansible_user: ansible-robot
       ansible_host: slc1-node-3.jakerob.pro
 
     slc1-storage-1:
-      ansible_user: admin
+      ansible_user: ansible-robot
       ansible_host: slc1-storage-1.jakerob.pro
 
     # Raspberry Pi Model 3
     slc1-pi-1:
-      ansible_user: jacobroberts
+      ansible_user: ansible-robot
       ansible_host: slc1-pi-1.jakerob.pro
 
     #### SGU1 ####
 
     sgu1-hv-1:
-      ansible_user: root
+      ansible_user: ansible-robot
       ansible_host: sgu1-hv-1.jakerob.pro
 
     sgu1-node-1:
-      ansible_user: jacobroberts
+      ansible_user: ansible-robot
       ansible_host: sgu1-node-1.jakerob.pro
 
   children:
