@@ -10,6 +10,7 @@ resource "tailscale_acl" "my_acl" {
 	// Define the tags which can be applied to devices and by which users.
 	// tagged devices cannot use subnet router's routes
 	"tagOwners": {
+		"tag:ansible-robot":  ["autogroup:admin"],
 		"tag:lhr1":           ["autogroup:admin"],
 		"tag:lhr1-backup":    ["autogroup:admin"], // Backups are for the NUT devices
 		"tag:slc1":           ["autogroup:admin"],
@@ -35,6 +36,12 @@ resource "tailscale_acl" "my_acl" {
 			"action": "accept",
 			"src": ["autogroup:member", "tag:apple-tvs"],
 			"dst": ["autogroup:internet:*"],
+		},
+		// Ansible-robot needs access to all nodes
+		{
+			"action": "accept",
+			"src":    ["tag:ansible-robot"],
+			"dst":    ["*:*"],
 		},
 		// lhr1-node-1 uses the apple TV's subnet route to access the nas in SLC (for backups)
 		{
