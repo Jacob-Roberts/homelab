@@ -50,6 +50,7 @@ services:
       - TS_AUTHKEY=${TAILSCALE_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=true
+      - TS_EXTRA_ARGS=--accept-routes
     volumes:
       - ts_state:/var/lib/tailscale
     cap_add:
