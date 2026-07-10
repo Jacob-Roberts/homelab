@@ -43,9 +43,9 @@ services:
       - semaphore_tmp:/tmp/semaphore
 
   tailscale:
-    container_name: tailscale
-    image: docker.io/tailscale/tailscale:latest
-    hostname: tailscale-semaphore
+    container_name: tailscale-semaphore
+    image: docker.io/tailscale/tailscale:v1.98
+    hostname: semaphore-ansible-robot
     environment:
       - TS_AUTHKEY=${TAILSCALE_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
