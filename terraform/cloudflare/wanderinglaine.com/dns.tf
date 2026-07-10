@@ -108,7 +108,7 @@ resource "cloudflare_dns_record" "_dmarc" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "\"v=DMARC1;p=reject;rua=mailto:6c79e277f6@rua.easydmarc.eu;ruf=mailto:6c79e277f6@ruf.easydmarc.eu;fo=1;\""
+  content = "\"v=DMARC1;p=reject;rua=mailto:544f23ed9c044173bfa3c327ed16532c@dmarc-reports.cloudflare.net,mailto:6c79e277f6@rua.easydmarc.eu;ruf=mailto:6c79e277f6@ruf.easydmarc.eu;fo=1;\""
 }
 
 resource "cloudflare_dns_record" "google-site-verification" {
@@ -126,7 +126,7 @@ resource "cloudflare_dns_record" "spf" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "\"v=spf1 include:zoho.eu ~all\""
+  content = "\"v=spf1 include:zoho.eu -all\""
 }
 
 resource "cloudflare_dns_record" "zoho-verification" {
