@@ -3,13 +3,6 @@
   hosts: "updatable_apt"
   become: yes
 
-  vars_files:
-    - config-secrets.yaml
-
-  vars:
-    # See config-secrets.yaml
-    #discord_webhook_url: DISCORD_WEBHOOK_URL_HERE
-
   tasks:
     # Upgrade packages
     - name: upgrade apt packages
@@ -28,7 +21,7 @@
     # Send Discord message when reboot is required
     - name: Send Discord message
       uri:
-        url: "{{ discord_webhook_url }}"
+        url: "{{ lookup('env', 'DISCORD_WEBHOOK_URL') }}"
         method: POST
         body_format: json
         body: '{"content": "Reboot required on {{ inventory_hostname }}"}'

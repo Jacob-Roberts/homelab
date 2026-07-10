@@ -11,7 +11,7 @@
 # =============================================================================
 
 - name: Security & SSH Hardening
-  hosts: "{{ target_host | default('lhr1-node-1') }}"
+  hosts: "{{ target_host | default('pbj-node-1') }}"
   become: true
 
   vars_files:

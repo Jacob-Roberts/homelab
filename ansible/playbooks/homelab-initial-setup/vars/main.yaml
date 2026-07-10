@@ -8,7 +8,7 @@ initial_user: jacobroberts
 initial_user_ssh_key: "{{ lookup('file', '../../../ssh_keys/jacobroberts.pub') }}"
 
 # Target host configuration
-target_host: lhr1-node-1
+target_host: pbj-node-1
 
 # User configuration
 homelab_system_user: homelab
@@ -42,66 +42,66 @@ service_users:
   - name: traefik
     uid: 2001
     gid: 2001
-    nodes: ["lhr1-node-1", "lhr1-pi-1", "iad1-node-1", "sgu1-node-1", "slc1-node-3"]
+    nodes: ["pbj-node-1", "pbj-pi-1", "iad1-node-1", "sgu1-node-1", "slc1-node-3"]
     additional_groups:
-      lhr1-node-1: ["cert-manager"]
+      pbj-node-1: ["cert-manager"]
       iad1-node-1: ["cert-manager"]
       slc1-node-3: ["cert-manager"]
   - name: jellyfin
     uid: 2003
     gid: 2003
-    nodes: ["lhr1-node-1", "sgu1-node-1", "slc1-node-3"]
+    nodes: ["pbj-node-1", "sgu1-node-1", "slc1-node-3"]
   - name: immich
     uid: 2004
     gid: 2004
-    nodes: ["lhr1-node-1", "slc1-node-3"]
+    nodes: ["pbj-node-1", "slc1-node-3"]
   - name: paperless
     uid: 2005
     gid: 2005
-    nodes: ["lhr1-node-1"]
+    nodes: ["pbj-node-1"]
   - name: calibre
     uid: 2006
     gid: 2006
-    nodes: ["lhr1-node-1"]
+    nodes: ["pbj-node-1"]
   - name: pihole
     uid: 2007
     gid: 2007
-    nodes: ["lhr1-node-2", "lhr1-pi-1"]
+    nodes: ["pbj-node-2", "pbj-pi-1"]
   - name: homepage
     uid: 2008
     gid: 2008
-    nodes: ["lhr1-node-1", "iad1-node-1", "slc1-node-3"]
+    nodes: ["pbj-node-1", "iad1-node-1", "slc1-node-3"]
   - name: karakeep
     uid: 2009
     gid: 2009
-    nodes: ["lhr1-node-1"]
+    nodes: ["pbj-node-1"]
   - name: pocket-id
     uid: 2010
     gid: 2010
-    nodes: ["lhr1-node-1", "iad1-node-1"]
+    nodes: ["pbj-node-1", "iad1-node-1"]
   - name: syncthing
     uid: 2011
     gid: 2011
-    nodes: ["lhr1-node-1", "iad1-node-1", "slc1-node-3"]
+    nodes: ["pbj-node-1", "iad1-node-1", "slc1-node-3"]
     additional_groups:
-      lhr1-node-1: ["cert-manager"]
+      pbj-node-1: ["cert-manager"]
       iad1-node-1: ["cert-manager"]
       slc1-node-3: ["cert-manager"]
   - name: opencloud
     uid: 2012
     gid: 2012
-    nodes: ["lhr1-node-1"]
+    nodes: ["pbj-node-1"]
   # Manages TLS certificates via Let's Encrypt
   - name: cert-manager
     gid: 2013
-    nodes: ["lhr1-node-1", "iad1-node-1", "slc1-node-3"]
+    nodes: ["pbj-node-1", "iad1-node-1", "slc1-node-3"]
   - name: obsidian
     uid: 2014
     gid: 2014
-    nodes: ["lhr1-node-1"]
+    nodes: ["pbj-node-1"]
   - name: obsidian-note-manager
     gid: 2015
-    nodes: ["lhr1-node-1"]
+    nodes: ["pbj-node-1"]
   - name: unifi
     uid: 2016
     gid: 2016
@@ -109,15 +109,15 @@ service_users:
   - name: myspeed
     uid: 2017
     gid: 2017
-    nodes: ["lhr1-node-1"]
+    nodes: ["pbj-node-1"]
   - name: uptimekuma
     uid: 2018
     gid: 2018
-    nodes: ["lhr1-node-1", "lhr1-pi-1"]
+    nodes: ["pbj-node-1", "pbj-pi-1"]
   - name: paperless
     uid: 2019
     gid: 2019
-    nodes: ["lhr1-node-1"]
+    nodes: ["pbj-node-1"]
   - name: factorio
     uid: 2020
     gid: 2020
@@ -130,8 +130,8 @@ service_users:
     uid: 2022
     gid: 2022
     additional_groups:
-      lhr1-node-1: ["jellyfin"]
-    nodes: ["lhr1-node-1"]
+      pbj-node-1: ["jellyfin"]
+    nodes: ["pbj-node-1"]
   - name: minecraft
     uid: 2023
     gid: 2023
@@ -140,20 +140,20 @@ service_users:
 # NFS mount configuration
 nfs_mounts:
   - path: /media/immich
-    src: truenas.lhr1.jakerob.pro:/mnt/bulk-slow/encrypted/immich
+    src: truenas.pbj.jakerob.pro:/mnt/bulk-slow/encrypted/immich
     fstype: nfs
     state: mounted
-    node: "lhr1-node-1"
+    node: "pbj-node-1"
   - path: /media/jellydata
-    src: truenas.lhr1.jakerob.pro:/mnt/bulk-slow/encrypted/jellyfin
+    src: truenas.pbj.jakerob.pro:/mnt/bulk-slow/encrypted/jellyfin
     fstype: nfs
     state: mounted
-    node: "lhr1-node-1"
+    node: "pbj-node-1"
   - path: /media/roberts-data
-    src: truenas.lhr1.jakerob.pro:/mnt/bulk-slow/encrypted/pbj-drive
+    src: truenas.pbj.jakerob.pro:/mnt/bulk-slow/encrypted/pbj-drive
     fstype: nfs
     state: mounted
-    node: "lhr1-node-1"
+    node: "pbj-node-1"
   - path: /media/immich
     src: truenas.slc1.jakerob.pro:/mnt/default-pool/encrypted/immich
     fstype: nfs

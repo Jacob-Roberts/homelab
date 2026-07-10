@@ -6,7 +6,7 @@
     # Define external networks per host
     # Add or remove networks as needed for each node
     docker_networks_by_host:
-      lhr1-node-1:
+      pbj-node-1:
         - frontend
         - tunnel
       # iad1-vpn-node-1:

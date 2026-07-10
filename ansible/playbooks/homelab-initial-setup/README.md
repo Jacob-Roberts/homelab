@@ -59,7 +59,7 @@ ansible-playbook playbooks/07-nfs-mounts.yaml
 
 ### Target a different host
 
-By default, playbooks target `lhr1-node-1`. Override with:
+By default, playbooks target `pbj-node-1`. Override with:
 
 ```bash
 ansible-playbook playbooks/01-security.yaml -e "target_host=slc1-node-3"
