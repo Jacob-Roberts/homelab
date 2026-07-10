@@ -79,7 +79,12 @@ all:
     example:
       hosts:
         pbj-pi-1:
+        pbj-node-1:
+        pbj-hv-1:
         iad1-node-1:
+        slc1-hv-1:
+        slc1-node-3:
+        slc1-pi-1:
 
     updatable_apt:
       hosts:
