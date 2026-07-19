@@ -292,7 +292,7 @@ resource "cloudflare_dns_record" "pbj-pi-1" {
   content = "192.168.42.2"
 }
 
-resource "cloudflare_dns_record" "pbj-pi-1" {
+resource "cloudflare_dns_record" "pbj-pi-1-v6" {
   name    = "pbj-pi-1.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
   proxied = false
