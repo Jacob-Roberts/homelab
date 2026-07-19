@@ -13,12 +13,12 @@ services:
     ports:
       - 8080:8080
     environment:
-      WEBUI_URL: https://ai.lhr1-4.jakerob.pro
+      WEBUI_URL: https://ai.pbj-4.jakerob.pro
       OAUTH_CLIENT_ID: "${OAUTH_CLIENT_ID}"
       OAUTH_CLIENT_SECRET: "${OAUTH_CLIENT_SECRET}"
       OAUTH_PROVIDER_NAME: authentik
-      OPENID_PROVIDER_URL: "${OPENID_PROVIDER_URL:-https://authentik.lhr1.jakerob.pro/application/o/openwebui/.well-known/openid-configuration}"
-      OPENID_REDIRECT_URI: https://ai.lhr1-4.jakerob.pro/oauth/oidc/callback
+      OPENID_PROVIDER_URL: "${OPENID_PROVIDER_URL:-https://authentik.pbj.jakerob.pro/application/o/openwebui/.well-known/openid-configuration}"
+      OPENID_REDIRECT_URI: https://ai.pbj-4.jakerob.pro/oauth/oidc/callback
       ENABLE_LOGIN_FORM: false
       ENABLE_OAUTH_SIGNUP: true
       ENABLE_SIGNUP: false
@@ -38,9 +38,9 @@ services:
       traefik.enable: true
       traefik.http.services.authentik-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.ai-prod-1-http.entrypoints: web
-      traefik.http.routers.ai-prod-1-http.rule: Host(`${AI_URL:-ai.lhr1-4.jakerob.pro}`)
+      traefik.http.routers.ai-prod-1-http.rule: Host(`${AI_URL:-ai.pbj-4.jakerob.pro}`)
       traefik.http.routers.ai-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.ai-prod-1-https.entrypoints: websecure
-      traefik.http.routers.ai-prod-1-https.rule: Host(`${AI_URL:-ai.lhr1-4.jakerob.pro}`)
+      traefik.http.routers.ai-prod-1-https.rule: Host(`${AI_URL:-ai.pbj-4.jakerob.pro}`)
       traefik.http.routers.ai-prod-1-https.tls: true
       traefik.http.routers.ai-prod-1-https.tls.certresolver: cloudflare

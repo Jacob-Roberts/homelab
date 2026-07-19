@@ -6,7 +6,7 @@ All my homelab files
 
 ```
 service
-|-- region-env-node (ie: lhr1-prod-1)
+|-- region-env-node (ie: pbj-node-1)
 |   |-- compose.yaml
 |   |-- data_folders
 ```
@@ -50,9 +50,9 @@ e.g:
 labels:
   traefik.enable: true
   traefik.http.routers.uptimekuma-prod-1-http.entrypoints: web
-  traefik.http.routers.uptimekuma-prod-1-http.rule: Host(`uptime.lhr1.jakerob.pro`)
+  traefik.http.routers.uptimekuma-prod-1-http.rule: Host(`uptime.pbj.jakerob.pro`)
   traefik.http.routers.uptimekuma-prod-1-https.entrypoints: websecure
-  traefik.http.routers.uptimekuma-prod-1-https.rule: Host(`uptime.lhr1.jakerob.pro`)
+  traefik.http.routers.uptimekuma-prod-1-https.rule: Host(`uptime.pbj.jakerob.pro`)
 ```
 
 Or for a staging example
@@ -61,9 +61,9 @@ Or for a staging example
 labels:
   traefik.enable: true
   traefik.http.routers.uptimekuma-stage-1-http.entrypoints: web
-  traefik.http.routers.uptimekuma-stage-1-http.rule: Host(`uptime.stage.lhr1.jakerob.pro`)
+  traefik.http.routers.uptimekuma-stage-1-http.rule: Host(`uptime.stage.pbj.jakerob.pro`)
   traefik.http.routers.uptimekuma-stage-1-https.entrypoints: websecure
-  traefik.http.routers.uptimekuma-stage-1-https.rule: Host(`uptime.stage.lhr1.jakerob.pro`)
+  traefik.http.routers.uptimekuma-stage-1-https.rule: Host(`uptime.stage.pbj.jakerob.pro`)
 ```
 
 ## Network Diagram
@@ -129,4 +129,4 @@ It looks like this will be the following DBs:
 3. Setup the https certificate
    1. Datacenter > ACME > Register Account
    2. Datacenter > ACME > Plugin (Cloudflare)
-   3. lhr1 > System > Certificates
+   3. pbj > System > Certificates

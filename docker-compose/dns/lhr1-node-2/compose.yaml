@@ -10,7 +10,7 @@ services:
   pihole:
     image: docker.io/pihole/pihole:latest
     container_name: pihole
-    hostname: pihole-lhr1-node-2
+    hostname: pihole-pbj-node-2
     cap_add:
       # See https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
       # Required if you are using Pi-hole as your DHCP server, else not needed

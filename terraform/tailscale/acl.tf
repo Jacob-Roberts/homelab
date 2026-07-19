@@ -11,8 +11,8 @@ resource "tailscale_acl" "my_acl" {
 	// tagged devices cannot use subnet router's routes
 	"tagOwners": {
 		"tag:ansible-robot":  ["autogroup:admin"],
-		"tag:lhr1":           ["autogroup:admin"],
-		"tag:lhr1-backup":    ["autogroup:admin"], // Backups are for the NUT devices
+		"tag:pbj":           ["autogroup:admin"],
+		"tag:pbj-backup":    ["autogroup:admin"], // Backups are for the NUT devices
 		"tag:slc1":           ["autogroup:admin"],
 		"tag:slc1-backup":    ["autogroup:admin"], // Backups are for the NUT devices
 		"tag:sgu1":           ["autogroup:admin"],
@@ -43,25 +43,25 @@ resource "tailscale_acl" "my_acl" {
 			"src":    ["tag:ansible-robot"],
 			"dst":    ["*:*"],
 		},
-		// lhr1-node-1 uses the apple TV's subnet route to access the nas in SLC (for backups)
+		// pbj-node-1 uses the apple TV's subnet route to access the nas in SLC (for backups)
 		{
 			"action": "accept",
-			"src":    ["lhr1-node-1"],
+			"src":    ["pbj-node-1"],
 			"dst": [
-				// lhr1-node-1 needs to access IAD1 for the uptime kuma to work.
+				// pbj-node-1 needs to access IAD1 for the uptime kuma to work.
 				"tag:iad1:*",
 				// Get access to SLC1 Subnet
 				"192.168.97.0/24:*",
 			],
 		},
 
-		// iad1-node-1 needs to access lhr1-node-1 and slc1-node-3 for the "cloudflare tunnel" to work
+		// iad1-node-1 needs to access pbj-node-1 and slc1-node-3 for the "cloudflare tunnel" to work
 		{
 			"action": "accept",
 			"src":    ["iad1-node-1"],
 			"dst": [
-				"lhr1-node-1:80",
-				"lhr1-node-1:443",
+				"pbj-node-1:80",
+				"pbj-node-1:443",
 				"slc1-node-3:80",
 				"slc1-node-3:443",
 			],
@@ -70,7 +70,7 @@ resource "tailscale_acl" "my_acl" {
 		// Proxmox needs access to slc1 for backups to work
 		{
 			"action": "accept",
-			"src":    ["lhr1-proxmox-node-1"],
+			"src":    ["pbj-hv-1"],
 			"dst": [
 				"192.168.97.0/24:*",
 			],
@@ -80,24 +80,24 @@ resource "tailscale_acl" "my_acl" {
 		{
 			"action": "accept",
 			"src":    ["truenas-slc1"],
-			"dst":    ["truenas-lhr1:*"],
+			"dst":    ["truenas-pbj:*"],
 		},
 		{
 			"action": "accept",
-			"src":    ["truenas-lhr1"],
+			"src":    ["truenas-pbj"],
 			"dst":    ["truenas-slc1:*"],
 		},
 	],
 
 	"hosts": {
 		// special devices
-		"lhr1-node-1":         "100.81.118.52",
+		"pbj-node-1":         "100.81.118.52",
 		"slc1-node-3":         "100.95.11.23",
 		"iad1-node-1":         "100.109.65.68",
 		"iad1-node-3":         "100.70.105.44",
-		"lhr1-proxmox-node-1": "100.87.7.24",
+		"pbj-hv-1": "100.87.7.24",
 		"truenas-slc1":        "100.110.101.25",
-		"truenas-lhr1":        "100.85.14.53",
+		"truenas-pbj":        "100.85.14.53",
 	},
 
 	// Test access rules every time they're saved.

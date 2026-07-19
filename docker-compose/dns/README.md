@@ -9,7 +9,7 @@ https://github.com/lovelaze/nebula-sync
 
 | Region | Static / DDNS |
 |--------|---------------|
-| LHR1 | DDNS |
+| pbj | DDNS |
 | IAD1 | Static $IAD_STATIC |
 | SLC1 | DDNS |
 | SGU1 | DDNS |

@@ -13,25 +13,25 @@
 #### **Hypervisors**
 
 Use the role: `hv`
-(e.g., `lhr1-hv-1.jakerob.pro`)
+(e.g., `pbj-hv-1.jakerob.pro`)
 
 If I ever scale to multiple hypervisors per site, `-1` allows easy indexing.
 
 **Example:**
 
-* `lhr1-hv-1.jakerob.pro`
-* `lhr1-hv-1.vpn.jakerob.pro`
+* `pbj-hv-1.jakerob.pro`
+* `pbj-hv-1.vpn.jakerob.pro`
 
 ---
 
 #### **VMs**
 
 Use the role: `vm`
-(e.g., `lhr1-vm-1.jakerob.pro`)
+(e.g., `pbj-vm-1.jakerob.pro`)
 
 **Example:**
 
-* `lhr1-vm-1.jakerob.pro`
+* `pbj-vm-1.jakerob.pro`
 * `iad1-vm-3.jakerob.pro`
 * `slc1-vm-2.jakerob.pro`
 
@@ -40,7 +40,7 @@ Use the role: `vm`
 #### **Storage Nodes**
 
 Use the role: `storage`
-(e.g., `lhr1-storage-1.jakerob.pro`)
+(e.g., `pbj-storage-1.jakerob.pro`)
 
 **Example:**
 
@@ -51,7 +51,7 @@ Use the role: `storage`
 #### **Raspberry Pis**
 
 Use the role: `pi`
-(e.g., `lhr1-pi-1.jakerob.pro`)
+(e.g., `pbj-pi-1.jakerob.pro`)
 
 **Example:**
 
@@ -64,7 +64,7 @@ Use the role: `pi`
 
 Just copy the FQDN and change the root domain:
 
-* `lhr1-hv-1.jakerob.pro` → `lhr1-hv-1.vpn.jakerob.pro`
+* `pbj-hv-1.jakerob.pro` → `pbj-hv-1.vpn.jakerob.pro`
 
 ---
 
@@ -72,8 +72,8 @@ Just copy the FQDN and change the root domain:
 
 | Role         | Example                      | Notes                             |
 | ------------ | ---------------------------- | --------------------------------- |
-| Hypervisor   | `lhr1-hv-1.jakerob.pro`      | Consistent index for future scale |
-| VM           | `lhr1-vm-2.jakerob.pro`      |               |
-| Storage Node | `lhr1-storage-1.jakerob.pro` |                   |
-| Raspberry Pi | `lhr1-pi-1.jakerob.pro`      |             |
+| Hypervisor   | `pbj-hv-1.jakerob.pro`      | Consistent index for future scale |
+| VM           | `pbj-vm-2.jakerob.pro`      |               |
+| Storage Node | `pbj-storage-1.jakerob.pro` |                   |
+| Raspberry Pi | `pbj-pi-1.jakerob.pro`      |             |
 | VPN Access   | `*.vpn.jakerob.pro`          | Just mirror the base FQDN         |

@@ -4,7 +4,7 @@ set -e
 
 PROJECT_ID="f3732b81-3a85-430d-a547-43b85c363ad6"
 ENVIRONMENT="prod"
-SECRET_PATH="/lhr1-pi-1/pihole"
+SECRET_PATH="/pbj-pi-1/pihole"
 
 # Get the directory of this script for reliable path resolution
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

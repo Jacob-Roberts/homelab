@@ -14,7 +14,7 @@ services:
   pihole:
     image: docker.io/pihole/pihole:latest
     container_name: pihole
-    hostname: pihole-lhr1-pi-1
+    hostname: pihole-pbj-pi-1
     cap_add:
       # See https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
       # Required if you are using Pi-hole as your DHCP server, else not needed
@@ -59,10 +59,10 @@ services:
       traefik.enable: true
       traefik.http.services.pihole-prod-1.loadbalancer.server.port: '80'
       traefik.http.routers.pihole-prod-1-http.entrypoints: web
-      traefik.http.routers.pihole-prod-1-http.rule: Host(`${PIHOLE_URL:-pihole.lhr1.jakerob.pro}`)
+      traefik.http.routers.pihole-prod-1-http.rule: Host(`${PIHOLE_URL:-pihole.pbj.jakerob.pro}`)
       traefik.http.routers.pihole-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.pihole-prod-1-https.entrypoints: websecure
-      traefik.http.routers.pihole-prod-1-https.rule: Host(`${PIHOLE_URL:-pihole.lhr1.jakerob.pro}`)
+      traefik.http.routers.pihole-prod-1-https.rule: Host(`${PIHOLE_URL:-pihole.pbj.jakerob.pro}`)
       traefik.http.routers.pihole-prod-1-https.tls: true
       traefik.http.routers.pihole-prod-1-https.tls.certresolver: cloudflare
   nebula-sync:
@@ -74,8 +74,8 @@ services:
     environment:
       TZ: ${TZ:-UTC}
       CLIENT_SKIP_TLS_VERIFICATION: "true"
-      PRIMARY: "https://pihole.lhr1.jakerob.pro|${PIHOLE_PASSWORD}"
-      REPLICAS: "https://pihole2.lhr1.jakerob.pro|${PIHOLE2_PASSWORD}"
+      PRIMARY: "https://pihole.pbj.jakerob.pro|${PIHOLE_PASSWORD}"
+      REPLICAS: "https://pihole2.pbj.jakerob.pro|${PIHOLE2_PASSWORD}"
       FULL_SYNC: "false"
       SYNC_CONFIG_DNS: "true"
       SYNC_CONFIG_DNS_EXCLUDE: listeningMode

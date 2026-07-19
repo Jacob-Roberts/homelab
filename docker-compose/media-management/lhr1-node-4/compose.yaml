@@ -13,8 +13,8 @@ services:
       PUID: "${PUID:-1000}"
       PGID: "${PGID:-1000}"
       UMASK_SET: '002'
-      nodeName: lhr1-node-4
-      serverURL: http://lhr1-node-1.jakerob.pro:8266
+      nodeName: pbj-node-4
+      serverURL: http://pbj-node-1.jakerob.pro:8266
       serverIP: 0.0.0.0
       serverPort: '8266'
       inContainer: "true"
