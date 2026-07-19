@@ -40,7 +40,6 @@ services:
       - FREE_ONLY=off
       - VPN_PORT_FORWARDING=on
       - VPN_PORT_FORWARDING_PROVIDER=protonvpn
-      - SERVER_REGIONS=America
       - SERVER_COUNTRIES=United States
       - SERVER_CITIES=San Jose California
       - PORT_FORWARD_ONLY=on
