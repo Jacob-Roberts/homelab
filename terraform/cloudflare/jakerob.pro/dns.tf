@@ -373,6 +373,15 @@ resource "cloudflare_dns_record" "pbj-node-7-v6" {
   content = "2601:640:8000:a8f0:fe9b:6ec:5908:f793"
 }
 
+resource "cloudflare_dns_record" "homeassistant" {
+  name    = "homeassistant.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "pbj-node-7.jakerob.pro"
+}
+
 resource "cloudflare_dns_record" "slc1-node-3-vpn" {
   name    = "slc1-node-3.vpn.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
