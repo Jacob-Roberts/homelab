@@ -256,6 +256,42 @@ resource "cloudflare_dns_record" "pbj-hv-1-v6" {
   content = "2601:640:8000:a8f0:c05d:7462:fab:171f"
 }
 
+resource "cloudflare_dns_record" "pbj-hv-2" {
+  name    = "pbj-hv-2.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content = "192.168.42.11"
+}
+
+resource "cloudflare_dns_record" "pbj-hv-2-v6" {
+  name    = "pbj-hv-2.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "AAAA"
+  content = "2601:640:8000:a8f0:7fa7:9eef:10bb:1f35"
+}
+
+resource "cloudflare_dns_record" "pbj-hv-3" {
+  name    = "pbj-hv-3.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  content = "192.168.42.58"
+}
+
+resource "cloudflare_dns_record" "pbj-hv-3-v6" {
+  name    = "pbj-hv-3.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl     = 1
+  type    = "AAAA"
+  content = "2601:640:8000:a8f0:2c67:da71:4fb2:ce1a"
+}
+
 resource "cloudflare_dns_record" "pbj-node-1" {
   name    = "pbj-node-1.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
