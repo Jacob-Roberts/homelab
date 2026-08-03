@@ -20,5 +20,5 @@ spec:
       copy:
         - from: "@root/kubernetes/apps/base/**"
           to: "@artifact/base/"
-        - from: "@root/kubernetes/apps/pbj-prod/**"
-          to: "@artifact/pbj-prod/"
+        - from: "@root/kubernetes/apps/stage/**"
+          to: "@artifact/stage/"
