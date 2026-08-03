@@ -34,7 +34,7 @@ jobs:
           --ignore-paths="kubernetes/clusters/**/flux-system/"
           flux create kustomization flux-system \
           --source=flux-system \
-          --path=./kubernetes/clusters/staging
+          --path=./kubernetes/clusters/stage
       - name: Verify cluster reconciliation
         run: |
           kubectl -n flux-system wait kustomization/infra-controllers --for=condition=ready --timeout=5m
@@ -47,7 +47,7 @@ jobs:
           kubectl -n envoy-gateway-system port-forward \
             $(kubectl -n envoy-gateway-system get svc -l gateway.envoyproxy.io/owning-gateway-name=envoy -o name) 8080:80 &
           sleep 5
-          curl -sSf -H "Host: podinfo.staging" http://localhost:8080
+          curl -sSf -H "Host: podinfo.stage" http://localhost:8080
       - name: List deployed resources
         run: flux tree ks flux-system
       - name: Debug failure
