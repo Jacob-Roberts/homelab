@@ -1,0 +1,24 @@
+---
+apiVersion: source.extensions.fluxcd.io/v1beta1
+kind: ArtifactGenerator
+metadata:
+  name: flux-system
+  namespace: flux-system
+spec:
+  sources:
+    - alias: root
+      kind: GitRepository
+      name: flux-system
+  artifacts:
+    - name: infrastructure
+      originRevision: "@root"
+      copy:
+        - from: "@root/kubernetes/infrastructure/**"
+          to: "@artifact/"
+    - name: apps
+      originRevision: "@root"
+      copy:
+        - from: "@root/kubernetes/apps/base/**"
+          to: "@artifact/base/"
+        - from: "@root/kubernetes/apps/staging/**"
+          to: "@artifact/staging/"
