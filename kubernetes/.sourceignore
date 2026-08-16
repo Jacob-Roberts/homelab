@@ -8,3 +8,5 @@
 !/apps/
 !/clusters/
 !/infrastructure/
+
+kind-config.yaml
