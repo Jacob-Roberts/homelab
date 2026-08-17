@@ -27,3 +27,9 @@ Now flux bootstrap
 ```
 flux bootstrap github --owner=Jacob-Roberts --repository=homelab --branch=main --path=kubernetes/clusters/local --personal
 ```
+
+And now to access the node, port forward into the cluster
+
+```
+k port-forward deploy/gw-proxy 8080:8080
+```
