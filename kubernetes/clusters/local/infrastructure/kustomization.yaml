@@ -5,3 +5,4 @@ resources:
   - gateway-crds-release.yaml
   - cilium-repo.yaml
   - cilium-release.yaml
+  - gateway-class.yaml
