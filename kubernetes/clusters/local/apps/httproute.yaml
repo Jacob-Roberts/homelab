@@ -1,22 +1,4 @@
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: my-gateway
-spec:
-  gatewayClassName: cilium
-  listeners:
-  - protocol: HTTP
-    port: 80
-    name: web-gw
-    allowedRoutes:
-      namespaces:
-        from: Same
-  type: NodePort
-  ports:
-    - port: 80
-      nodePort: 30080
-    
+
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
