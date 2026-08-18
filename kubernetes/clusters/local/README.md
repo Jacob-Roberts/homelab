@@ -34,6 +34,14 @@ And now to access the node, port forward into the cluster
 k port-forward deploy/gw-proxy 8080:8080
 ```
 
+## Finished
+
+Delete the cluster
+
+```zsh
+kind delete cluster
+```
+
 # Talos Setup
 
 
@@ -86,4 +94,12 @@ And now to access the node, port forward into the cluster
 
 ```zsh
 k port-forward deploy/gw-proxy 8080:8080
+```
+
+## Finished
+
+Delete the cluster
+
+```zsh
+talosctl cluster destroy
 ```
