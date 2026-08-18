@@ -1,0 +1,10 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  values:
+    # Only the Kind-specific additions
+    k8sServiceHost: kind-control-plane
+    k8sServicePort: 6443
