@@ -25,7 +25,7 @@ k wait --for=condition=Ready nodes --all --timeout=2m
 Now flux bootstrap
 
 ```zsh
-flux bootstrap github --owner=Jacob-Roberts --repository=homelab --branch=main --path=kubernetes/clusters/local --personal
+flux bootstrap github --owner=Jacob-Roberts --repository=homelab --branch=main --path=kubernetes/clusters/local/kind --personal
 ```
 
 And now to access the node, port forward into the cluster
@@ -87,7 +87,7 @@ k wait --for=condition=Ready nodes --all --timeout=2m
 Now flux bootstrap
 
 ```zsh
-flux bootstrap github --owner=Jacob-Roberts --repository=homelab --branch=main --path=kubernetes/clusters/local --personal
+flux bootstrap github --owner=Jacob-Roberts --repository=homelab --branch=main --path=kubernetes/clusters/local/talos --personal
 ```
 
 And now to access the node, port forward into the cluster
