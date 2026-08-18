@@ -10,3 +10,4 @@
 !/infrastructure/
 
 kind-config.yaml
+talos-patch.yaml
