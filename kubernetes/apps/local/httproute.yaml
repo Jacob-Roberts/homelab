@@ -8,7 +8,7 @@ metadata:
 spec:
   parentRefs:
   - name: my-gateway
-    namespace: default
+    namespace: cilium-gateway-system
   rules:
   - matches:
     - path:

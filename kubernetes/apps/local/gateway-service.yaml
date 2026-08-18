@@ -4,7 +4,7 @@ metadata:
   # Must precisely match the name Cilium generates
   name: cilium-gateway-my-gateway
   # Must match the namespace of your Gateway
-  namespace: default 
+  namespace: cilium-gateway-system
   labels:
     io.cilium/gateway-name: my-gateway
 spec:

@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../base/podinfo
+  - gateway-service.yaml
+  - httproute.yaml
+  - gw-proxy.yaml
+patches:
+  - path: podinfo-values.yaml
+    target:
+      kind: HelmRelease
+      namespace: podinfo
+      name: podinfo
