@@ -19,7 +19,7 @@ helm install cilium oci://quay.io/cilium/charts/cilium --version 1.20.0 --namesp
 Wait for everything to be ready
 
 ```zsh
-k wait --for=condition=Ready nodes --all --timeout=2m
+kubectl wait --for=condition=Ready nodes --all --timeout=2m
 ```
 
 Now flux bootstrap
@@ -31,7 +31,7 @@ flux bootstrap github --owner=Jacob-Roberts --repository=homelab --branch=main -
 And now to access the node, port forward into the cluster
 
 ```zsh
-k port-forward deploy/gw-proxy 8080:8080
+kubectl port-forward deploy/gw-proxy 8080:8080
 ```
 
 ## Finished
@@ -81,7 +81,7 @@ helm install cilium oci://quay.io/cilium/charts/cilium \
 Wait for everything to be ready
 
 ```zsh
-k wait --for=condition=Ready nodes --all --timeout=2m
+kubectl wait --for=condition=Ready nodes --all --timeout=2m
 ```
 
 Now flux bootstrap
@@ -93,7 +93,7 @@ flux bootstrap github --owner=Jacob-Roberts --repository=homelab --branch=main -
 And now to access the node, port forward into the cluster
 
 ```zsh
-k port-forward deploy/gw-proxy 8080:8080
+kubectl port-forward deploy/gw-proxy 8080:8080
 ```
 
 ## Finished
