@@ -17,7 +17,7 @@ jobs:
 
       - name: Cache talosctl
         id: cache-talosctl
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: /usr/local/bin/talosctl
           key: talosctl-v1.13.0
@@ -33,7 +33,7 @@ jobs:
 
       - name: Cache Talos images
         id: cache-talos-images
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: /tmp/talos-images
           key: talos-images-v1.13.0
@@ -92,7 +92,7 @@ jobs:
           --username=${GITHUB_ACTOR} \
           --password=${{ secrets.GITHUB_TOKEN }} \
           --ignore-paths="kubernetes/clusters/**/flux-system/"
-          
+
           flux create kustomization flux-system \
           --source=flux-system \
           --path=./kubernetes/clusters/stage
@@ -150,3 +150,8 @@ jobs:
           kubectl -n flux-system logs deploy/kustomize-controller
           kubectl -n flux-system logs deploy/helm-controller
           flux get all --all-namespaces
+
+      - name: Destroy cluster
+        if: always()
+        run: |
+          talosctl cluster destroy --name ci-cluster
