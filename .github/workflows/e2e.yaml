@@ -44,41 +44,18 @@ jobs:
             docker load < /tmp/talos-images/talos.tar
           fi
 
-      - name: Setup Kubernetes (Background)
-        id: setup_kubernetes_background
-        background: true
+      - name: Setup Kubernetes
         run: |
-          # Run cluster creation in the background (&) so it doesn't block the CI runner
           talosctl cluster create docker \
             --name ci-cluster \
             --workers 1 \
             --config-patch ./kubernetes/clusters/stage/talos-patch.yaml
-
-      - name: Wait for API and get kubeconfig
-        run: |
-          # 1. Poll the Talos API until it is up and can hand us the kubeconfig
-          echo "Waiting for Talos API..."
-          until talosctl kubeconfig --force /tmp/kubeconfig --merge=false 2>/dev/null; do
-            sleep 3
-          done
-          echo "KUBECONFIG=/tmp/kubeconfig" >> $GITHUB_ENV
-          
-          # 2. Poll the Kubernetes API until it accepts commands
-          echo "Waiting for Kubernetes API to accept connections..."
-          until kubectl get nodes 2>/dev/null; do
-            sleep 3
-          done
 
       - name: Save Talos images for cache
         if: steps.cache-talos-images.outputs.cache-hit != 'true'
         run: |
           mkdir -p /tmp/talos-images
           docker save ghcr.io/siderolabs/talos:v1.13.0 > /tmp/talos-images/talos.tar
-
-      - name: Get kubeconfig
-        run: |
-          talosctl kubeconfig --force /tmp/kubeconfig --merge=false
-          echo "KUBECONFIG=/tmp/kubeconfig" >> $GITHUB_ENV
 
       - name: Apply gateway CRDS
         run: |
@@ -98,9 +75,6 @@ jobs:
           --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
           --set cgroup.autoMount.enabled=false \
           --set cgroup.hostRoot=/sys/fs/cgroup
-
-      - name: Wait for talos kubernetes setup
-        wait: setup_kubernetes_background
 
       - name: Wait for cluster ready
         run: |
