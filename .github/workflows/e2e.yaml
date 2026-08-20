@@ -44,12 +44,28 @@ jobs:
             docker load < /tmp/talos-images/talos.tar
           fi
 
-      - name: Setup Kubernetes
+      - name: Setup Kubernetes (Background)
         run: |
+          # Run cluster creation in the background (&) so it doesn't block the CI runner
           talosctl cluster create docker \
             --name ci-cluster \
-            --workers 1
-            --config-patch ./kubernetes/clusters/stage/talos-patch.yaml
+            --workers 1 \
+            --config-patch ./kubernetes/clusters/stage/talos-patch.yaml &
+
+      - name: Wait for API and get kubeconfig
+        run: |
+          # 1. Poll the Talos API until it is up and can hand us the kubeconfig
+          echo "Waiting for Talos API..."
+          until talosctl kubeconfig --force /tmp/kubeconfig --merge=false 2>/dev/null; do
+            sleep 3
+          done
+          echo "KUBECONFIG=/tmp/kubeconfig" >> $GITHUB_ENV
+          
+          # 2. Poll the Kubernetes API until it accepts commands
+          echo "Waiting for Kubernetes API to accept connections..."
+          until kubectl get nodes 2>/dev/null; do
+            sleep 3
+          done
 
       - name: Save Talos images for cache
         if: steps.cache-talos-images.outputs.cache-hit != 'true'
