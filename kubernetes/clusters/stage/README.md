@@ -49,32 +49,7 @@ flux bootstrap github --owner=Jacob-Roberts --repository=homelab --branch=main -
 And now to access the node, port forward into the cluster
 
 ```zsh
-kubectl apply -f - <<EOF
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: gw-proxy
-  namespace: default
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: gw-proxy
-  template:
-    metadata:
-      labels:
-        app: gw-proxy
-    spec:
-      containers:
-      - name: socat
-        image: alpine/socat
-        # These are the exact arguments we passed to the command line
-        args:
-        - "TCP-LISTEN:8080,fork,reuseaddr"
-        - "TCP:cilium-gateway-my-gateway.cilium-gateway-system.svc.cluster.local:80"
-        ports:
-        - containerPort: 8080
-EOF
+kubectl apply -f ./kubernetes/test/gw-proxy.yaml
 
 kubectl port-forward deploy/gw-proxy 8080:8080
 ```
