@@ -16,6 +16,6 @@ spec:
       - http01:
           gatewayHTTPRoute:
             parentRefs:
-              - name: envoy
-                namespace: envoy-gateway-system
+              - name: my-gateway
+                namespace: cilium-gateway-system
                 kind: Gateway

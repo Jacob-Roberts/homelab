@@ -28,9 +28,8 @@ spec:
     httpRoute:
       enabled: true
       parentRefs:
-        - name: envoy
-          namespace: envoy-gateway-system
-          sectionName: http
+        - name: my-gateway
+          namespace: cilium-gateway-system
       hostnames:
         - podinfo.local
       rules:
