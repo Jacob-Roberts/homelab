@@ -103,16 +103,13 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: proxmox-pool
 spec:
-  dependsOn:
-    - name: infra-configs
   cidrs:
-    - cidr: "192.168.42.200/29"
+    - start: "192.168.42.200"
+      stop: "192.168.42.250"
 ---
 apiVersion: "cilium.io/v2alpha1"
 kind: CiliumL2AnnouncementPolicy
 metadata:
   name: proxmox-l2-policy
 spec:
-  dependsOn:
-    - name: infra-configs
   loadBalancerIPs: true
