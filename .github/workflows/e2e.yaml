@@ -15,6 +15,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Setup Flux CLI
+        uses: fluxcd/flux2/action@main
+
       - name: Cache talosctl
         id: cache-talosctl
         uses: actions/cache@v6
