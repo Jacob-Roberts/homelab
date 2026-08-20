@@ -14,16 +14,81 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-      - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@main
-      - name: Setup Kubernetes
-        uses: helm/kind-action@v1.14.0
+
+      - name: Cache talosctl
+        id: cache-talosctl
+        uses: actions/cache@v4
         with:
-          cluster_name: flux
-          version: v0.32.0
-          node_image: kindest/node:v1.36.1
+          path: /usr/local/bin/talosctl
+          key: talosctl-v1.13.0
+
+      - name: Install talosctl
+        run: |
+          if ! command -v talosctl &> /dev/null; then
+            curl -LO https://github.com/siderolabs/talos/releases/download/v1.13.0/talosctl-linux-amd64
+            chmod +x talosctl-linux-amd64
+            sudo mv talosctl-linux-amd64 /usr/local/bin/talosctl
+          fi
+          talosctl version --client
+
+      - name: Cache Talos images
+        id: cache-talos-images
+        uses: actions/cache@v4
+        with:
+          path: /tmp/talos-images
+          key: talos-images-v1.13.0
+
+      - name: Load Talos images
+        run: |
+          if [ -f /tmp/talos-images/talos.tar ]; then
+            docker load < /tmp/talos-images/talos.tar
+          fi
+
+      - name: Setup Kubernetes
+        run: |
+          talosctl cluster create docker \
+            --name ci-cluster \
+            --workers 1
+            --config-patch ./kubernetes/clusters/stage/talos-patch.yaml
+
+      - name: Save Talos images for cache
+        if: steps.cache-talos-images.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p /tmp/talos-images
+          docker save ghcr.io/siderolabs/talos:v1.13.0 > /tmp/talos-images/talos.tar
+
+      - name: Get kubeconfig
+        run: |
+          talosctl kubeconfig --force /tmp/kubeconfig --merge=false
+          echo "KUBECONFIG=/tmp/kubeconfig" >> $GITHUB_ENV
+
+      - name: Apply gateway CRDS
+        run: |
+          kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/standard-install.yaml
+
+      - name: Install cilium
+        run: |
+          helm install cilium oci://quay.io/cilium/charts/cilium \
+          --version 1.20.0 \
+          --namespace kube-system\
+          --set k8sServiceHost=localhost \
+          --set k8sServicePort=7445 \
+          --set kubeProxyReplacement=true \
+          --set gatewayAPI.enabled=true \
+          --set l7Proxy=true \
+          --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" \
+          --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
+          --set cgroup.autoMount.enabled=false \
+          --set cgroup.hostRoot=/sys/fs/cgroup
+
+      - name: Wait for cluster ready
+        run: |
+          kubectl wait --for=condition=Ready nodes --all --timeout=300s
+          kubectl get nodes
+
       - name: Install Flux in Kubernetes Kind
         run: flux install --components-extra source-watcher
+
       - name: Setup cluster reconciliation
         run: |
           flux create source git flux-system \
@@ -35,21 +100,52 @@ jobs:
           flux create kustomization flux-system \
           --source=flux-system \
           --path=./kubernetes/clusters/stage
+
       - name: Verify cluster reconciliation
         run: |
-          kubectl -n flux-system wait kustomization/infra-controllers --for=condition=ready --timeout=5m
+          kubectl -n flux-system wait kustomization/infra-configs --for=condition=ready --timeout=5m
           kubectl -n flux-system wait kustomization/apps --for=condition=ready --timeout=5m
+
       - name: Verify helm reconciliation
         run: |
           kubectl -n podinfo wait helmrelease/podinfo --for=condition=ready --timeout=5m
+
       - name: Verify gateway routing
         run: |
-          kubectl -n envoy-gateway-system port-forward \
-            $(kubectl -n envoy-gateway-system get svc -l gateway.envoyproxy.io/owning-gateway-name=envoy -o name) 8080:80 &
+          kubectl apply -f - <<EOF
+            apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: gw-proxy
+              namespace: default
+            spec:
+              replicas: 1
+              selector:
+                matchLabels:
+                  app: gw-proxy
+              template:
+                metadata:
+                  labels:
+                    app: gw-proxy
+                spec:
+                  containers:
+                  - name: socat
+                    image: alpine/socat
+                    # These are the exact arguments we passed to the command line
+                    args:
+                    - "TCP-LISTEN:8080,fork,reuseaddr"
+                    - "TCP:cilium-gateway-my-gateway.cilium-gateway-system.svc.cluster.local:80"
+                    ports:
+                    - containerPort: 8080
+            EOF
+
+          kubectl port-forward deploy/gw-proxy 8080:8080 &
           sleep 5
           curl -sSf -H "Host: podinfo.stage" http://localhost:8080
+
       - name: List deployed resources
         run: flux tree ks flux-system
+
       - name: Debug failure
         if: failure()
         run: |
