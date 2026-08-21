@@ -31,8 +31,7 @@ spec:
         - name: my-gateway
           namespace: cilium-gateway-system
       hostnames:
-        - podinfo.local
-        - podinfo.pbj.jakerob.pro
+        - podinfo.stage
       rules:
         - matches:
             - path:

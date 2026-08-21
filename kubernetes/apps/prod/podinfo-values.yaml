@@ -11,3 +11,4 @@ spec:
     httpRoute:
       hostnames:
         - podinfo.prod
+        - podinfo.pbj.jakerob.pro
