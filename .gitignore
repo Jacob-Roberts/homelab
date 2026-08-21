@@ -22,3 +22,8 @@ packer_cache/
 *.ova
 
 **/mise.local.toml
+
+kubernetes/clusters/prod/controlplane.yaml
+kubernetes/clusters/prod/demo-patch.yaml
+kubernetes/clusters/prod/worker.yaml
+kubernetes/clusters/prod/talosconfig
