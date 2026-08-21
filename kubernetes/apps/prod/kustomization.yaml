@@ -3,9 +3,15 @@ kind: Kustomization
 resources:
   - ../base/beszel
   - ../base/podinfo
+  - ../base/whoami
 patches:
   - path: podinfo-values.yaml
     target:
       kind: HelmRelease
       namespace: podinfo
       name: podinfo
+  - path: whoami-values.yaml
+    target:
+      kind: HTTPRoute
+      namespace: whoami
+      name: whoami
