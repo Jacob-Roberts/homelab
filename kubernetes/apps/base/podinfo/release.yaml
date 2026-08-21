@@ -32,6 +32,7 @@ spec:
           namespace: cilium-gateway-system
       hostnames:
         - podinfo.local
+        - podinfo.pbj.jakerob.pro
       rules:
         - matches:
             - path:
