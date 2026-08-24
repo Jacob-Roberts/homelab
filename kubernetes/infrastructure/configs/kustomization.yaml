@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - infisical-connection.yaml
   - infisical-auth.yaml
-  - infisical-cert-manager-cloudflare-token.yaml
   - gateway-namespace.yaml
   - gateway-class.yaml
   - gateway.yaml
