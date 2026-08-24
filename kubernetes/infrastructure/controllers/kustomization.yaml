@@ -3,3 +3,6 @@ kind: Kustomization
 resources:
   # TODO: - cert-manager.yaml
   - cilium.yaml
+  - infisical-namespace.yaml
+  - infisical-repository.yaml
+  - infisical-release.yaml
