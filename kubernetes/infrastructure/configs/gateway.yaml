@@ -3,12 +3,20 @@ kind: Gateway
 metadata:
   name: my-gateway
   namespace: cilium-gateway-system
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
 spec:
   gatewayClassName: cilium
   listeners:
     - name: http
       protocol: HTTP
       port: 80
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      protocol: HTTPS
+      port: 443
       allowedRoutes:
         namespaces:
           from: All
