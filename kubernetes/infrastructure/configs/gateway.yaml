@@ -20,8 +20,9 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+      hostname: "*.pbj-kube.jakerob.pro"
       tls:
         mode: Terminate
         certificateRefs:
           - kind: Secret
-            name: my-gateway-tls
+            name: pbj-wildcard-cert-secret
