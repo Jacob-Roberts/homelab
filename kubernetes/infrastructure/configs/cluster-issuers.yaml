@@ -1,21 +1,19 @@
-# TODO:
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt
+  name: cloudflare-issuer
 spec:
   acme:
     # Replace the email address with your own contact email
     email: fluxcdbot@users.noreply.github.com
     # The server is replaced in /clusters/prod/infrastructure.yaml
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt
+      name: cloudflare-issuer-account-key
     solvers:
-      - http01:
-          gatewayHTTPRoute:
-            parentRefs:
-              - name: my-gateway
-                namespace: cilium-gateway-system
-                kind: Gateway
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-api-token
+              key: api-token
