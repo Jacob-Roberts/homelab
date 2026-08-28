@@ -23,6 +23,14 @@ spec:
   values:
     provider:
       name: cloudflare
+    sources:
+      - service
+      - ingress
+      - gateway-httproute
+    policy: upsert-only
+    domainFilters:
+      - jakerob.pro
+    txtOwnerId: jakerob-pro
     env:
       - name: CF_API_TOKEN
         valueFrom:
