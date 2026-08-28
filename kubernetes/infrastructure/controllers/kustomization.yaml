@@ -6,3 +6,7 @@ resources:
   - infisical-namespace.yaml
   - infisical-repository.yaml
   - infisical-release.yaml
+  - external-dns-namespace.yaml
+  - external-dns-repository.yaml
+  - external-dns-release_secrets.yaml
+  - external-dns-release.yaml
