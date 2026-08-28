@@ -8,8 +8,8 @@ spec:
   targetNamespace: external-dns
   chart:
     spec:
-      chart: secrets-operator
-      version: 0.x
+      chart: external-dns
+      version: 0.22.0
       sourceRef:
         kind: HelmRepository
         name: external-dns
