@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: beszel
-          image: henrygd/beszel:latest
+          image: docker.io/henrygd/beszel:0.18.8
           ports:
             - containerPort: 8090
           volumeMounts:
