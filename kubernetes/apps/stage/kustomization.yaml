@@ -1,9 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../base/beszel
-  - ../base/podinfo
   - ../base/whoami
+  - ../base/podinfo
+  - ../base/beszel
 patches:
   - path: podinfo-values.yaml
     target:
@@ -15,3 +15,8 @@ patches:
       kind: HTTPRoute
       namespace: whoami
       name: whoami
+  - path: beszel-values.yaml
+    target:
+      kind: HTTPRoute
+      namespace: beszel
+      name: beszel
