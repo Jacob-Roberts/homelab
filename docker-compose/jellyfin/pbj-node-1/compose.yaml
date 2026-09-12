@@ -18,7 +18,7 @@ volumes:
 
 services:
   jellyfin:
-    image: docker.io/jellyfin/jellyfin:10
+    image: docker.io/jellyfin/jellyfin:12
     container_name: jellyfin
     hostname: jellyfin-pbj
     user: "${DOCKER_USER_ID:-2003}:${DOCKER_GROUP_ID:-2003}"
