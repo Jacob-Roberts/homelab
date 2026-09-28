@@ -5,6 +5,10 @@ networks:
   frontend:
     external: true
 
+volumes:
+  data:
+    name: mealie-data
+
 services:
   mealie:
     image: ghcr.io/mealie-recipes/mealie:v3.28.0
@@ -21,8 +25,8 @@ services:
       OIDC_PROVIDER_NAME: Pocket ID
       OIDC_AUTO_REDIRECT: false
       ALLOW_SIGNUP: "true"
-      PUID: 1002
-      PGID: 1002
+      PUID: 2085
+      PGID: 2085
       TZ: "${TZ:-Europe/London}"
       MAX_WORKERS: 1
       WEB_CONCURRENCY: 1
@@ -30,7 +34,7 @@ services:
     networks:
       - frontend
     volumes:
-      - ./data:/app/data/
+      - data:/app/data/
     deploy:
       resources:
         limits:
@@ -46,3 +50,19 @@ services:
       traefik.http.routers.mealie-prod-1-https.rule: Host(`${MEALIE_URL:-mealie.jakerob.pro}`)
       traefik.http.routers.mealie-prod-1-https.tls: true
       traefik.http.routers.mealie-prod-1-https.tls.certresolver: production
+
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: alpine
+    command:
+      - |
+        chown -R ${DOCKER_USER_ID:-2085}:${DOCKER_GROUP_ID:-2085} /app/data
+    networks: []
+    volumes:
+      - data:/app/data
+    entrypoint: [/bin/ash, "-c"]
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
