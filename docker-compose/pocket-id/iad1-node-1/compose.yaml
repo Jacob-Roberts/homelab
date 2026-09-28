@@ -33,6 +33,7 @@ services:
       EMAIL_LOGIN_NOTIFICATION_ENABLED: "true"
       EMAIL_ONE_TIME_ACCESS_AS_ADMIN_ENABLED: "true"
       EMAIL_API_KEY_EXPIRATION_ENABLED: "true"
+      EMAILS_VERIFIED: "${EMAILS_VERIFIED}"
     networks:
       - frontend
     volumes:
