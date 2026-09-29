@@ -5,11 +5,11 @@ all:
     # Raspberry Pi Model 3
     pbj-pi-1:
       ansible_user: ansible-robot
-      ansible_host: pbj-pi-1.jakerob.pro
+      ansible_host: pbj-pi-1.vpn.jakerob.pro
 
     pbj-node-1:
       ansible_user: ansible-robot
-      ansible_host: pbj-node-1.jakerob.pro
+      ansible_host: pbj-node-1.vpn.jakerob.pro
 
     pbj-hv-1:
       ansible_user: ansible-robot

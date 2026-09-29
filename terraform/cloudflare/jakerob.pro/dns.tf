@@ -193,7 +193,7 @@ resource "cloudflare_dns_record" "iad1-node-1-vpn" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content = "100.109.65.68"
+  content = "100.107.140.137"
 }
 
 resource "cloudflare_dns_record" "iad1-node-2-vpn" {
@@ -316,7 +316,7 @@ resource "cloudflare_dns_record" "pbj-node-1-vpn" {
   proxied = false
   ttl     = 1
   type    = "A"
-  content = "100.81.118.52"
+  content = "100.107.35.201"
 }
 
 resource "cloudflare_dns_record" "pbj-pi-1" {
@@ -326,6 +326,15 @@ resource "cloudflare_dns_record" "pbj-pi-1" {
   ttl     = 1
   type    = "A"
   content = "192.168.42.2"
+}
+
+resource "cloudflare_dns_record" "pbj-pi-1-vpn" {
+  name    = "pbj-pi-1.vpn.jakerob.pro"
+  zone_id = cloudflare_zone.jakerob_pro.id
+  proxied = false
+  ttl = 1
+  type = "A"
+  content = "100.107.156.239"
 }
 
 resource "cloudflare_dns_record" "pbj-pi-1-v6" {
