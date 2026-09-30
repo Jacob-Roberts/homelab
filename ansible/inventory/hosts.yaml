@@ -13,7 +13,7 @@ all:
 
     pbj-hv-1:
       ansible_user: ansible-robot
-      ansible_host: pbj-hv-1.vpn.jakerob.pro
+      ansible_host: pbj-hv-1.jakerob.pro
 
     pbj-storage-1:
       ansible_user: ansible-robot
@@ -37,7 +37,7 @@ all:
 
     slc1-hv-1:
       ansible_user: ansible-robot
-      ansible_host: slc1-hv-1.vpn.jakerob.pro
+      ansible_host: slc1-hv-1.jakerob.pro
 
     slc1-node-3:
       ansible_user: ansible-robot
@@ -56,7 +56,7 @@ all:
 
     sgu1-hv-1:
       ansible_user: ansible-robot
-      ansible_host: sgu1-hv-1.vpn.jakerob.pro
+      ansible_host: sgu1-hv-1.jakerob.pro
 
     sgu1-node-1:
       ansible_user: ansible-robot
