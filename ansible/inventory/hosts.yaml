@@ -5,19 +5,19 @@ all:
     # Raspberry Pi Model 3
     pbj-pi-1:
       ansible_user: ansible-robot
-      ansible_host: pbj-pi-1.jakerob.pro
+      ansible_host: pbj-pi-1.vpn.jakerob.pro
 
     pbj-node-1:
       ansible_user: ansible-robot
-      ansible_host: pbj-node-1.jakerob.pro
+      ansible_host: pbj-node-1.vpn.jakerob.pro
 
     pbj-hv-1:
       ansible_user: ansible-robot
-      ansible_host: pbj-hv-1.jakerob.pro
+      ansible_host: pbj-hv-1.vpn.jakerob.pro
 
     pbj-storage-1:
       ansible_user: ansible-robot
-      ansible_host: pbj-storage-1.jakerob.pro
+      ansible_host: pbj-storage-1.vpn.jakerob.pro
 
     #### IAD1 ####
 
@@ -37,30 +37,30 @@ all:
 
     slc1-hv-1:
       ansible_user: ansible-robot
-      ansible_host: slc1-hv-1.jakerob.pro
+      ansible_host: slc1-hv-1.vpn.jakerob.pro
 
     slc1-node-3:
       ansible_user: ansible-robot
-      ansible_host: slc1-node-3.jakerob.pro
+      ansible_host: slc1-node-3.vpn.jakerob.pro
 
     slc1-storage-1:
       ansible_user: ansible-robot
-      ansible_host: slc1-storage-1.jakerob.pro
+      ansible_host: slc1-storage-1.vpn.jakerob.pro
 
     # Raspberry Pi Model 3
     slc1-pi-1:
       ansible_user: ansible-robot
-      ansible_host: slc1-pi-1.jakerob.pro
+      ansible_host: slc1-pi-1.vpn.jakerob.pro
 
     #### SGU1 ####
 
     sgu1-hv-1:
       ansible_user: ansible-robot
-      ansible_host: sgu1-hv-1.jakerob.pro
+      ansible_host: sgu1-hv-1.vpn.jakerob.pro
 
     sgu1-node-1:
       ansible_user: ansible-robot
-      ansible_host: sgu1-node-1.jakerob.pro
+      ansible_host: sgu1-node-1.vpn.jakerob.pro
 
   children:
     bootstrap:
