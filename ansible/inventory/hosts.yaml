@@ -33,13 +33,13 @@ all:
       ansible_user: ansible-robot
       ansible_host: iad1-node-1.vpn.jakerob.pro
 
-    iad1-node-2:
-      ansible_user: ansible-robot
-      ansible_host: iad1-node-2.vpn.jakerob.pro
+    # iad1-node-2:
+    #   ansible_user: ansible-robot
+    #   ansible_host: iad1-node-2.vpn.jakerob.pro
 
-    iad1-node-3:
-      ansible_user: ansible-robot
-      ansible_host: iad1-node-3.vpn.jakerob.pro
+    # iad1-node-3:
+    #   ansible_user: ansible-robot
+    #   ansible_host: iad1-node-3.vpn.jakerob.pro
 
     #### SLC1 ####
 
@@ -62,13 +62,13 @@ all:
 
     #### SGU1 ####
 
-    sgu1-hv-1:
-      ansible_user: ansible-robot
-      ansible_host: sgu1-hv-1.jakerob.pro
+    # sgu1-hv-1:
+    #   ansible_user: ansible-robot
+    #   ansible_host: sgu1-hv-1.jakerob.pro
 
-    sgu1-node-1:
-      ansible_user: ansible-robot
-      ansible_host: sgu1-node-1.vpn.jakerob.pro
+    # sgu1-node-1:
+    #   ansible_user: ansible-robot
+    #   ansible_host: sgu1-node-1.vpn.jakerob.pro
 
   children:
     bootstrap:
@@ -79,10 +79,10 @@ all:
       hosts:
         pbj-node-1:
         iad1-node-1:
-        iad1-node-2:
-        iad1-node-3:
+        # iad1-node-2:
+        # iad1-node-3:
         slc1-node-3:
-        sgu1-node-1:
+        # sgu1-node-1:
 
     example:
       hosts:
@@ -112,8 +112,8 @@ all:
     qemu:
       hosts:
         pbj-node-1:
-        sgu1-node-1:
-        slc1-node-3:
+        # sgu1-node-1:
+        # slc1-node-3:
 
     pihole:
       hosts:
