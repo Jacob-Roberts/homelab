@@ -15,6 +15,14 @@ all:
       ansible_user: ansible-robot
       ansible_host: pbj-hv-1.jakerob.pro
 
+    pbj-hv-2:
+      ansible_user: ansible-robot
+      ansible_host: pbj-hv-2.jakerob.pro
+
+    pbj-hv-3:
+      ansible_user: ansible-robot
+      ansible_host: pbj-hv-3.jakerob.pro
+
     pbj-storage-1:
       ansible_user: ansible-robot
       ansible_host: pbj-storage-1.vpn.jakerob.pro
