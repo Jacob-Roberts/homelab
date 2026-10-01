@@ -99,12 +99,15 @@ all:
         pbj-pi-1:
         pbj-node-1:
         pbj-hv-1:
+        pbj-hv-2:
+        pbj-hv-3:
         iad1-node-1:
         # iad1-node-2:
         # iad1-node-3:
         slc1-hv-1:
         slc1-node-3:
         slc1-pi-1:
+        sgu1-hv-1:
         sgu1-node-1:
     qemu:
       hosts:
