@@ -107,8 +107,8 @@ all:
         slc1-hv-1:
         slc1-node-3:
         slc1-pi-1:
-        sgu1-hv-1:
-        sgu1-node-1:
+        # sgu1-hv-1:
+        # sgu1-node-1:
     qemu:
       hosts:
         pbj-node-1:
