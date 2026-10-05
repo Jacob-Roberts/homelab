@@ -306,7 +306,7 @@ resource "cloudflare_dns_record" "pbj-node-1-v6" {
   zone_id = cloudflare_zone.jakerob_pro.id
   proxied = false
   ttl     = 1
-  type    = "A"
+  type    = "AAAA"
   content = "2601:640:8000:a8f0:be24:11ff:feea:1964"
 }
 
@@ -692,15 +692,6 @@ resource "cloudflare_dns_record" "homebox" {
   content = "iad1-node-1.jakerob.pro"
 }
 
-resource "cloudflare_dns_record" "catch_all-iad1" {
-  name    = "*.iad1.jakerob.pro"
-  zone_id = cloudflare_zone.jakerob_pro.id
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "iad1-node-1.jakerob.pro"
-}
-
 resource "cloudflare_dns_record" "secret-santa" {
   name    = "secret-santa.jakerob.pro"
   zone_id = cloudflare_zone.jakerob_pro.id
@@ -795,7 +786,7 @@ resource "cloudflare_dns_record" "pma2-iad1vpn" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  content = "iad1-vpn-node-2"
+  content = "iad1-node-2.vpn.jakerob.pro"
 }
 
 resource "cloudflare_dns_record" "proxmox-sgu1" {
