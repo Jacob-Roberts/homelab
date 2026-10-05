@@ -4,6 +4,7 @@ resources:
   - ../base/whoami
   - ../base/podinfo
   - ../base/beszel
+  - ../base/homepage
 patches:
   - path: podinfo-values.yaml
     target:
@@ -20,3 +21,8 @@ patches:
       kind: HTTPRoute
       namespace: beszel
       name: beszel
+  - path: homepage-values.yaml
+    target:
+      kind: HTTPRoute
+      namespace: homepage
+      name: homepage
