@@ -220,7 +220,7 @@ locals {
     "pbj-node-1" = {
       name    = "pbj-node-1.jakerob.pro"
       type    = "A"
-      content = "192.168.42.16"
+      content = "192.168.42.120"
       ttl     = 1
       proxied = false
     },
