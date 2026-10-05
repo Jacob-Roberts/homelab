@@ -136,24 +136,31 @@ locals {
     "iad1-node-1-vpn" = {
       name    = "iad1-node-1.vpn.jakerob.pro"
       type    = "A"
-      content = "100.109.65.68"
+      content = "100.107.140.137"
       ttl     = 1
       proxied = false
     },
-    "iad1-node-2-vpn" = {
-      name    = "iad1-node-2.vpn.jakerob.pro"
-      type    = "A"
-      content = "100.107.169.91"
+    "iad1-node-1-vpn-v6" = {
+      name    = "iad1-node-1.vpn.jakerob.pro"
+      type    = "AAAA"
+      content = "fdbd:db6a:5351:2c4:5755:92ff:8b0e:c534"
       ttl     = 1
       proxied = false
     },
-    "iad1-node-3-vpn" = {
-      name    = "iad1-node-3.vpn.jakerob.pro"
-      type    = "A"
-      content = "100.70.105.44"
-      ttl     = 1
-      proxied = false
-    },
+    # "iad1-node-2-vpn" = {
+    #   name    = "iad1-node-2.vpn.jakerob.pro"
+    #   type    = "A"
+    #   content = "100.107.169.91"
+    #   ttl     = 1
+    #   proxied = false
+    # },
+    # "iad1-node-3-vpn" = {
+    #   name    = "iad1-node-3.vpn.jakerob.pro"
+    #   type    = "A"
+    #   content = "100.70.105.44"
+    #   ttl     = 1
+    #   proxied = false
+    # },
     "iad1_vpn_catch_all" = {
       name    = "*.iad1vpn.jakerob.pro"
       type    = "CNAME"
@@ -227,7 +234,14 @@ locals {
     "pbj-node-1-vpn" = {
       name    = "pbj-node-1.vpn.jakerob.pro"
       type    = "A"
-      content = "100.81.118.52"
+      content = "100.107.80.160"
+      ttl     = 1
+      proxied = false
+    },
+    "pbj-node-1-vpn" = {
+      name    = "pbj-node-1.vpn.jakerob.pro"
+      type    = "AAAA"
+      content = "fdbd:db6a:5351:2c4:4c58:8c56:c12c:5498"
       ttl     = 1
       proxied = false
     },
@@ -311,7 +325,14 @@ locals {
     "slc1-node-3-vpn" = {
       name    = "slc1-node-3.vpn.jakerob.pro"
       type    = "A"
-      content = "100.95.11.23"
+      content = "100.107.184.93"
+      ttl     = 1
+      proxied = false
+    },
+    "slc1-node-3-vpn-v6" = {
+      name    = "slc1-node-3.vpn.jakerob.pro"
+      type    = "AAAA"
+      content = "fdbd:db6a:5351:2c4:11e3:6773:f852:32d5"
       ttl     = 1
       proxied = false
     },
