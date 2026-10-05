@@ -238,7 +238,7 @@ locals {
       ttl     = 1
       proxied = false
     },
-    "pbj-node-1-vpn" = {
+    "pbj-node-1-vpn-v6" = {
       name    = "pbj-node-1.vpn.jakerob.pro"
       type    = "AAAA"
       content = "fdbd:db6a:5351:2c4:4c58:8c56:c12c:5498"
