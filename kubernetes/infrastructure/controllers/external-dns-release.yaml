@@ -23,6 +23,8 @@ spec:
   values:
     provider:
       name: cloudflare
+    extraArgs:
+      cloudflare-record-comment: managed by k8s external dns
     sources:
       - service
       - ingress
