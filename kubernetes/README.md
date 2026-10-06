@@ -45,11 +45,19 @@ last hostname has moved.
 2. The base hostname should be `<service>.docker.localhost` so it still works
    locally via the port-forward proxy in `kubernetes/test/`.
 
-3. Add `apps/<env>/<service>-values.yaml` that patches the base hostname to the
+3. Add the app to `kubernetes/apps/<env>/kustomization.yaml` resources.
+
+4. Add `apps/<env>/<service>-values.yaml` that patches the base hostname to the
    real one, and reference it from the overlay's `kustomization.yaml`.
 
-The patch file has to declare the same `apiVersion` and `kind` as the resource
-it patches. A mismatch does not fail the build, it silently does nothing, which
-is how `beszel` went missing its route.
+Two things bite here, and neither fails the build:
 
-4. Add the app to `kubernetes/apps/<env>/kustomization.yaml` resources.
+- A file that is not in the overlay's `resources` is simply never built. If you
+  forget `http-route.yaml` in the base `kustomization.yaml`, or forget the app in
+  the overlay, the route just does not exist.
+- A patch `target` that matches nothing is a silent no-op, exit code and all.
+  `kubectl kustomize <overlay>` and check the hostnames actually changed.
+
+The `apiVersion` and `kind` inside a patch file are cosmetic while a `target`
+selector is present, since `target` is what picks the resource. Keep them
+accurate anyway so the file still works if the `target` is ever dropped.
