@@ -4,3 +4,4 @@ namespace: beszel
 resources:
   - namespace.yaml
   - deployment.yaml
+  - http-route.yaml

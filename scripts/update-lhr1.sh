@@ -10,9 +10,6 @@ docker compose up -d --pull always --remove-orphans
 cd $HOMELAB_ROOT/grafana/lhr1-node-1
 docker compose up -d --pull always --remove-orphans
 
-cd $HOMELAB_ROOT/homepage/lhr1-node-1
-docker compose up -d --pull always --remove-orphans
-
 cd $HOMELAB_ROOT/immich/lhr1-node-1
 docker compose up -d --pull always --remove-orphans
 

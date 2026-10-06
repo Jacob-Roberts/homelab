@@ -3,8 +3,6 @@ kind: HTTPRoute
 metadata:
   name: whoami
   namespace: whoami
-  annotations:
-    cert-manager.io/cluster-issuer: cloudflare-issuer
 spec:
   parentRefs:
     - name: my-gateway

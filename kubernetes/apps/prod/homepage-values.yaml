@@ -5,4 +5,4 @@ metadata:
   namespace: homepage
 spec:
   hostnames:
-    - homepage.pbj-kube.jakerob.pro
+    - homepage.pbj.jakerob.pro
