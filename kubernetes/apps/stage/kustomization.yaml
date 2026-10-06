@@ -10,7 +10,7 @@ patches:
       kind: HelmRelease
       namespace: podinfo
       name: podinfo
-  - path: podinfo-values.yaml
+  - path: whoami-values.yaml
     target:
       kind: HTTPRoute
       namespace: whoami
