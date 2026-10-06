@@ -45,6 +45,14 @@ spec:
               memory: 128Mi
           volumeMounts:
             - name: config
+              mountPath: /app/config/custom.css
+              subPath: custom.css
+              readOnly: true
+            - name: config
+              mountPath: /app/config/custom.js
+              subPath: custom.js
+              readOnly: true
+            - name: config
               mountPath: /app/config/settings.yaml
               subPath: settings.yaml
               readOnly: true

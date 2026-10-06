@@ -38,6 +38,8 @@ data:
         icon: mdi-home-#FFFFFF
       Security and Identity:
         icon: mdi-shield-lock-#FFFFFF
+  custom.css: |
+  custom.js: |
   services.yaml: |
     ---
     # For configuration options and examples, please see:
