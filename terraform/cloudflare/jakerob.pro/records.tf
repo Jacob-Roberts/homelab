@@ -710,10 +710,17 @@ locals {
       ttl     = 1
       proxied = false
     },
-    "pbj-kubernetes-catch-all" = {
-      name    = "*.pbj-k.jakerob.pro"
-      type    = "CNAME"
-      content = "pbj-node-6.jakerob.pro"
+    "pbj-workstation-2" = {
+      name    = "pbj-workstation-2.jakerob.pro"
+      type    = "A"
+      content = "192.168.42.21"
+      ttl     = 1
+      proxied = false
+    },
+    "pbj-workstation-2-v6" = {
+      name    = "pbj-workstation-2.jakerob.pro"
+      type    = "AAAA"
+      content = "2601:640:8000:a8f0:be24:11ff:fe97:c740"
       ttl     = 1
       proxied = false
     },
