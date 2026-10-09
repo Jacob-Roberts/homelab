@@ -23,7 +23,11 @@ packer_cache/
 
 **/mise.local.toml
 
-kubernetes/clusters/prod/controlplane.yaml
-kubernetes/clusters/prod/demo-patch.yaml
-kubernetes/clusters/prod/worker.yaml
-kubernetes/clusters/prod/talosconfig
+# Talos: the secrets bundle lives in Infisical and is never committed. The
+# machine configs and talosconfig are derived from it on demand.
+# See kubernetes/talos/.
+kubernetes/talos/*/secrets*.yaml
+kubernetes/talos/*/controlplane.yaml
+kubernetes/talos/*/worker.yaml
+kubernetes/talos/*/talosconfig
+kubernetes/talos/*/_out/
