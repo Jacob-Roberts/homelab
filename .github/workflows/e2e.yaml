@@ -23,12 +23,12 @@ jobs:
         uses: actions/cache@v6
         with:
           path: /usr/local/bin/talosctl
-          key: talosctl-v1.13.7
+          key: talosctl-v1.13.11
 
       - name: Install talosctl
         run: |
           if ! command -v talosctl &> /dev/null; then
-            curl -LO https://github.com/siderolabs/talos/releases/download/v1.13.7/talosctl-linux-amd64
+            curl -LO https://github.com/siderolabs/talos/releases/download/v1.13.11/talosctl-linux-amd64
             chmod +x talosctl-linux-amd64
             sudo mv talosctl-linux-amd64 /usr/local/bin/talosctl
           fi
@@ -39,7 +39,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: /tmp/talos-images
-          key: talos-images-v1.13.7
+          key: talos-images-v1.13.11
 
       - name: Load Talos images
         run: |
@@ -58,7 +58,7 @@ jobs:
         if: steps.cache-talos-images.outputs.cache-hit != 'true'
         run: |
           mkdir -p /tmp/talos-images
-          docker save ghcr.io/siderolabs/talos:v1.13.7 > /tmp/talos-images/talos.tar
+          docker save ghcr.io/siderolabs/talos:v1.13.11 > /tmp/talos-images/talos.tar
 
       - name: Apply gateway CRDS
         run: |

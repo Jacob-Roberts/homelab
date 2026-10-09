@@ -92,6 +92,7 @@ environment variables:
 | `TALOS_ENDPOINT`    | `https://192.168.42.129:6443` | Kubernetes API endpoint (VIP/node) |
 | `CONTROLPLANE_NODES`| `192.168.42.129`              | Space-separated control plane IPs    |
 | `WORKER_NODES`      | `192.168.42.54`               | Space-separated worker IPs           |
+| `ENDPOINTS`         | (from `CONTROLPLANE_NODES`)   | Talos API endpoints for `talosctl` (port 50000, comma-separated) |
 | `PATCH`             | `talos-patch.yaml`            | Config patch passed to `gen config`  |
 | `OUT_DIR`           | `_out`                        | Generated output directory           |
 | `INFISICAL_PATH`    | `/pbj/k8s-talos/prod`         | Infisical path of the bundle         |
@@ -100,6 +101,16 @@ environment variables:
 For separate control plane / worker patches, call `talosctl gen config`
 directly with `--config-patch-control-plane @cp.yaml --config-patch-worker
 @worker.yaml`.
+
+### Client endpoints gotcha
+
+`talosctl gen config` writes an **empty** `endpoints: []` into the generated
+`talosconfig`, so `talosctl` cannot work out where to connect on its own —
+resulting in `error constructing client: failed to determine endpoints`. The
+script always passes `--endpoints` (defaulting to the control plane nodes,
+Talos API port 50000 — **not** the Kubernetes API `:6443` from
+`TALOS_ENDPOINT`). Only `apply-insecure` is exempt: with `--insecure` the
+endpoints are derived from `--nodes`.
 
 ## Notes
 

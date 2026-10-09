@@ -20,7 +20,7 @@
 #
 # Non-secret settings can be overridden with environment variables:
 #   TALOS_CLUSTER, TALOS_ENDPOINT, CONTROLPLANE_NODES, WORKER_NODES,
-#   PATCH, OUT_DIR, INFISICAL_PATH, INFISICAL_KEY, KUBECONFIG_OUT
+#   ENDPOINTS, PATCH, OUT_DIR, INFISICAL_PATH, INFISICAL_KEY, KUBECONFIG_OUT
 #
 set -euo pipefail
 
@@ -30,6 +30,11 @@ TALOS_CLUSTER="${TALOS_CLUSTER:-my-proxmox-cluster}"
 TALOS_ENDPOINT="${TALOS_ENDPOINT:-https://192.168.42.129:6443}"
 CONTROLPLANE_NODES="${CONTROLPLANE_NODES:-192.168.42.129}"
 WORKER_NODES="${WORKER_NODES:-192.168.42.54}"
+# Talos API endpoints (port 50000) used by talosctl. `talosctl gen config`
+# writes an empty `endpoints: []` into the generated talosconfig, so these must
+# be supplied explicitly or every client command fails with "failed to
+# determine endpoints". Defaults to the control plane node IPs.
+ENDPOINTS="${ENDPOINTS:-${CONTROLPLANE_NODES// /,}}"
 PATCH="${PATCH:-talos-patch.yaml}"
 OUT_DIR="${OUT_DIR:-_out}"
 INFISICAL_PATH="${INFISICAL_PATH:-/pbj/k8s-talos/prod}"
@@ -84,7 +89,7 @@ apply_config() {
     echo "applying with the insecure (first boot) endpoint"
   else
     require_talosconfig
-    flags=(--talosconfig "$TALOSCONFIG")
+    flags=(--talosconfig "$TALOSCONFIG" --endpoints "$ENDPOINTS")
   fi
 
   local node
@@ -103,13 +108,15 @@ bootstrap() {
   require_talosconfig
   local first="${CONTROLPLANE_NODES%% *}"
   echo "bootstrapping etcd on ${first}"
-  talosctl bootstrap --nodes "$first" --talosconfig "$TALOSCONFIG"
+  talosctl --talosconfig "$TALOSCONFIG" --endpoints "$ENDPOINTS" \
+    --nodes "$first" bootstrap
 }
 
 kubeconfig() {
   require_talosconfig
   local first="${CONTROLPLANE_NODES%% *}"
-  talosctl kubeconfig --nodes "$first" --talosconfig "$TALOSCONFIG" \
+  talosctl --talosconfig "$TALOSCONFIG" --endpoints "$ENDPOINTS" \
+    --nodes "$first" kubeconfig \
     ${KUBECONFIG_OUT:+"$KUBECONFIG_OUT"}
 }
 
