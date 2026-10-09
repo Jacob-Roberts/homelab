@@ -32,7 +32,7 @@ by hand.
 
 ## First time (new cluster)
 
-1. Create the secret path `/global/talos/prod` in Infisical and upload a fresh
+1. Create the secret path `/pbj/k8s-talos/prod` in Infisical and upload a fresh
    secrets bundle:
 
    ```sh
@@ -86,16 +86,16 @@ by hand.
 Non-secret settings live at the top of `talos.sh` and can be overridden with
 environment variables:
 
-| Variable            | Default                    | Purpose                              |
-| ------------------- | -------------------------- | ------------------------------------ |
-| `TALOS_CLUSTER`     | `pbj-prod`                 | Talos cluster name                   |
-| `TALOS_ENDPOINT`    | `https://192.168.42.10:6443` | Kubernetes API endpoint (VIP/node) |
-| `CONTROLPLANE_NODES`| `192.168.42.10`            | Space-separated control plane IPs    |
-| `WORKER_NODES`      | *(empty)*                  | Space-separated worker IPs           |
-| `PATCH`             | `talos-patch.yaml`         | Config patch passed to `gen config`  |
-| `OUT_DIR`           | `_out`                     | Generated output directory           |
-| `INFISICAL_PATH`    | `/global/talos/prod`       | Infisical path of the bundle         |
-| `INFISICAL_KEY`     | `TALOS_SECRETS`            | Infisical key of the bundle          |
+| Variable            | Default                       | Purpose                              |
+| ------------------- | ----------------------------- | ------------------------------------ |
+| `TALOS_CLUSTER`     | `my-proxmox-cluster`          | Talos cluster name                   |
+| `TALOS_ENDPOINT`    | `https://192.168.42.129:6443` | Kubernetes API endpoint (VIP/node) |
+| `CONTROLPLANE_NODES`| `192.168.42.129`              | Space-separated control plane IPs    |
+| `WORKER_NODES`      | `192.168.42.54`               | Space-separated worker IPs           |
+| `PATCH`             | `talos-patch.yaml`            | Config patch passed to `gen config`  |
+| `OUT_DIR`           | `_out`                        | Generated output directory           |
+| `INFISICAL_PATH`    | `/pbj/k8s-talos/prod`         | Infisical path of the bundle         |
+| `INFISICAL_KEY`     | `TALOS_SECRETS`               | Infisical key of the bundle          |
 
 For separate control plane / worker patches, call `talosctl gen config`
 directly with `--config-patch-control-plane @cp.yaml --config-patch-worker
