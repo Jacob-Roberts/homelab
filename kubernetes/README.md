@@ -36,6 +36,48 @@ would both own the record and fight over it.
 `*.pbj.jakerob.pro`, shrink the listener and delete its certificate once the
 last hostname has moved.
 
+## Storage
+
+PersistentVolumes are backed by TrueNAS through the official `truenas-csi`
+driver, installed by the `infra-controllers` Kustomization. It talks to the
+TrueNAS websocket API and creates one ZFS dataset per PVC, so every volume can
+be snapshotted, cloned and resized on its own.
+
+Two NFS StorageClasses on `truenas.pbj.jakerob.pro`, both serving
+`ReadWriteOnce` and `ReadWriteMany` and provisioning a dataset per PVC under
+`<pool>/encrypted/k8s/<pvc-name>`:
+
+- `nfs` (default, for a PVC that names no class) on the spinning `bulk-slow` pool.
+- `nfs-nvme` on the NVMe `default-pool`, opted into by name.
+
+Prerequisites, all outside the cluster:
+
+1. TrueNAS SCALE 25.10.0+ with an API key created.
+2. The pools `bulk-slow` and `default-pool`, with the datasets
+   `bulk-slow/encrypted/k8s` and `default-pool/encrypted/k8s`.
+3. `TRUENAS_API_KEY` in Infisical at `/pbj/k8s`; the operator syncs it into the
+   `truenas-api-credentials` Secret the driver reads.
+4. The `siderolabs/iscsi-tools` system extension on every Talos node. The node
+   DaemonSet bind-mounts the host's `/etc/iscsi`, which the extension creates,
+   and iSCSI volumes later use its `iscsiadm` at `/usr/local/sbin`.
+
+- Create a PVC with no `storageClassName` and it uses `nfs`; set
+  `storageClassName: nfs-nvme` to use the NVMe pool.
+- Both classes use `reclaimPolicy: Retain`, so deleting a PVC keeps the dataset.
+  Delete `<pool>/encrypted/k8s/<pvc-name>` on the appliance to reclaim space.
+
+Smoke test:
+
+```zsh
+kubectl apply -f kubernetes/test/pvc.yaml
+kubectl get pvc nfs-test -w          # should reach Bound
+kubectl logs pod/nfs-test            # prints hello-from-k8s
+kubectl delete -f kubernetes/test/pvc.yaml
+```
+
+Block storage for databases (iSCSI, `ReadWriteOnce`) is planned as a second
+StorageClass; it needs the same `iscsi-tools` extension.
+
 ## Steps
 
 1. Create `kubernetes/apps/base/<service>/` with a `namespace.yaml`, whatever

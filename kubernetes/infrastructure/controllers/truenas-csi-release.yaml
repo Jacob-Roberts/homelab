@@ -1,0 +1,88 @@
+---
+# Official TrueNAS CSI driver. It talks to the TrueNAS websocket API and creates
+# a ZFS dataset per PersistentVolume, unlike a plain NFS provisioner which drops
+# every volume into one directory. That is what makes per-volume snapshots,
+# clones, quotas and online resize possible.
+#
+# Phase 1 exposes two NFS StorageClasses: `nfs` on the spinning `bulk-slow` pool
+# (the default) and `nfs-nvme` on the NVMe `default-pool`. A block (iSCSI) class
+# for databases is added later, once the Talos nodes run the iscsi-tools
+# extension it needs anyway.
+#
+# Prerequisites before this can come Ready:
+#   - TrueNAS SCALE 25.10.0+ with an API key created.
+#   - The pools `bulk-slow` and `default-pool`, with datasets
+#     `bulk-slow/encrypted/k8s` and `default-pool/encrypted/k8s`.
+#   - The API key is stored in Infisical at /pbj/k8s as TRUENAS_API_KEY, so
+#     truenas-csi-secret.yaml can sync it into the `truenas-api-credentials`
+#     Secret this release reads.
+#   - Every node installs the `siderolabs/iscsi-tools` system extension: the node
+#     DaemonSet bind-mounts the host's /etc/iscsi, which that extension creates.
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: truenas-csi
+  namespace: truenas-csi
+spec:
+  interval: 1h
+  targetNamespace: truenas-csi
+  chart:
+    spec:
+      chart: truenas-csi
+      version: "1.4.0"
+      sourceRef:
+        kind: HelmRepository
+        name: truenas-csi
+        namespace: truenas-csi
+  install:
+    strategy:
+      name: RetryOnFailure
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+  values:
+    truenas:
+      url: wss://truenas.pbj.jakerob.pro
+      defaultPool: bulk-slow
+      nfsServer: truenas.pbj.jakerob.pro
+      # TrueNAS ships a self-signed certificate issued for `localhost`, so the
+      # driver cannot verify it by name.
+      insecureSkipTLS: true
+      existingSecret: truenas-api-credentials
+      existingSecretKey: api-key
+    storageClasses:
+      # General-purpose class on the spinning `bulk-slow` pool. Default, so a
+      # PVC that names no StorageClass lands here.
+      - name: nfs
+        isDefault: true
+        # Keep the dataset when a PVC is deleted, so a stray `kubectl delete pvc`
+        # cannot destroy data. Delete the dataset by hand to reclaim space.
+        reclaimPolicy: Retain
+        allowVolumeExpansion: true
+        volumeBindingMode: Immediate
+        parameters:
+          protocol: nfs
+          # Overrides truenas.defaultPool for this class.
+          pool: bulk-slow
+          # Relative to the pool; each PVC becomes its own dataset at
+          # <pool>/encrypted/k8s/<pvc-name>.
+          datasetPath: encrypted/k8s
+          compression: LZ4
+          # Only the cluster subnet may mount the shares.
+          nfs.hosts: 192.168.42.0/24
+      # Opt-in fast class on the NVMe `default-pool`. Note that ZFS encryption is
+      # inherited from the parent `encrypted-v2` dataset here, same as bulk-slow.
+      - name: nfs-nvme
+        isDefault: false
+        reclaimPolicy: Retain
+        allowVolumeExpansion: true
+        volumeBindingMode: Immediate
+        parameters:
+          protocol: nfs
+          pool: default-pool
+          datasetPath: encrypted-v2/k8s
+          compression: LZ4
+          nfs.hosts: 192.168.42.0/24
+    # Snapshots work once the snapshot-controller release (in this same
+    # Kustomization) installs the VolumeSnapshot CRDs. The VolumeSnapshotClass
+    # itself lives in infrastructure/configs so it is created after those CRDs.
