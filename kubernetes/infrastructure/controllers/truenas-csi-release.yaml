@@ -12,12 +12,22 @@
 # Prerequisites before this can come Ready:
 #   - TrueNAS SCALE 25.10.0+ with an API key created.
 #   - The pools `bulk-slow` and `default-pool`, with datasets
-#     `bulk-slow/encrypted/k8s` and `default-pool/encrypted/k8s`.
+#     `bulk-slow/encrypted/k8s` and `default-pool/encrypted-v2/k8s`.
 #   - The API key is stored in Infisical at /pbj/k8s as TRUENAS_API_KEY, so
 #     truenas-csi-secret.yaml can sync it into the `truenas-api-credentials`
 #     Secret this release reads.
-#   - Every node installs the `siderolabs/iscsi-tools` system extension: the node
-#     DaemonSet bind-mounts the host's /etc/iscsi, which that extension creates.
+#
+# Talos note: the chart hardcodes the node DaemonSet's iscsi volume as hostPath
+# /etc/iscsi with type Directory. Talos runs kubelet in its own mount namespace
+# where the host's /etc/iscsi is not visible, so that type check fails and the
+# DaemonSet never schedules. The kustomize postRenderer below relaxes it to
+# DirectoryOrCreate, which is enough for NFS. iSCSI/NVMe-oF volumes still need
+# the `siderolabs/iscsi-tools` system extension on every node for iscsiadm.
+#
+# Talos NFS note: Talos ships no rpc.statd, and this driver exports each PVC as
+# its own ZFS dataset nested under the parent. NFSv4 against those nested
+# datasets fails with ENOENT and NFSv3 locking fails without rpc.statd, so both
+# classes force `nfs.mountOptions: nolock,vers=3`.
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -26,6 +36,27 @@ metadata:
 spec:
   interval: 1h
   targetNamespace: truenas-csi
+  # Talos workaround: let kubelet create /etc/iscsi in its own namespace instead
+  # of requiring the host's copy. See the note above.
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: DaemonSet
+              name: truenas-csi-node
+            patch: |
+              apiVersion: apps/v1
+              kind: DaemonSet
+              metadata:
+                name: truenas-csi-node
+              spec:
+                template:
+                  spec:
+                    volumes:
+                      - name: iscsi-dir
+                        hostPath:
+                          path: /etc/iscsi
+                          type: DirectoryOrCreate
   chart:
     spec:
       chart: truenas-csi
@@ -68,8 +99,12 @@ spec:
           # <pool>/encrypted/k8s/<pvc-name>.
           datasetPath: encrypted/k8s
           compression: LZ4
-          # Only the cluster subnet may mount the shares.
-          nfs.hosts: 192.168.42.0/24
+          # Only the cluster subnet may mount the shares. CIDRs go in
+          # nfs.networks; nfs.hosts only takes resolvable hostnames/IPs, and
+          # TrueNAS rejects a CIDR there.
+          nfs.networks: 192.168.42.0/24
+          # See the Talos NFS note above: v3 + nolock is what works on Talos.
+          nfs.mountOptions: nolock,vers=3
       # Opt-in fast class on the NVMe `default-pool`. Note that ZFS encryption is
       # inherited from the parent `encrypted-v2` dataset here, same as bulk-slow.
       - name: nfs-nvme
@@ -82,7 +117,8 @@ spec:
           pool: default-pool
           datasetPath: encrypted-v2/k8s
           compression: LZ4
-          nfs.hosts: 192.168.42.0/24
+          nfs.networks: 192.168.42.0/24
+          nfs.mountOptions: nolock,vers=3
     # Snapshots work once the snapshot-controller release (in this same
     # Kustomization) installs the VolumeSnapshot CRDs. The VolumeSnapshotClass
     # itself lives in infrastructure/configs so it is created after those CRDs.

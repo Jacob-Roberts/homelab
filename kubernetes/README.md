@@ -57,9 +57,10 @@ Prerequisites, all outside the cluster:
    `bulk-slow/encrypted/k8s` and `default-pool/encrypted/k8s`.
 3. `TRUENAS_API_KEY` in Infisical at `/pbj/k8s`; the operator syncs it into the
    `truenas-api-credentials` Secret the driver reads.
-4. The `siderolabs/iscsi-tools` system extension on every Talos node. The node
-   DaemonSet bind-mounts the host's `/etc/iscsi`, which the extension creates,
-   and iSCSI volumes later use its `iscsiadm` at `/usr/local/sbin`.
+4. Talos only: the node DaemonSet's `/etc/iscsi` hostPath is relaxed to
+   `DirectoryOrCreate` by a postRenderer on the HelmRelease, because Talos's
+   kubelet cannot see the host's `/etc/iscsi`. The planned iSCSI class (phase 2)
+   additionally needs the `siderolabs/iscsi-tools` system extension on every node.
 
 - Create a PVC with no `storageClassName` and it uses `nfs`; set
   `storageClassName: nfs-nvme` to use the NVMe pool.
