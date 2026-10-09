@@ -70,7 +70,7 @@ service_users:
   - name: homepage
     uid: 2008
     gid: 2008
-    nodes: ["pbj-node-1", "iad1-node-1", "slc1-node-3"]
+    nodes: ["iad1-node-1", "slc1-node-3"]
   - name: karakeep
     uid: 2009
     gid: 2009

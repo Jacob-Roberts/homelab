@@ -1,0 +1,9 @@
+# Everything here is generated from the secrets bundle stored in Infisical.
+# Never commit the cluster secrets, the derived machine configs, or the client
+# talosconfig. See README.md.
+secrets*.yaml
+controlplane.yaml
+worker.yaml
+talosconfig
+_out/
+kubeconfig

@@ -8,13 +8,36 @@ metadata:
 spec:
   gatewayClassName: cilium
   listeners:
+    # Plaintext, matches every hostname.
     - name: http
       protocol: HTTP
       port: 80
       allowedRoutes:
         namespaces:
           from: All
-    - name: https
+    # One HTTPS listener per DNS zone this cluster serves. cert-manager's
+    # gateway-shim turns each certificateRef into a wildcard Certificate that it
+    # issues and renews on its own, so adding a service inside a zone needs no
+    # certificate config at all.
+    #
+    # To onboard a new zone: add a listener here, then an HTTPRoute under
+    # kubernetes/apps/base whose hostname sits in that zone. See
+    # kubernetes/README.md.
+    - name: https-pbj
+      protocol: HTTPS
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: All
+      hostname: "*.pbj.jakerob.pro"
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: pbj-wildcard-cert
+    # Transitional zone for services that have not moved to *.pbj.jakerob.pro
+    # yet. Shrink or delete this listener as they migrate.
+    - name: https-pbj-kube
       protocol: HTTPS
       port: 443
       allowedRoutes:
@@ -25,4 +48,4 @@ spec:
         mode: Terminate
         certificateRefs:
           - kind: Secret
-            name: pbj-wildcard-cert-secret
+            name: pbj-kube-wildcard-cert

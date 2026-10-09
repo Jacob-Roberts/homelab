@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: external-dns
-      version: "1.21.0"
+      version: "1.23.0"
       sourceRef:
         kind: HelmRepository
         name: external-dns
@@ -23,6 +23,8 @@ spec:
   values:
     provider:
       name: cloudflare
+    extraArgs:
+      cloudflare-record-comment: managed by k8s external dns
     sources:
       - service
       - ingress

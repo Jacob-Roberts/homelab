@@ -8,7 +8,7 @@ volumes:
     driver: local
   semaphore_tmp:
     driver: local
-  ts_state:
+  nb_state:
     driver: local
 
 networks:
@@ -29,7 +29,7 @@ services:
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
-    network_mode: "service:tailscale"
+    network_mode: "service:netbird"
     logging:
       driver: local
     deploy:
@@ -42,22 +42,22 @@ services:
       - semaphore_config:/etc/semaphore
       - semaphore_tmp:/tmp/semaphore
 
-  tailscale:
-    container_name: tailscale-semaphore
-    image: docker.io/tailscale/tailscale:v1.98
+  netbird:
+    container_name: netbird-semaphore
+    image: docker.io/netbirdio/netbird:0.79.0
     hostname: semaphore-ansible-robot
     environment:
-      - TS_AUTHKEY=${TAILSCALE_AUTHKEY}
-      - TS_STATE_DIR=/var/lib/tailscale
-      - TS_USERSPACE=true
-      - TS_EXTRA_ARGS=--accept-routes
+      - NB_SETUP_KEY=${NETBIRD_SETUPKEY}
     volumes:
-      - ts_state:/var/lib/tailscale
+      - nb_state:/var/lib/netbird
     cap_add:
-      - net_admin
-      - net_raw
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
     security_opt:
       - no-new-privileges:true
+    devices:
+      - /dev/net/tun:/dev/net/tun
     networks:
       - frontend
     restart: unless-stopped

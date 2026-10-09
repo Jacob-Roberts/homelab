@@ -1,0 +1,4 @@
+[tools]
+opentofu = "latest"
+talosctl = "1.13.7"
+infisical = "latest"

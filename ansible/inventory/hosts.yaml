@@ -15,9 +15,17 @@ all:
       ansible_user: ansible-robot
       ansible_host: pbj-hv-1.jakerob.pro
 
-    pbj-storage-1:
+    pbj-hv-2:
       ansible_user: ansible-robot
-      ansible_host: pbj-storage-1.jakerob.pro
+      ansible_host: pbj-hv-2.jakerob.pro
+
+    pbj-hv-3:
+      ansible_user: ansible-robot
+      ansible_host: pbj-hv-3.jakerob.pro
+
+    # pbj-storage-1:
+    #   ansible_user: ansible-robot
+    #   ansible_host: pbj-storage-1.vpn.jakerob.pro
 
     #### IAD1 ####
 
@@ -25,13 +33,13 @@ all:
       ansible_user: ansible-robot
       ansible_host: iad1-node-1.vpn.jakerob.pro
 
-    iad1-node-2:
-      ansible_user: ansible-robot
-      ansible_host: iad1-node-2.vpn.jakerob.pro
+    # iad1-node-2:
+    #   ansible_user: ansible-robot
+    #   ansible_host: iad1-node-2.vpn.jakerob.pro
 
-    iad1-node-3:
-      ansible_user: ansible-robot
-      ansible_host: iad1-node-3.vpn.jakerob.pro
+    # iad1-node-3:
+    #   ansible_user: ansible-robot
+    #   ansible_host: iad1-node-3.vpn.jakerob.pro
 
     #### SLC1 ####
 
@@ -41,26 +49,26 @@ all:
 
     slc1-node-3:
       ansible_user: ansible-robot
-      ansible_host: slc1-node-3.jakerob.pro
+      ansible_host: slc1-node-3.vpn.jakerob.pro
 
-    slc1-storage-1:
-      ansible_user: ansible-robot
-      ansible_host: slc1-storage-1.jakerob.pro
+    # slc1-storage-1:
+    #   ansible_user: ansible-robot
+    #   ansible_host: slc1-storage-1.vpn.jakerob.pro
 
     # Raspberry Pi Model 3
     slc1-pi-1:
       ansible_user: ansible-robot
-      ansible_host: slc1-pi-1.jakerob.pro
+      ansible_host: slc1-pi-1.vpn.jakerob.pro
 
     #### SGU1 ####
 
-    sgu1-hv-1:
-      ansible_user: ansible-robot
-      ansible_host: sgu1-hv-1.jakerob.pro
+    # sgu1-hv-1:
+    #   ansible_user: ansible-robot
+    #   ansible_host: sgu1-hv-1.jakerob.pro
 
-    sgu1-node-1:
-      ansible_user: ansible-robot
-      ansible_host: sgu1-node-1.jakerob.pro
+    # sgu1-node-1:
+    #   ansible_user: ansible-robot
+    #   ansible_host: sgu1-node-1.vpn.jakerob.pro
 
   children:
     bootstrap:
@@ -71,10 +79,10 @@ all:
       hosts:
         pbj-node-1:
         iad1-node-1:
-        iad1-node-2:
-        iad1-node-3:
+        # iad1-node-2:
+        # iad1-node-3:
         slc1-node-3:
-        sgu1-node-1:
+        # sgu1-node-1:
 
     example:
       hosts:
@@ -91,18 +99,21 @@ all:
         pbj-pi-1:
         pbj-node-1:
         pbj-hv-1:
+        pbj-hv-2:
+        pbj-hv-3:
         iad1-node-1:
         # iad1-node-2:
         # iad1-node-3:
         slc1-hv-1:
         slc1-node-3:
         slc1-pi-1:
-        sgu1-node-1:
+        # sgu1-hv-1:
+        # sgu1-node-1:
     qemu:
       hosts:
         pbj-node-1:
-        sgu1-node-1:
-        slc1-node-3:
+        # sgu1-node-1:
+        # slc1-node-3:
 
     pihole:
       hosts:

@@ -11,3 +11,6 @@
 
 kind-config.yaml
 talos-patch.yaml
+
+# Talos machine config management (secrets live in Infisical, not the repo)
+/talos/

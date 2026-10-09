@@ -6,305 +6,37 @@ resource "cloudflare_zone" "autovation_com" {
   type = "full"
 }
 
-////////////////////////
-//  Examples          //
-////////////////////////
+locals {
+  # Appended to every record's comment so it shows up in the Cloudflare
+  # dashboard, making it obvious that a hand edit there will be reverted on the
+  # next apply. A record that already has a note keeps it, with the marker added
+  # after it. Cloudflare caps a comment at 100 characters on Free plans (500 on
+  # paid ones), so keep per-record notes short.
+  marker = "managed by terraform"
 
-// Only required options
-# resource "cloudflare_dns_record" "my_main_record" {
-#   name    = "autovation.com"
-#   proxied = false
-#   ttl     = 1 // 1 Means "automatic"
-#   type    = "A"
-#   zone_id = cloudflare_zone.autovation_com.id
-#   content   = "76.76.21.21"
-# }
+  record_comments = {
+    for key, record in local.dns_records :
+    key => join(" | ", compact([try(record.comment, ""), local.marker]))
+  }
+}
 
-// All possible options
-# resource "cloudflare_dns_record" "example_dns_record" {
-#   zone_id = cloudflare_zone.autovation_com.id
-#   comment = "Domain verification record"
-#   content = "198.51.100.4"
-#   name = "example.com"
-#   proxied = true
-#   settings = {
-#     ipv4_only = true
-#     ipv6_only = true
-#   }
-#   tags = ["owner:dns-team"]
-#   ttl = 3600
-#   type = "A"
-# }
+# Every DNS record in this zone. The records themselves live in records.tf.
+# moved.tf maps the previous one-resource-per-record addresses onto this one.
+resource "cloudflare_dns_record" "records" {
+  for_each = local.dns_records
 
-////////////////////////
-//  Vercel Records    //
-////////////////////////
-
-resource "cloudflare_dns_record" "autovation_apex_record" {
-  name    = "autovation.com"
   zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  content = "76.76.21.21"
-  comment = "vercel"
-}
+  name    = each.value.name
+  type    = each.value.type
 
-resource "cloudflare_dns_record" "autovation_www_record" {
-  name    = "www.autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "cname.vercel-dns.com"
-}
+  ttl     = each.value.ttl
+  proxied = each.value.proxied
 
-resource "cloudflare_dns_record" "photos" {
-  name    = "photos.autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "iad1-node-1.jakerob.pro"
-}
-
-resource "cloudflare_dns_record" "pocket-id" {
-  name    = "auth.autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "iad1-node-1.jakerob.pro"
-}
-
-////////////////////////
-//    Main Records    //
-////////////////////////
-
-resource "cloudflare_dns_record" "bwproxy_autovation" {
-  name    = "bwproxy.autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  content = "74.122.76.29"
-}
-
-resource "cloudflare_dns_record" "cloud_autovation" {
-  name    = "cloud.autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  content = "97.117.91.215"
-}
-
-resource "cloudflare_dns_record" "em7586" {
-  name    = "em7586.autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "u14070584.wl085.sendgrid.net"
-  comment = "sendgrid"
-}
-
-resource "cloudflare_dns_record" "googlef26116410a115f1f" {
-  name    = "googlef26116410a115f1f.autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "google.com"
-  comment = "google gmail verification"
-}
-
-resource "cloudflare_dns_record" "s1_domainkey_autovation" {
-  name    = "s1._domainkey.autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "s1.domainkey.u14070584.wl085.sendgrid.net"
-  comment = "sendgrid verification"
-}
-
-resource "cloudflare_dns_record" "s2_domainkey_autovation" {
-  name    = "s2._domainkey.autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "s2.domainkey.u14070584.wl085.sendgrid.net"
-  comment = "sendgrid"
-}
-
-////////////////////////
-//   Email Records    //
-////////////////////////
-
-resource "cloudflare_dns_record" "webmail" {
-  name    = "webmail.autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "autovation.com"
-}
-
-resource "cloudflare_dns_record" "MX_autovation_2" {
-  name     = "autovation.com"
-  zone_id  = cloudflare_zone.autovation_com.id
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  content  = "alt2.aspmx.l.google.com"
-  priority = 5
-}
-
-resource "cloudflare_dns_record" "MX_autovation_3" {
-  name     = "autovation.com"
-  zone_id  = cloudflare_zone.autovation_com.id
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  content  = "aspmx3.googlemail.com"
-  priority = 10
-}
-
-resource "cloudflare_dns_record" "MX_autovation_main" {
-  name     = "autovation.com"
-  zone_id  = cloudflare_zone.autovation_com.id
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  content  = "aspmx.l.google.com"
-  priority = 1
-}
-
-resource "cloudflare_dns_record" "MX_autovation" {
-  name     = "autovation.com"
-  zone_id  = cloudflare_zone.autovation_com.id
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  content  = "mail.boxworks.com"
-  priority = 11
-}
-
-resource "cloudflare_dns_record" "MX_autovation_4" {
-  name     = "autovation.com"
-  zone_id  = cloudflare_zone.autovation_com.id
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  content  = "aspmx4.googlemail.com"
-  priority = 10
-}
-
-resource "cloudflare_dns_record" "MX_autovation_5" {
-  name     = "autovation.com"
-  zone_id  = cloudflare_zone.autovation_com.id
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  content  = "aspmx5.googlemail.com"
-  priority = 10
-}
-
-resource "cloudflare_dns_record" "MX_autovation_1" {
-  name     = "autovation.com"
-  zone_id  = cloudflare_zone.autovation_com.id
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  content  = "alt1.aspmx.l.google.com"
-  priority = 5
-}
-
-resource "cloudflare_dns_record" "MX_autovation_main_2" {
-  name     = "autovation.com"
-  zone_id  = cloudflare_zone.autovation_com.id
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  content  = "aspmx2.googlemail.com"
-  priority = 10
-}
-
-resource "cloudflare_dns_record" "SPF1_autovation" {
-  name    = "autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  content = "\"v=spf1 include:zohomail.com include:_spf.google.com ~all\""
-}
-
-resource "cloudflare_dns_record" "DKIM_autovation" {
-  name    = "google._domainkey.autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  content = "\"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmayEOPZ+ojneaEM6YT+rkvv9MA7Kggo/wlObPlUaE5XSWBju6bmmwk7vO7tYNZPgvct88Raop3D6vHOauP4sfsQxIiS+tclNyxSuMkia3K81dmvYzP1Ncys+aoGJgH72DcqiKrbr+AJi7+pIKewxxEdjejrzKbH1A4362lI0KmsXUh0tUpanEtYfGT0oz42TA1z3tA/c4AiWkdM61NIpQKuYN6tfTv7SnbAD3HMSvMOAie6/sWh3XUZKCqr8m6aoewnuFGfPqVF+NcCLrqVObDrZWCVC/Bn3AuFU+iEpjxXmKPEUoEvfgIVJX8t1wHloiuGml4of1d5aPG+A8mhJ9wIDAQAB\""
-}
-
-resource "cloudflare_dns_record" "DKIM_zoho" {
-  name = "zmail._domainkey"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  content = "\"v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCR9FPnibMyA/ClrqCrf3LU5pLti0PS01iKtywXHG5gOiUnBPXA6ThD+oUeWKAfo3sH5syq6xVbE0nz7XdZq+pgt8ZAMy9ZTbvKAeSEtZbdvLTm2d6C6mstaeSvjJ74iqcQabTsU3bwQMhWPVQuO2mYjfhxnAq1idfvKhViqdY4/QIDAQAB\""
-}
-
-resource "cloudflare_dns_record" "autovation_com_dmarc" {
-  name    = "_dmarc.autovation.com"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  content   = "\"v=DMARC1;p=reject;rua=mailto:89ca6e8456c24e66ae361369e3648aa5@dmarc-reports.cloudflare.net,rua=mailto:7b7233315f@rua.easydmarc.eu;ruf=mailto:7b7233315f@ruf.easydmarc.eu;fo=1;adkim=s;aspf=s;\""
-}
-
-// Resend
-
-resource "cloudflare_dns_record" "resend_domain_key" {
-  name = "resend._domainkey.srv"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  content = "\"p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7F0zQnrEOxTPgdgtAEh5ndwH5Bevre75iBeL29omZFjJaq3Etq5fGZIufk45uyBGZsMqkfDBQ0qAgukgpKrGxryYRGa2whNhwQ315lX/5xww56MWpeHwgWbKCIgDhZByz1CgKGmWd5V45uUc6qqiTP2SBgH5Ll6WWAU446Hr4PQIDAQAB\""
-}
-
-resource "cloudflare_dns_record" "resend_srv" {
-  name     = "send.srv"
-  zone_id  = cloudflare_zone.autovation_com.id
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  priority = 10
-  content  = "feedback-smtp.us-east-1.amazonses.com"
-}
-
-resource "cloudflare_dns_record" "resend_srv_txt" {
-  name = "send.srv"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  content = "\"v=spf1 include:amazonses.com ~all\""
-}
-
-// ZOHO
-
-resource "cloudflare_dns_record" "zoho_mail" {
-  name    = "@"
-  zone_id = cloudflare_zone.autovation_com.id
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  content = "\"zoho-verification=zb27101284.zmverify.zoho.com\""
+  # Optional keys. try() is required, not stylistic: for_each keeps each
+  # entry's own object type, so an entry without `data` has no such attribute
+  # to read and each.value.data would be a hard error rather than null.
+  content  = try(each.value.content, null)
+  comment  = local.record_comments[each.key]
+  priority = try(each.value.priority, null)
+  data     = try(each.value.data, null)
 }
