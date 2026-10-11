@@ -350,20 +350,6 @@ locals {
       ttl     = 1
       proxied = false
     },
-    "slc1-node-3-vpn" = {
-      name    = "slc1-node-3.vpn.jakerob.pro"
-      type    = "A"
-      content = "100.107.184.93"
-      ttl     = 1
-      proxied = false
-    },
-    "slc1-node-3-vpn-v6" = {
-      name    = "slc1-node-3.vpn.jakerob.pro"
-      type    = "AAAA"
-      content = "fdbd:db6a:5351:2c4:11e3:6773:f852:32d5"
-      ttl     = 1
-      proxied = false
-    },
     "proxmox-pbj-cname" = {
       name    = "proxmox.pbj.jakerob.pro"
       type    = "CNAME"
@@ -477,6 +463,13 @@ locals {
       ttl     = 1
       proxied = false
     },
+    "sgu1-pi-1-vpn" = {
+      name    = "sgu1-pi-1.vpn.jakerob.pro"
+      type    = "A"
+      content = "100.107.224.67"
+      ttl     = 1
+      proxied = false
+    },
     "slc1-node-1" = {
       name    = "slc1-node-1.jakerob.pro"
       type    = "A"
@@ -498,10 +491,38 @@ locals {
       ttl     = 1
       proxied = false
     },
+    "slc1-pi-1-vpn" = {
+      name    = "slc1-pi-1.vpn.jakerob.pro"
+      type    = "A"
+      content = "100.107.140.120"
+      ttl     = 1
+      proxied = false
+    },
+    "slc1-pi-1-vpn-v6" = {
+      name    = "slc1-pi-1.vpn.jakerob.pro"
+      type    = "AAAA"
+      content = "fdbd:db6a:5351:2c4:c3b:832b:8c63:dbdd"
+      ttl     = 1
+      proxied = false
+    },
     "slc1-node-3" = {
       name    = "slc1-node-3.jakerob.pro"
       type    = "A"
       content = "192.168.97.133"
+      ttl     = 1
+      proxied = false
+    },
+    "slc1-node-3-vpn" = {
+      name    = "slc1-node-3.vpn.jakerob.pro"
+      type    = "A"
+      content = "100.107.184.93"
+      ttl     = 1
+      proxied = false
+    },
+    "slc1-node-3-vpn-v6" = {
+      name    = "slc1-node-3.vpn.jakerob.pro"
+      type    = "AAAA"
+      content = "fdbd:db6a:5351:2c4:11e3:6773:f852:32d5"
       ttl     = 1
       proxied = false
     },
@@ -519,10 +540,24 @@ locals {
       ttl     = 1
       proxied = false
     },
-    "slc1-storage-node-1" = {
-      name    = "slc1-storage-node-1.jakerob.pro"
+    "slc1-storage-1" = {
+      name    = "slc1-storage-1.jakerob.pro"
       type    = "A"
       content = "192.168.97.27"
+      ttl     = 1
+      proxied = false
+    },
+    "slc1-storage-1-vpn" = {
+      name    = "slc1-storage-1.vpn.jakerob.pro"
+      type    = "A"
+      content = "100.107.251.200"
+      ttl     = 1
+      proxied = false
+    },
+    "slc1-storage-1-vpn-v6" = {
+      name    = "slc1-storage-1.vpn.jakerob.pro"
+      type    = "A"
+      content = "fdbd:db6a:5351:2c4:efd9:319d:898a:c081"
       ttl     = 1
       proxied = false
     },
@@ -595,6 +630,13 @@ locals {
       type    = "CNAME"
       content = "iad1-node-1.jakerob.pro"
       ttl     = 1
+      proxied = false
+    },
+    "uptime-pbj" = {
+      name = "uptime.pbj.jakerob.pro"
+      type = "CNAME"
+      content = "pbj-pi-1.jakerob.pro"
+      ttl = 1
       proxied = false
     },
     "minecraft" = {
