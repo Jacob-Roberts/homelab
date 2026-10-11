@@ -5,6 +5,7 @@ resources:
   - ../base/podinfo
   - ../base/beszel
   - ../base/homepage
+  - ../base/calibre
 patches:
   - path: podinfo-values.yaml
     target:
@@ -26,3 +27,8 @@ patches:
       kind: HTTPRoute
       namespace: homepage
       name: homepage
+  - path: calibre-values.yaml
+    target:
+      kind: HTTPRoute
+      namespace: calibre
+      name: calibre

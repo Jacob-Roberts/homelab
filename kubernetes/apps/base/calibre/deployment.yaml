@@ -1,0 +1,90 @@
+---
+# calibre-web-automated bundles Calibre plus the auto-ingest watcher and serves
+# the web UI on 8083. Single replica on a single writer, so use the Recreate
+# strategy rather than briefly running two pods against the same SQLite config.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre
+  namespace: calibre
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: calibre
+  template:
+    metadata:
+      labels:
+        app: calibre
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 60
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 2006
+        runAsGroup: 2006
+        fsGroup: 2006
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: calibre
+          image: docker.io/crocodilestick/calibre-web-automated:v4.0.8
+          ports:
+            - name: http
+              containerPort: 8083
+          env:
+            # Match the fsGroup/runAsUser above so the image's PUID/PGID logic
+            # lines up with the ownership the kubelet applies to the volumes.
+            - name: PUID
+              value: "2006"
+            - name: PGID
+              value: "2006"
+            - name: TZ
+              value: Etc/UTC
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            # Paths the image writes at runtime are the mounted volumes; the
+            # root filesystem stays writable for its bundled tooling for now.
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: ingest
+              mountPath: /cwa-book-ingest
+            - name: library
+              mountPath: /calibre-library
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: calibre-config
+        - name: ingest
+          persistentVolumeClaim:
+            claimName: calibre-ingest
+        - name: library
+          persistentVolumeClaim:
+            claimName: calibre-library
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calibre
+  namespace: calibre
+spec:
+  selector:
+    app: calibre
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8083

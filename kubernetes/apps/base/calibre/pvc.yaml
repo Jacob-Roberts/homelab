@@ -1,0 +1,44 @@
+---
+# Calibre-Web-Automated keeps its SQLite config and its book library on disk.
+# Separate volumes so the library can be grown or shared independently. All use
+# the default `nfs` StorageClass (RWX, reclaimPolicy: Retain, so the ZFS dataset
+# survives a PVC delete). The app runs as UID/GID 2006; the driver's NFS shares
+# squash every client to root, so that non-root user can still read and write.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: calibre-config
+  namespace: calibre
+spec:
+  storageClassName: nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: calibre-ingest
+  namespace: calibre
+spec:
+  storageClassName: nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: calibre-library
+  namespace: calibre
+spec:
+  storageClassName: nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
