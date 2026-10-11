@@ -294,6 +294,20 @@ locals {
       ttl     = 1
       proxied = false
     },
+    "pbj-storage-1-vpn" = {
+      name    = "pbj-storage-1.vpn.jakerob.pro"
+      type    = "A"
+      content = "100.107.59.19"
+      ttl     = 1
+      proxied = false
+    },
+    "pbj-storage-1-vpn-v6" = {
+      name    = "pbj-storage-1.vpn.jakerob.pro"
+      type    = "AAAA"
+      content = "fdbd:db6a:5351:2c4:7c5c:50d6:a95a:af39"
+      ttl     = 1
+      proxied = false
+    },
     "pbj-pbs-1" = {
       name    = "pbj-pbs-1.jakerob.pro"
       type    = "A"
