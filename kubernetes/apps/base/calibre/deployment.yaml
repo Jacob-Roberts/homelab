@@ -22,11 +22,6 @@ spec:
       automountServiceAccountToken: false
       terminationGracePeriodSeconds: 60
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 2006
-        runAsGroup: 2006
-        fsGroup: 2006
-        fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
           type: RuntimeDefault
       containers:
@@ -36,8 +31,9 @@ spec:
             - name: http
               containerPort: 8083
           env:
-            # Match the fsGroup/runAsUser above so the image's PUID/PGID logic
-            # lines up with the ownership the kubelet applies to the volumes.
+            # The image starts as root, then drops to this uid/gid. On the NFS
+            # volumes all client uids are squashed to root server-side anyway,
+            # so these values just need to match the ownership model below.
             - name: PUID
               value: "2006"
             - name: PGID
@@ -49,8 +45,30 @@ spec:
             capabilities:
               drop:
                 - ALL
-            # Paths the image writes at runtime are the mounted volumes; the
-            # root filesystem stays writable for its bundled tooling for now.
+              add:
+                # Minimal set the s6 init needs to chown /run and the data dirs
+                # and to drop privileges to PUID/PGID. No NET_*/SYS_ADMIN here.
+                - CHOWN
+                - DAC_OVERRIDE
+                - FOWNER
+                - FSETID
+                - SETGID
+                - SETPCAP
+                - SETUID
+          # Calibre-Web takes ~40s to bind after the container starts; without a
+          # startup probe the Service would route traffic to a pod that is not
+          # serving yet (and the 500-then-recover window looks like an outage).
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 5
+            failureThreshold: 36
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 10
           resources:
             limits:
               cpu: 500m
@@ -59,6 +77,8 @@ spec:
               cpu: 100m
               memory: 128Mi
           volumeMounts:
+            - name: run
+              mountPath: /run
             - name: config
               mountPath: /config
             - name: ingest
@@ -66,6 +86,8 @@ spec:
             - name: library
               mountPath: /calibre-library
       volumes:
+        - name: run
+          emptyDir: {}
         - name: config
           persistentVolumeClaim:
             claimName: calibre-config

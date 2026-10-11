@@ -3,10 +3,13 @@ kind: Namespace
 metadata:
   name: calibre
   labels:
-    # Stricter than the cluster-wide baseline default: no root, no privilege
-    # escalation, all capabilities dropped, seccomp RuntimeDefault. The pod in
-    # this namespace is written to satisfy `restricted`.
-    pod-security.kubernetes.io/enforce: restricted
+    # This namespace uses "baseline" rather than the stricter "restricted":
+    # the linuxserver-based image's s6 init must start as root to fix /run and
+    # chown its data dirs, then drops to PUID/PGID. "restricted" forbids that
+    # (it also forbids the CAP_SETGID/CAP_SETUID the privilege drop needs).
+    # The container is still hardened in the Deployment: no privilege
+    # escalation, only a minimal capability set, and seccomp RuntimeDefault.
+    pod-security.kubernetes.io/enforce: baseline
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: restricted
     pod-security.kubernetes.io/audit-version: latest
