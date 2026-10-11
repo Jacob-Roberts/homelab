@@ -1,0 +1,13 @@
+---
+# Default VolumeSnapshotClass for the TrueNAS CSI driver. A snapshot is a ZFS
+# snapshot on the appliance; deleting the VolumeSnapshot removes it there.
+# Lives here, not in the driver chart, so it is created only after the
+# snapshot-controller CRDs from infra-controllers exist.
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: truenas
+  annotations:
+    snapshot.storage.kubernetes.io/is-default-class: "true"
+driver: csi.truenas.io
+deletionPolicy: Delete
