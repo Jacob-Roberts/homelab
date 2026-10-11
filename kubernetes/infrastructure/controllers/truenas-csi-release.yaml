@@ -79,11 +79,12 @@ spec:
       defaultPool: bulk-slow
       nfsServer: truenas.pbj.jakerob.pro
       # iSCSI portal the node logs in to. Pinned to the appliance's IPv4 LAN
-      # address on purpose: `truenas.pbj.jakerob.pro` also has an IPv6 record,
-      # and the pinned csi-lib-iscsi mis-parses IPv6 portals, so a hostname would
-      # break staging. Port 3260 is TrueNAS' iSCSI portal (created on 0.0.0.0, so
-      # the controller still resolves it by address).
-      iscsiPortal: "192.168.42.146:3260"
+      # address on purpose: `truenas.pbj.jakerob.pro` has both IPv6 and a stale
+      # A record, and the pinned csi-lib-iscsi mis-parses IPv6 portals, so a
+      # hostname would break staging. enp4s0 is 192.168.42.14. Port 3260 is
+      # TrueNAS' iSCSI portal (created on 0.0.0.0, so the controller resolves it
+      # by address).
+      iscsiPortal: "192.168.42.14:3260"
       # TrueNAS ships a self-signed certificate issued for `localhost`, so the
       # driver cannot verify it by name.
       insecureSkipTLS: true
