@@ -304,7 +304,7 @@ locals {
     "pbj-node-7" = {
       name    = "pbj-node-7.jakerob.pro"
       type    = "A"
-      content = "192.168.42.205"
+      content = "192.168.42.110"
       ttl     = 1
       proxied = false
     },
@@ -695,20 +695,6 @@ locals {
       ttl     = 1
       proxied = false
       comment = "Blue Sky"
-    },
-    "pbj-node-5" = {
-      name    = "pbj-node-5.jakerob.pro"
-      type    = "A"
-      content = "192.168.42.114"
-      ttl     = 1
-      proxied = false
-    },
-    "pbj-node-6" = {
-      name    = "pbj-node-6.jakerob.pro"
-      type    = "A"
-      content = "192.168.42.89"
-      ttl     = 1
-      proxied = false
     },
     "pbj-workstation-2" = {
       name    = "pbj-workstation-2.jakerob.pro"
