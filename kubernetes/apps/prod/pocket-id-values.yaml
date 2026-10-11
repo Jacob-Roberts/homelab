@@ -5,4 +5,4 @@ metadata:
   namespace: pocket-id
 spec:
   hostnames:
-    - pocket-id.pbj.jakerob.pro
+    - auth.jakerob.pro

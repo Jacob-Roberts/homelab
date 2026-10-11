@@ -1,0 +1,15 @@
+# APP_URL is the OIDC issuer, so it must exactly match the hostname the stage
+# route serves. The base default points at the prod hostname.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pocket-id
+  namespace: pocket-id
+spec:
+  template:
+    spec:
+      containers:
+        - name: pocket-id
+          env:
+            - name: APP_URL
+              value: https://auth.jakerob.pro
