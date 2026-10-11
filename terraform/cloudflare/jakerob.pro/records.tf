@@ -556,7 +556,7 @@ locals {
     },
     "slc1-storage-1-vpn-v6" = {
       name    = "slc1-storage-1.vpn.jakerob.pro"
-      type    = "A"
+      type    = "AAAA"
       content = "fdbd:db6a:5351:2c4:efd9:319d:898a:c081"
       ttl     = 1
       proxied = false
