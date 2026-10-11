@@ -38,3 +38,8 @@ patches:
       kind: HTTPRoute
       namespace: pocket-id
       name: pocket-id
+  - path: pocket-id-appurl.yaml
+    target:
+      kind: Deployment
+      namespace: pocket-id
+      name: pocket-id
