@@ -248,7 +248,7 @@ locals {
     "pbj-pi-1" = {
       name    = "pbj-pi-1.jakerob.pro"
       type    = "A"
-      content = "192.168.42.2"
+      content = "192.168.42.46"
       ttl     = 1
       proxied = false
     },
