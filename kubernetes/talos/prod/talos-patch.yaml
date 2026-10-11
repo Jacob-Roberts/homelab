@@ -1,3 +1,12 @@
+machine:
+  install:
+    # Image Factory image that adds the `siderolabs/iscsi-tools` extension, which
+    # provides `iscsiadm`/`iscsid` on the host. The TrueNAS CSI node plugin is
+    # privileged and invokes the host's iscsiadm (it bind-mounts `/` and
+    # `/lib/modules`), so block (iSCSI) StorageClasses need this on every node.
+    # Schematic: https://factory.talos.dev/schematics/c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac
+    # Bump this tag when upgrading Talos, so the extension stays baked in.
+    image: factory.talos.dev/installer/c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac:v1.14.2
 cluster:
   network:
     cni:

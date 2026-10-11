@@ -4,10 +4,11 @@
 # every volume into one directory. That is what makes per-volume snapshots,
 # clones, quotas and online resize possible.
 #
-# Phase 1 exposes two NFS StorageClasses: `nfs` on the spinning `bulk-slow` pool
-# (the default) and `nfs-nvme` on the NVMe `default-pool`. A block (iSCSI) class
-# for databases is added later, once the Talos nodes run the iscsi-tools
-# extension it needs anyway.
+# Four StorageClasses. Two NFS classes: `nfs` on the spinning `bulk-slow` pool
+# (the default) and `nfs-nvme` on the NVMe `default-pool`. Two block (iSCSI)
+# classes for databases, `iscsi` and `iscsi-nvme`, backed by ZVOLs. The nodes
+# run the iscsi-tools extension (see talos/prod/talos-patch.yaml) and the
+# appliance has an iSCSI portal on 0.0.0.0:3260.
 #
 # Prerequisites before this can come Ready:
 #   - TrueNAS SCALE 25.10.0+ with an API key created.
@@ -21,8 +22,9 @@
 # /etc/iscsi with type Directory. Talos runs kubelet in its own mount namespace
 # where the host's /etc/iscsi is not visible, so that type check fails and the
 # DaemonSet never schedules. The kustomize postRenderer below relaxes it to
-# DirectoryOrCreate, which is enough for NFS. iSCSI/NVMe-oF volumes still need
-# the `siderolabs/iscsi-tools` system extension on every node for iscsiadm.
+# DirectoryOrCreate, which is enough for both NFS and iSCSI. The iSCSI classes
+# additionally need the `siderolabs/iscsi-tools` system extension on every node
+# for iscsiadm/iscsid; the nodes are built with it via talos/prod/talos-patch.yaml.
 #
 # Talos NFS note: Talos ships no rpc.statd, and this driver exports each PVC as
 # its own ZFS dataset nested under the parent. NFSv4 against those nested
@@ -76,6 +78,12 @@ spec:
       url: wss://truenas.pbj.jakerob.pro
       defaultPool: bulk-slow
       nfsServer: truenas.pbj.jakerob.pro
+      # iSCSI portal the node logs in to. Pinned to the appliance's IPv4 LAN
+      # address on purpose: `truenas.pbj.jakerob.pro` also has an IPv6 record,
+      # and the pinned csi-lib-iscsi mis-parses IPv6 portals, so a hostname would
+      # break staging. Port 3260 is TrueNAS' iSCSI portal (created on 0.0.0.0, so
+      # the controller still resolves it by address).
+      iscsiPortal: "192.168.42.146:3260"
       # TrueNAS ships a self-signed certificate issued for `localhost`, so the
       # driver cannot verify it by name.
       insecureSkipTLS: true
@@ -119,6 +127,38 @@ spec:
           compression: LZ4
           nfs.networks: 192.168.42.0/24
           nfs.mountOptions: nolock,vers=3
+      # Block (iSCSI) classes backed by ZVOLs. These exist for databases and
+      # anything else that needs a real filesystem: SQLite/Postgres lock files
+      # and memory-mapped shared memory (WAL) do not work on NFS, which is why
+      # app databases must not use the `nfs*` classes above. Requires the
+      # iscsi-tools extension on every node (see talos/prod/talos-patch.yaml) and
+      # the iSCSI portal on the appliance.
+      - name: iscsi
+        isDefault: false
+        reclaimPolicy: Retain
+        allowVolumeExpansion: true
+        volumeBindingMode: Immediate
+        parameters:
+          protocol: iscsi
+          pool: bulk-slow
+          datasetPath: encrypted/k8s-iscsi
+          compression: LZ4
+          volblocksize: "16K"
+          iscsi.blocksize: "4096"
+      # Same, on the NVMe `default-pool`. Use this for small, latency-sensitive
+      # databases (e.g. Pocket ID's SQLite DB).
+      - name: iscsi-nvme
+        isDefault: false
+        reclaimPolicy: Retain
+        allowVolumeExpansion: true
+        volumeBindingMode: Immediate
+        parameters:
+          protocol: iscsi
+          pool: default-pool
+          datasetPath: encrypted-v2/k8s-iscsi
+          compression: LZ4
+          volblocksize: "16K"
+          iscsi.blocksize: "4096"
     # Snapshots work once the snapshot-controller release (in this same
     # Kustomization) installs the VolumeSnapshot CRDs. The VolumeSnapshotClass
     # itself lives in infrastructure/configs so it is created after those CRDs.

@@ -1,13 +1,17 @@
 ---
 # Pocket ID keeps its SQLite database, encryption key and uploads under
 # /app/data. Single writer, so ReadWriteOnce.
+#
+# It must be a block (iSCSI) volume, not NFS: SQLite's WAL mode relies on POSIX
+# locks and shared-memory mmap, neither of which works over NFS, so the app hangs
+# on every write and fails its health check. See truenas-csi-release.yaml.
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pocket-id-data
   namespace: pocket-id
 spec:
-  storageClassName: nfs-nvme
+  storageClassName: iscsi-nvme
   accessModes:
     - ReadWriteOnce
   resources:
