@@ -738,5 +738,19 @@ locals {
       ttl     = 1
       proxied = false
     },
+    "pbj-workstation-2-vpn" = {
+      name    = "pbj-workstation-2.vpn.jakerob.pro"
+      type    = "A"
+      content = "100.107.153.189"
+      ttl     = 1
+      proxied = false
+    },
+    "pbj-workstation-2-vpn-v6" = {
+      name    = "pbj-workstation-2.vpn.jakerob.pro"
+      type    = "AAAA"
+      content = "fdbd:db6a:5351:2c4:309c:d1eb:3207:8ffd"
+      ttl     = 1
+      proxied = false
+    },
   }
 }
