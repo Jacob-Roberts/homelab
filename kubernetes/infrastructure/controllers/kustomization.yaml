@@ -14,3 +14,6 @@ resources:
   - truenas-csi-repository.yaml
   - truenas-csi-secret.yaml
   - truenas-csi-release.yaml
+  - snapshot-controller-namespace.yaml
+  - snapshot-controller-repository.yaml
+  - snapshot-controller-release.yaml

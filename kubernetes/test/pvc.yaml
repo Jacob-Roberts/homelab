@@ -1,8 +1,9 @@
 ---
 # Manual smoke test for the default `nfs` StorageClass (TrueNAS CSI driver).
 # Apply, confirm the PVC binds and the pod writes to it, then delete. The ZFS
-# dataset is retained because the class uses reclaimPolicy: Retain, so remove
-# bulk-slow/encrypted/k8s/nfs-test on the appliance afterwards.
+# dataset and its NFS export are retained because the class uses
+# reclaimPolicy: Retain, so remove the dataset named after the PV, e.g.
+# bulk-slow/encrypted/k8s/pvc-<pvc-uid>, on the appliance afterwards.
 # Not managed by Flux (kubernetes/test is excluded in .sourceignore).
 apiVersion: v1
 kind: PersistentVolumeClaim

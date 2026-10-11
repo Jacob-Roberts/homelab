@@ -8,3 +8,4 @@ resources:
   - gateway-namespace.yaml
   - gateway-class.yaml
   - gateway.yaml
+  - volume-snapshot-class.yaml

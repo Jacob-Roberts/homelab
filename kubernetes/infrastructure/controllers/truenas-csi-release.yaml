@@ -96,7 +96,7 @@ spec:
           # Overrides truenas.defaultPool for this class.
           pool: bulk-slow
           # Relative to the pool; each PVC becomes its own dataset at
-          # <pool>/encrypted/k8s/<pvc-name>.
+          # <pool>/encrypted/k8s/pvc-<pvc-uid> (named after the PV).
           datasetPath: encrypted/k8s
           compression: LZ4
           # Only the cluster subnet may mount the shares. CIDRs go in
