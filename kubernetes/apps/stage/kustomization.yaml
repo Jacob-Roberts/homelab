@@ -4,6 +4,7 @@ resources:
   - ../base/whoami
   - ../base/podinfo
   - ../base/beszel
+  - ../base/pocket-id
 patches:
   - path: podinfo-values.yaml
     target:
@@ -20,3 +21,13 @@ patches:
       kind: HTTPRoute
       namespace: beszel
       name: beszel
+  - path: pocket-id-values.yaml
+    target:
+      kind: HTTPRoute
+      namespace: pocket-id
+      name: pocket-id
+  - path: pocket-id-appurl.yaml
+    target:
+      kind: Deployment
+      namespace: pocket-id
+      name: pocket-id

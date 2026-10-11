@@ -1,0 +1,99 @@
+---
+# Pocket ID: passkey-only OIDC provider. Distroless single binary on 1411,
+# stores its SQLite DB, encryption key and uploads under /app/data.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pocket-id
+  namespace: pocket-id
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: pocket-id
+  template:
+    metadata:
+      labels:
+        app: pocket-id
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        # gcr.io/distroless/static-debian12:nonroot
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: pocket-id
+          image: ghcr.io/pocket-id/pocket-id:v2.18.0
+          ports:
+            - name: http
+              containerPort: 1411
+          env:
+            # Overridden per-overlay (prod/stage) in the Deployment patch.
+            - name: APP_URL
+              value: https://pocket-id.pbj.jakerob.pro
+            - name: TRUST_PROXY
+              value: "true"
+            - name: UI_CONFIG_DISABLED
+              value: "true"
+          envFrom:
+            - secretRef:
+                name: pocket-id-secrets
+          # The distroless image has no shell; the binary provides a
+          # healthcheck subcommand (same one the upstream image uses).
+          startupProbe:
+            exec:
+              command: ["/app/pocket-id", "healthcheck"]
+            periodSeconds: 5
+            failureThreshold: 24
+          readinessProbe:
+            exec:
+              command: ["/app/pocket-id", "healthcheck"]
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command: ["/app/pocket-id", "healthcheck"]
+            periodSeconds: 30
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pocket-id-data
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pocket-id
+  namespace: pocket-id
+spec:
+  selector:
+    app: pocket-id
+  ports:
+    - name: http
+      port: 80
+      targetPort: 1411

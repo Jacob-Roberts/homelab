@@ -1,0 +1,15 @@
+---
+# Pocket ID keeps its SQLite database, encryption key and uploads under
+# /app/data. Single writer, so ReadWriteOnce.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pocket-id-data
+  namespace: pocket-id
+spec:
+  storageClassName: nfs-nvme
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

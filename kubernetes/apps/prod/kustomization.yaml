@@ -6,6 +6,7 @@ resources:
   - ../base/beszel
   - ../base/homepage
   - ../base/calibre
+  - ../base/pocket-id
 patches:
   - path: podinfo-values.yaml
     target:
@@ -32,3 +33,8 @@ patches:
       kind: HTTPRoute
       namespace: calibre
       name: calibre
+  - path: pocket-id-values.yaml
+    target:
+      kind: HTTPRoute
+      namespace: pocket-id
+      name: pocket-id
