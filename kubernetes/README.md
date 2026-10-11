@@ -29,6 +29,7 @@ would both own the record and fight over it.
 
 | Zone                     | Listener        | Certificate              |
 | ------------------------ | --------------- | ------------------------ |
+| `*.jakerob.pro`          | `https-jakerob` | `jakerob-wildcard-cert`  |
 | `*.pbj.jakerob.pro`      | `https-pbj`     | `pbj-wildcard-cert`      |
 | `*.pbj-kube.jakerob.pro` | `https-pbj-kube`| `pbj-kube-wildcard-cert` |
 

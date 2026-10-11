@@ -23,6 +23,22 @@ spec:
     # To onboard a new zone: add a listener here, then an HTTPRoute under
     # kubernetes/apps/base whose hostname sits in that zone. See
     # kubernetes/README.md.
+    #
+    # Apex jakerob.pro zone. It overlaps the *.pbj.jakerob.pro wildcard, but
+    # Gateway API sends each request to the most specific listener, so
+    # auth.jakerob.pro lands here and *.pbj.jakerob.pro stays on https-pbj.
+    - name: https-jakerob
+      protocol: HTTPS
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: All
+      hostname: "*.jakerob.pro"
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: jakerob-wildcard-cert
     - name: https-pbj
       protocol: HTTPS
       port: 443
