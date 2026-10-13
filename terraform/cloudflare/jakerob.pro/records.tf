@@ -733,7 +733,7 @@ locals {
     "truenas-slc1" = {
       name    = "truenas.slc1.jakerob.pro"
       type    = "CNAME"
-      content = "slc1-storage-node-1.jakerob.pro"
+      content = "slc1-storage-1.jakerob.pro"
       ttl     = 1
       proxied = false
     },
