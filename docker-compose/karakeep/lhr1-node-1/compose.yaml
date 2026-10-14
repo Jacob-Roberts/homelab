@@ -24,12 +24,13 @@ services:
       NEXTAUTH_URL: "${NEXTAUTH_URL:-https://karakeep.jakerob.pro}"
       MEILI_ADDR: http://meilisearch:7700
       BROWSER_WEB_URL: http://chrome:9222
-      DISABLE_SIGNUPS: false
-      DISABLE_PASSWORD_AUTH: false
-      OAUTH_WELLKNOWN_URL: "${OAUTH_WELLKNOWN_URL:-https://pocket-id.lhr1.jakerob.pro/.well-known/openid-configuration}"
+      DISABLE_SIGNUPS: "${DISABLE_SIGNUPS:-false}"
+      DISABLE_PASSWORD_AUTH: "${DISABLE_PASSWORD_AUTH:-true}"
+      OAUTH_AUTO_REDIRECT: "${OAUTH_AUTO_REDIRECT:-false}"
+      OAUTH_WELLKNOWN_URL: "${OAUTH_WELLKNOWN_URL:-https://auth.jakerob.pro/.well-known/openid-configuration}"
       OAUTH_CLIENT_ID: "${OAUTH_CLIENT_ID}"
       OAUTH_CLIENT_SECRET: "${OAUTH_CLIENT_SECRET}"
-      OAUTH_PROVIDER_NAME: "${OAUTH_PROVIDER_NAME:-PocketID}"
+      OAUTH_PROVIDER_NAME: "${OAUTH_PROVIDER_NAME}"
 
       # OPENAI_API_KEY: ...
 
