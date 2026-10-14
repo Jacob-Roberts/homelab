@@ -101,7 +101,7 @@ resource "oci_core_security_list" "default_security_list" {
     }
   }
   ingress_security_rules {
-    description = "Tailscale IPV4 Direct Connections"
+    description = "Netbird IPV4 Direct Connections"
     protocol    = "17"
     source      = "0.0.0.0/0"
     source_type = "CIDR_BLOCK"

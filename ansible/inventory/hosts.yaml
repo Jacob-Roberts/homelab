@@ -119,9 +119,13 @@ all:
       hosts:
         pbj-pi-1:
 
-    tailscale:
+    netbird:
       hosts:
-        pbj-node-1:
+        pbj-pi-1:
+        slc1-pi-1:
+        sgu1-pi-1:
+        # slc1-storage-1:
+        # pbj-storage-1:
 
     nut_primary_pbj:
       hosts:

@@ -1,9 +1,0 @@
----
-- name: Install Tailscale
-  hosts: tailscale
-  become: true
-
-  roles:
-    - role: artis3n.tailscale.machine
-      vars:
-        tailscale_authkey: "{{ lookup('env', 'TAILSCALE_KEY') }}"

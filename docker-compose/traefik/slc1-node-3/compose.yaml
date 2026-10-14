@@ -111,9 +111,9 @@ services:
       retries: 3
       start_period: 5s
     ports:
-      # Bind on Tailscale interface only
-      - "${TAILSCALE_IP:-100.95.11.23}:80:80"
-      - "${TAILSCALE_IP:-100.95.11.23}:443:443"
+      # Bind on Netbird interface only
+      - "${NETBIRD_IP:-100.95.11.23}:80:80"
+      - "${NETBIRD_IP:-100.95.11.23}:443:443"
     networks:
       - internal
     volumes:

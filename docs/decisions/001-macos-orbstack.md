@@ -25,4 +25,4 @@ Use orbstack and don't bind on any specific IP Addresses.
 
 ## Consequences
 
-This doesn't let us expose things "just" to tailscale or just to my local network, but the tradeoff in performance is worth it.
+This doesn't let us expose things "just" to netbird or just to my local network, but the tradeoff in performance is worth it.
