@@ -122,10 +122,13 @@ all:
     netbird:
       hosts:
         pbj-pi-1:
-        slc1-pi-1:
-        sgu1-pi-1:
-        # slc1-storage-1:
+        pbj-node-1:
         # pbj-storage-1:
+        slc1-pi-1:
+        slc1-node-3:
+        iad1-node-1:
+        # slc1-storage-1:
+        # sgu1-pi-1:
 
     nut_primary_pbj:
       hosts:
