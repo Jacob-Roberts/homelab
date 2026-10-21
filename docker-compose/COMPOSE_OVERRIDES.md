@@ -212,7 +212,7 @@ Some services support hardware acceleration. Enable it in environment-specific o
 # compose.gpu-enabled.yaml
 services:
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:v3.0.1-cuda
+    image: ghcr.io/immich-app/immich-machine-learning:v3.3.5-cuda
     deploy:
       resources:
         reservations:
