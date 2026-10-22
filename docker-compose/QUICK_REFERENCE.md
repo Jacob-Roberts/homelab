@@ -5,7 +5,6 @@
 ```bash
 # Deploy to an environment
 ./deploy.sh SERVICE ENVIRONMENT up -d
-./deploy.sh cadvisor iad1-node-1 up -d
 
 # Stop a service
 ./deploy.sh SERVICE ENVIRONMENT down
@@ -27,7 +26,6 @@
 
 | Service | Environments | Status |
 |---------|-------------|--------|
-| cadvisor | iad1-node-1, lhr1-node-1, slc1-node-3 | ✅ Ready |
 | portainer | iad1-node-1, sgu1-home-1, lhr1-node-1, slc1-node-3 | ✅ Ready |
 | immich | lhr1-node-1, lhr1-workstation-1, slc1-node-3 | ✅ Ready |
 
@@ -72,7 +70,6 @@ services:
 ## Manual docker compose Usage
 
 ```bash
-cd docker-compose/cadvisor
 
 # Standard docker compose commands with both files
 docker compose \
@@ -107,7 +104,6 @@ docker compose \
 
 | Service | iad1-node-1 | lhr1-node-1 | slc1-node-3 |
 |---------|------------|------------|-----------|
-| cadvisor | cadvisor.iad1vpn.jakerob.pro | cadvisor.lhr1.jakerob.pro | cadvisor.slc1.jakerob.pro |
 | portainer | portainer.iad1vpn.jakerob.pro | portainer.lhr1.jakerob.pro | portainer.slc1.jakerob.pro |
 | immich | photos.jakerob.pro | photos.jakerob.pro | photos.autovation.com |
 
@@ -129,7 +125,6 @@ docker compose -f compose.yaml -f compose.lhr1-node-1.yaml up -d
 
 ### View Real-Time Logs
 ```bash
-./deploy.sh cadvisor slc1-node-3 logs -f
 # Ctrl+C to exit
 ```
 

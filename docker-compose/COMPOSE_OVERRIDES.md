@@ -21,7 +21,6 @@ service-name/
 To deploy a service to a specific environment, use multiple `-f` flags:
 
 ```bash
-cd docker-compose/cadvisor
 
 # Deploy to iad1-node-1
 docker compose -f compose.yaml -f compose.iad1-node-1.yaml up -d
@@ -51,7 +50,6 @@ docker compose -f compose.yaml -f "compose.${ENVIRONMENT}.yaml" up -d
 Override defaults with environment variables:
 
 ```bash
-CADVISOR_URL=cadvisor.custom.domain docker compose -f compose.yaml -f compose.iad1-node-1.yaml up -d
 ```
 
 ## How Overrides Work
@@ -114,7 +112,6 @@ services:
 
 | Service | Status | Usage |
 |---------|--------|-------|
-| cadvisor | ✅ Refactored | `docker compose -f compose.yaml -f compose.{env}.yaml` |
 | portainer | ✅ Refactored | `docker compose -f compose.yaml -f compose.{env}.yaml` |
 | immich | ✅ Refactored | `docker compose -f compose.yaml -f compose.{env}.yaml` |
 
@@ -146,9 +143,6 @@ services:
 ## Environment Variables
 
 Each service uses environment-specific variables for URLs and configuration:
-
-### Cadvisor
-- `CADVISOR_URL`: Override the domain (default: environment-specific)
 
 ### Portainer
 - `PORTAINER_URL`: Override the domain (default: environment-specific)

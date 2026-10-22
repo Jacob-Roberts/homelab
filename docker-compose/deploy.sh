@@ -1,7 +1,7 @@
 #!/bin/bash
 # Deploy a service to a specific environment using docker compose overrides
 # Usage: ./deploy.sh SERVICE_NAME ENVIRONMENT [COMMAND]
-# Example: ./deploy.sh cadvisor lhr1-node-1 up -d
+# Example: ./deploy.sh portainer lhr1-node-1 up -d
 
 set -e
 
@@ -18,13 +18,11 @@ Usage:
     ./deploy.sh SERVICE_NAME ENVIRONMENT [COMMAND]
 
 Examples:
-    ./deploy.sh cadvisor iad1-node-1 up -d
     ./deploy.sh portainer lhr1-node-1 logs -f
     ./deploy.sh immich slc1-node-3 down
     ./deploy.sh immich lhr1-node-1 config    # View merged configuration
 
 Services with Overrides:
-    - cadvisor (iad1-node-1, lhr1-node-1, slc1-node-3)
     - portainer (iad1-node-1, sgu1-home-1, lhr1-node-1, slc1-node-3)
     - immich (lhr1-node-1, lhr1-workstation-1, slc1-node-3)
 
