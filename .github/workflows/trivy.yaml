@@ -21,10 +21,12 @@ jobs:
         run: |
           curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
           trivy --version
-      - name: Scan Docker Compose and Kubernetes manifests
+      - name: Scan Docker Compose manifests
         run: |
-          trivy config --severity HIGH,CRITICAL --exit-code 0 \
-            docker-compose kubernetes
+          trivy config --severity HIGH,CRITICAL --exit-code 0 docker-compose
+      - name: Scan Kubernetes manifests
+        run: |
+          trivy config --severity HIGH,CRITICAL --exit-code 0 kubernetes
 
   images:
     name: Scan container images
