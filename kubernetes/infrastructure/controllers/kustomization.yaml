@@ -17,3 +17,4 @@ resources:
   - snapshot-controller-namespace.yaml
   - snapshot-controller-repository.yaml
   - snapshot-controller-release.yaml
+  - trivy-operator.yaml

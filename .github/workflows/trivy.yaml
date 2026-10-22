@@ -1,0 +1,55 @@
+name: trivy
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 1"
+  pull_request:
+    branches: [main]
+    paths:
+      - "docker-compose/**"
+      - "kubernetes/**"
+      - "scripts/trivy/**"
+
+jobs:
+  config:
+    name: Scan IaC misconfigurations
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+          trivy --version
+      - name: Scan Docker Compose and Kubernetes manifests
+        run: |
+          trivy config --severity HIGH,CRITICAL --exit-code 0 \
+            docker-compose kubernetes
+
+  images:
+    name: Scan container images
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+          trivy --version
+      - name: Cache Trivy DB
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/trivy
+          key: trivy-db-${{ hashFiles('scripts/trivy/scan.py') }}
+          restore-keys: trivy-db-
+      - name: Scan images
+        env:
+          TRIVY_CACHE_DIR: ~/.cache/trivy
+        run: |
+          python scripts/trivy/scan.py --source all --severity HIGH,CRITICAL --exit-code 0
