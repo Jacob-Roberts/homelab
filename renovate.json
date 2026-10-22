@@ -20,8 +20,7 @@
     "labels": [
       "security",
       "vulnerability"
-    ],
-    "prPriority": 10
+    ]
   },
   "packageRules": [
     {
