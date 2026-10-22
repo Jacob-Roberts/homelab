@@ -4,10 +4,40 @@
     "config:recommended"
   ],
   "labels": ["dependencies"],
-  "packageRules": [{
-    "matchDepPrefixes": ["ghcr.io/immich-app"],
-    "groupName": "immich"
-  }],
+  "timezone": "America/Denver",
+  "schedule": ["before 6am on monday"],
   "minimumReleaseAge": "7 days",
-  "prCreation": "not-pending"
+  "prCreation": "not-pending",
+  "dependencyDashboard": true,
+  "dependencyDashboardOSVVulnerabilitySummary": "all",
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security", "vulnerability"],
+    "prPriority": 10
+  },
+  "packageRules": [
+    {
+      "matchDepPrefixes": ["ghcr.io/immich-app"],
+      "groupName": "immich"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["patch", "digest"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["major"],
+      "labels": ["dependencies", "major-update"]
+    },
+    {
+      "matchManagers": ["docker-compose"],
+      "addLabels": ["docker-compose"]
+    },
+    {
+      "matchManagers": ["kubernetes", "flux", "helm-values"],
+      "addLabels": ["kubernetes"]
+    }
+  ]
 }
