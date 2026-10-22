@@ -25,10 +25,10 @@
   },
   "packageRules": [
     {
-      "matchDepPrefixes": [
-        "ghcr.io/immich-app"
-      ],
-      "groupName": "immich"
+      "groupName": "immich",
+      "matchDepNames": [
+        "ghcr.io/immich-app{/,}**"
+      ]
     },
     {
       "matchDatasources": [
