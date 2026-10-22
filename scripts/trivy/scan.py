@@ -129,6 +129,8 @@ def run_trivy(images: list[str], args: argparse.Namespace) -> int:
             out_path.parent.mkdir(parents=True, exist_ok=True)
             cmd += ["--output", str(out_path), "--format", "json"]
         cmd += ["--exit-code", str(args.exit_code)]
+        if getattr(args, "image_src", None):
+            cmd += ["--image-src", args.image_src]
         cmd.append(image)
         if args.dry_run:
             print(" ".join(cmd))
@@ -152,6 +154,8 @@ def main() -> int:
     parser.add_argument("--format", default=None)
     parser.add_argument("--output", default=None, help="Directory for per-image JSON reports")
     parser.add_argument("--exit-code", type=int, default=0)
+    parser.add_argument("--image-src", default=None, help="Comma-separated image sources for trivy (e.g. remote)")
+    parser.add_argument("--ignore-errors", action="store_true", help="Exit 0 even if some images fail to scan")
     parser.add_argument("--trivy", default=None, help="Path to trivy binary")
     parser.add_argument("--config", default=str(REPO_ROOT / "scripts" / "trivy" / "trivy.yaml") if (REPO_ROOT / "scripts" / "trivy" / "trivy.yaml").exists() else None)
     args = parser.parse_args()
@@ -179,7 +183,10 @@ def main() -> int:
     for img in images_list:
         print(img, file=sys.stderr)
 
-    return run_trivy(images_list, args)
+    result = run_trivy(images_list, args)
+    if getattr(args, "ignore_errors", False):
+        return 0
+    return result
 
 
 if __name__ == "__main__":
