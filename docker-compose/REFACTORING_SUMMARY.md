@@ -6,29 +6,7 @@ Your docker-compose infrastructure has been refactored to use the **override pat
 
 ### What Changed
 
-**Before:**
-```
-cadvisor/
-├── iad1-node-1/compose.yaml    (duplicate content)
-├── lhr1-node-1/compose.yaml    (duplicate content)
-└── slc1-node-3/compose.yaml    (duplicate content)
-```
-
-**After:**
-```
-cadvisor/
-├── compose.yaml                      (base - all common config)
-├── compose.iad1-node-1.yaml          (overrides only - 181 bytes)
-├── compose.lhr1-node-1.yaml          (overrides only - 178 bytes)
-└── compose.slc1-node-3.yaml          (overrides only - 178 bytes)
-```
-
 ## Completed Services
-
-### 1. **Cadvisor** - Trivial Refactoring
-- **Savings**: ~300 lines of duplication
-- **Difference**: Only the domain URL varies
-- **Override size**: ~180 bytes each
 
 ### 2. **Portainer** - Medium Refactoring  
 - **Savings**: ~150 lines of duplication
@@ -49,14 +27,13 @@ cadvisor/
 
 ### Option 1: Direct docker compose command
 ```bash
-cd docker-compose/cadvisor
-docker compose -f compose.yaml -f compose.iad1-node-1.yaml up -d
+cd docker-compose/portainer
+docker compose -f compose.yaml -f compose.lhr1-node-1.yaml up -d
 ```
 
 ### Option 2: Use the deployment script (recommended)
 ```bash
 cd docker-compose
-./deploy.sh cadvisor iad1-node-1 up -d
 ./deploy.sh portainer lhr1-node-1 logs -f
 ./deploy.sh immich slc1-node-3 config
 ```
@@ -176,8 +153,6 @@ Refer to [COMPOSE_OVERRIDES.md](COMPOSE_OVERRIDES.md) for:
 
 ## Files Created/Modified
 
-- ✅ `cadvisor/compose.yaml` (base)
-- ✅ `cadvisor/compose.*.yaml` (3 overrides)
 - ✅ `portainer/compose.yaml` (base)
 - ✅ `portainer/compose.*.yaml` (4 overrides)
 - ✅ `immich/compose.yaml` (base)

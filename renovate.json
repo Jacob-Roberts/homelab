@@ -3,9 +3,13 @@
   "extends": [
     "config:recommended"
   ],
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "timezone": "America/Denver",
-  "schedule": ["before 6am on monday"],
+  "schedule": [
+    "before 6am on monday"
+  ],
   "minimumReleaseAge": "7 days",
   "prCreation": "not-pending",
   "dependencyDashboard": true,
@@ -13,31 +17,73 @@
   "osvVulnerabilityAlerts": true,
   "vulnerabilityAlerts": {
     "enabled": true,
-    "labels": ["security", "vulnerability"],
+    "labels": [
+      "security",
+      "vulnerability"
+    ],
     "prPriority": 10
   },
   "packageRules": [
     {
-      "matchDepPrefixes": ["ghcr.io/immich-app"],
+      "matchDepPrefixes": [
+        "ghcr.io/immich-app"
+      ],
       "groupName": "immich"
     },
     {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["patch", "digest"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "digest"
+      ],
       "minimumReleaseAge": "3 days"
     },
     {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["major"],
-      "labels": ["dependencies", "major-update"]
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "labels": [
+        "dependencies",
+        "major-update"
+      ]
     },
     {
-      "matchManagers": ["docker-compose"],
-      "addLabels": ["docker-compose"]
+      "matchManagers": [
+        "docker-compose"
+      ],
+      "addLabels": [
+        "docker-compose"
+      ]
     },
     {
-      "matchManagers": ["kubernetes", "flux", "helm-values"],
-      "addLabels": ["kubernetes"]
+      "matchManagers": [
+        "kubernetes",
+        "flux",
+        "helm-values"
+      ],
+      "addLabels": [
+        "kubernetes"
+      ]
+    },
+    {
+      "description": "Ignore private GHCR images that Renovate cannot look up",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/jacob-roberts/nextjs-rendering-demo/server",
+        "ghcr.io/jacob-roberts/social-signal-backend"
+      ],
+      "enabled": false
     }
+  ],
+  "ignoreDeps": [
+    "ghcr.io/jacob-roberts/nextjs-rendering-demo/server",
+    "ghcr.io/jacob-roberts/social-signal-backend"
   ]
 }
