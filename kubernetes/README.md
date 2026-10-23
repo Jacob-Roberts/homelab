@@ -37,6 +37,45 @@ would both own the record and fight over it.
 `*.pbj.jakerob.pro`, shrink the listener and delete its certificate once the
 last hostname has moved.
 
+## Publishing a service to the internet
+
+By default a service is LAN-only: its HTTPRoute attaches to `my-gateway`, so
+external-dns publishes an A record to `192.168.42.200` and only machines that
+can reach the cluster network resolve it.
+
+To publish a service while keeping your local split-horizon intact, keep the
+route on `my-gateway` and forward from iad1 to it. Opt in by **excluding** the
+route from external-dns so Terraform can own the public record:
+
+1. Add `external-dns.kubernetes.io/controller: manual` to the HTTPRoute so
+   external-dns stops managing its DNS record (per-route opt-out; the default
+   `dns-controller` is managed).
+2. Add a CNAME in `terraform/cloudflare/jakerob.pro/records.tf` pointing the
+   hostname to `iad1-node-1.jakerob.pro`.
+3. Add an http redirect + https router in
+   `docker-compose/traefik/iad1-node-1/config-external/conf/tunnel.yaml` using
+   the `k8s-gateway` service (`http://192.168.42.200`) and the `letsencrypt`
+   (HTTP-01) resolver. iad1 terminates TLS publicly and forwards to the
+   existing gateway over Netbird with the original `Host` header.
+
+With this pattern, home traffic uses your local split-horizon (resolving to
+`192.168.42.200` directly) and never goes through the internet, while away
+traffic resolves to `iad1` and proxies to `my-gateway`. No second gateway or
+extra LB IP is needed.
+
+Two things to know:
+
+- **Netbird route prerequisite.** The direct hop assumes iad1's Netbird peer
+  is in a group that receives the `PBJ 192.168.42.0/24` network route (it is
+  dashboard-managed, not in this repo). Without it iad1 cannot reach
+  `192.168.42.200`.
+- **Transitioning a hostname external-dns already owns.** If the hostname had an
+  external-dns A record, adding the `controller: manual` annotation stops
+  future updates but upsert-only won't delete the existing A. Delete that `A`
+  record (and its `a-<host>` TXT ownership record) in Cloudflare, apply the
+  Terraform CNAME, and ensure your local DNS split-horizon still resolves the
+  hostname to `192.168.42.200` so home traffic stays local.
+
 ## Storage
 
 PersistentVolumes are backed by TrueNAS through the official `truenas-csi`

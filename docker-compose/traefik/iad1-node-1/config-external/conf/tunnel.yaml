@@ -10,6 +10,13 @@ http:
         servers:
           - url: https://slc1-node-3.vpn.jakerob.pro
 
+    # Kubernetes Gateway (shared). Reached over Netbird, plain HTTP;
+    # Cilium picks listeners by SNI, so the Host header routes correctly.
+    k8s-gateway:
+      loadBalancer:
+        servers:
+          - url: http://192.168.42.200
+
   routers:
     # WHOAMI pbj
     whoami-tunnel-pbj-http:
@@ -83,6 +90,22 @@ http:
       rule: "Host(`pocket-id.lhr1.jakerob.pro`)"
       service: pbj-tunnel
       tls: true
+
+    # Kubernetes apps published through iad1. The certificate is minted here
+    # with HTTP-01 (the public hostname points at iad1). The route stays on
+    # my-gateway so the local split-horizon path keeps working unchanged.
+    auth-jakerob-http:
+      entrypoints: web
+      rule: "Host(`auth.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: k8s-gateway
+    auth-jakerob-https:
+      entrypoints: websecure
+      rule: "Host(`auth.jakerob.pro`)"
+      service: k8s-gateway
+      tls:
+        certResolver: letsencrypt
 
     whoami-tunnel-slc1-http:
       entrypoints: web

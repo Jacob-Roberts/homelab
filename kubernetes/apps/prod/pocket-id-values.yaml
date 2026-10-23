@@ -3,6 +3,11 @@ kind: HTTPRoute
 metadata:
   name: pocket-id
   namespace: pocket-id
+  annotations:
+    # Managed in Terraform DNS (public CNAME to iad1); keep on my-gateway
+    # so the local split-horizon path (auth.jakerob.pro -> 192.168.42.200)
+    # keeps working with no internet round-trip.
+    external-dns.kubernetes.io/controller: manual
 spec:
   hostnames:
     - auth.jakerob.pro

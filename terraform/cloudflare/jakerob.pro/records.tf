@@ -53,6 +53,14 @@ locals {
       ttl     = 1
       proxied = false
     },
+    "auth" = {
+      name    = "auth.jakerob.pro"
+      type    = "CNAME"
+      content = "iad1-node-1.jakerob.pro"
+      ttl     = 1
+      proxied = false
+      comment = "k8s pocket-id via iad1; local split-horizon to 192.168.42.200"
+    },
     "karakeep" = {
       name    = "karakeep.jakerob.pro"
       type    = "CNAME"
