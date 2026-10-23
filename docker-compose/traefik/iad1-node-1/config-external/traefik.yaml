@@ -119,6 +119,10 @@ certificatesResolvers:
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
+  # Public edge resolver. Every hostname routed by this instance resolves to
+  # iad1 publicly, so HTTP-01 is enough for it to hold its own certificates.
+  # Internal/other edges resolve the same names differently and mint their own
+  # certs; no certificate material is shared between them.
   letsencrypt:
     acme:
       email: jroberts.g1ql8@simplelogin.com

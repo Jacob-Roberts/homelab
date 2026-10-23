@@ -206,6 +206,7 @@ if [ "$INTERNAL" = "1" ]; then
 
   printf '\n%sCertificates served over the tunnel%s\n' "$BOLD" "$RESET"
   check_cert "auth.jakerob.pro @ PBJ gateway" "$PBJ_GATEWAY_IP:443" "auth.jakerob.pro"
+  check_cert "auth.autovation.com @ slc1 tunnel" "$SLC1_TUNNEL_HOST:443" "auth.autovation.com"
 fi
 
 printf '\n'

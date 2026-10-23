@@ -28,8 +28,6 @@ services:
       - "--configFile=/traefik/traefik.yaml"
     read_only: true
     user: "${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001}"
-    group_add:
-      - "${DOCKER_GROUP_ID_CERT_MANAGER:-2013}"
     security_opt:
       - no-new-privileges:true
     sysctls:
@@ -65,8 +63,6 @@ services:
       - ./config-external/conf/:/traefik/conf/:ro
       - ./config-external/plugins/:/plugins-storage/:rw
       - ./config-external/certs/:/traefik/certs:rw
-      - ./config-external/static-certs-pbj/:/traefik/static-certs-pbj/:ro
-      - ./config-external/static-certs-slc1/:/traefik/static-certs-slc1/:ro
       - ./config-external/logs:/var/log/traefik:rw
       - ./config-external/ban.html:/traefik/ban.html:ro
       - ./config-external/captcha.html:/traefik/captcha.html:ro

@@ -2,7 +2,5 @@ config-internal/certs
 config-external/certs
 config-external/logs
 config-external/plugins
-config-external/static-certs-pbj
-config-external/static-certs-slc1
 config-crowdsec
 crowdsec-db

@@ -29,7 +29,8 @@ http:
       entrypoints: websecure
       rule: "Host(`whoami-tunnel.pbj.jakerob.pro`)"
       service: pbj-tunnel
-      tls: true
+      tls:
+        certResolver: letsencrypt
 
     immich-pbj-http:
       entrypoints: web
@@ -41,7 +42,8 @@ http:
       entrypoints: websecure
       rule: "Host(`photos.jakerob.pro`)"
       service: pbj-tunnel
-      tls: true
+      tls:
+        certResolver: letsencrypt
 
     jellyfin-pbj-http:
       entrypoints: web
@@ -53,7 +55,8 @@ http:
       entrypoints: websecure
       rule: "Host(`jellyfin.jakerob.pro`)"
       service: pbj-tunnel
-      tls: true
+      tls:
+        certResolver: letsencrypt
 
     karakeep-pbj-http:
       entrypoints: web
@@ -65,7 +68,8 @@ http:
       entrypoints: websecure
       rule: "Host(`karakeep.jakerob.pro`)"
       service: pbj-tunnel
-      tls: true
+      tls:
+        certResolver: letsencrypt
 
     calibre-pbj-http:
       entrypoints: web
@@ -77,7 +81,8 @@ http:
       entrypoints: websecure
       rule: "Host(`calibre.jakerob.pro`)"
       service: pbj-tunnel
-      tls: true
+      tls:
+        certResolver: letsencrypt
 
     pocket-id-pbj-http:
       entrypoints: web
@@ -89,7 +94,8 @@ http:
       entrypoints: websecure
       rule: "Host(`pocket-id.lhr1.jakerob.pro`)"
       service: pbj-tunnel
-      tls: true
+      tls:
+        certResolver: letsencrypt
 
     # Kubernetes apps published through iad1. The certificate is minted here
     # with HTTP-01 (the public hostname points at iad1). The route stays on
@@ -117,7 +123,8 @@ http:
       entrypoints: websecure
       rule: "Host(`whoami-tunnel.slc1.jakerob.pro`)"
       service: slc1-tunnel
-      tls: true
+      tls:
+        certResolver: letsencrypt
 
     pocket-id-slc1-http:
       entrypoints: web
@@ -129,7 +136,8 @@ http:
       entrypoints: websecure
       rule: "Host(`auth.autovation.com`)"
       service: slc1-tunnel
-      tls: true
+      tls:
+        certResolver: letsencrypt
 
     photos-slc1-http:
       entrypoints: web
@@ -141,7 +149,8 @@ http:
       entrypoints: websecure
       rule: "Host(`photos.autovation.com`)"
       service: slc1-tunnel
-      tls: true
+      tls:
+        certResolver: letsencrypt
 
     # WHOAMI SLC1
     # whoami-slc1-http:
