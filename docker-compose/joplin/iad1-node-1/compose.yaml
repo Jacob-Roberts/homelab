@@ -56,7 +56,7 @@ services:
       traefik.http.routers.joplin-prod-1-https.entrypoints: websecure
       traefik.http.routers.joplin-prod-1-https.rule: Host(`${JOPLIN_URL:-joplin.jakerob.pro}`)
       traefik.http.routers.joplin-prod-1-https.tls: true
-      traefik.http.routers.joplin-prod-1-https.tls.certresolver: production
+      traefik.http.routers.joplin-prod-1-https.tls.certresolver: letsencrypt
   db:
     image: docker.io/postgres:18
     # prevents write access to the image itself

@@ -50,7 +50,7 @@ services:
       traefik.http.routers.socialsignal-https.entrypoints: websecure
       traefik.http.routers.socialsignal-https.rule: Host(`${API_SOCIALSIGNAL_URL:-api.socialsignal.jakerob.pro}`)
       traefik.http.routers.socialsignal-https.tls: true
-      traefik.http.routers.socialsignal-https.tls.certresolver: production
+      traefik.http.routers.socialsignal-https.tls.certresolver: letsencrypt
 
   postgres:
     image: docker.io/postgres:15-alpine
@@ -69,4 +69,3 @@ services:
         limits:
           cpus: "0.75"
           memory: 1G
-
