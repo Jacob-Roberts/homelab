@@ -11,7 +11,7 @@ volumes:
 
 services:
   omada-controller:
-    image: docker.io/mbentley/omada-controller:6.2
+    image: docker.io/mbentley/omada-controller:6.3
     container_name: omada-controller
     restart: unless-stopped
     environment:
