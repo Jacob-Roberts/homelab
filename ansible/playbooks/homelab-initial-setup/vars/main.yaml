@@ -63,10 +63,6 @@ service_users:
     uid: 2006
     gid: 2006
     nodes: ["pbj-node-1"]
-  - name: pihole
-    uid: 2007
-    gid: 2007
-    nodes: ["pbj-node-2", "pbj-pi-1"]
   - name: homepage
     uid: 2008
     gid: 2008
@@ -192,4 +188,3 @@ security_fail2ban_enabled: true
 docker_edition: "ce"
 docker_users:
   - jacobroberts
-

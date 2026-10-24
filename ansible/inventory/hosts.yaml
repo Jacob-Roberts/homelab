@@ -115,10 +115,6 @@ all:
         # sgu1-node-1:
         # slc1-node-3:
 
-    pihole:
-      hosts:
-        pbj-pi-1:
-
     netbird:
       hosts:
         pbj-pi-1:
