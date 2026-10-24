@@ -12,7 +12,7 @@ volumes:
 
 services:
   nut:
-    image: ghcr.io/superioone/nut_webgui:0.8.1
+    image: ghcr.io/superioone/nut_webgui:0.10
     container_name: webnut
     read_only: true
     user: "${DOCKER_USER_ID:-2023}:${DOCKER_GROUP_ID:-2023}"
@@ -25,7 +25,7 @@ services:
         condition: service_completed_successfully
     restart: unless-stopped
     environment:
-      UPSD_ADDR: "${UPS_ADDR:-192.168.42.2}"
+      UPSD_ADDR: "${UPS_ADDR}"
       UPSD_USER: "${UPS_USER:-observer}"
       UPSD_PASS: "${UPS_PASSWORD}"
     networks:
