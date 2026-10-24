@@ -10,8 +10,10 @@ http:
         servers:
           - url: https://slc1-node-3.vpn.jakerob.pro
 
-    # Kubernetes Gateway (shared). Reached over Netbird, plain HTTP;
-    # Cilium picks listeners by SNI, so the Host header routes correctly.
+    # Kubernetes Gateway (shared), reached over Netbird as plain HTTP. The
+    # WireGuard tunnel supplies transport encryption and peer authentication;
+    # the hop itself carries no TLS. Cilium routes plain HTTP by Host header
+    # (its HTTPS listeners are selected by SNI, which HTTP does not carry).
     k8s-gateway:
       loadBalancer:
         servers:
