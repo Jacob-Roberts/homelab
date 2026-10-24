@@ -16,8 +16,6 @@ services:
     container_name: webnut
     read_only: true
     user: "${DOCKER_USER_ID:-2023}:${DOCKER_GROUP_ID:-2023}"
-    group_add:
-      - nut_webgui
     security_opt:
       - no-new-privileges:true
     depends_on:
