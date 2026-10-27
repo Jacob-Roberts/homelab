@@ -7,6 +7,7 @@ resources:
   - ../base/homepage
   - ../base/calibre
   - ../base/pocket-id
+  - ../base/wazuh
 patches:
   - path: podinfo-values.yaml
     target:
@@ -43,3 +44,8 @@ patches:
       kind: Deployment
       namespace: pocket-id
       name: pocket-id
+  - path: wazuh-values.yaml
+    target:
+      kind: HTTPRoute
+      namespace: wazuh
+      name: wazuh

@@ -1,0 +1,116 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: wazuh
+  namespace: wazuh
+spec:
+  interval: 1h
+  releaseName: wazuh
+  chart:
+    spec:
+      chart: wazuh
+      version: "2.1.1"
+      sourceRef:
+        kind: HelmRepository
+        name: wazuh
+        namespace: wazuh
+  install:
+    strategy:
+      name: RetryOnFailure
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+  values:
+    fullnameOverride: wazuh
+
+    # cert-manager is already installed cluster-wide; reuse it instead of the
+    # chart's bundled sub-chart.
+    cert-manager:
+      enabled: false
+
+    certificates:
+      enabled: true
+
+    # Keep the footprint small for a homelab: single-node indexer and master,
+    # no workers or in-cluster agents (agents run on the actual hosts).
+    indexer:
+      enabled: true
+      serviceAccount:
+        create: true
+      cred:
+        existingSecret: wazuh-secrets
+      replicas: 1
+      storageSize: 20Gi
+      storageClass: iscsi-nvme
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1Gi
+        limits:
+          cpu: 1000m
+          memory: 2Gi
+      pdb:
+        enabled: false
+      networkPolicy:
+        enabled: false
+
+    dashboard:
+      enabled: true
+      serviceAccount:
+        create: true
+      cred:
+        existingSecret: wazuh-secrets
+      replicas: 1
+      service:
+        type: ClusterIP
+        httpPort: 5601
+      ingress:
+        enabled: false
+      gateway:
+        enabled: false
+      networkPolicy:
+        enabled: false
+
+    wazuh:
+      enabled: true
+      serviceAccount:
+        create: true
+      apiCred:
+        existingSecret: wazuh-secrets
+      authd:
+        existingSecret: wazuh-secrets
+      archives:
+        enabled: false
+      key: "c98b62a9b6169ac5f67dae55ae4a9088"
+      loadBalancer:
+        enabled: true
+        ports:
+          - registration
+          - agents-events
+        loadBalancerSourceRanges:
+          - 192.168.42.0/24
+      master:
+        enabled: true
+        replicas: 1
+        storageSize: 20Gi
+        storageClass: iscsi-nvme
+        resources:
+          requests:
+            cpu: 500m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+        networkPolicy:
+          enabled: false
+        pdb:
+          enabled: false
+      worker:
+        enabled: false
+        replicas: 0
+      networkPolicy:
+        enabled: false
+
+    agent:
+      enabled: false
