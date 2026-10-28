@@ -1,6 +1,6 @@
 # GitHub branch protection
 
-Manages branch protection rules for `main` (production) and `stage`.
+Manages branch protection rules for `main` (production).
 
 ## Apply
 

@@ -15,7 +15,7 @@ experimentation.
 - `main` = production, protected (PR required, no force push, no deletion).
 - Agents open PRs directly to `main`; CI (validate, trivy, ephemeral e2e)
   gates merge and a human reviews.
-- A `stage` branch/cluster is optional for integration testing only. Flux for
+- A `stage` cluster is optional for integration testing only. Flux for
   any stage cluster tracks `stage`. No persistent staging environment required.
 - Infisical default environment changed to `stage`; prod scripts pass
   `--env=prod` explicitly.

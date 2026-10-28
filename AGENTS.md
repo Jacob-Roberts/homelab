@@ -9,7 +9,7 @@ be affected by experimentation. Follow these rules.
 - `main` is production. Never push to `main` directly. Never force-push.
 - Agents open PRs directly to `main`. CI (validate, trivy, ephemeral e2e)
   gates merge; a human reviews and merges. No staging branch is required.
-- A `stage` branch/cluster is optional for integration testing only. If used,
+- A `stage` cluster is optional for integration testing only. If used,
   Flux tracks `stage`. The e2e workflow spins up an ephemeral Talos cluster in
   CI, and `scripts/k8s-local/` covers offline checks.
 - Do all work on a feature branch (`agent/<topic>` or `t3/<id>`).
@@ -19,7 +19,7 @@ be affected by experimentation. Follow these rules.
 ## Environments / Secrets
 
 - Default Infisical environment is `stage`. Do NOT request or use `prod`
-  secrets. If a command needs prod, stop and ask.
+  secrets. If a command needs prod, it will fail. You only have access to `stage`.
 - Never print, log, or commit secrets. `.env` files are gitignored.
 - Infisical run scripts pass `--env=prod` explicitly for real deploys; do not
   remove that flag.
