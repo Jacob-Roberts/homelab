@@ -18,3 +18,4 @@ resources:
   - snapshot-controller-repository.yaml
   - snapshot-controller-release.yaml
   - trivy-operator.yaml
+  - sysctl-max-map-count.yaml
