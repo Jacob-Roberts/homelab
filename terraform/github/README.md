@@ -14,4 +14,3 @@ terraform apply
 
 `main` requires a PR with 1 approval, code-owner review, and passing status
 checks (`manifests`, trivy). Force push and deletion are disabled.
-`stage` allows direct pushes (agent experiment loop) but no force push/deletion.

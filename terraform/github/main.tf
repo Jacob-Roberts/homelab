@@ -1,5 +1,5 @@
 # GitHub branch protection for the homelab repository.
-# Enforces PR-only changes to `main` (production) and `stage`.
+# Enforces PR-only changes to `main` (production).
 terraform {
   required_version = ">= 1.11.0"
 
@@ -18,27 +18,15 @@ terraform {
     endpoint                    = "https://s3.us-west-002.backblazeb2.com"
     region                      = "us-west-002"
     encrypt                     = true
+    # access_key                  = env(AWS_ACCESS_KEY_ID) (backblaze keyID)
+    # secret_key                  = env(AWS_SECRET_ACCESS_KEY) (backblaze applicationKey)
+    # sse_customer_key            = env(AWS_SSE_CUSTOMER_KEY) (openssl rand -base64 32)
   }
 }
 
 provider "github" {
   owner = var.github_owner
   token = var.github_token
-}
-
-variable "github_owner" {
-  type    = string
-  default = "Jacob-Roberts"
-}
-
-variable "github_token" {
-  type      = string
-  sensitive = true
-}
-
-variable "repository" {
-  type    = string
-  default = "homelab"
 }
 
 # Production: strict. No direct pushes, PR required, review required,
@@ -65,14 +53,4 @@ resource "github_branch_protection" "main" {
   allows_force_pushes = false
   allows_deletions    = false
   lock_branch         = false
-}
-
-# Staging: lighter. PRs encouraged but direct pushes allowed for the agent
-# experiment loop; still no force push / deletion.
-resource "github_branch_protection" "stage" {
-  repository_id = var.repository
-  pattern       = "stage"
-
-  allows_force_pushes = false
-  allows_deletions    = false
 }
