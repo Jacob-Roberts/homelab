@@ -40,3 +40,4 @@ spec:
       ignoreUnfixed: true
     operator:
       # Scan workloads in all namespaces (default).
+      builtInTrivyServer: false

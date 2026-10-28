@@ -92,7 +92,6 @@ spec:
           - 192.168.42.0/24
       master:
         enabled: true
-        replicas: 1
         storageSize: 20Gi
         storageClass: iscsi-nvme
         resources:
@@ -104,13 +103,9 @@ spec:
             memory: 1Gi
         networkPolicy:
           enabled: false
-        pdb:
-          enabled: false
       worker:
         enabled: false
         replicas: 0
-      networkPolicy:
-        enabled: false
 
     agent:
       enabled: false
