@@ -1,0 +1,31 @@
+name: terraform
+
+on:
+  pull_request:
+    branches: [main, stage]
+    paths:
+      - 'terraform/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: latest
+      - name: Format check
+        run: |
+          cd terraform
+          for d in $(find . -name '*.tf' -printf '%h\n' | sort -u); do
+            (cd "$d" && tofu fmt -check -recursive) || exit 1
+          done
+      - name: Validate
+        run: |
+          for d in terraform/*/; do
+            if ls "$d"*.tf >/dev/null 2>&1; then
+              echo "::group::$d"
+              (cd "$d" && tofu init -backend=false && tofu validate) || exit 1
+              echo "::endgroup::"
+            fi
+          done

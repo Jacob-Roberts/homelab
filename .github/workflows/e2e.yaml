@@ -2,11 +2,10 @@ name: e2e
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches: [ '*' ]
-  #   tags-ignore: [ '*' ]
-  #   paths:
-  #     - 'kubernetes/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'kubernetes/**'
 
 jobs:
   kubernetes:

@@ -1,0 +1,22 @@
+# Code owners for production-critical paths.
+# All changes here require review by the repo owner before merge.
+
+# Production cluster reconciliation (Flux tracks `main`).
+/kubernetes/clusters/prod/            @Jacob-Roberts
+/kubernetes/apps/prod/                @Jacob-Roberts
+
+# Staging is lower risk but still reviewed.
+/kubernetes/clusters/stage/          @Jacob-Roberts
+
+# Terraform controls real infrastructure.
+/terraform/                          @Jacob-Roberts
+
+# Secrets / Infisical configuration.
+**/.infisical.json                   @Jacob-Roberts
+**/.infisical.yaml                  @Jacob-Roberts
+
+# CI/CD and guardrails.
+/.github/                           @Jacob-Roberts
+
+# Docker compose prod overrides.
+/docker-compose/**/compose.*-node-*.yaml @Jacob-Roberts
