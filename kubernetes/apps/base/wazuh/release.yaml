@@ -40,21 +40,6 @@ spec:
         create: true
       cred:
         existingSecret: wazuh-secrets
-      config:
-        internalUsers: |
-          admin:
-            hash: "{{ include "wazuh.indexer.passwordHash" . }}"
-            reserved: true
-            backend_roles:
-              - "admin"
-            description: "Demo admin user"
-
-          {{ include "wazuh.dashboard.username" . }}:
-            hash: "{{ include "wazuh.dashboard.passwordHash" . }}"
-            reserved: true
-            backend_roles:
-              - "admin"
-            description: "Demo {{ include "wazuh.dashboard.username" . }} user"
       replicas: 1
       storageSize: 20Gi
       storageClass: iscsi-nvme

@@ -29,7 +29,8 @@ be affected by experimentation. Follow these rules.
 - Run `kubernetes/scripts/validate.sh` for manifest changes.
 - Run `terraform fmt -check` and `terraform validate` for Terraform.
 - For Kubernetes changes, prefer the stage cluster / e2e workflow before prod.
-- Local cluster testing: `scripts/k8s-local/kind-up.sh` (requires Docker).
+- Local cluster testing: `scripts/k8s-local/talos-up.sh` / `talos-down.sh`
+  (requires Docker; mirrors the CI e2e Talos-in-Docker setup).
 
 ## Protected paths (require human review)
 
