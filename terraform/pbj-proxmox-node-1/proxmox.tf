@@ -9,14 +9,14 @@ resource "proxmox_lxc" "lhr1-node-2" {
   ostemplate   = "local:vztmpl/ubuntu-24.04-standard_24.04-2_amd64.tar.zst"
   password     = var.lhr1-node-2-root-password
   unprivileged = true
-  onboot = true
-  startup = "order=1"
+  onboot       = true
+  startup      = "order=1"
 
   vmid = 100
 
-  cores = 2
+  cores  = 2
   memory = 2048
-  swap = 256
+  swap   = 256
 
 
   features {
@@ -43,16 +43,16 @@ resource "proxmox_lxc" "lhr1-node-2" {
 resource "proxmox_vm_qemu" "lhr1-node-1" {
   clone = "ubuntu-cloud-template"
 
-  name = "lhr1-node-1"
-  target_node = "lhr1-hv-2"
-  vmid = 200
+  name               = "lhr1-node-1"
+  target_node        = "lhr1-hv-2"
+  vmid               = 200
   start_at_node_boot = true
 
-  ciuser = "ubuntu"
-  cicustom   = "vendor=local:snippets/qemu-guest-agent.yml" # /var/lib/vz/snippets/qemu-guest-agent.yml
-  agent = 1
-  ciupgrade  = true
-  sshkeys = local.default_ssh_public_keys
+  ciuser    = "ubuntu"
+  cicustom  = "vendor=local:snippets/qemu-guest-agent.yml" # /var/lib/vz/snippets/qemu-guest-agent.yml
+  agent     = 1
+  ciupgrade = true
+  sshkeys   = local.default_ssh_public_keys
   ipconfig0 = "ip=dhcp"
 
   startup_shutdown {
@@ -62,10 +62,10 @@ resource "proxmox_vm_qemu" "lhr1-node-1" {
   automatic_reboot = false
 
   cpu {
-    cores    = 4
+    cores = 4
   }
   # MB
-  memory   = 30720
+  memory = 30720
 
   qemu_os = "l26"
 
@@ -77,7 +77,7 @@ resource "proxmox_vm_qemu" "lhr1-node-1" {
     bridge   = "vmbr0"
     model    = "virtio"
     firewall = true
-    macaddr = var.lhr1-node-1-mac-address
+    macaddr  = var.lhr1-node-1-mac-address
   }
 
   # Most cloud-init images require a serial device for their display
@@ -110,21 +110,21 @@ resource "proxmox_vm_qemu" "lhr1-node-1" {
 
 # Docs: https://github.com/Telmate/terraform-provider-proxmox/blob/master/docs/resources/vm_qemu.md
 resource "proxmox_vm_qemu" "lhr1-pbs-1" {
-  name = "lhr1-pbs-1"
-  target_node = "lhr1-hv-2"
-  vmid = 201
+  name               = "lhr1-pbs-1"
+  target_node        = "lhr1-hv-2"
+  vmid               = 201
   start_at_node_boot = true
 
-  agent = 1
+  agent     = 1
   ipconfig0 = "ip=dhcp"
 
   automatic_reboot = false
 
   cpu {
-    cores    = 2
+    cores = 2
   }
   # MB
-  memory   = 2048
+  memory = 2048
 
   qemu_os = "l26"
 
@@ -136,7 +136,7 @@ resource "proxmox_vm_qemu" "lhr1-pbs-1" {
     bridge   = "vmbr0"
     model    = "virtio"
     firewall = true
-    macaddr = var.lhr1-pbs-1-mac-address
+    macaddr  = var.lhr1-pbs-1-mac-address
   }
 
   disks {

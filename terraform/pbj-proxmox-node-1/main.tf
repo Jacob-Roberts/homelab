@@ -18,7 +18,7 @@ terraform {
     region                      = "us-west-004"
     # access_key                  = env(AWS_ACCESS_KEY_ID) (backblaze keyID)
     # secret_key                  = env(AWS_SECRET_ACCESS_KEY) (backblaze applicationKey)
-    encrypt                     = true
+    encrypt = true
     # sse_customer_key            = env(AWS_SSE_CUSTOMER_KEY) (openssl rand -base64 32)
   }
 }

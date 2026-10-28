@@ -268,17 +268,17 @@ locals {
       proxied = false
     },
     "pbj-pi-1-vpn" = {
-      name = "pbj-pi-1.vpn.jakerob.pro"
-      type = "A"
+      name    = "pbj-pi-1.vpn.jakerob.pro"
+      type    = "A"
       content = "100.107.156.239"
-      ttl = 1
+      ttl     = 1
       proxied = false
     },
     "pbj-pi-1-vpn-v6" = {
-      name = "pbj-pi-1.vpn.jakerob.pro"
-      type = "AAAA"
+      name    = "pbj-pi-1.vpn.jakerob.pro"
+      type    = "AAAA"
       content = "fdbd:db6a:5351:2c4:a034:7663:941:942a"
-      ttl = 1
+      ttl     = 1
       proxied = false
     },
     "wildcard-pbj-pi-1" = {
@@ -641,10 +641,10 @@ locals {
       proxied = false
     },
     "uptime-pbj" = {
-      name = "uptime.pbj.jakerob.pro"
-      type = "CNAME"
+      name    = "uptime.pbj.jakerob.pro"
+      type    = "CNAME"
       content = "pbj-pi-1.jakerob.pro"
-      ttl = 1
+      ttl     = 1
       proxied = false
     },
     "minecraft" = {
