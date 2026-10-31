@@ -193,7 +193,7 @@ locals {
     "pbj-hv-1-v6" = {
       name    = "pbj-hv-1.jakerob.pro"
       type    = "AAAA"
-      content = "2601:640:8000:a8f0:c05d:7462:fab:171f"
+      content = "2601:640:8000:1750:c05d:7462:fab:171f"
       ttl     = 1
       proxied = false
     },
@@ -207,7 +207,7 @@ locals {
     "pbj-hv-2-v6" = {
       name    = "pbj-hv-2.jakerob.pro"
       type    = "AAAA"
-      content = "2601:640:8000:a8f0:7fa7:9eef:10bb:1f35"
+      content = "2601:640:8000:1750:7fa7:9eef:10bb:1f35"
       ttl     = 1
       proxied = false
     },
@@ -221,7 +221,7 @@ locals {
     "pbj-hv-3-v6" = {
       name    = "pbj-hv-3.jakerob.pro"
       type    = "AAAA"
-      content = "2601:640:8000:a8f0:2c67:da71:4fb2:ce1a"
+      content = "2601:640:8000:1750:2c67:da71:4fb2:ce1a"
       ttl     = 1
       proxied = false
     },
@@ -235,7 +235,7 @@ locals {
     "pbj-node-1-v6" = {
       name    = "pbj-node-1.jakerob.pro"
       type    = "AAAA"
-      content = "2601:640:8000:a8f0:be24:11ff:feea:1964"
+      content = "2601:640:8000:1750:be24:11ff:feea:1964"
       ttl     = 1
       proxied = false
     },
@@ -263,7 +263,7 @@ locals {
     "pbj-pi-1-v6" = {
       name    = "pbj-pi-1.jakerob.pro"
       type    = "AAAA"
-      content = "2601:640:8000:a8f0:9e36:2401:48e8:b782"
+      content = "2601:640:8000:1750:9e36:2401:48e8:b782"
       ttl     = 1
       proxied = false
     },
@@ -298,7 +298,7 @@ locals {
     "pbj-storage-1-v6" = {
       name    = "pbj-storage-1.jakerob.pro"
       type    = "AAAA"
-      content = "2601:640:8000:a8f0:2e2:69ff:fe7d:3c36"
+      content = "2601:640:8000:1750:2e2:69ff:fe7d:3c36"
       ttl     = 1
       proxied = false
     },
@@ -326,7 +326,7 @@ locals {
     "pbj-pbs-1-v6" = {
       name    = "pbj-pbs-1.jakerob.pro"
       type    = "AAAA"
-      content = "2601:640:8000:a8f0:2ac6:1eb1:6291:a4fd"
+      content = "2601:640:8000:1750:2ac6:1eb1:6291:a4fd"
       ttl     = 1
       proxied = false
     },
@@ -347,7 +347,7 @@ locals {
     "pbj-node-7-v6" = {
       name    = "pbj-node-7.jakerob.pro"
       type    = "AAAA"
-      content = "2601:640:8000:a8f0:fe9b:6ec:5908:f793"
+      content = "2601:640:8000:1750:fe9b:6ec:5908:f793"
       ttl     = 1
       proxied = false
     },
@@ -784,7 +784,7 @@ locals {
     "pbj-workstation-2-v6" = {
       name    = "pbj-workstation-2.jakerob.pro"
       type    = "AAAA"
-      content = "2601:640:8000:a8f0:be24:11ff:fe97:c740"
+      content = "2601:640:8000:1750:be24:11ff:fe97:c740"
       ttl     = 1
       proxied = false
     },
