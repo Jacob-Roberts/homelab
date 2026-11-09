@@ -60,19 +60,6 @@ http:
       tls:
         certResolver: letsencrypt
 
-    karakeep-pbj-http:
-      entrypoints: web
-      rule: "Host(`karakeep.jakerob.pro`)"
-      middlewares:
-        - websecure-redirect-permanent@file
-      service: pbj-tunnel
-    karakeep-pbj-https:
-      entrypoints: websecure
-      rule: "Host(`karakeep.jakerob.pro`)"
-      service: pbj-tunnel
-      tls:
-        certResolver: letsencrypt
-
     calibre-pbj-http:
       entrypoints: web
       rule: "Host(`calibre.jakerob.pro`)"
@@ -111,6 +98,19 @@ http:
     auth-jakerob-https:
       entrypoints: websecure
       rule: "Host(`auth.jakerob.pro`)"
+      service: k8s-gateway
+      tls:
+        certResolver: letsencrypt
+
+    karakeep-jakerob-http:
+      entrypoints: web
+      rule: "Host(`karakeep.jakerob.pro`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: k8s-gateway
+    karakeep-jakerob-https:
+      entrypoints: websecure
+      rule: "Host(`karakeep.jakerob.pro`)"
       service: k8s-gateway
       tls:
         certResolver: letsencrypt

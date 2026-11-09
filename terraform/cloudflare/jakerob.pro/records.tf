@@ -67,6 +67,7 @@ locals {
       content = "iad1-node-1.jakerob.pro"
       ttl     = 1
       proxied = false
+      comment = "k8s karakeep via iad1; local split-horizon to 192.168.42.200"
     },
     "joplin" = {
       name    = "joplin.jakerob.pro"
