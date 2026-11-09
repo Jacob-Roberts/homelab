@@ -34,13 +34,6 @@ http:
       service: pbj-traefik
       tls: true
 
-    # Karakeep
-    karakeep-pbj-https:
-      entrypoints: websecure
-      rule: "Host(`karakeep.jakerob.pro`)"
-      service: pbj-traefik
-      tls: true
-
     # Calibre
     calibre-pbj-https:
       entrypoints: websecure

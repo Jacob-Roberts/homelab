@@ -11,7 +11,6 @@ photos.jakerob.pro
 jellyfin.jakerob.pro
 pocket-id.lhr1.jakerob.pro
 whoami-tunnel.pbj.jakerob.pro
-karakeep.jakerob.pro
 calibre.jakerob.pro
 "
 
