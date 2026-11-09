@@ -456,8 +456,22 @@ report_results() {
   echo "INFO - All validations passed${tally}"
 }
 
+# Talos machine-config patches (talos/) are not Kubernetes manifests, so they
+# are always excluded, relative to the root directory being validated.
+# Keep in sync with the 'exclude' input in .github/workflows/test.yaml.
+exclude_talos_dir() {
+  local r
+  r="$(normalize_path "$root_dir")"
+  if [[ "$r" == "." || -z "$r" ]]; then
+    exclude_dirs+=("./talos")
+  else
+    exclude_dirs+=("./$r/talos")
+  fi
+}
+
 # Main
 parse_args "$@"
+exclude_talos_dir
 check_prerequisites
 resolve_flux_schema
 resolve_kustomize
