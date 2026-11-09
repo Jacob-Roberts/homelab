@@ -1,0 +1,98 @@
+---
+# nut_webgui: web UI for a NUT (upsd) server, serving HTTP on 9000.
+# All config comes from env; /etc/nut_webgui only needs to be writable for the
+# config file it generates on start, so an emptyDir is enough.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webnut
+  namespace: webnut
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webnut
+  template:
+    metadata:
+      labels:
+        app: webnut
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 2023
+        runAsGroup: 2023
+        fsGroup: 2023
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: webnut
+          image: ghcr.io/superioone/nut_webgui:0.10
+          ports:
+            - name: http
+              containerPort: 9000
+          env:
+            - name: UPSD_ADDR
+              valueFrom:
+                secretKeyRef:
+                  name: webnut-secrets
+                  key: UPS_ADDR
+            - name: UPSD_USER
+              valueFrom:
+                secretKeyRef:
+                  name: webnut-secrets
+                  key: UPS_USER
+            - name: UPSD_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: webnut-secrets
+                  key: UPS_PASSWORD
+          startupProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 5
+            failureThreshold: 24
+          readinessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 30
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 10m
+              memory: 32Mi
+          volumeMounts:
+            - name: config
+              mountPath: /etc/nut_webgui
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: config
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webnut
+  namespace: webnut
+spec:
+  selector:
+    app: webnut
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

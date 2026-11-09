@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: webnut
+  labels:
+    # nut_webgui is a single unprivileged binary, so this namespace can stay
+    # fully "restricted" (no root, no added capabilities, no privilege
+    # escalation, seccomp RuntimeDefault, read-only root fs).
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/audit-version: latest
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/warn-version: latest

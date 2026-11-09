@@ -8,6 +8,7 @@ resources:
   - ../base/calibre
   - ../base/pocket-id
   - ../base/wazuh
+  - ../base/webnut
 patches:
   - path: podinfo-values.yaml
     target:
@@ -49,3 +50,8 @@ patches:
       kind: HTTPRoute
       namespace: wazuh
       name: wazuh
+  - path: webnut-values.yaml
+    target:
+      kind: HTTPRoute
+      namespace: webnut
+      name: webnut
