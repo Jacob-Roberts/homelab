@@ -1,0 +1,35 @@
+---
+# Karakeep's DATA_DIR: the SQLite database (db.db, WAL mode) plus crawled
+# assets (screenshots, archives, banners). Meilisearch keeps its LMDB index in
+# the second volume.
+#
+# Both must be block (iSCSI) volumes, not NFS. SQLite WAL relies on POSIX locks
+# and a memory-mapped -shm file, and LMDB is mmap-based too; neither works on
+# the nfs/nfs-nvme classes (NFSv3 + nolock on Talos). Pocket ID hung on every
+# write until it moved to iscsi-nvme (see truenas-csi-release.yaml).
+# ReadWriteOnce + one replica + Recreate keeps it to a single writer.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: karakeep-data
+  namespace: karakeep
+spec:
+  storageClassName: iscsi-nvme
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: meilisearch-data
+  namespace: karakeep
+spec:
+  storageClassName: iscsi-nvme
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

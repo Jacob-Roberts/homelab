@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: karakeep
+  labels:
+    # Enforce "baseline", not "restricted": the karakeep 0.33.2 image must run
+    # as root. Its s6-overlay /init needs /run owned by the container user and
+    # fixes that by elevating through a setuid helper, which Kubernetes blocks
+    # for non-root pods (no_new_privs), so every non-root uid dies in s6 preinit
+    # (karakeep-app/karakeep#3113). Fixed upstream in 0.34.0 (#3114, /run is
+    # owned by node:1000); after upgrading, run web as 1000 and raise this to
+    # "restricted". chrome and meilisearch already satisfy "restricted"; audit
+    # and warn stay at "restricted" so drift shows up.
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/enforce-version: latest
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/audit-version: latest
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/warn-version: latest

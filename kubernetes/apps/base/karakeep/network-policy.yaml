@@ -1,0 +1,43 @@
+---
+# chrome exposes an unauthenticated DevTools (CDP) endpoint that can drive a
+# browser anywhere, and meilisearch holds the search index. Only the karakeep
+# web pod (which also runs the crawler workers) may reach either one.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: chrome
+  namespace: karakeep
+spec:
+  podSelector:
+    matchLabels:
+      app: chrome
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: karakeep
+      ports:
+        - protocol: TCP
+          port: 9222
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: meilisearch
+  namespace: karakeep
+spec:
+  podSelector:
+    matchLabels:
+      app: meilisearch
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: karakeep
+      ports:
+        - protocol: TCP
+          port: 7700

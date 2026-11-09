@@ -1,0 +1,17 @@
+# NEXTAUTH_URL builds the OAuth callback URL, so it must exactly match the
+# hostname the prod route serves (and the redirect URI registered in Pocket ID).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karakeep
+  namespace: karakeep
+spec:
+  template:
+    spec:
+      containers:
+        - name: karakeep
+          env:
+            - name: NEXTAUTH_URL
+              value: https://karakeep.jakerob.pro
+            - name: OAUTH_WELLKNOWN_URL
+              value: https://auth.jakerob.pro/.well-known/openid-configuration

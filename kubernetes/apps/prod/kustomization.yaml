@@ -9,6 +9,7 @@ resources:
   - ../base/pocket-id
   - ../base/wazuh
   - ../base/webnut
+  - ../base/karakeep
 patches:
   - path: podinfo-values.yaml
     target:
@@ -55,3 +56,13 @@ patches:
       kind: HTTPRoute
       namespace: webnut
       name: webnut
+  - path: karakeep-values.yaml
+    target:
+      kind: HTTPRoute
+      namespace: karakeep
+      name: karakeep
+  - path: karakeep-appurl.yaml
+    target:
+      kind: Deployment
+      namespace: karakeep
+      name: karakeep

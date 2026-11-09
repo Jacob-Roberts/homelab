@@ -1,0 +1,18 @@
+# NEXTAUTH_URL must exactly match the hostname the stage route serves; the
+# base default points at the prod hostname. Sign in against the stage
+# Pocket ID so a stage login never touches the prod identity provider.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karakeep
+  namespace: karakeep
+spec:
+  template:
+    spec:
+      containers:
+        - name: karakeep
+          env:
+            - name: NEXTAUTH_URL
+              value: https://karakeep.stage.jakerob.pro
+            - name: OAUTH_WELLKNOWN_URL
+              value: https://auth.stage.jakerob.pro/.well-known/openid-configuration

@@ -1,0 +1,125 @@
+---
+# Karakeep web + background workers (crawler, inference, search indexing) in
+# one s6-overlay container. The DB migration runs as an s6 oneshot before the
+# web server starts. SQLite lives in /data, so single replica + Recreate.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karakeep
+  namespace: karakeep
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: karakeep
+  template:
+    metadata:
+      labels:
+        app: karakeep
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        # Runs as root: 0.33.2's s6-overlay cannot start as non-root under
+        # Kubernetes (karakeep-app/karakeep#3113, fixed in 0.34.0). See
+        # namespace.yaml. fsGroup 1000 (the image's `node` user) already makes
+        # /data group-writable for the non-root switch after that upgrade.
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: karakeep
+          image: ghcr.io/karakeep-app/karakeep:0.33.2
+          ports:
+            - name: http
+              containerPort: 3000
+          env:
+            # Overridden per-overlay (prod/stage) in the Deployment patch.
+            # NEXTAUTH_URL must match the route hostname exactly; the base
+            # default matches the base (local) route hostname.
+            - name: NEXTAUTH_URL
+              value: http://karakeep.docker.localhost
+            - name: OAUTH_WELLKNOWN_URL
+              value: https://auth.jakerob.pro/.well-known/openid-configuration
+            - name: MEILI_ADDR
+              value: http://meilisearch:7700
+            - name: BROWSER_WEB_URL
+              value: http://chrome:9222
+            # Don't change: the data volume is mounted here.
+            - name: DATA_DIR
+              value: /data
+          # Later sources win for duplicate keys, so Infisical values override
+          # the karakeep-env defaults, as .env overrode compose's defaults.
+          envFrom:
+            - configMapRef:
+                name: karakeep-env
+            - secretRef:
+                name: karakeep-secrets
+          startupProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            # DB migrations run before the server listens; allow up to 5 min.
+            periodSeconds: 10
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            # s6-overlay writes /run and Next.js writes its cache under /app,
+            # so the root filesystem stays writable.
+            readOnlyRootFilesystem: false
+            # Docker's default set minus what nothing here needs (NET_RAW,
+            # MKNOD, AUDIT_WRITE, SETFCAP, SETPCAP, SYS_CHROOT,
+            # NET_BIND_SERVICE). Every one kept is allowed by "baseline".
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - CHOWN
+                - DAC_OVERRIDE
+                - FOWNER
+                - FSETID
+                - KILL
+                - SETGID
+                - SETUID
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: karakeep-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: karakeep
+  namespace: karakeep
+spec:
+  selector:
+    app: karakeep
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000

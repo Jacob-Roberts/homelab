@@ -1,0 +1,93 @@
+---
+# Headless Chrome for the crawler, reached over CDP at chrome:9222. Stateless.
+# Pinned to the image Karakeep 0.33.2 shipped and tested with (headless-shell
+# 151); the floating `release` tag now ships Google Chrome stable for 0.34+.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chrome
+  namespace: karakeep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chrome
+  template:
+    metadata:
+      labels:
+        app: chrome
+    spec:
+      automountServiceAccountToken: false
+      # Stands in for compose's `init: true`: the pause container becomes PID 1
+      # and reaps Chrome's exited renderer/zygote processes.
+      shareProcessNamespace: true
+      securityContext:
+        runAsNonRoot: true
+        # The image's own USER (nobody).
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: chrome
+          image: ghcr.io/karakeep-app/karakeep-chrome:151.0.7922.47-r1
+          args:
+            # The Chrome sandbox needs user namespaces / SUID, which a
+            # restricted pod does not get; the pod boundary is the sandbox.
+            - --no-sandbox
+            - --disable-gpu
+            # /dev/shm is 64Mi in a pod; write shared memory to /tmp instead.
+            - --disable-dev-shm-usage
+            - --hide-scrollbars
+          env:
+            - name: HOME
+              value: /tmp
+          ports:
+            - name: cdp
+              containerPort: 9222
+          readinessProbe:
+            httpGet:
+              path: /json/version
+              port: cdp
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /json/version
+              port: cdp
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 50m
+              memory: 256Mi
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chrome
+  namespace: karakeep
+spec:
+  selector:
+    app: chrome
+  ports:
+    - name: cdp
+      port: 9222
+      targetPort: 9222

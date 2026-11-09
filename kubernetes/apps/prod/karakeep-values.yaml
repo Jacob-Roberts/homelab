@@ -1,0 +1,13 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: karakeep
+  namespace: karakeep
+  annotations:
+    # Managed in Terraform DNS (public CNAME to iad1); keep on my-gateway
+    # so the local split-horizon path (karakeep.jakerob.pro -> 192.168.42.200)
+    # keeps working with no internet round-trip.
+    external-dns.kubernetes.io/controller: manual
+spec:
+  hostnames:
+    - karakeep.jakerob.pro

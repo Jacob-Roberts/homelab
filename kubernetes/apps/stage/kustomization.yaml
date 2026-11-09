@@ -5,6 +5,7 @@ resources:
   - ../base/podinfo
   - ../base/beszel
   - ../base/pocket-id
+  - ../base/karakeep
 patches:
   - path: podinfo-values.yaml
     target:
@@ -31,3 +32,13 @@ patches:
       kind: Deployment
       namespace: pocket-id
       name: pocket-id
+  - path: karakeep-values.yaml
+    target:
+      kind: HTTPRoute
+      namespace: karakeep
+      name: karakeep
+  - path: karakeep-appurl.yaml
+    target:
+      kind: Deployment
+      namespace: karakeep
+      name: karakeep
