@@ -22,6 +22,9 @@ jobs:
         with:
           path: './kubernetes'
           config: './kubernetes/.fluxschema.yml'
+          # Talos machine-config patches are not Kubernetes manifests.
+          exclude: |
+            ./kubernetes/talos
       - name: Validate API versions
         run: |
           flux migrate -f ./kubernetes --yes
