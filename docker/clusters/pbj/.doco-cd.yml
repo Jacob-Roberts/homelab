@@ -13,8 +13,9 @@ environment:
 
 ---
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
-name: nginx
-working_dir: docker/apps/nginx
+name: calibre
+working_dir: docker/apps/calibre
 compose_files: [compose.yaml]
 environment:
-    NGINX_HOST: nginx.pbj.jakerob.pro
+    TZ: America/Los_Angeles
+    CALIBRE_URL: calibre.jakerob.pro
