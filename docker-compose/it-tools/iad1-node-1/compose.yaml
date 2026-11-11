@@ -21,8 +21,8 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.http.routers.ittools-prod-1-http.entrypoints: web
       traefik.http.routers.ittools-prod-1-http.rule: Host(`${IT_TOOLS_URL:-it-tools.jakerob.pro}`)
       traefik.http.routers.ittools-prod-1-http.middlewares: "websecure-redirect-permanent@file"

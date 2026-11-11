@@ -76,7 +76,7 @@ services:
           memory: 512M
     labels:
       # Management only exposed internally
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.docker.network: traefik_internal
       traefik.http.services.traefikexternal-prod-1.loadBalancer.server.port: 8080 # TODO: Expose this securely
       traefik.http.routers.traefikexternal-prod-1-http.entrypoints: web
@@ -138,7 +138,7 @@ services:
           memory: 512M
     labels:
       # Management only exposed internally
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.traefikinternal-prod-1-http.service: "api@internal"
       traefik.http.routers.traefikinternal-prod-1-https.service: "api@internal"
       traefik.http.routers.traefikinternal-prod-1-http.entrypoints: web
@@ -227,8 +227,8 @@ services:
           cpus: "0.10"
           memory: 64M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.http.routers.whoamiexternal-prod-1-http.entrypoints: web
       traefik.http.routers.whoamiexternal-prod-1-http.rule: Host(`${WHOAMI_URL:-whoami.iad1.jakerob.pro}`)
       traefik.http.routers.whoamiexternal-prod-1-https.entrypoints: websecure
@@ -252,7 +252,7 @@ services:
           cpus: "0.10"
           memory: 64M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.whoamiinternal-prod-1-http.entrypoints: web
       traefik.http.routers.whoamiinternal-prod-1-http.rule: Host(`${WHOAMI_URL:-whoami.iad1vpn.jakerob.pro}`)
       traefik.http.routers.whoamiinternal-prod-1-https.entrypoints: websecure

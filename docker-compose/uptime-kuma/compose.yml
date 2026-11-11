@@ -28,7 +28,7 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.uptimekuma-prod-1-http.entrypoints: web
       traefik.http.routers.uptimekuma-prod-1-http.rule: Host(`${UPTIME_URL}`)
       traefik.http.routers.uptimekuma-prod-1-http.middlewares: "websecure-redirect-permanent@file"

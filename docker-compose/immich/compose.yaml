@@ -52,7 +52,7 @@ services:
           cpus: "2.00"
           memory: 3G
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.docker.network: frontend
       traefik.http.routers.immich-prod-1-http.entrypoints: web
       traefik.http.routers.immich-prod-1-http.rule: Host(`${APP_URL}`)

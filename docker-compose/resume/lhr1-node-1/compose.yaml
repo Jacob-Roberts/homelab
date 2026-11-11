@@ -56,7 +56,7 @@ services:
           cpus: "1.50"
           memory: 2G
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.services.resumestorage-prod-1.loadbalancer.server.port: 9000
       traefik.http.routers.resumestorage-prod-1-http.entrypoints: web
       traefik.http.routers.resumestorage-prod-1-http.rule: Host(`${RESUME_STORAGE_URL:-resume-storage.lhr1.jakerob.pro}`)
@@ -149,7 +149,7 @@ services:
           cpus: "1.50"
           memory: 2G
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.services.resume-prod-1.loadbalancer.server.port: 3000
       traefik.http.routers.resume-prod-1-http.entrypoints: web
       traefik.http.routers.resume-prod-1-http.rule: Host(`${RESUME_URL:-resume.lhr1.jakerob.pro}`)

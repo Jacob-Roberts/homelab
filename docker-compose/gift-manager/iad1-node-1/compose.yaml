@@ -23,8 +23,8 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.http.services.giftmanager-prod-1.loadBalancer.server.port: 5000
       traefik.http.routers.giftmanager-prod-1-http.entrypoints: web
       traefik.http.routers.giftmanager-prod-1-http.rule: Host(`${SECRET_SANTA_URL:-secret-santa.jakerob.pro}`)

@@ -32,8 +32,8 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.docker.network: frontend
       traefik.http.services.spotifyapi-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.spotifyapi-prod-1-http.entrypoints: web
@@ -78,8 +78,8 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.http.services.spotifyweb-prod-1.loadBalancer.server.port: 3000
       traefik.http.routers.spotifyweb-prod-1-http.entrypoints: web
       traefik.http.routers.spotifyweb-prod-1-http.rule: Host(`${SPOTIFY_URL:-spotify.jakerob.pro}`)

@@ -115,8 +115,8 @@ services:
           cpus: "1.00"
           memory: 1G
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.docker.network: frontend
       traefik.http.routers.plausible-prod-1-http.entrypoints: web
       traefik.http.routers.plausible-prod-1-http.rule: Host(`${PLAUSIBLE_URL:-plausible.iad1.jakerob.pro}`)

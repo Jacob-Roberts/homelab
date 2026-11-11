@@ -60,7 +60,7 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.docker.network: frontend
       traefik.http.services.qbittorrent-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.qbittorrent-prod-1-http.service: qbittorrent-prod-1
@@ -330,7 +330,7 @@ services:
           cpus: "2.00"
           memory: 2G
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.docker.network: frontend
       traefik.http.services.tdarr-prod-1.loadBalancer.server.port: 8265
       traefik.http.routers.tdarr-prod-1-http.entrypoints: web

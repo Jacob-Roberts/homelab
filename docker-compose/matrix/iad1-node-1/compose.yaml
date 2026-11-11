@@ -29,8 +29,8 @@ services:
           cpus: "1.00"
           memory: 1G
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.http.routers.synapse-prod-1-http.entryPoints: web
       traefik.http.routers.synapse-prod-1-http.rule: Host(`${MATRIX_URL:-matrix.jakerob.pro}`)
       traefik.http.routers.synapse-prod-1-http.middlewares: "websecure-redirect-permanent@file"

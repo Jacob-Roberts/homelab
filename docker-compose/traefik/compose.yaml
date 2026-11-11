@@ -68,7 +68,7 @@ services:
           cpus: "0.75"
           memory: 512M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.traefik-prod-1-http.service: "api@internal"
       traefik.http.routers.traefik-prod-1-https.service: "api@internal"
       traefik.http.routers.traefik-prod-1-http.entrypoints: web
@@ -120,7 +120,7 @@ services:
           cpus: "0.10"
           memory: 64M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.whoami-prod-1-http.entrypoints: web
       traefik.http.routers.whoami-prod-1-http.rule: Host(`${WHOAMI_URL}`)
       traefik.http.routers.whoami-prod-1-http.middlewares: "websecure-redirect-permanent@file"

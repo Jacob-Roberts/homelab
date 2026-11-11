@@ -36,7 +36,7 @@ services:
           cpus: "0.75"
           memory: 512M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.docker.network: frontend
       traefik.http.services.traefik-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.traefik-prod-1-http.entrypoints: web
@@ -108,7 +108,7 @@ services:
           cpus: "0.10"
           memory: 64M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.whoami-prod-1-http.entrypoints: web
       traefik.http.routers.whoami-prod-1-http.rule: Host(`${WHOAMI_URL:-whoami.slc1-storage.jakerob.pro}`)
       traefik.http.routers.whoami-prod-1-http.middlewares: "websecure-redirect-permanent@file"

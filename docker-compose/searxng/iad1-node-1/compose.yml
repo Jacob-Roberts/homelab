@@ -57,8 +57,8 @@ services:
           cpus: "0.75"
           memory: 768M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.http.services.searxng-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.searxng-prod-1-http.entrypoints: web
       traefik.http.routers.searxng-prod-1-http.rule: Host(`${SEARXNG_URL:-searxng.iad1.jakerob.pro}`)

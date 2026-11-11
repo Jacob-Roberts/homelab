@@ -62,7 +62,7 @@ services:
       - frontend
     restart: unless-stopped
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.services.semaphore-prod-1.loadbalancer.server.port: 3000
       traefik.http.routers.semaphore-prod-1-http.entrypoints: web
       traefik.http.routers.semaphore-prod-1-http.rule: Host(`${SEMAPHORE_URL}`)

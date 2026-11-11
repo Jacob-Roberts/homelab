@@ -45,7 +45,7 @@ services:
           cpus: "2.00"
           memory: 2G
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.services.jellyfin-prod-1.loadBalancer.server.port: 8096
       traefik.http.routers.jellyfin-prod-1-http.entrypoints: web
       traefik.http.routers.jellyfin-prod-1-http.rule: Host(`${JELLYFIN_EXTERNAL_URL:-jellyfin.jakerob.pro}`) || Host(`${JELLYFIN_LOCAL_URL:-jellyfin.pbj.jakerob.pro}`)

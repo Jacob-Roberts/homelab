@@ -70,7 +70,7 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.docker.network: frontend
       traefik.http.services.paperless-prod-1.loadBalancer.server.port: 8000
       traefik.http.routers.paperless-prod-1-http.entrypoints: web

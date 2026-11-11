@@ -27,7 +27,7 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.services.myspeed-prod-1.loadBalancer.server.port: 5216
       traefik.http.routers.myspeed-prod-1-http.entrypoints: web
       traefik.http.routers.myspeed-prod-1-http.rule: Host(`${MYSPEED_URL:-myspeed.pbj.jakerob.pro}`)

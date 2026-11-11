@@ -31,7 +31,7 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.homepage-prod-1-http.entrypoints: web
       traefik.http.routers.homepage-prod-1-http.rule: Host(`${HOMEPAGE_URL:-homepage.iad1vpn.jakerob.pro}`)
       traefik.http.routers.homepage-prod-1-http.middlewares: "websecure-redirect-permanent@file"

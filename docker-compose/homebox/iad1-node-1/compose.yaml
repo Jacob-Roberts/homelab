@@ -34,8 +34,8 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.http.services.homebox-prod-1.loadBalancer.server.port: 7745
       traefik.http.routers.homebox-prod-1-http.entrypoints: web
       traefik.http.routers.homebox-prod-1-http.rule: Host(`${HOMEBOX_URL:-homebox.jakerob.pro}`)

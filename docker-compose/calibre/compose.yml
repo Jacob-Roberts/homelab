@@ -38,7 +38,7 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.calibre-prod-1-http.entrypoints: web
       traefik.http.routers.calibre-prod-1-http.rule: Host(`${CALIBRE_URL:-calibre.jakerob.pro}`)
       traefik.http.routers.calibre-prod-1-http.middlewares: "websecure-redirect-permanent@file"

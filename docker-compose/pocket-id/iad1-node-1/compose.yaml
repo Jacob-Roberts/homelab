@@ -45,8 +45,8 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.http.routers.pocketid-prod-1-http.entrypoints: web
       traefik.http.routers.pocketid-prod-1-http.rule: Host(`${POCKET_ID_URL:-pocket-id.iad1.jakerob.pro}`)
       traefik.http.routers.pocketid-prod-1-http.middlewares: "websecure-redirect-permanent@file"

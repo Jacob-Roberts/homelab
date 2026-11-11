@@ -60,7 +60,7 @@ services:
           cpus: "0.75"
           memory: 512M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.docker.network: traefik_internal
       traefik.http.services.traefiktunnel-prod-1.loadBalancer.server.port: 8080 # TODO: Expose this securely
       traefik.http.routers.traefiktunnel-prod-1-http.entrypoints: web
@@ -88,7 +88,7 @@ services:
           cpus: "0.10"
           memory: 64M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.whoamitunnel-prod-1-http.entrypoints: web
       traefik.http.routers.whoamitunnel-prod-1-http.rule: Host(`${WHOAMI_TUNNEL_URL}`)
       traefik.http.routers.whoamitunnel-prod-1-http.middlewares: "websecure-redirect-permanent@file"

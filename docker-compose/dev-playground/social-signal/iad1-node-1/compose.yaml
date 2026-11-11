@@ -40,8 +40,8 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.docker.network: frontend
       traefik.http.services.socialsignal.loadBalancer.server.port: 8080
       traefik.http.routers.socialsignal-http.entrypoints: web

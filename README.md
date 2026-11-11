@@ -48,7 +48,7 @@ e.g:
 
 ```yaml
 labels:
-  traefik.enable: true
+  traefik.enable: "true"
   traefik.http.routers.uptimekuma-prod-1-http.entrypoints: web
   traefik.http.routers.uptimekuma-prod-1-http.rule: Host(`uptime.pbj.jakerob.pro`)
   traefik.http.routers.uptimekuma-prod-1-https.entrypoints: websecure
@@ -59,7 +59,7 @@ Or for a staging example
 
 ```yaml
 labels:
-  traefik.enable: true
+  traefik.enable: "true"
   traefik.http.routers.uptimekuma-stage-1-http.entrypoints: web
   traefik.http.routers.uptimekuma-stage-1-http.rule: Host(`uptime.stage.pbj.jakerob.pro`)
   traefik.http.routers.uptimekuma-stage-1-https.entrypoints: websecure

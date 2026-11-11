@@ -36,7 +36,7 @@ services:
           cpus: "0.75"
           memory: 768M
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.services.syncthing-prod-1.loadbalancer.server.port: '8384'
       traefik.http.routers.syncthing-prod-1-http.entrypoints: web
       traefik.http.routers.syncthing-prod-1-http.rule: Host(`${SYNCTHING_URL:-syncthing.lhr1.jakerob.pro}`)

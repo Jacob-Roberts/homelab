@@ -21,8 +21,8 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.docker.network: frontend
       traefik.http.services.nextjsrenderingdemo-demo-1.loadBalancer.server.port: 3000
       traefik.http.routers.nextjsrenderingdemo-demo-1-http.entrypoints: web
@@ -48,8 +48,8 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.docker.network: frontend
       traefik.http.services.nextjsrenderingdemocdn-demo-1.loadBalancer.server.port: 3000
       traefik.http.routers.nextjsrenderingdemocdn-demo-1-http.entrypoints: web
@@ -76,8 +76,8 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.docker.network: frontend
       traefik.http.services.nextjsrenderingdemoppr-demo-1.loadBalancer.server.port: 3000
       traefik.http.routers.nextjsrenderingdemoppr-demo-1-http.entrypoints: web
@@ -103,8 +103,8 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.docker.network: frontend
       traefik.http.services.nextjsrenderingdemopprcdn-demo-1.loadBalancer.server.port: 3000
       traefik.http.routers.nextjsrenderingdemopprcdn-demo-1-http.entrypoints: web
@@ -131,8 +131,8 @@ services:
           cpus: "0.50"
           memory: 512M
     labels:
-      traefik.enable: true
-      traefik.external: true
+      traefik.enable: "true"
+      traefik.external: "true"
       traefik.docker.network: frontend
       traefik.http.services.nextjsrenderingdemofullcf-demo-1.loadBalancer.server.port: 3000
       traefik.http.routers.nextjsrenderingdemofullcf-demo-1-http.entrypoints: web
