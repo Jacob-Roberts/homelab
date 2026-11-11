@@ -3,13 +3,13 @@
 # must match the managed Compose project and service so doco-cd recognises
 # the stack as its own after the bootstrap.
 name: doco-cd
-working_dir: docker/clusters/slc1/doco-cd
+working_dir: docker/infrastructure/doco-cd
 compose_files: [compose.yaml]
 timeout: 120
 environment:
-  TZ: America/Denver
-  DEPLOY_CONFIG_BASE_DIR: docker/clusters/slc1
-  SECRET_PROVIDER_CLIENT_ID: bee04ce7-0037-4531-9e59-a2d015f7f2a2
+    TZ: America/Denver
+    DEPLOY_CONFIG_BASE_DIR: docker/clusters/slc1
+    SECRET_PROVIDER_CLIENT_ID: bee04ce7-0037-4531-9e59-a2d015f7f2a2
 
 ---
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
@@ -17,4 +17,16 @@ name: nginx
 working_dir: docker/apps/nginx
 compose_files: [compose.yaml]
 environment:
-  NGINX_HOST: nginx.slc1.jakerob.pro
+    NGINX_HOST: nginx.slc1.jakerob.pro
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: webnut
+working_dir: docker/apps/webnut
+compose_files: [compose.yaml]
+environment:
+    UPS_HOST: slc1-nut-1.jakerob.pro
+    UPS_PORT: "3493"
+    WEBNUT_URL: webnut.slc1.jakerob.pro
+    UPS_USER: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/webnut/UPS_USER"
+    UPS_PASSWORD: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/webnut/UPS_PASSWORD"

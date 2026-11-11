@@ -3,13 +3,13 @@
 # must match the managed Compose project and service so doco-cd recognises
 # the stack as its own after the bootstrap.
 name: doco-cd
-working_dir: docker/clusters/iad1/doco-cd
+working_dir: docker/infrastructure/doco-cd
 compose_files: [compose.yaml]
 timeout: 120
 environment:
-  TZ: America/New_York
-  DEPLOY_CONFIG_BASE_DIR: docker/clusters/iad1
-  SECRET_PROVIDER_CLIENT_ID: bee04ce7-0037-4531-9e59-a2d015f7f2a2
+    TZ: America/New_York
+    DEPLOY_CONFIG_BASE_DIR: docker/clusters/iad1
+    SECRET_PROVIDER_CLIENT_ID: bee04ce7-0037-4531-9e59-a2d015f7f2a2
 
 ---
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
@@ -17,4 +17,4 @@ name: nginx
 working_dir: docker/apps/nginx
 compose_files: [compose.yaml]
 environment:
-  NGINX_HOST: nginx.pbj.jakerob.pro
+    NGINX_HOST: nginx.iad1.jakerob.pro
