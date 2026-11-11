@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+# doco-cd deploys itself from this repo. The stack name and the service name
+# must match the managed Compose project and service so doco-cd recognises
+# the stack as its own after the bootstrap.
+name: doco-cd
+working_dir: docker/infrastructure/doco-cd
+compose_files: [compose.yaml]
+timeout: 120
+environment:
+    TZ: America/Los_Angeles
+    DEPLOY_CONFIG_BASE_DIR: docker/clusters/pbj-pi
+    SECRET_PROVIDER_CLIENT_ID: bee04ce7-0037-4531-9e59-a2d015f7f2a2
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: uptimekuma
+working_dir: docker/apps/uptimekuma
+compose_files: [compose.yaml]
+environment:
+    UPTIME_URL: uptime.pbj.jakerob.pro

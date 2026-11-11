@@ -263,7 +263,7 @@ locals {
     "pbj-pi-1-v6" = {
       name    = "pbj-pi-1.jakerob.pro"
       type    = "AAAA"
-      content = "2601:640:8000:1750:9e36:2401:48e8:b782"
+      content = "2601:640:8000:1750:509f:96be:61ce:4c88"
       ttl     = 1
       proxied = false
     },
