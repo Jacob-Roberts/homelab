@@ -49,7 +49,7 @@ services:
       traefik.http.routers.socialsignal-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.socialsignal-https.entrypoints: websecure
       traefik.http.routers.socialsignal-https.rule: Host(`${API_SOCIALSIGNAL_URL:-api.socialsignal.jakerob.pro}`)
-      traefik.http.routers.socialsignal-https.tls: true
+      traefik.http.routers.socialsignal-https.tls: "true"
       traefik.http.routers.socialsignal-https.tls.certresolver: letsencrypt
 
   postgres:

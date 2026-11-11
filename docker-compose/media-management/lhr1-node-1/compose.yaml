@@ -70,7 +70,7 @@ services:
       traefik.http.routers.qbittorrent-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.qbittorrent-prod-1-https.entrypoints: websecure
       traefik.http.routers.qbittorrent-prod-1-https.rule: Host(`${QBITTORRENT_URL:-qbittorrent.pbj.jakerob.pro}`)
-      traefik.http.routers.qbittorrent-prod-1-https.tls: true
+      traefik.http.routers.qbittorrent-prod-1-https.tls: "true"
       traefik.http.routers.qbittorrent-prod-1-https.tls.certresolver: cloudflare
       traefik.http.services.prowlarr-prod-1.loadBalancer.server.port: 9696
       traefik.http.routers.prowlarr-prod-1-http.service: prowlarr-prod-1
@@ -80,7 +80,7 @@ services:
       traefik.http.routers.prowlarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.prowlarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.prowlarr-prod-1-https.rule: Host(`${PROWLARR_URL:-prowlarr.pbj.jakerob.pro}`)
-      traefik.http.routers.prowlarr-prod-1-https.tls: true
+      traefik.http.routers.prowlarr-prod-1-https.tls: "true"
       traefik.http.routers.prowlarr-prod-1-https.tls.certresolver: cloudflare
       traefik.http.services.radarr-prod-1.loadBalancer.server.port: 7878
       traefik.http.routers.radarr-prod-1-http.service: radarr-prod-1
@@ -90,7 +90,7 @@ services:
       traefik.http.routers.radarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.radarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.radarr-prod-1-https.rule: Host(`${RADARR_URL:-radarr.pbj.jakerob.pro}`)
-      traefik.http.routers.radarr-prod-1-https.tls: true
+      traefik.http.routers.radarr-prod-1-https.tls: "true"
       traefik.http.routers.radarr-prod-1-https.tls.certresolver: cloudflare
       traefik.http.services.sonarr-prod-1.loadBalancer.server.port: 8989
       traefik.http.routers.sonarr-prod-1-http.service: sonarr-prod-1
@@ -100,7 +100,7 @@ services:
       traefik.http.routers.sonarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.sonarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.sonarr-prod-1-https.rule: Host(`${SONARR_URL:-sonarr.pbj.jakerob.pro}`)
-      traefik.http.routers.sonarr-prod-1-https.tls: true
+      traefik.http.routers.sonarr-prod-1-https.tls: "true"
       traefik.http.routers.sonarr-prod-1-https.tls.certresolver: cloudflare
       traefik.http.services.bazarr-prod-1.loadBalancer.server.port: 6767
       traefik.http.routers.bazarr-prod-1-http.service: bazarr-prod-1
@@ -110,7 +110,7 @@ services:
       traefik.http.routers.bazarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.bazarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.bazarr-prod-1-https.rule: Host(`${BAZARR_URL:-bazarr.pbj.jakerob.pro}`)
-      traefik.http.routers.bazarr-prod-1-https.tls: true
+      traefik.http.routers.bazarr-prod-1-https.tls: "true"
       traefik.http.routers.bazarr-prod-1-https.tls.certresolver: cloudflare
       traefik.http.services.shelfmark-prod-1.loadBalancer.server.port: 8084
       traefik.http.routers.shelfmark-prod-1-http.service: shelfmark-prod-1
@@ -120,7 +120,7 @@ services:
       traefik.http.routers.shelfmark-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.shelfmark-prod-1-https.entrypoints: websecure
       traefik.http.routers.shelfmark-prod-1-https.rule: Host(`${SHELFMARK_URL:-shelfmark.pbj.jakerob.pro}`)
-      traefik.http.routers.shelfmark-prod-1-https.tls: true
+      traefik.http.routers.shelfmark-prod-1-https.tls: "true"
       traefik.http.routers.shelfmark-prod-1-https.tls.certresolver: cloudflare
 
   qbittorrent:
@@ -338,7 +338,7 @@ services:
       traefik.http.routers.tdarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.tdarr-prod-1-https.entrypoints: websecure
       traefik.http.routers.tdarr-prod-1-https.rule: Host(`${TDARR_URL:-tdarr.pbj.jakerob.pro}`)
-      traefik.http.routers.tdarr-prod-1-https.tls: true
+      traefik.http.routers.tdarr-prod-1-https.tls: "true"
       traefik.http.routers.tdarr-prod-1-https.tls.certresolver: cloudflare
 
   shelfmark:

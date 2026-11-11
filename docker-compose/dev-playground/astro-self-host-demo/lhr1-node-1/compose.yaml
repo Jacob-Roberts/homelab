@@ -29,7 +29,7 @@ services:
       traefik.http.routers.astroselfhostexample-demo-1-https.entrypoints: websecure
       traefik.http.routers.astroselfhostexample-demo-1-https.rule: Host(`${ASTROSELFHOSTEXAMPLE_URL:-astroselfhostexample.pbj.jakerob.pro}`)
       traefik.http.routers.astroselfhostexample-demo-1-https.middlewares: "testheader@docker"
-      traefik.http.routers.astroselfhostexample-demo-1-https.tls: true
+      traefik.http.routers.astroselfhostexample-demo-1-https.tls: "true"
       traefik.http.routers.astroselfhostexample-demo-1-https.tls.certresolver: cloudflare
 
       traefik.http.middlewares.testheader.headers.accesscontrolallowmethods: "*"
@@ -66,5 +66,5 @@ services:
       traefik.http.routers.astroselfhostexamplestatic-demo-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.astroselfhostexamplestatic-demo-1-https.entrypoints: websecure
       traefik.http.routers.astroselfhostexamplestatic-demo-1-https.rule: Host(`${ASTROSELFHOSTEXAMPLESTATIC_URL:-astroselfhostexamplestatic.pbj.jakerob.pro}`)
-      traefik.http.routers.astroselfhostexamplestatic-demo-1-https.tls: true
+      traefik.http.routers.astroselfhostexamplestatic-demo-1-https.tls: "true"
       traefik.http.routers.astroselfhostexamplestatic-demo-1-https.tls.certresolver: cloudflare

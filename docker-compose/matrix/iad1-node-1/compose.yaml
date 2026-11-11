@@ -36,6 +36,6 @@ services:
       traefik.http.routers.synapse-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.synapse-prod-1-https.entryPoints: websecure
       traefik.http.routers.synapse-prod-1-https.rule: Host(`${MATRIX_URL:-matrix.jakerob.pro}`)
-      traefik.http.routers.synapse-prod-1-https.tls: true
+      traefik.http.routers.synapse-prod-1-https.tls: "true"
       traefik.http.routers.synapse-prod-1-https.tls.certresolver: letsencrypt
       traefik.http.services.synapse-prod-1.loadBalancer.server.port: 8008

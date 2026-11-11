@@ -41,7 +41,7 @@ services:
       traefik.http.routers.spotifyapi-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.spotifyapi-prod-1-https.entrypoints: websecure
       traefik.http.routers.spotifyapi-prod-1-https.rule: Host(`${API_SPOTIFY_URL:-api.spotify.iad1.jakerob.pro}`)
-      traefik.http.routers.spotifyapi-prod-1-https.tls: true
+      traefik.http.routers.spotifyapi-prod-1-https.tls: "true"
       traefik.http.routers.spotifyapi-prod-1-https.tls.certresolver: letsencrypt
 
   mongo:
@@ -86,5 +86,5 @@ services:
       traefik.http.routers.spotifyweb-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.spotifyweb-prod-1-https.entrypoints: websecure
       traefik.http.routers.spotifyweb-prod-1-https.rule: Host(`${SPOTIFY_URL:-spotify.jakerob.pro}`)
-      traefik.http.routers.spotifyweb-prod-1-https.tls: true
+      traefik.http.routers.spotifyweb-prod-1-https.tls: "true"
       traefik.http.routers.spotifyweb-prod-1-https.tls.certresolver: letsencrypt

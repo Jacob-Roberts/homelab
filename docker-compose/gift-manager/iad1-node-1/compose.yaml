@@ -30,5 +30,5 @@ services:
       traefik.http.routers.giftmanager-prod-1-http.rule: Host(`${SECRET_SANTA_URL:-secret-santa.jakerob.pro}`)
       traefik.http.routers.giftmanager-prod-1-https.entrypoints: websecure
       traefik.http.routers.giftmanager-prod-1-https.rule: Host(`${SECRET_SANTA_URL:-secret-santa.jakerob.pro}`)
-      traefik.http.routers.giftmanager-prod-1-https.tls: true
+      traefik.http.routers.giftmanager-prod-1-https.tls: "true"
       traefik.http.routers.giftmanager-prod-1-https.tls.certresolver: letsencrypt

@@ -63,7 +63,7 @@ services:
       traefik.http.routers.resumestorage-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.resumestorage-prod-1-https.entrypoints: websecure
       traefik.http.routers.resumestorage-prod-1-https.rule: Host(`${RESUME_STORAGE_URL:-resume-storage.lhr1.jakerob.pro}`)
-      traefik.http.routers.resumestorage-prod-1-https.tls: true
+      traefik.http.routers.resumestorage-prod-1-https.tls: "true"
       traefik.http.routers.resumestorage-prod-1-https.tls.certresolver: cloudflare
 
   # Chrome Browser (for printing and previews)
@@ -156,6 +156,5 @@ services:
       traefik.http.routers.resume-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.resume-prod-1-https.entrypoints: websecure
       traefik.http.routers.resume-prod-1-https.rule: Host(`${RESUME_URL:-resume.lhr1.jakerob.pro}`)
-      traefik.http.routers.resume-prod-1-https.tls: true
+      traefik.http.routers.resume-prod-1-https.tls: "true"
       traefik.http.routers.resume-prod-1-https.tls.certresolver: cloudflare
-
