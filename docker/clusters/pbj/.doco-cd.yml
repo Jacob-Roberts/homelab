@@ -3,11 +3,12 @@
 # must match the managed Compose project and service so doco-cd recognises
 # the stack as its own after the bootstrap.
 name: doco-cd
-working_dir: ./doco-cd
+working_dir: docker/clusters/pbj/doco-cd
 compose_files: [compose.yaml]
 timeout: 120
 
 ---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
 name: nginx
-working_dir: ../apps/nginx
+working_dir: docker/apps/nginx
 compose_files: [compose.yaml]
