@@ -25,7 +25,7 @@ name: webnut
 working_dir: docker/apps/webnut
 compose_files: [compose.yaml]
 environment:
-    UPS_HOST: slc1-nut-1.jakerob.pro
+    UPS_HOST: 192.168.97.73
     UPS_PORT: "3493"
     WEBNUT_URL: webnut.slc1.jakerob.pro
     UPS_USER: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/webnut/UPS_USER"
