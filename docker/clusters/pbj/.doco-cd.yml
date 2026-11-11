@@ -12,3 +12,5 @@ timeout: 120
 name: nginx
 working_dir: docker/apps/nginx
 compose_files: [compose.yaml]
+environment:
+  NGINX_HOST: nginx.pbj.jakerob.pro
