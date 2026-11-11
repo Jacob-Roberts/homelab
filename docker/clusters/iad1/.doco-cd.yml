@@ -18,3 +18,11 @@ working_dir: docker/apps/nginx
 compose_files: [compose.yaml]
 environment:
     NGINX_HOST: nginx.iad1.jakerob.pro
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: convertx
+working_dir: docker/apps/convertx
+compose_files: [compose.yaml]
+environment:
+    JWT_SECRET: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/convertx/JWT_SECRET"
