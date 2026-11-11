@@ -1,3 +1,6 @@
+---
+name: doco-cd
+
 services:
   doco-cd:
     # Pin by tag + digest and let Renovate open the bump PR.
@@ -10,14 +13,14 @@ services:
     # Reach the API through a reverse proxy on this network.
 
     environment:
-      TZ: America/Los_Angeles
+      TZ: ${TZ}
       SELF_UPDATE_ENABLED: "true"
       SELF_UPDATE_STRATEGY: auto
       POLL_CONFIG: |
         - url: https://github.com/Jacob-Roberts/homelab.git
           reference: main
           interval: 300
-      DEPLOY_CONFIG_BASE_DIR: docker/clusters/pbj
+      DEPLOY_CONFIG_BASE_DIR: ${DEPLOY_CONFIG_BASE_DIR}
       # Private repository: uncomment these two lines, the "secrets" lines below
       # and the top-level "secrets" block. See the Getting Started guide.
       # GIT_AUTH_DOMAINS lists the hosts that receive the token.
