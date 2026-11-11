@@ -21,6 +21,10 @@ services:
           reference: main
           interval: 300
       DEPLOY_CONFIG_BASE_DIR: ${DEPLOY_CONFIG_BASE_DIR}
+      SECRET_PROVIDER: infisical
+      SECRET_PROVIDER_SITE_URL: https://app.infisical.com
+      SECRET_PROVIDER_CLIENT_ID: ${SECRET_PROVIDER_CLIENT_ID}
+      SECRET_PROVIDER_CLIENT_SECRET_FILE: /run/secrets/infisical_client_secret
       # Private repository: uncomment these two lines, the "secrets" lines below
       # and the top-level "secrets" block. See the Getting Started guide.
       # GIT_AUTH_DOMAINS lists the hosts that receive the token.
@@ -40,13 +44,16 @@ services:
       start_period: 15s
       retries: 3
 
-    # secrets:
-    #   - git_access_token
+    secrets:
+      - infisical_client_secret
+    #   - git_access_token-
 
 volumes:
   data:
 
 # Path of the token file.
-# secrets:
-#   git_access_token:
-#     file: /opt/doco-cd/git-access-token
+secrets:
+  infisical_client_secret:
+    file: /opt/doco-cd/infisical_client_secret
+  # git_access_token:
+  #   file: /opt/doco-cd/git-access-token
