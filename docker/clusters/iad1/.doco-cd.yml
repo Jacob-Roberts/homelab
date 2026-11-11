@@ -6,6 +6,9 @@ name: doco-cd
 working_dir: docker/clusters/iad1/doco-cd
 compose_files: [compose.yaml]
 timeout: 120
+environment:
+  TZ: America/New_York
+  DEPLOY_CONFIG_BASE_DIR: docker/clusters/iad1
 
 ---
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json

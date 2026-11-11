@@ -6,6 +6,9 @@ name: doco-cd
 working_dir: docker/clusters/slc1/doco-cd
 compose_files: [compose.yaml]
 timeout: 120
+environment:
+  TZ: America/Denver
+  DEPLOY_CONFIG_BASE_DIR: docker/clusters/slc1
 
 ---
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
@@ -13,4 +16,4 @@ name: nginx
 working_dir: docker/apps/nginx
 compose_files: [compose.yaml]
 environment:
-  NGINX_HOST: nginx.pbj.jakerob.pro
+  NGINX_HOST: nginx.slc1.jakerob.pro
