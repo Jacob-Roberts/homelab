@@ -18,6 +18,7 @@ services:
           reference: main
           interval: 300
       DEPLOY_CONFIG_BASE_DIR: docker/clusters/iad1
+      DOCKER_SWARM_FEATURES: "false"
       # Private repository: uncomment these two lines, the "secrets" lines below
       # and the top-level "secrets" block. See the Getting Started guide.
       # GIT_AUTH_DOMAINS lists the hosts that receive the token.
