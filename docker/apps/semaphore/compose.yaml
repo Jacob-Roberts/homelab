@@ -1,0 +1,73 @@
+---
+name: semaphore
+
+volumes:
+  semaphore_data:
+    driver: local
+  semaphore_config:
+    driver: local
+  semaphore_tmp:
+    driver: local
+  nb_state:
+    driver: local
+
+networks:
+  frontend:
+    external: true
+
+services:
+  semaphore:
+    image: semaphoreui/semaphore:v2.18.12
+    environment:
+      SEMAPHORE_DB_DIALECT: sqlite
+      SEMAPHORE_ADMIN: ${SEMAPHORE_ADMIN}
+      SEMAPHORE_ADMIN_NAME: ${SEMAPHORE_ADMIN_NAME}
+      SEMAPHORE_ADMIN_EMAIL: ${SEMAPHORE_ADMIN_EMAIL}
+      SEMAPHORE_ADMIN_PASSWORD: ${SEMAPHORE_ADMIN_PASSWORD}
+      SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: ${SEMAPHORE_ACCESS_KEY_ENCRYPTION}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    network_mode: "service:netbird"
+    logging:
+      driver: local
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1024M
+    volumes:
+      - semaphore_data:/var/lib/semaphore
+      - semaphore_config:/etc/semaphore
+      - semaphore_tmp:/tmp/semaphore
+
+  netbird:
+    container_name: netbird-semaphore
+    image: docker.io/netbirdio/netbird:0.79.0
+    hostname: semaphore-ansible-robot
+    environment:
+      - NB_SETUP_KEY=${NETBIRD_SETUPKEY}
+    volumes:
+      - nb_state:/var/lib/netbird
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
+    security_opt:
+      - no-new-privileges:true
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    networks:
+      - frontend
+    restart: unless-stopped
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.semaphore-prod-1.loadbalancer.server.port: 3000
+      traefik.http.routers.semaphore-prod-1-http.entrypoints: web
+      traefik.http.routers.semaphore-prod-1-http.rule: Host(`${SEMAPHORE_URL}`)
+      traefik.http.routers.semaphore-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.semaphore-prod-1-https.entrypoints: websecure
+      traefik.http.routers.semaphore-prod-1-https.rule: Host(`${SEMAPHORE_URL}`)
+      traefik.http.routers.semaphore-prod-1-https.tls: "true"
+      traefik.http.routers.semaphore-prod-1-https.tls.certresolver: cloudflare
