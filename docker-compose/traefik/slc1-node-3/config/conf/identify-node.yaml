@@ -1,6 +1,0 @@
-http:
-  middlewares:
-    identify-node:
-      headers:
-        customResponseHeaders:
-          X-Traefik-slc1-node-3: "true"

@@ -1,49 +1,73 @@
 # This tunnel only uses http
 http:
   services:
-    pbj-traefik:
+    primary-traefik:
       loadBalancer:
         servers:
           - url: https://traefik
 
   routers:
+    ### PBJ
+
     # WHOAMI PBJ
     whoami-pbj-https:
       entrypoints: websecure
       rule: "Host(`whoami-tunnel.pbj.jakerob.pro`)"
-      service: pbj-traefik
+      service: primary-traefik
       tls: true
 
     pocket-id-pbj-https:
       entrypoints: websecure
       rule: "Host(`pocket-id.lhr1.jakerob.pro`)"
-      service: pbj-traefik
+      service: primary-traefik
       tls: true
 
     # IMMICH
     immich-pbj-https:
       entrypoints: websecure
       rule: "Host(`photos.jakerob.pro`)"
-      service: pbj-traefik
+      service: primary-traefik
       tls: true
 
     # Jellyfin
     jellyfin-pbj-https:
       entrypoints: websecure
       rule: "Host(`jellyfin.jakerob.pro`)"
-      service: pbj-traefik
+      service: primary-traefik
       tls: true
 
     # Karakeep
     karakeep-pbj-https:
       entrypoints: websecure
       rule: "Host(`karakeep.jakerob.pro`)"
-      service: pbj-traefik
+      service: primary-traefik
       tls: true
 
     # Calibre
     calibre-pbj-https:
       entrypoints: websecure
       rule: "Host(`calibre.jakerob.pro`)"
-      service: pbj-traefik
+      service: primary-traefik
+      tls: true
+
+    ### SLC
+
+    # WHOAMI SLC1
+    whoami-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`whoami-tunnel.slc1.jakerob.pro`)"
+      service: primary-traefik
+      tls: true
+
+    pocket-id-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`auth.autovation.com`)"
+      service: primary-traefik
+      tls: true
+
+    # IMMICH
+    immich-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`photos.autovation.com`)"
+      service: primary-traefik
       tls: true
