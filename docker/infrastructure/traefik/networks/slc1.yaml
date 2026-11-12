@@ -18,7 +18,7 @@ networks:
     name: syncthing_frontend
 
 services:
-  traefik:
+  traefik-internal:
     networks:
       - webnut
       - immich

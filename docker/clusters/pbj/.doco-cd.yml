@@ -15,7 +15,7 @@ environment:
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
 name: traefik
 working_dir: docker/infrastructure/traefik
-compose_files: [compose.yaml, compose.ipv6.yaml, compose.tunnel.yaml, compose.tunnel.ipv6.yaml, networks/pbj.yaml]
+compose_files: [compose.yaml, compose.ipv6.yaml, compose_external.yaml, compose_external.ipv6.yaml, networks/pbj.yaml]
 environment:
     DOCKER_GROUP_ID: "988"
     HOST_IP_V4: "192.168.42.120"
@@ -29,6 +29,16 @@ environment:
     NODE_NAME: "pbj-node-1"
 external_secrets:
     CF_DNS_API_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/traefik/CF_DNS_API_TOKEN"
+    CROWDSEC_TRAEFIK_BOUNCER_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/traefik/CROWDSEC_TRAEFIK_BOUNCER_TOKEN"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: whoami
+working_dir: docker/apps/whoami
+compose_files: [compose.yaml, compose.external.yaml]
+environment:
+    WHOAMI_INTERNAL_URL: whoami.pbj.jakerob.pro
+    WHOAMI_EXTERNAL_URL: whoami-tunnel.pbj.jakerob.pro
 
 ---
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json

@@ -22,9 +22,15 @@ networks:
   media-acquisition:
     external: true
     name: media-acquisition_frontend
+  whoami:
+    external: true
+    name: whoami_frontend
+  whoami-external:
+    external: true
+    name: whoami_frontend-external
 
 services:
-  traefik:
+  traefik-internal:
     networks:
       - calibre
       - immich
@@ -33,3 +39,8 @@ services:
       - semaphore
       - syncthing
       - media-acquisition
+      - whoami
+
+  traefik-external:
+    networks:
+      - whoami-external

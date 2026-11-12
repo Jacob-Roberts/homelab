@@ -1,0 +1,29 @@
+http:
+  middlewares:
+    crowdsec:
+      plugin:
+        crowdsec:
+          banHTMLFilePath: /traefik/ban.html
+          captchaHTMLFilePath: /traefik/captcha.html
+          clientTrustedIPs:
+            - 10.0.0.0/8
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+            - 100.89.137.0/20
+          crowdsecAppsecBodyLimit: 10485760
+          crowdsecAppsecEnabled: false
+          crowdsecAppsecFailureBlock: true
+          crowdsecAppsecHost: crowdsec:7422
+          crowdsecAppsecUnreachableBlock: true
+          crowdsecLapiHost: crowdsec:8080
+          crowdsecLapiKey: {{ env "CROWDSEC_TRAEFIK_BOUNCER_TOKEN" }}
+          crowdsecLapiScheme: http
+          crowdsecMode: live
+          defaultDecisionSeconds: 15
+          enabled: true
+          forwardedHeadersTrustedIPs:
+            - 0.0.0.0/0
+          httpTimeoutSeconds: 10
+          logLevel: INFO
+          updateIntervalSeconds: 15
+          updateMaxFailure: 0

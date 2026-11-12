@@ -6,6 +6,6 @@ networks:
     name: jellyfin_frontend
 
 services:
-  traefik:
+  traefik-internal:
     networks:
       - jellyfin

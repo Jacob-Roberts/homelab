@@ -6,6 +6,6 @@ networks:
     name: uptimekuma_frontend
 
 services:
-  traefik:
+  traefik-internal:
     networks:
       - uptimekuma

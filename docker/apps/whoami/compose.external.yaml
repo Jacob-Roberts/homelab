@@ -1,0 +1,34 @@
+---
+
+networks:
+  frontend-external:
+    external: false
+
+services:
+  whoami-external:
+    image: docker.io/traefik/whoami
+    container_name: whoami-external-prod-1
+    command: "--verbose"
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      - frontend-external
+    logging:
+      driver: local
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 64M
+    labels:
+      traefik.enable: "true"
+      traefik.external: "true"
+      traefik.docker.network: "frontend-external"
+      traefik.http.routers.whoamitunnel-prod-1-http.entrypoints: web
+      traefik.http.routers.whoamitunnel-prod-1-http.rule: Host(`${WHOAMI_EXTERNAL_URL}`)
+      traefik.http.routers.whoamitunnel-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.whoamitunnel-prod-1-https.entrypoints: websecure
+      traefik.http.routers.whoamitunnel-prod-1-https.rule: Host(`${WHOAMI_EXTERNAL_URL}`)
+      traefik.http.routers.whoamitunnel-prod-1-https.tls: "true"
+      traefik.http.routers.whoamitunnel-prod-1-https.tls.certresolver: cloudflare

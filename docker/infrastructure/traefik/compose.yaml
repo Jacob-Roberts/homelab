@@ -4,10 +4,8 @@
 name: traefik
 
 networks:
-  frontend:
-    external: false
   internal:
-    # Contains traefik, socket proxy, and traefik-tunnel
+    # Contains traefik and socket proxy
     external: false
     name: traefik_internal
 
@@ -17,9 +15,10 @@ volumes:
   certs-storage:
 
 services:
-  traefik:
+  # Traefik internal is the reverse proxy for any internal services (only exposed to me)
+  traefik-internal:
     image: docker.io/traefik:v3
-    container_name: traefik-primary
+    container_name: traefik-internal
     command:
       - "--configFile=/traefik/traefik.yaml"
     read_only: true
@@ -44,19 +43,19 @@ services:
       retries: 3
       start_period: 5s
     ports:
-      - "${HOST_IP_V4}:80:80/tcp"
-      - "${HOST_IP_V4}:443:443/tcp"
-      - "${HOST_IP_V4}:443:443/udp"
+      # This service is **only** exposed on the VPN
+      - "${NETBIRD_IP_V4}:80:80/tcp"
+      - "${NETBIRD_IP_V4}:443:443/tcp"
+      - "${NETBIRD_IP_V4}:443:443/udp"
     environment:
       CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
       TZ: "${TZ:-UTC}"
-      TRAEFIK_URL: "${TRAEFIK_URL}"
+      TRAEFIK_URL: "${TRAEFIK_INTERNAL_URL}"
       NODE_NAME: "${NODE_NAME}"
     networks:
-      - frontend
       - internal
     volumes:
-      - ./config/traefik.yaml:/traefik/traefik.yaml:ro
+      - ./config/traefik-internal.yaml:/traefik/traefik.yaml:ro
       - ./config/conf/:/traefik/conf:ro
       - plugins:/plugins-storage/:rw
       - certs-storage:/traefik/certs:rw
@@ -69,15 +68,16 @@ services:
           memory: 512M
     labels:
       traefik.enable: "true"
-      traefik.http.routers.traefik-prod-1-http.service: "api@internal"
-      traefik.http.routers.traefik-prod-1-https.service: "api@internal"
-      traefik.http.routers.traefik-prod-1-http.entrypoints: web
-      traefik.http.routers.traefik-prod-1-http.rule: "Host(`${TRAEFIK_URL}`) && !PathPrefix(`/ping`)"
-      traefik.http.routers.traefik-prod-1-http.middlewares: "websecure-redirect-permanent@file"
-      traefik.http.routers.traefik-prod-1-https.entrypoints: websecure
-      traefik.http.routers.traefik-prod-1-https.rule: "Host(`${TRAEFIK_URL}`) && !PathPrefix(`/ping`)"
-      traefik.http.routers.traefik-prod-1-https.tls: "true"
-      traefik.http.routers.traefik-prod-1-https.tls.certresolver: cloudflare
+      traefik.external: "false"
+      traefik.http.routers.traefikinternal-prod-1-http.service: "api@internal"
+      traefik.http.routers.traefikinternal-prod-1-https.service: "api@internal"
+      traefik.http.routers.traefikinternal-prod-1-http.entrypoints: web
+      traefik.http.routers.traefikinternal-prod-1-http.rule: "Host(`${TRAEFIK_INTERNAL_URL}`) && !PathPrefix(`/ping`)"
+      traefik.http.routers.traefikinternal-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.traefikinternal-prod-1-https.entrypoints: websecure
+      traefik.http.routers.traefikinternal-prod-1-https.rule: "Host(`${TRAEFIK_INTERNAL_URL}`) && !PathPrefix(`/ping`)"
+      traefik.http.routers.traefikinternal-prod-1-https.tls: "true"
+      traefik.http.routers.traefikinternal-prod-1-https.tls.certresolver: cloudflare
 
   socket-proxy:
     image: docker.io/11notes/socket-proxy:2
@@ -102,30 +102,3 @@ services:
         limits:
           cpus: "0.20"
           memory: 128M
-
-  whoami:
-    image: docker.io/traefik/whoami
-    container_name: whoami-prod-1
-    command: "--verbose"
-    security_opt:
-      - no-new-privileges:true
-    restart: unless-stopped
-    networks:
-      - frontend
-    logging:
-      driver: local
-    deploy:
-      resources:
-        limits:
-          cpus: "0.10"
-          memory: 64M
-    labels:
-      traefik.enable: "true"
-      traefik.docker.network: traefik_frontend
-      traefik.http.routers.whoami-prod-1-http.entrypoints: web
-      traefik.http.routers.whoami-prod-1-http.rule: Host(`${WHOAMI_URL}`)
-      traefik.http.routers.whoami-prod-1-http.middlewares: "websecure-redirect-permanent@file"
-      traefik.http.routers.whoami-prod-1-https.entrypoints: websecure
-      traefik.http.routers.whoami-prod-1-https.rule: Host(`${WHOAMI_URL}`)
-      traefik.http.routers.whoami-prod-1-https.tls: "true"
-      traefik.http.routers.whoami-prod-1-https.tls.certresolver: cloudflare
