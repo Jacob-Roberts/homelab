@@ -1,6 +1,9 @@
 ---
 name: minecraft
 
+volumes:
+  data:
+
 services:
   minecraft:
     image: docker.io/itzg/minecraft-server
@@ -29,8 +32,7 @@ services:
       ONLINE_MODE: "true"
       USE_AIKAR_FLAGS: "true"
     volumes:
-      - ./data:/data
-
+      - data:/data
     deploy:
       resources:
         limits:

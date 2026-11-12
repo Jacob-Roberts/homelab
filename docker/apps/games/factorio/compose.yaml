@@ -1,6 +1,9 @@
 ---
 name: factorio
 
+volumes:
+  data:
+
 services:
   factorio:
     image: docker.io/factoriotools/factorio:2.0.73-rootless
@@ -18,8 +21,7 @@ services:
       USERNAME: "${USERNAME}"
       TOKEN: "${TOKEN}"
     volumes:
-      - ${DOCKER_DATA_DIR}/factorio/data:/factorio
-
+      - data:/factorio
     deploy:
       resources:
         limits:
