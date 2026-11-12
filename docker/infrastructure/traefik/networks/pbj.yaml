@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-go/master/schema/compose-spec.json
+
+networks:
+  calibre:
+    external: true
+    name: calibre_frontend
+  immich:
+    external: true
+    name: immich_frontend
+  karakeep:
+    external: true
+    name: karakeep_frontend
+  jellyfin:
+    external: true
+    name: jellyfin_frontend
+  semaphore:
+    external: true
+    name: semaphore_frontend
+  syncthing:
+    external: true
+    name: syncthing_frontend
+  media-acquisition:
+    external: true
+    name: media-acquisition_frontend
+
+services:
+  traefik:
+    networks:
+      - calibre
+      - immich
+      - karakeep
+      - jellyfin
+      - semaphore
+      - syncthing
+      - media-acquisition

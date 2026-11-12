@@ -3,7 +3,7 @@ name: syncthing
 
 networks:
   frontend:
-    external: true
+    external: false
 
 volumes:
   config:

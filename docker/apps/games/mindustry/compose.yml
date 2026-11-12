@@ -3,7 +3,7 @@ name: mindustry
 
 networks:
   frontend:
-    external: true
+    external: false
 
 services:
   mindsutry:

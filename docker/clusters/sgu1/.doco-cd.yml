@@ -15,7 +15,7 @@ environment:
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
 name: traefik
 working_dir: docker/infrastructure/traefik
-compose_files: [compose.yaml]
+compose_files: [compose.yaml, networks/sgu1.yaml]
 environment:
     DOCKER_GROUP_ID: "996"
     HOST_IP_V4: "192.168.59.194"

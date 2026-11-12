@@ -3,7 +3,7 @@ name: joplin
 
 networks:
   frontend:
-    external: true
+    external: false
   internal:
     external: false
 

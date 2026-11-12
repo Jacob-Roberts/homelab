@@ -3,7 +3,7 @@ name: spotify-analytics
 
 networks:
   frontend:
-    external: true
+    external: false
   internal:
     external: false
 

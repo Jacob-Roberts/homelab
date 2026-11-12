@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-go/master/schema/compose-spec.json
+
+networks:
+  uptimekuma:
+    external: true
+    name: uptimekuma_frontend
+
+services:
+  traefik:
+    networks:
+      - uptimekuma

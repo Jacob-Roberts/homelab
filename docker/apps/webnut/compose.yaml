@@ -3,7 +3,7 @@ name: webnut
 
 networks:
   frontend:
-    external: true
+    external: false
 
 services:
   nut:

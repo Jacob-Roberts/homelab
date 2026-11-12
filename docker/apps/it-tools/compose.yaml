@@ -3,7 +3,7 @@ name: it-tools
 
 networks:
   frontend:
-    external: true
+    external: false
 
 services:
   it-tools:

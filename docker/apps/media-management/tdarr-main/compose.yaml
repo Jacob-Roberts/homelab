@@ -3,7 +3,7 @@ name: tdarr-main
 
 networks:
   frontend:
-    external: true
+    external: false
 
 volumes:
   tdarr-config-server:

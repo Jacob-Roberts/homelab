@@ -3,7 +3,7 @@ name: myspeed
 
 networks:
   frontend:
-    external: true
+    external: false
 
 volumes:
   data:

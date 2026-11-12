@@ -3,7 +3,7 @@ name: convertx
 
 networks:
   frontend:
-    external: true
+    external: false
 
 volumes:
   data:

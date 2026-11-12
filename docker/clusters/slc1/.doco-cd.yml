@@ -15,7 +15,7 @@ environment:
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
 name: traefik
 working_dir: docker/infrastructure/traefik
-compose_files: [compose.yaml, compose.tunnel.yaml, compose.tunnel.ipv6.yaml]
+compose_files: [compose.yaml, compose.tunnel.yaml, compose.tunnel.ipv6.yaml, networks/slc1.yaml]
 environment:
     DOCKER_GROUP_ID: "990"
     HOST_IP_V4: "192.168.97.133"
@@ -28,14 +28,6 @@ environment:
     NODE_NAME: "slc1-node-3"
 external_secrets:
     CF_DNS_API_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/traefik/CF_DNS_API_TOKEN"
-
----
-# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
-name: nginx
-working_dir: docker/apps/nginx
-compose_files: [compose.yaml]
-environment:
-    NGINX_HOST: nginx.slc1.jakerob.pro
 
 ---
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json

@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-go/master/schema/compose-spec.json
+
+networks:
+  webnut:
+    external: true
+    name: webnut_frontend
+  immich:
+    external: true
+    name: immich_frontend
+  jellyfin:
+    external: true
+    name: jellyfin_frontend
+  pocket-id:
+    external: true
+    name: pocket-id_frontend
+  syncthing:
+    external: true
+    name: syncthing_frontend
+
+services:
+  traefik:
+    networks:
+      - webnut
+      - immich
+      - jellyfin
+      - pocket-id
+      - syncthing

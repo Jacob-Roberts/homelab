@@ -3,7 +3,7 @@ name: pocket-id
 
 networks:
   frontend:
-    external: true
+    external: false
 
 volumes:
   data:

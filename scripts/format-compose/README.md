@@ -69,7 +69,7 @@ name: your-service
 
 networks:
   frontend:
-    external: true
+    external: false
   backend:
     driver: bridge
 

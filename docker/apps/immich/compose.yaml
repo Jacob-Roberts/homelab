@@ -3,7 +3,7 @@ name: immich
 
 networks:
   frontend:
-    external: true
+    external: false
   internal:
     external: false
 

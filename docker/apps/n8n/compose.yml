@@ -3,7 +3,7 @@ name: n8n
 
 networks:
   frontend:
-    external: true
+    external: false
 
 volumes:
   n8n_data: {}

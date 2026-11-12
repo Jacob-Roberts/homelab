@@ -3,7 +3,7 @@ name: jellyfin
 
 networks:
   frontend:
-    external: true
+    external: false
 
 volumes:
   cache:
