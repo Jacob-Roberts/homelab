@@ -21,7 +21,7 @@ services:
       N8N_PROTOCOL: http
       NODE_ENV: production
       WEBHOOK_URL: https://n8n.jakerob.pro/
-      GENERIC_TIMEZONE: Europe/London
+      GENERIC_TIMEZONE: ${TZ:-UTC}
     networks:
       - frontend
     volumes:

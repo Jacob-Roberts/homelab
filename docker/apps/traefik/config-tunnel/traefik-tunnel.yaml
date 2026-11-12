@@ -46,6 +46,7 @@ entryPoints:
 
   websecure:
     address: :443
+    http3: {}
     http:
       middlewares:
         - identify-node@file

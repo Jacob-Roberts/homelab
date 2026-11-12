@@ -30,7 +30,7 @@ services:
       ALLOW_SIGNUP: "true"
       PUID: 2085
       PGID: 2085
-      TZ: "${TZ:-Europe/London}"
+      TZ: "${TZ:-UTC}"
       MAX_WORKERS: 1
       WEB_CONCURRENCY: 1
       BASE_URL: https://mealie.jakerob.pro

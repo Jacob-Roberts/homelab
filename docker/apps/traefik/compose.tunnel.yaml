@@ -25,7 +25,9 @@ services:
       - "${NETBIRD_IP_V4}:443:443/tcp"
       - "${NETBIRD_IP_V4}:443:443/udp"
     environment:
-      TZ: "${TZ:-Europe/London}"
+      TZ: "${TZ:-UTC}"
+      TRAEFIK_URL: "${TRAEFIK_URL}"
+      NODE_NAME: "${NODE_NAME}"
     networks:
       - internal
     volumes:
