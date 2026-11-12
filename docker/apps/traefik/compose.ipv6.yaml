@@ -1,0 +1,6 @@
+services:
+  traefik:
+    ports:
+      - "${HOST_IP_V6}:80:80/tcp"
+      - "${HOST_IP_V6}:443:443/tcp"
+      - "${HOST_IP_V6}:443:443/udp"

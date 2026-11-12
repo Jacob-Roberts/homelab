@@ -1,0 +1,6 @@
+services:
+  traefik-tunnel:
+    ports:
+      # Bind on Netbird interface only
+      - "${NETBIRD_IP_V6}:80:80"
+      - "${NETBIRD_IP_V6}:443:443"

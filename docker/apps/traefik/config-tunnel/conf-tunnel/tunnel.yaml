@@ -1,0 +1,49 @@
+# This tunnel only uses http
+http:
+  services:
+    pbj-traefik:
+      loadBalancer:
+        servers:
+          - url: https://traefik
+
+  routers:
+    # WHOAMI PBJ
+    whoami-pbj-https:
+      entrypoints: websecure
+      rule: "Host(`whoami-tunnel.pbj.jakerob.pro`)"
+      service: pbj-traefik
+      tls: true
+
+    pocket-id-pbj-https:
+      entrypoints: websecure
+      rule: "Host(`pocket-id.lhr1.jakerob.pro`)"
+      service: pbj-traefik
+      tls: true
+
+    # IMMICH
+    immich-pbj-https:
+      entrypoints: websecure
+      rule: "Host(`photos.jakerob.pro`)"
+      service: pbj-traefik
+      tls: true
+
+    # Jellyfin
+    jellyfin-pbj-https:
+      entrypoints: websecure
+      rule: "Host(`jellyfin.jakerob.pro`)"
+      service: pbj-traefik
+      tls: true
+
+    # Karakeep
+    karakeep-pbj-https:
+      entrypoints: websecure
+      rule: "Host(`karakeep.jakerob.pro`)"
+      service: pbj-traefik
+      tls: true
+
+    # Calibre
+    calibre-pbj-https:
+      entrypoints: websecure
+      rule: "Host(`calibre.jakerob.pro`)"
+      service: pbj-traefik
+      tls: true

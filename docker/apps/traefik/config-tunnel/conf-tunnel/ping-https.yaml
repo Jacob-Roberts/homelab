@@ -1,0 +1,13 @@
+http:
+  routers:
+    ping-http:
+      rule: "Host(`traefik-tunnel.pbj.jakerob.pro`) && PathPrefix(`/ping`)"
+      service: "ping@internal"
+      entryPoints:
+        - web
+    ping-https:
+      rule: "Host(`traefik-tunnel.pbj.jakerob.pro`) && PathPrefix(`/ping`)"
+      service: "ping@internal"
+      entryPoints:
+        - websecure
+      tls: {}
