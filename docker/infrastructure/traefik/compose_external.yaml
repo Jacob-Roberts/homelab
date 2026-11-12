@@ -47,7 +47,7 @@ services:
       CROWDSEC_TRAEFIK_BOUNCER_TOKEN: "${CROWDSEC_TRAEFIK_BOUNCER_TOKEN}"
       TZ: "${TZ:-UTC}"
       TRAEFIK_URL: "${TRAEFIK_EXTERNAL_URL}"
-      NODE_NAME: "${NODE_NAME}"
+      NODE_NAME: "${NODE_NAME}-external"
     networks:
       - crowdsec-traefik
     volumes:

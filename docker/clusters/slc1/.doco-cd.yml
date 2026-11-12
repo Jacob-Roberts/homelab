@@ -21,7 +21,6 @@ environment:
     HOST_IP_V4: "192.168.97.133"
     NETBIRD_IP_V4: "100.107.184.93"
     NETBIRD_IP_V6: "fdbd:db6a:5351:2c4:11e3:6773:f852:32d5"
-    TRAEFIK_TUNNEL_URL: "traefik-tunnel.slc1.jakerob.pro"
     TRAEFIK_URL: "traefik.slc1.jakerob.pro"
     WHOAMI_TUNNEL_URL: "whoami-tunnel.slc1.jakerob.pro"
     WHOAMI_URL: "whoami.slc1.jakerob.pro"

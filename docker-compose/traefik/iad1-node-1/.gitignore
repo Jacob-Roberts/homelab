@@ -1,6 +1,0 @@
-config-internal/certs
-config-external/certs
-config-external/logs
-config-external/plugins
-config-crowdsec
-crowdsec-db
