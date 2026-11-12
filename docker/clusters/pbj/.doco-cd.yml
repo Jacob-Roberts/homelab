@@ -45,3 +45,14 @@ external_secrets:
     MEILI_MASTER_KEY: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/karakeep/MEILI_MASTER_KEY"
     NEXTAUTH_SECRET: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/karakeep/NEXTAUTH_SECRET"
     OAUTH_CLIENT_SECRET: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/karakeep/OAUTH_CLIENT_SECRET"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: jellyfin
+working_dir: docker/apps/jellyfin
+compose_files: [compose.yaml, compose.pbj.yaml]
+environment:
+    APP_URL: "https://jellyfin.jakerob.pro"
+    JELLYFIN_URL: "jellyfin.jakerob.pro"
+    STORAGE_URL: "truenas.pbj.jakerob.pro"
+    JELLYDATA_HOST_PATH: "/media/jellydata"

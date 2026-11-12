@@ -1,0 +1,8 @@
+volumes:
+  config:
+    name: jellyfin_config
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${STORAGE_URL:-pbj-storage-1.jakerob.pro},nfsvers=4.1,soft,nolock,rw
+      device: ":/mnt/default-pool/encrypted/container-volumes/jellyfin_config"
