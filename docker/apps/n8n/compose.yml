@@ -7,6 +7,7 @@ networks:
 
 volumes:
   n8n_data: {}
+  files: {}
 
 services:
   n8n:
@@ -25,8 +26,7 @@ services:
       - frontend
     volumes:
       - n8n_data:/home/node/.n8n
-      - ./files:/files
-
+      - files:/files
     deploy:
       resources:
         limits:
