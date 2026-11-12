@@ -49,6 +49,8 @@ services:
     environment:
       CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
       TZ: "${TZ:-UTC}"
+      TRAEFIK_URL: "${TRAEFIK_URL}"
+      NODE_NAME: "${NODE_NAME}"
     networks:
       - frontend
       - internal
