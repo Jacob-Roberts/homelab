@@ -41,7 +41,6 @@ services:
       - "/home/joplin/packages/server/logs:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
       - "/home/joplin/packages/server/temp:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
       - "/opt/pm2:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
-
     deploy:
       resources:
         limits:
@@ -57,6 +56,7 @@ services:
       traefik.http.routers.joplin-prod-1-https.rule: Host(`${JOPLIN_URL:-joplin.jakerob.pro}`)
       traefik.http.routers.joplin-prod-1-https.tls: "true"
       traefik.http.routers.joplin-prod-1-https.tls.certresolver: letsencrypt
+
   db:
     image: docker.io/postgres:18
     # prevents write access to the image itself
@@ -78,7 +78,6 @@ services:
     tmpfs:
       - "/var/run/postgresql:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
       - "/tmp:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
-
     deploy:
       resources:
         limits:

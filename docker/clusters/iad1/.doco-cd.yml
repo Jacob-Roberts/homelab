@@ -71,3 +71,14 @@ external_secrets:
     SMTP_PORT: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/pocket-id/SMTP_PORT"
     SMTP_TLS: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/pocket-id/SMTP_TLS"
     SMTP_USER: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/pocket-id/SMTP_USER"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: joplin
+working_dir: docker/apps/joplin
+compose_files: [compose.yaml]
+environment:
+    POSTGRES_USER: "joplin"
+    POSTGRES_DATABASE: "joplin"
+external_secrets:
+    POSTGRES_PASSWORD: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/joplin/POSTGRES_PASSWORD"
