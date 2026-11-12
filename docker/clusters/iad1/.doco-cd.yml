@@ -41,3 +41,15 @@ external_secrets:
 name: it-tools
 working_dir: docker/apps/it-tools
 compose_files: [compose.yaml]
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: mealie
+working_dir: docker/apps/mealie
+compose_files: [compose.yaml]
+environment:
+    OIDC_CONFIGURATION_URL: "https://pocket-id.iad1.jakerob.pro/.well-known/openid-configuration"
+    OIDC_CLIENT_ID: "1f3f8740-8220-4ea8-9168-11633e79a218"
+    TZ: UTC
+external_secrets:
+    OIDC_CLIENT_SECRET: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/mealie/OIDC_CLIENT_SECRET"
