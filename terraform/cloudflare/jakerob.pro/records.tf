@@ -368,7 +368,7 @@ locals {
     "pbj_catch_all" = {
       name    = "*.pbj.jakerob.pro"
       type    = "CNAME"
-      content = "pbj-node-1.jakerob.pro"
+      content = "pbj-node-1.vpn.jakerob.pro"
       ttl     = 1
       proxied = false
     },
