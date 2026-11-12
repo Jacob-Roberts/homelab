@@ -1,0 +1,91 @@
+---
+name: spotify-analytics
+
+networks:
+  frontend:
+    external: true
+  internal:
+    external: false
+
+volumes:
+  data:
+
+services:
+  server:
+    image: docker.io/yooooomi/your_spotify_server:1.14.0
+    container_name: spotify-analytics
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - mongo
+    restart: unless-stopped
+    environment:
+      API_ENDPOINT: https://api.spotify.iad1.jakerob.pro # This MUST be included as a valid URL in the spotify dashboard
+      CLIENT_ENDPOINT: https://spotify.jakerob.pro
+      SPOTIFY_PUBLIC: "${SPOTIFY_PUBLIC}"
+      SPOTIFY_SECRET: "${SPOTIFY_SECRET}"
+      CORS: https://spotify.jakerob.pro # "all" if you want to allow every origin
+    networks:
+      - internal
+      - frontend
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+    labels:
+      traefik.enable: "true"
+      traefik.external: "true"
+      traefik.docker.network: frontend
+      traefik.http.services.spotifyapi-prod-1.loadBalancer.server.port: 8080
+      traefik.http.routers.spotifyapi-prod-1-http.entrypoints: web
+      traefik.http.routers.spotifyapi-prod-1-http.rule: Host(`${API_SPOTIFY_URL:-api.spotify.iad1.jakerob.pro}`)
+      traefik.http.routers.spotifyapi-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.spotifyapi-prod-1-https.entrypoints: websecure
+      traefik.http.routers.spotifyapi-prod-1-https.rule: Host(`${API_SPOTIFY_URL:-api.spotify.iad1.jakerob.pro}`)
+      traefik.http.routers.spotifyapi-prod-1-https.tls: "true"
+      traefik.http.routers.spotifyapi-prod-1-https.tls.certresolver: letsencrypt
+
+  mongo:
+    image: docker.io/mongo:6
+    container_name: spotify-analytics-db
+    security_opt:
+      - no-new-privileges:true
+
+    restart: unless-stopped
+    networks:
+      - internal
+    volumes:
+      - data:/data/db
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 1G
+
+  web:
+    image: docker.io/yooooomi/your_spotify_client:1.14.0
+    container_name: spotify-analytics-web
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    environment:
+      API_ENDPOINT: https://api.spotify.iad1.jakerob.pro
+    networks:
+      - frontend
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+    labels:
+      traefik.enable: "true"
+      traefik.external: "true"
+      traefik.http.services.spotifyweb-prod-1.loadBalancer.server.port: 3000
+      traefik.http.routers.spotifyweb-prod-1-http.entrypoints: web
+      traefik.http.routers.spotifyweb-prod-1-http.rule: Host(`${SPOTIFY_URL:-spotify.jakerob.pro}`)
+      traefik.http.routers.spotifyweb-prod-1-http.middlewares: "websecure-redirect-permanent@file"
+      traefik.http.routers.spotifyweb-prod-1-https.entrypoints: websecure
+      traefik.http.routers.spotifyweb-prod-1-https.rule: Host(`${SPOTIFY_URL:-spotify.jakerob.pro}`)
+      traefik.http.routers.spotifyweb-prod-1-https.tls: "true"
+      traefik.http.routers.spotifyweb-prod-1-https.tls.certresolver: letsencrypt
