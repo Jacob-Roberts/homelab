@@ -53,6 +53,7 @@ services:
       TRAEFIK_URL: "${TRAEFIK_URL}"
       NODE_NAME: "${NODE_NAME}"
     networks:
+      - frontend
       - internal
     volumes:
       - ./config/traefik.yaml:/traefik/traefik.yaml:ro
@@ -120,6 +121,7 @@ services:
           memory: 64M
     labels:
       traefik.enable: "true"
+      traefik.docker.network: traefik_frontend
       traefik.http.routers.whoami-prod-1-http.entrypoints: web
       traefik.http.routers.whoami-prod-1-http.rule: Host(`${WHOAMI_URL}`)
       traefik.http.routers.whoami-prod-1-http.middlewares: "websecure-redirect-permanent@file"
