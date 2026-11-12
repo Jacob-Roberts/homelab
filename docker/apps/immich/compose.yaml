@@ -45,7 +45,6 @@ services:
     volumes:
       - /media/immich:/data
       - /etc/localtime:/etc/localtime:ro
-
     deploy:
       resources:
         limits:

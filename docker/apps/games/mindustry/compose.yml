@@ -1,10 +1,6 @@
 ---
 name: mindustry
 
-networks:
-  frontend:
-    external: false
-
 services:
   mindsutry:
     image: ghcr.io/jacob-roberts/mindustry:0.0.1
@@ -15,8 +11,6 @@ services:
     ports:
       - 6567:6567/tcp
       - 6567:6567/udp
-    networks:
-      - frontend
     deploy:
       resources:
         limits:

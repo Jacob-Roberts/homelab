@@ -38,6 +38,7 @@ services:
           memory: 512M
     labels:
       traefik.enable: "true"
+      traefik.docker.network: calibre_frontend
       traefik.http.routers.calibre-prod-1-http.entrypoints: web
       traefik.http.routers.calibre-prod-1-http.rule: Host(`${CALIBRE_URL:-calibre.jakerob.pro}`)
       traefik.http.routers.calibre-prod-1-http.middlewares: "websecure-redirect-permanent@file"

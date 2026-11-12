@@ -30,6 +30,7 @@ services:
           memory: 512M
     labels:
       traefik.enable: "true"
+      traefik.docker.network: myspeed_frontend
       traefik.http.services.myspeed-prod-1.loadBalancer.server.port: 5216
       traefik.http.routers.myspeed-prod-1-http.entrypoints: web
       traefik.http.routers.myspeed-prod-1-http.rule: Host(`${MYSPEED_URL}`)

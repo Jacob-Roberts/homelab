@@ -26,6 +26,7 @@ services:
           memory: 512M
     labels:
       traefik.enable: "true"
+      traefik.docker.network: webnut_frontend
       traefik.http.services.webnut-prod-1.loadBalancer.server.port: 6543
       traefik.http.routers.webnut-prod-1-http.entrypoints: web
       traefik.http.routers.webnut-prod-1-http.rule: Host(`${WEBNUT_URL}`)

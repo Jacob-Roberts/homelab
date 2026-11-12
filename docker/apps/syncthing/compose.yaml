@@ -35,6 +35,7 @@ services:
           memory: 768M
     labels:
       traefik.enable: "true"
+      traefik.docker.network: syncthing_frontend
       traefik.http.services.syncthing-prod-1.loadbalancer.server.port: '8384'
       traefik.http.routers.syncthing-prod-1-http.entrypoints: web
       traefik.http.routers.syncthing-prod-1-http.rule: Host(`${SYNCTHING_URL}`)

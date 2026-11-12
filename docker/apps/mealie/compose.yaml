@@ -45,6 +45,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.external: "true"
+      traefik.docker.network: mealie_frontend
       traefik.http.middlewares.mealie-prod-1-websecure-redirect.redirectscheme.scheme: https
       traefik.http.routers.mealie-prod-1-http.entrypoints: web
       traefik.http.routers.mealie-prod-1-http.rule: Host(`${MEALIE_URL:-mealie.jakerob.pro}`)

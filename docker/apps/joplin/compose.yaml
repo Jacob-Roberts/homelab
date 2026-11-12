@@ -49,6 +49,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.external: "true"
+      traefik.docker.network: joplin_frontend
       traefik.http.services.joplin-prod-1.loadbalancer.server.port: 22300
       traefik.http.routers.joplin-prod-1-http.entrypoints: web
       traefik.http.routers.joplin-prod-1-http.rule: Host(`${JOPLIN_URL:-joplin.jakerob.pro}`)

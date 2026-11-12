@@ -1,5 +1,5 @@
 ---
-name: media-management
+name: tdarr-node
 
 volumes:
   config:

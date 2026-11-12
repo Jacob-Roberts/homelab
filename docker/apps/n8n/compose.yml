@@ -35,6 +35,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.external: "true"
+      traefik.docker.network: n8n_frontend
       traefik.http.routers.n8n-prod-1-http.entrypoints: web
       traefik.http.routers.n8n-prod-1-http.rule: Host(`${N8N_URL:-n8n.jakerob.pro}`)
       traefik.http.routers.n8n-prod-1-https.entrypoints: websecure
