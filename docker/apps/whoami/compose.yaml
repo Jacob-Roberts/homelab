@@ -8,7 +8,6 @@ networks:
 services:
   whoami-internal:
     image: docker.io/traefik/whoami
-    container_name: whoami-prod-1
     command: "--verbose"
     security_opt:
       - no-new-privileges:true
