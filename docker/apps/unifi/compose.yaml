@@ -50,7 +50,7 @@ services:
           memory: 512M
     labels:
       traefik.enable: "true"
-      traefik.docker.network: frontend
+      traefik.docker.network: unifi_frontend
       traefik.http.routers.unifi-prod-1-http.entrypoints: web
       traefik.http.routers.unifi-prod-1-http.rule: Host(`${UNIFI_URL}`)
       traefik.http.routers.unifi-prod-1-http.middlewares: "websecure-redirect-permanent@file"

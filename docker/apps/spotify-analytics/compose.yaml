@@ -36,7 +36,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.external: "true"
-      traefik.docker.network: frontend
+      traefik.docker.network: spotify-analytics_frontend
       traefik.http.services.spotifyapi-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.spotifyapi-prod-1-http.entrypoints: web
       traefik.http.routers.spotifyapi-prod-1-http.rule: Host(`${API_SPOTIFY_URL:-api.spotify.iad1.jakerob.pro}`)

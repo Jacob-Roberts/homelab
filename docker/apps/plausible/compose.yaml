@@ -114,7 +114,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.external: "true"
-      traefik.docker.network: frontend
+      traefik.docker.network: plausible_frontend
       traefik.http.routers.plausible-prod-1-http.entrypoints: web
       traefik.http.routers.plausible-prod-1-http.rule: Host(`${PLAUSIBLE_URL:-plausible.iad1.jakerob.pro}`)
       traefik.http.routers.plausible-prod-1-http.middlewares: "websecure-redirect-permanent@file"
