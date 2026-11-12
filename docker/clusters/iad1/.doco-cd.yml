@@ -26,3 +26,12 @@ working_dir: docker/apps/convertx
 compose_files: [compose.yaml]
 external_secrets:
     JWT_SECRET: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/convertx/JWT_SECRET"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: spotify-analytics
+working_dir: docker/apps/spotify-analytics
+compose_files: [compose.yaml]
+external_secrets:
+    SPOTIFY_PUBLIC: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/spotify-analytics/SPOTIFY_PUBLIC"
+    SPOTIFY_SECRET: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/spotify-analytics/SPOTIFY_SECRET"
