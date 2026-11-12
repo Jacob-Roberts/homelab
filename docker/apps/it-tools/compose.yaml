@@ -14,7 +14,6 @@ services:
     restart: unless-stopped
     networks:
       - frontend
-
     deploy:
       resources:
         limits:

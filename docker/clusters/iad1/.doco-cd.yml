@@ -35,3 +35,9 @@ compose_files: [compose.yaml]
 external_secrets:
     SPOTIFY_PUBLIC: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/spotify-analytics/SPOTIFY_PUBLIC"
     SPOTIFY_SECRET: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/spotify-analytics/SPOTIFY_SECRET"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: it-tools
+working_dir: docker/apps/it-tools
+compose_files: [compose.yaml]
