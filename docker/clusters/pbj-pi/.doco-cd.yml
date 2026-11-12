@@ -13,6 +13,20 @@ environment:
 
 ---
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: traefik
+working_dir: docker/apps/traefik
+compose_files: [compose.yaml, compose.ipv6.yaml]
+environment:
+    DOCKER_GROUP_ID: "992"
+    HOST_IP_V4: "192.168.42.46"
+    HOST_IP_V6: "2601:640:8000:1750:509f:96be:61ce:4c88"
+    TRAEFIK_URL: "traefik.pbj-pi-1.jakerob.pro"
+    WHOAMI_URL: "whoami.pbj-pi-1.jakerob.pro"
+external_secrets:
+    CF_DNS_API_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj-pi-1/traefik/CF_DNS_API_TOKEN"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
 name: uptimekuma
 working_dir: docker/apps/uptimekuma
 compose_files: [compose.yaml]
