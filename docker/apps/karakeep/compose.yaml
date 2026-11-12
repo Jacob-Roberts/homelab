@@ -8,6 +8,10 @@ networks:
     external: false
     name: karakeep_internal
 
+volumes:
+  data:
+  meilisearch:
+
 services:
   web:
     image: ghcr.io/karakeep-app/karakeep:0.33.2
@@ -41,8 +45,7 @@ services:
       - frontend
       - internal
     volumes:
-      - ./data:/data
-
+      - data:/data
     deploy:
       resources:
         limits:
@@ -58,6 +61,7 @@ services:
       traefik.http.routers.karakeep-prod-1-https.rule: Host(`${KARAKEEP_URL:-karakeep.jakerob.pro}`)
       traefik.http.routers.karakeep-prod-1-https.tls: "true"
       traefik.http.routers.karakeep-prod-1-https.tls.certresolver: cloudflare
+
   chrome:
     image: ghcr.io/karakeep-app/karakeep-chrome:release
     init: true
@@ -69,12 +73,12 @@ services:
     restart: unless-stopped
     networks:
       - internal
-
     deploy:
       resources:
         limits:
           cpus: "0.50"
           memory: 512M
+
   meilisearch:
     image: docker.io/getmeili/meilisearch:v1.13.3
     user: "${DOCKER_USER_ID:-2009}:${DOCKER_GROUP_ID:-2009}"
@@ -85,8 +89,7 @@ services:
     networks:
       - internal
     volumes:
-      - ./meilisearch:/meili_data
-
+      - meilisearch:/meili_data
     deploy:
       resources:
         limits:
