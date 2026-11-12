@@ -1,6 +1,11 @@
 ---
 name: media-management
 
+volumes:
+  config:
+  logs:
+  cache:
+
 services:
   tdarr-node:
     image: ghcr.io/haveagitgat/tdarr_node:latest
@@ -13,8 +18,8 @@ services:
       PUID: "${PUID:-1000}"
       PGID: "${PGID:-1000}"
       UMASK_SET: '002'
-      nodeName: pbj-node-4
-      serverURL: http://pbj-node-1.jakerob.pro:8266
+      nodeName: ${NODE_NAME:-pbj-node-4}
+      serverURL: ${TDARR_MAIN_URL:-http://pbj-node-1.jakerob.pro:8266}
       serverIP: 0.0.0.0
       serverPort: '8266'
       inContainer: "true"
@@ -33,10 +38,10 @@ services:
       NVIDIA_DRIVER_CAPABILITIES: all
       NVIDIA_VISIBLE_DEVICES: all
     volumes:
-      - ./tdarr-config/configs:/app/configs
-      - ./tdarr-config/logs:/app/logs
-      - /media/jellydata/media:/media:rw
-      - ./tdarr-config/transcode_cache:/temp
+      - config:/app/configs
+      - logs:/app/logs
+      - cache:/temp
+      - ${JELLYDATA_HOST_MEDIA_PATH:-/media/jellydata/media}:/media:rw
     deploy:
       resources:
         limits:

@@ -8,8 +8,18 @@ networks:
     external: false
 
 volumes:
-  calibre_calibre-ingest:
+  calibre-ingest:
     external: true
+    name: calibre_calibre-ingest
+  gluetun-info:
+  gluetun-config:
+  qbittorrent-config-etc:
+  qbittorrent-config-var:
+  radarr-config:
+  sonarr-config:
+  bazarr-config:
+  prowlarr-config:
+  shelfmark-config:
 
 services:
   gluetun:
@@ -51,9 +61,8 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     volumes:
-      - ./gluetun-config:/gluetun
-      - ./gluetun-config/info:/tmp/gluetun
-
+      - gluetun-config:/gluetun
+      - gluetun-info:/tmp/gluetun
     deploy:
       resources:
         limits:
@@ -140,13 +149,12 @@ services:
     environment:
       TZ: ${TZ:-UTC}
     volumes:
-      - ./qbittorrent-config/etc:/qbittorrent/etc
-      - ./qbittorrent-config/var:/qbittorrent/var
-      - /media/jellydata/torrents:/jellydata/torrents:rw
+      - qbittorrent-config-etc:/qbittorrent/etc
+      - qbittorrent-config-var:/qbittorrent/var
+      - ${JELLYDATA_HOST_PATH}/torrents:/jellydata/torrents:rw
     ## Do Not Change Network for qBittorrent
     ## qBittorrent MUST always use a VPN / Secure Internet connection
     network_mode: service:gluetun
-
     deploy:
       resources:
         limits:
@@ -168,8 +176,8 @@ services:
     environment:
       TZ: "${TZ:-UTC}"
     volumes:
-      - ./radarr-config:/radarr/etc/
-      - /media/jellydata:/jellydata
+      - radarr-config:/radarr/etc/
+      - ${JELLYDATA_HOST_PATH}:/jellydata
     tmpfs:
       # required for read-only image
       - "/tmp:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022}"
@@ -198,15 +206,14 @@ services:
     environment:
       TZ: "${TZ:-UTC}"
     volumes:
-      - ./sonarr-config:/sonarr/etc/
-      - /media/jellydata:/jellydata
+      - sonarr-config:/sonarr/etc/
+      - ${JELLYDATA_HOST_PATH}:/jellydata
     tmpfs:
       # required for read-only image
       - "/tmp:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022}"
     logging:
       driver: json-file
     network_mode: service:gluetun
-
     deploy:
       resources:
         limits:
@@ -226,15 +233,14 @@ services:
       TZ: ${TZ:-UTC}
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./subcleaner:/opt/subcleaner/
-      - ./bazarr-config:/config
-      - /media/jellydata/media:/jellydata/media
+      - ./subcleaner:/opt/subcleaner/:ro
+      - bazarr-config:/config
+      - ${JELLYDATA_HOST_PATH}/media:/jellydata/media
     tmpfs:
       - "/run:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022},exec"
     logging:
       driver: json-file
     network_mode: service:gluetun
-
     deploy:
       resources:
         limits:
@@ -256,12 +262,11 @@ services:
     environment:
       TZ: "${TZ:-UTC}"
     volumes:
-      - ./prowlarr-config:/prowlarr/etc/
+      - prowlarr-config:/prowlarr/etc/
     tmpfs:
       # required for read-only image
       - "/tmp:uid=${DOCKER_USER_ID:-2022},gid=${DOCKER_GROUP_ID:-2022}"
     network_mode: service:gluetun
-
     deploy:
       resources:
         limits:
@@ -280,66 +285,11 @@ services:
       CAPTCHA_SOLVER: "${CAPTCHA_SOLVER:-none}"
       TZ: ${TZ:-UTC}
     network_mode: service:gluetun # http://gluetun:8191/
-
     deploy:
       resources:
         limits:
           cpus: "1.00"
           memory: 1G
-
-  tdarr:
-    image: ghcr.io/haveagitgat/tdarr:latest
-    container_name: tdarr
-    security_opt:
-      - no-new-privileges:true
-    restart: unless-stopped
-    ports:
-      - 8266:8266 # server port
-    environment:
-      TZ: ${TZ:-UTC}
-      PUID: "${PUID:-2003}"
-      PGID: "${PGID:-2003}"
-      UMASK_SET: '002'
-      serverIP: 0.0.0.0
-      serverPort: '8266'
-      webUIPort: '8265'
-      internalNode: "true"
-      inContainer: "true"
-      ffmpegVersion: '7'
-      nodeName: pbj-node-1
-      auth: "false"
-      openBrowser: "true"
-      maxLogSizeMB: '10'
-      cronPluginUpdate: ""
-      NVIDIA_DRIVER_CAPABILITIES: all
-      NVIDIA_VISIBLE_DEVICES: all
-    networks:
-      - frontend
-    # devices:
-    #   - /dev/dri:/dev/dri
-    volumes:
-      - ./tdarr-config/server:/app/server
-      - ./tdarr-config/configs:/app/configs
-      - ./tdarr-config/logs:/app/logs
-      - /media/jellydata/media:/media:rw
-      - /media/jellydata/transcode_cache:/tcache
-
-    deploy:
-      resources:
-        limits:
-          cpus: "2.00"
-          memory: 2G
-    labels:
-      traefik.enable: "true"
-      traefik.docker.network: frontend
-      traefik.http.services.tdarr-prod-1.loadBalancer.server.port: 8265
-      traefik.http.routers.tdarr-prod-1-http.entrypoints: web
-      traefik.http.routers.tdarr-prod-1-http.rule: Host(`${TDARR_URL:-tdarr.pbj.jakerob.pro}`)
-      traefik.http.routers.tdarr-prod-1-http.middlewares: "websecure-redirect-permanent@file"
-      traefik.http.routers.tdarr-prod-1-https.entrypoints: websecure
-      traefik.http.routers.tdarr-prod-1-https.rule: Host(`${TDARR_URL:-tdarr.pbj.jakerob.pro}`)
-      traefik.http.routers.tdarr-prod-1-https.tls: "true"
-      traefik.http.routers.tdarr-prod-1-https.tls.certresolver: cloudflare
 
   shelfmark:
     image: ghcr.io/calibrain/shelfmark-lite:latest
@@ -357,12 +307,11 @@ services:
       HARDCOVER_ENABLED: true
       HARDCOVER_API_KEY: ${HARDCOVER_API_KEY}
     volumes:
-      - calibre_calibre-ingest:/books # Default destination for book downloads
-      - ./shelfmark/config:/config # App configuration
+      - calibre-ingest:/books # Default destination for book downloads
+      - shelfmark-config:/config # App configuration
       # Required for torrent / usenet - path must match your download client's volume exactly
       # - /path/to/downloads:/path/to/downloads
     network_mode: service:gluetun # http://gluetun:8084/
-
     deploy:
       resources:
         limits:
