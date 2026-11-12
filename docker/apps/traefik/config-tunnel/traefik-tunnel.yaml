@@ -42,7 +42,8 @@ entryPoints:
         allowEncodedQuestionMark: false
         allowEncodedSemicolon: false
         allowEncodedSlash: false
-    
+      aliasHeadersStrategy: reject
+
   websecure:
     address: :443
     http:
@@ -56,6 +57,7 @@ entryPoints:
         allowEncodedQuestionMark: false
         allowEncodedSemicolon: false
         allowEncodedSlash: false
+      aliasHeadersStrategy: reject
 
 # -- (Optional) Disable TLS Cert verification check
 serversTransport:

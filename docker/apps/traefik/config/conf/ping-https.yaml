@@ -1,12 +1,12 @@
 http:
   routers:
     ping-http:
-      rule: "Host(`{{ env 'TRAEFIK_URL' }}`) && PathPrefix(`/ping`)"
+      rule: Host(`{{ env "TRAEFIK_URL" }}`) && PathPrefix(`/ping`)
       service: "ping@internal"
       entryPoints:
         - web
     ping-https:
-      rule: "Host(`{{ env 'TRAEFIK_URL' }}`) && PathPrefix(`/ping`)"
+      rule: Host(`{{ env "TRAEFIK_URL" }}`) && PathPrefix(`/ping`)
       service: "ping@internal"
       entryPoints:
         - websecure
