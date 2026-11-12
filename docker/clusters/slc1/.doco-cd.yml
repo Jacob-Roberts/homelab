@@ -53,3 +53,21 @@ environment:
     APP_URL: "https://jellyfin.slc1.jakerob.pro"
     JELLYFIN_URL: "jellyfin.slc1.jakerob.pro"
     JELLYDATA_HOST_PATH: "/nfs/jellydata"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: pocket-id
+working_dir: docker/apps/pocket-id
+compose_files: [compose.yaml]
+environment:
+    APP_URL: "https://auth.autovation.com"
+    APP_HOST: auth.autovation.com
+    EMAILS_VERIFIED: "true"
+external_secrets:
+    ENCRYPTION_KEY: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/pocket-id/ENCRYPTION_KEY"
+    SMTP_FROM: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/pocket-id/SMTP_FROM"
+    SMTP_HOST: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/pocket-id/SMTP_HOST"
+    SMTP_PASSWORD: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/pocket-id/SMTP_PASSWORD"
+    SMTP_PORT: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/pocket-id/SMTP_PORT"
+    SMTP_TLS: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/pocket-id/SMTP_TLS"
+    SMTP_USER: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/pocket-id/SMTP_USER"

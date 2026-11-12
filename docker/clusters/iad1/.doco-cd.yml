@@ -53,3 +53,21 @@ environment:
     TZ: UTC
 external_secrets:
     OIDC_CLIENT_SECRET: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/mealie/OIDC_CLIENT_SECRET"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: pocket-id
+working_dir: docker/apps/pocket-id
+compose_files: [compose.yaml]
+environment:
+    APP_URL: "https://pocket-id.iad1.jakerob.pro"
+    APP_HOST: pocket-id.iad1.jakerob.pro
+    EMAILS_VERIFIED: "true"
+external_secrets:
+    ENCRYPTION_KEY: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/pocket-id/ENCRYPTION_KEY"
+    SMTP_FROM: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/pocket-id/SMTP_FROM"
+    SMTP_HOST: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/pocket-id/SMTP_HOST"
+    SMTP_PASSWORD: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/pocket-id/SMTP_PASSWORD"
+    SMTP_PORT: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/pocket-id/SMTP_PORT"
+    SMTP_TLS: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/pocket-id/SMTP_TLS"
+    SMTP_USER: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/pocket-id/SMTP_USER"
