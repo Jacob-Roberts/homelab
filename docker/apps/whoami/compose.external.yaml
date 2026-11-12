@@ -7,7 +7,6 @@ networks:
 services:
   whoami-external:
     image: docker.io/traefik/whoami
-    container_name: whoami-external-prod-1
     command: "--verbose"
     security_opt:
       - no-new-privileges:true
