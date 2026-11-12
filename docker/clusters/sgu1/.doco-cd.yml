@@ -21,6 +21,7 @@ environment:
     HOST_IP_V4: "192.168.59.194"
     TRAEFIK_URL: "traefik.sgu1.jakerob.pro"
     WHOAMI_URL: "whoami.sgu1.jakerob.pro"
+    NODE_NAME: "sgu-node-1"
 external_secrets:
     CF_DNS_API_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/sgu1-node-1/traefik/CF_DNS_API_TOKEN"
 

@@ -9,13 +9,6 @@ networks:
     # Contains traefik, socket proxy, and traefik-tunnel
     external: false
     name: traefik_internal
-  otel:
-    external: true
-  dokploy-network:
-    driver: overlay
-    attachable: true
-    name: dokploy-network
-    external: true
 
 volumes:
   socket-proxy:
@@ -57,7 +50,6 @@ services:
     networks:
       - frontend
       - internal
-      - dokploy-network
     volumes:
       - ./config-external/traefik.yaml:/traefik/traefik.yaml:ro
       - ./config-external/conf/:/traefik/conf/:ro
@@ -68,7 +60,6 @@ services:
       - ./config-external/captcha.html:/traefik/captcha.html:ro
       # access docker socket via proxy read-only
       - socket-proxy:/var/run
-
     deploy:
       resources:
         limits:
@@ -179,7 +170,6 @@ services:
       - ./config-crowdsec:/etc/crowdsec
       - ./crowdsec-db/:/var/lib/crowdsec/data
       - ./config-external/logs:/var/log/traefik
-
     deploy:
       resources:
         limits:

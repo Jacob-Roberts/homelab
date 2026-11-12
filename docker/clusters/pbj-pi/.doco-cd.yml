@@ -22,6 +22,7 @@ environment:
     HOST_IP_V6: "2601:640:8000:1750:509f:96be:61ce:4c88"
     TRAEFIK_URL: "traefik.pbj-pi-1.jakerob.pro"
     WHOAMI_URL: "whoami.pbj-pi-1.jakerob.pro"
+    NODE_NAME: "pbj-pi-1"
 external_secrets:
     CF_DNS_API_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj-pi-1/traefik/CF_DNS_API_TOKEN"
 

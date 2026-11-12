@@ -25,6 +25,7 @@ environment:
     TRAEFIK_URL: "traefik.slc1.jakerob.pro"
     WHOAMI_TUNNEL_URL: "whoami-tunnel.slc1.jakerob.pro"
     WHOAMI_URL: "whoami.slc1.jakerob.pro"
+    NODE_NAME: "slc1-node-3"
 external_secrets:
     CF_DNS_API_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/traefik/CF_DNS_API_TOKEN"
 
