@@ -63,6 +63,7 @@ environment:
     APP_URL: "https://auth.autovation.com"
     APP_HOST: auth.autovation.com
     EMAILS_VERIFIED: "true"
+    HTTPS_TLS_CERTRESOLVER: "cloudflare"
 external_secrets:
     ENCRYPTION_KEY: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/pocket-id/ENCRYPTION_KEY"
     SMTP_FROM: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/pocket-id/SMTP_FROM"

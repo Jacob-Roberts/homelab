@@ -63,6 +63,7 @@ environment:
     APP_URL: "https://pocket-id.iad1.jakerob.pro"
     APP_HOST: pocket-id.iad1.jakerob.pro
     EMAILS_VERIFIED: "true"
+    HTTPS_TLS_CERTRESOLVER: "letsencrypt"
 external_secrets:
     ENCRYPTION_KEY: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/pocket-id/ENCRYPTION_KEY"
     SMTP_FROM: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/pocket-id/SMTP_FROM"
