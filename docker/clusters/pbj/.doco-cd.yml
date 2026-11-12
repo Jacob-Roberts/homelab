@@ -71,3 +71,12 @@ external_secrets:
     NETBIRD_SETUPKEY: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/semaphore/NETBIRD_SETUPKEY"
     SEMAPHORE_ACCESS_KEY_ENCRYPTION: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/semaphore/SEMAPHORE_ACCESS_KEY_ENCRYPTION"
     SEMAPHORE_ADMIN_PASSWORD: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/semaphore/SEMAPHORE_ADMIN_PASSWORD"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: syncthing
+working_dir: docker/apps/syncthing
+compose_files: [compose.yaml, compose.jellydata.yaml]
+environment:
+    SYNCTHING_HOSTNAME: "syncthing-pbj"
+    SYNCTHING_URL: "syncthing.pbj.jakerob.pro"

@@ -1,0 +1,4 @@
+services:
+  syncthing:
+    volumes:
+      - ${JELLYDATA_HOST_PATH}:/jellydata
