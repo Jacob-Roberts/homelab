@@ -30,3 +30,12 @@ environment:
     WEBNUT_URL: webnut.slc1.jakerob.pro
     UPS_USER: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/webnut/UPS_USER"
     UPS_PASSWORD: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/webnut/UPS_PASSWORD"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: immich
+working_dir: docker/apps/immich
+compose_files: [compose.yaml]
+environment:
+    APP_URL: photos.autovation.com
+    DB_PASSWORD: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/immich/DB_PASSWORD"
