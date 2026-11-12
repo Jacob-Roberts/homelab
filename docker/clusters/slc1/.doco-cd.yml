@@ -41,3 +41,15 @@ environment:
     APP_URL: photos.autovation.com
 external_secrets:
     DB_PASSWORD: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/immich/DB_PASSWORD"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: jellyfin
+working_dir: docker/apps/jellyfin
+compose_files: [compose.yaml]
+environment:
+    DOCKER_USER_ID: 1000
+    DOCKER_GROUP_ID: 1000
+    APP_URL: "https://jellyfin.slc1.jakerob.pro"
+    JELLYFIN_URL: "jellyfin.slc1.jakerob.pro"
+    JELLYDATA_HOST_PATH: "/nfs/jellydata"
