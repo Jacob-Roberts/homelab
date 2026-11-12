@@ -72,3 +72,13 @@ external_secrets:
     SMTP_PORT: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/pocket-id/SMTP_PORT"
     SMTP_TLS: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/pocket-id/SMTP_TLS"
     SMTP_USER: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/pocket-id/SMTP_USER"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: syncthing
+working_dir: docker/apps/syncthing
+compose_files: [compose.yaml, compose.jellydata.yaml]
+environment:
+    SYNCTHING_HOSTNAME: "syncthing-slc"
+    SYNCTHING_URL: "syncthing.slc1.jakerob.pro"
+    JELLYDATA_HOST_PATH: "/nfs/jellydata"
