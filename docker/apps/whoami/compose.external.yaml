@@ -23,7 +23,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.external: "true"
-      traefik.docker.network: "frontend-external"
+      traefik.docker.network: "whoami_frontend-external"
       traefik.http.routers.whoamitunnel-prod-1-http.entrypoints: web
       traefik.http.routers.whoamitunnel-prod-1-http.rule: Host(`${WHOAMI_EXTERNAL_URL}`)
       traefik.http.routers.whoamitunnel-prod-1-http.middlewares: "websecure-redirect-permanent@file"
