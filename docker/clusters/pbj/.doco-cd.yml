@@ -80,3 +80,4 @@ compose_files: [compose.yaml, compose.jellydata.yaml]
 environment:
     SYNCTHING_HOSTNAME: "syncthing-pbj"
     SYNCTHING_URL: "syncthing.pbj.jakerob.pro"
+    JELLYDATA_HOST_PATH: "/media/jellydata"
