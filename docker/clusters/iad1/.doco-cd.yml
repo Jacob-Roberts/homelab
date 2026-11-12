@@ -83,3 +83,19 @@ environment:
     POSTGRES_DATABASE: "joplin"
 external_secrets:
     POSTGRES_PASSWORD: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/joplin/POSTGRES_PASSWORD"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: plausible
+working_dir: docker/apps/plausible
+compose_files: [compose.yaml]
+environment:
+    SMTP_HOST_ADDR: "smtp.gmail.com"
+    SMTP_HOST_PORT: 587
+external_secrets:
+    SECRET_KEY_BASE: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/plausible/SECRET_KEY_BASE"
+    TOTP_VAULT_KEY: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/plausible/TOTP_VAULT_KEY"
+    DATABASE_PASSWORD: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/plausible/DATABASE_PASSWORD"
+    MAILER_EMAIL: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/plausible/MAILER_EMAIL"
+    SMTP_USER_NAME: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/plausible/SMTP_USER_NAME"
+    SMTP_USER_PWD: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/plausible/SMTP_USER_PWD"
