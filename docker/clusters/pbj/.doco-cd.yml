@@ -19,3 +19,12 @@ compose_files: [compose.yaml]
 environment:
     TZ: America/Los_Angeles
     CALIBRE_URL: calibre.jakerob.pro
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: immich
+working_dir: docker/apps/immich
+compose_files: [compose.yaml]
+environment:
+    APP_URL: photos.jakerob.pro
+    DB_PASSWORD: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/immich/DB_PASSWORD"
