@@ -14,7 +14,7 @@ volumes:
 
 services:
   web:
-    image: ghcr.io/karakeep-app/karakeep:0.33.2
+    image: ghcr.io/karakeep-app/karakeep:0.34.1
     #user: "${DOCKER_USER_ID:-2009}:${DOCKER_GROUP_ID:-2009}"
     restart: unless-stopped
     healthcheck:
@@ -66,10 +66,11 @@ services:
     image: ghcr.io/karakeep-app/karakeep-chrome:release
     init: true
     command:
-      - "--no-sandbox"
-      - "--disable-gpu"
-      - "--disable-dev-shm-usage"
-      - "--hide-scrollbars"
+      - --disable-gpu
+      - --disable-dev-shm-usage
+      - --hide-scrollbars
+      - --disable-blink-features=AutomationControlled
+      - --window-size=1440,900
     restart: unless-stopped
     networks:
       - internal
@@ -80,8 +81,7 @@ services:
           memory: 512M
 
   meilisearch:
-    image: docker.io/getmeili/meilisearch:v1.13.3
-    user: "${DOCKER_USER_ID:-2009}:${DOCKER_GROUP_ID:-2009}"
+    image: docker.io/getmeili/meilisearch:v1.55.0
     restart: unless-stopped
     environment:
       MEILI_MASTER_KEY: "${MEILI_MASTER_KEY}"
