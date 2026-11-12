@@ -55,7 +55,10 @@ services:
       - internal
     volumes:
       - ./config/traefik-internal.yaml:/traefik/traefik.yaml:ro
-      - ./config/conf/:/traefik/conf:ro
+      - ./config/conf-shared/identify-node.yaml:/traefik/conf/identify-node.yaml:ro
+      - ./config/conf-shared/ping-https.yaml:/traefik/conf/ping-https.yaml:ro
+      - ./config/conf-shared/websecure-redirect.yaml:/traefik/conf/websecure-redirect.yaml:ro
+      - ./config/conf-internal/insecure-skip-verify.yaml:/traefik/conf/insecure-skip-verify.yaml:ro
       - plugins:/plugins-storage/:rw
       - certs-storage:/traefik/certs:rw
       # access docker socket via proxy read-only

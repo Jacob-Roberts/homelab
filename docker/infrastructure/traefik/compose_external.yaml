@@ -52,7 +52,12 @@ services:
       - crowdsec-traefik
     volumes:
       - ./config/traefik-external.yaml:/traefik/traefik.yaml:ro
-      - ./config/conf-external/:/traefik/conf/:ro
+      - ./config/conf-external/crowdsec-config.yaml:/traefik/conf/crowdsec-config.yaml:ro
+      - ./config/conf-external/geoblock-config.yaml:/traefik/conf/geoblock-config.yaml:ro
+      - ./config/conf-external/https.yaml:/traefik/conf/https.yaml:ro
+      - ./config/conf-shared/identify-node.yaml:/traefik/conf/identify-node.yaml:ro
+      - ./config/conf-shared/ping-https.yaml:/traefik/conf/ping-https.yaml:ro
+      - ./config/conf-shared/websecure-redirect.yaml:/traefik/conf/websecure-redirect.yaml:ro
       - ./config/ban.html:/traefik/ban.html:ro
       - ./config/captcha.html:/traefik/captcha.html:ro
       - plugins-external:/plugins-storage/:rw

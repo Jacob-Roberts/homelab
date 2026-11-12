@@ -4,4 +4,4 @@ services:
   # Traefik internal is the reverse proxy for any internal services (only exposed to me)
   traefik-internal:
     volumes:
-      - ./config/conf-pbj/tunnel.yaml:/traefik/conf/tunnel.yaml:ro
+      - ./config/conf-internal/tunnel-pbj.yaml:/traefik/conf/tunnel.yaml:ro
