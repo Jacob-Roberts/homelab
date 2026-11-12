@@ -111,7 +111,7 @@ services:
     volumes:
       - ./config/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
       - crowdsec-config:/etc/crowdsec
-      - crowdsec-db/:/var/lib/crowdsec/data
+      - crowdsec-db:/var/lib/crowdsec/data
       - logs-external:/var/log/traefik
     deploy:
       resources:
