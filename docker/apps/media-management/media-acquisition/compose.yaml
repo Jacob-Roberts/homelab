@@ -1,9 +1,10 @@
 ---
-name: media-management
+name: media-acquisition
 
 networks:
   frontend:
     external: false
+    name: media-acquisition_frontend
   internal:
     external: false
 
@@ -70,7 +71,7 @@ services:
           memory: 512M
     labels:
       traefik.enable: "true"
-      traefik.docker.network: "media-management_frontend"
+      traefik.docker.network: "media-acquisition_frontend"
       traefik.http.services.qbittorrent-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.qbittorrent-prod-1-http.service: qbittorrent-prod-1
       traefik.http.routers.qbittorrent-prod-1-https.service: qbittorrent-prod-1
