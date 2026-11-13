@@ -1,0 +1,82 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-go/master/schema/compose-spec.json
+
+---
+name: crowdsec
+
+networks:
+  crowdsec:
+    external: true
+
+volumes:
+  crowdsec-config:
+  crowdsec-db:
+  traefik-logs-external:
+    external: true
+    name: traefik_logs-external
+
+services:
+  crowdsec:
+    image: docker.io/crowdsecurity/crowdsec:latest
+    container_name: crowdsec
+    command: "-t"
+    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
+    restart: unless-stopped
+    depends_on:
+      chown:
+        condition: service_completed_successfully
+    healthcheck:
+      interval: 10s
+      retries: 15
+      test:
+        - CMD
+        - cscli
+        - capi
+        - status
+      timeout: 10s
+    environment:
+      COLLECTIONS: crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
+      CUSTOM_HOSTNAME: crowdsec
+      ENROLL_INSTANCE_NAME: pangolin-crowdsec
+      ENROLL_TAGS: docker
+      GID: "${DOCKER_GROUP_ID:-2001}"
+      UID: "${DOCKER_USER_ID:-2001}"
+      PARSERS: crowdsecurity/whitelists
+      BOUNCER_KEY_TRAEFIK: "${CROWDSEC_TRAEFIK_BOUNCER_TOKEN}"
+    networks:
+      - crowdsec-traefik
+    volumes:
+      - ./config/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
+      - crowdsec-config:/etc/crowdsec
+      - crowdsec-db:/var/lib/crowdsec/data
+      - traefik-logs-external:/var/log/traefik
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+    labels:
+      traefik.enable: "false"
+
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: alpine
+    command:
+      - |
+        chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /var/lib/crowdsec/data
+        chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /etc/crowdsec
+        chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /var/log/traefik
+        chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /plugins-storage
+        chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /traefik/certs
+    networks: []
+    volumes:
+      - crowdsec-config:/etc/crowdsec
+      - crowdsec-db:/var/lib/crowdsec/data
+      - traefik-logs-external:/var/log/traefik
+    entrypoint: [/bin/ash, "-c"]
+    logging:
+      driver: local
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M

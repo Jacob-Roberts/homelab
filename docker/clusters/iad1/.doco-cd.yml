@@ -29,6 +29,16 @@ external_secrets:
 
 ---
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: crowdsec
+working_dir: docker/infrastructure/crowdsec
+compose_files: [compose.yaml]
+environment:
+    DOCKER_GROUP_ID: "999"
+external_secrets:
+    CROWDSEC_TRAEFIK_BOUNCER_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/traefik/CROWDSEC_TRAEFIK_BOUNCER_TOKEN"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
 name: convertx
 working_dir: docker/apps/convertx
 compose_files: [compose.yaml]

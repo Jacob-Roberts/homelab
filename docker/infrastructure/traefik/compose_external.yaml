@@ -8,16 +8,16 @@ networks:
     external: false
 
 volumes:
-  crowdsec-config:
-  crowdsec-db:
   plugins-external:
   certs-storage-external:
   logs-external:
+    external: true
 
 services:
   traefik-internal:
     networks:
       - internal-external
+
   traefik-external:
     image: docker.io/traefik:v3
     container_name: traefik-external
@@ -92,62 +92,16 @@ services:
     #   traefik.http.routers.traefikexternal-prod-1-https.tls: "true"
     #   traefik.http.routers.traefikexternal-prod-1-https.tls.certresolver: cloudflare
 
-  crowdsec:
-    image: docker.io/crowdsecurity/crowdsec:latest
-    container_name: crowdsec
-    command: "-t"
-    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
-    restart: unless-stopped
-    depends_on:
-      chown:
-        condition: service_completed_successfully
-    healthcheck:
-      interval: 10s
-      retries: 15
-      test:
-        - CMD
-        - cscli
-        - capi
-        - status
-      timeout: 10s
-    environment:
-      COLLECTIONS: crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
-      CUSTOM_HOSTNAME: crowdsec
-      ENROLL_INSTANCE_NAME: pangolin-crowdsec
-      ENROLL_TAGS: docker
-      GID: "${DOCKER_GROUP_ID:-2001}"
-      UID: "${DOCKER_USER_ID:-2001}"
-      PARSERS: crowdsecurity/whitelists
-      BOUNCER_KEY_TRAEFIK: "${CROWDSEC_TRAEFIK_BOUNCER_TOKEN}"
-    networks:
-      - crowdsec-traefik
-    volumes:
-      - ./config/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
-      - crowdsec-config:/etc/crowdsec
-      - crowdsec-db:/var/lib/crowdsec/data
-      - logs-external:/var/log/traefik
-    deploy:
-      resources:
-        limits:
-          cpus: "0.50"
-          memory: 512M
-    labels:
-      traefik.enable: "false"
-
   # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
   chown:
     image: alpine
     command:
       - |
-        chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /var/lib/crowdsec/data
-        chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /etc/crowdsec
         chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /var/log/traefik
         chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /plugins-storage
         chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /traefik/certs
     networks: []
     volumes:
-      - crowdsec-config:/etc/crowdsec
-      - crowdsec-db:/var/lib/crowdsec/data
       - logs-external:/var/log/traefik
       - plugins-external:/plugins-storage
       - certs-storage-external:/traefik/certs
