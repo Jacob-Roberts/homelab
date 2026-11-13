@@ -1,7 +1,7 @@
 # This tunnel only uses http
 http:
   services:
-    primary-traefik:
+    traefik-external:
       loadBalancer:
         servers:
           - url: https://traefik-external
@@ -13,33 +13,33 @@ http:
     whoami-pbj-https:
       entrypoints: websecure
       rule: "Host(`whoami-tunnel.pbj.jakerob.pro`)"
-      service: primary-traefik
+      service: traefik-external
       tls: true
 
     # IMMICH
     immich-pbj-https:
       entrypoints: websecure
       rule: "Host(`photos.jakerob.pro`)"
-      service: primary-traefik
+      service: traefik-external
       tls: true
 
     # Jellyfin
     jellyfin-pbj-https:
       entrypoints: websecure
       rule: "Host(`jellyfin.jakerob.pro`)"
-      service: primary-traefik
+      service: traefik-external
       tls: true
 
     # Karakeep
     karakeep-pbj-https:
       entrypoints: websecure
       rule: "Host(`karakeep.jakerob.pro`)"
-      service: primary-traefik
+      service: traefik-external
       tls: true
 
     # Calibre
     calibre-pbj-https:
       entrypoints: websecure
       rule: "Host(`calibre.jakerob.pro`)"
-      service: primary-traefik
+      service: traefik-external
       tls: true
