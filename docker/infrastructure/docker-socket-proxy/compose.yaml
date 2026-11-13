@@ -1,0 +1,55 @@
+---
+# Docker API proxy for doco-cd.
+#
+# This lives in its own Compose project on purpose and is NOT deployed by
+# doco-cd. When doco-cd self-updates it redeploys every other service in its
+# own project before replacing itself, and Compose may recreate a proxy there
+# even when nothing changed. That cuts off doco-cd's Docker API access and
+# fails the deploy; depends_on and restart policies do not prevent it.
+# Deploying this project through doco-cd has the same problem, since doco-cd
+# would be talking through the container it is replacing.
+#
+# Start it before doco-cd (bootstrap.sh does this) and update it by hand:
+#   docker network create --internal docker-socket-proxy   # once per host
+#   docker compose -f docker/infrastructure/docker-socket-proxy/compose.yaml up -d
+name: docker-socket-proxy
+
+services:
+  docker-socket-proxy:
+    image: ghcr.io/tecnativa/docker-socket-proxy:v0.5.0@sha256:1f5038b54f06c3e18422902cf00ba21803d1c97805aae032e5e6673d532d3459
+    restart: unless-stopped
+    environment:
+      # Required by every installation
+      PING: 1
+      VERSION: 1
+      INFO: 1
+      EVENTS: 1
+      CONTAINERS: 1
+      IMAGES: 1
+      NETWORKS: 1
+      VOLUMES: 1
+      DISTRIBUTION: 1
+      # Required to deploy anything
+      POST: 1
+      DELETE: 1
+      # Endpoints doco-cd never uses
+      AUTH: 0
+      BUILD: 0
+      COMMIT: 0
+      EXEC: 0
+      PLUGINS: 0
+      SESSION: 0
+      SWARM: 0
+      SYSTEM: 0
+    volumes:
+      # mount host docker socket, the :ro does not mean read-only for the socket, just for the actual file
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - docker-socket-proxy
+
+networks:
+  # Shared with the doco-cd project. External in both so neither project's
+  # lifecycle can remove it. Created --internal: the proxy has no business
+  # reaching anything but the host socket.
+  docker-socket-proxy:
+    external: true
