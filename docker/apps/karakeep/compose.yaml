@@ -53,6 +53,7 @@ services:
           memory: 512M
     labels:
       traefik.enable: "true"
+      traefik.external: "true"
       traefik.docker.network: karakeep_frontend
       traefik.http.services.karakeep-prod-1.loadBalancer.server.port: 3000
       traefik.http.routers.karakeep-prod-1-http.entrypoints: web

@@ -52,6 +52,7 @@ services:
           memory: 3G
     labels:
       traefik.enable: "true"
+      traefik.external: "true"
       traefik.docker.network: immich_frontend
       traefik.http.routers.immich-prod-1-http.entrypoints: web
       traefik.http.routers.immich-prod-1-http.rule: Host(`${APP_URL}`)

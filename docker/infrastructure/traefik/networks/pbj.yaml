@@ -32,15 +32,15 @@ networks:
 services:
   traefik-internal:
     networks:
-      - calibre
-      - immich
-      - karakeep
-      - jellyfin
+      - whoami
       - semaphore
       - syncthing
       - media-acquisition
-      - whoami
 
   traefik-external:
     networks:
       - whoami-external
+      - immich
+      - calibre
+      - karakeep
+      - jellyfin
