@@ -27,7 +27,7 @@ networks:
     name: whoami_frontend
   whoami-external:
     external: true
-    name: whoami-external_frontend
+    name: whoami_frontend-external
 
 services:
   traefik-internal:
