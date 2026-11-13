@@ -7,6 +7,9 @@ networks:
   internal:
     external: false
 
+volumes:
+  dbdata:
+
 services:
   joplin:
     image: docker.io/joplin/server:arm64-3
@@ -75,7 +78,7 @@ services:
     networks:
       - internal
     volumes:
-      - ./data/postgres:/var/lib/postgresql
+      - dbdata:/var/lib/postgresql
     tmpfs:
       - "/var/run/postgresql:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
       - "/tmp:uid=${DOCKER_USER_ID:-2021},gid=${DOCKER_GROUP_ID:-2021}"
