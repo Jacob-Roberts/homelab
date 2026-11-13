@@ -3,6 +3,9 @@ http:
   services:
     traefik-external:
       loadBalancer:
+        # traefik-external has no cert for the container hostname, so it serves
+        # its self-signed default; skip verification on this local docker hop.
+        serversTransport: ignorecert@file
         servers:
           - url: https://traefik-external
 
