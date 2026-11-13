@@ -12,7 +12,7 @@ volumes:
 
 services:
   tdarr:
-    image: ghcr.io/haveagitgat/tdarr:latest
+    image: ghcr.io/haveagitgat/tdarr:latest@sha256:84743e5ae433a5b49cb463b2dff2679eb02f0cac24fb88c830f49bf8aa9f1c04
     container_name: tdarr
     security_opt:
       - no-new-privileges:true

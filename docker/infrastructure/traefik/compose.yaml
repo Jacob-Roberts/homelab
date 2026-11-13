@@ -82,7 +82,7 @@ services:
       traefik.http.routers.traefikinternal-prod-1-https.tls.certresolver: cloudflare
 
   socket-proxy:
-    image: docker.io/11notes/socket-proxy:2
+    image: docker.io/11notes/socket-proxy:2@sha256:eeb341c66337b95eaed9e710b12754e0cd59c4cbc521b8324ff906787c69934e
     container_name: traefik-socket-proxy
     read_only: true
     user: "0:${DOCKER_GROUP_ID}" # Lookup the docker group ID using `getent group docker`

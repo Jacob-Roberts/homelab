@@ -37,7 +37,7 @@ services:
           memory: 1G
 
   plausible_events_db:
-    image: docker.io/clickhouse/clickhouse-server:24.12-alpine
+    image: docker.io/clickhouse/clickhouse-server:24.12-alpine@sha256:cd450891db46cc6ffe313ca2b0fb7dbfb897a6873ca74a724cbe050a2cf62621
     container_name: plausible-events-db
     restart: unless-stopped
     healthcheck:

@@ -12,7 +12,7 @@ volumes:
 
 services:
   joplin:
-    image: docker.io/joplin/server:arm64-3
+    image: docker.io/joplin/server:arm64-3@sha256:e6a0a888abd6c91a669d518b8338a9086adc2a98cfead9fc58a6b118298facb5
     user: "${DOCKER_USER_ID:-2021}:${DOCKER_GROUP_ID:-2021}"
     # prevents write access to the image itself
     # read_only: true
