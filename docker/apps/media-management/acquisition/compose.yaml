@@ -132,6 +132,32 @@ services:
       traefik.http.routers.shelfmark-prod-1-https.tls: "true"
       traefik.http.routers.shelfmark-prod-1-https.tls.certresolver: cloudflare
 
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: alpine
+    command:
+      - |
+        chown -R ${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022} /qbittorrent/etc
+        chown -R ${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022} /qbittorrent/var
+        chown -R ${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022} /radarr/etc
+        chown -R ${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022} /sonarr/etc
+        chown -R ${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022} /bazarr/config
+        chown -R ${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022} /prowlarr/etc
+    networks: []
+    volumes:
+      - qbittorrent-config-etc:/qbittorrent/etc
+      - qbittorrent-config-var:/qbittorrent/var
+      - radarr-config:/radarr/etc/
+      - sonarr-config:/sonarr/etc/
+      - bazarr-config:/bazarr/config
+      - prowlarr-config:/prowlarr/etc/
+    entrypoint: [/bin/ash, "-c"]
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+
   qbittorrent:
     image: docker.io/11notes/qbittorrent:5
     container_name: qbittorrent
