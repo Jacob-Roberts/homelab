@@ -26,14 +26,15 @@ services:
       chown:
         condition: service_completed_successfully
     healthcheck:
-      interval: 10s
-      retries: 15
       test:
         - CMD
         - cscli
         - lapi
         - status
-      timeout: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     environment:
       COLLECTIONS: crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
       CUSTOM_HOSTNAME: crowdsec
