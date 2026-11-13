@@ -23,7 +23,7 @@ volumes:
 
 services:
   gluetun:
-    image: docker.io/qmcgaw/gluetun:v3
+    image: docker.io/qmcgaw/gluetun:v3@sha256:fa19cc76b2af13d57a8d3dc3066f2ada061b1c761b8aecf989b3877c0486e027
     container_name: gluetun
     hostname: gluetun
     security_opt:
@@ -134,7 +134,7 @@ services:
 
   # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
   chown:
-    image: alpine
+    image: alpine@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
     command:
       - |
         chown -R ${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022} /qbittorrent/etc
@@ -159,7 +159,7 @@ services:
           memory: 512M
 
   qbittorrent:
-    image: docker.io/11notes/qbittorrent:5
+    image: docker.io/11notes/qbittorrent:5@sha256:da313178f818e142491bca20820c7b972f9f810b0ff982eb18425792eab5ee0d
     container_name: qbittorrent
     # prevents write access to the image itself
     read_only: true
@@ -188,7 +188,7 @@ services:
           memory: 1G
 
   radarr:
-    image: docker.io/11notes/radarr:6
+    image: docker.io/11notes/radarr:6@sha256:7f722820d4de74c5ba8964355ea87b654607893aa81d9e53c8508251da5968ae
     container_name: radarr
     # prevents write access to the image itself
     read_only: true
@@ -218,7 +218,7 @@ services:
           memory: 512M
 
   sonarr:
-    image: docker.io/11notes/sonarr:4
+    image: docker.io/11notes/sonarr:4@sha256:038eb3cc11b7db197f56b856fead9fb2b428972f10bff4cbb4e75f3683813e9c
     container_name: sonarr
     # prevents write access to the image itself
     read_only: true
@@ -274,7 +274,7 @@ services:
           memory: 512M
 
   prowlarr:
-    image: docker.io/11notes/prowlarr:2
+    image: docker.io/11notes/prowlarr:2@sha256:5120c359145a6fb94d997066015babbfcddc2c409d92f3b4d83a25cee4a1afe4
     container_name: prowlarr
     # prevents write access to the image itself
     read_only: true
@@ -318,7 +318,7 @@ services:
           memory: 1G
 
   shelfmark:
-    image: ghcr.io/calibrain/shelfmark-lite:latest
+    image: ghcr.io/calibrain/shelfmark-lite:latest@sha256:3bf5a4fd4b9ac4255578c361cd6cc820ba941f5edee34161d48b4081e026b15d
     container_name: shelfmark
     security_opt:
       - no-new-privileges:true

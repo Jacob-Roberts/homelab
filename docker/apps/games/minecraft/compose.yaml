@@ -6,7 +6,7 @@ volumes:
 
 services:
   minecraft:
-    image: docker.io/itzg/minecraft-server
+    image: docker.io/itzg/minecraft-server@sha256:7d4a888284c2f8d468f620f2534de648cb8eacba48df8d4d20b6ad1ef201f3a3
     container_name: minecraft
     restart: unless-stopped
     user: "${DOCKER_USER_ID:-2023}:${DOCKER_GROUP_ID:-2023}"

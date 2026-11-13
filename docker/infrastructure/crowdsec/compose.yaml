@@ -17,7 +17,7 @@ volumes:
 
 services:
   crowdsec:
-    image: docker.io/crowdsecurity/crowdsec:latest
+    image: docker.io/crowdsecurity/crowdsec:latest@sha256:65b74942f7e7ed5c60fde4ac15fc4ba715904c398c8b16dd451f4907d90347d4
     container_name: crowdsec
     command: "-t"
     user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
@@ -61,7 +61,7 @@ services:
 
   # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
   chown:
-    image: alpine
+    image: alpine@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
     command:
       - |
         chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /var/lib/crowdsec/data

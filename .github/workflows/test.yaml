@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@main
       - name: Setup Flux Schema CLI
-        uses: fluxcd/flux-schema/actions/setup@main
+        uses: fluxcd/flux-schema/actions/setup@e0c1965b73a3743ac7924c68779336589f53e94d # main
       - name: Validate manifests
-        uses: fluxcd/flux-schema/actions/validate@main
+        uses: fluxcd/flux-schema/actions/validate@e0c1965b73a3743ac7924c68779336589f53e94d # main
         with:
           path: './kubernetes'
           config: './kubernetes/.fluxschema.yml'
