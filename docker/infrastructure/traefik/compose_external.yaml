@@ -29,6 +29,8 @@ services:
       socket-proxy:
         condition: service_healthy
         restart: true
+      chown:
+        condition: service_completed_successfully
     restart: unless-stopped
     logging:
       driver: local
@@ -133,11 +135,15 @@ services:
         chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /var/lib/crowdsec/data
         chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /etc/crowdsec
         chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /var/log/traefik
+        chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /plugins-storage
+        chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /traefik/certs
     networks: []
     volumes:
       - crowdsec-config:/etc/crowdsec
       - crowdsec-db:/var/lib/crowdsec/data
       - logs-external:/var/log/traefik
+      - plugins-external:/plugins-storage
+      - certs-storage-external:/traefik/certs
     entrypoint: [/bin/ash, "-c"]
     logging:
       driver: local
