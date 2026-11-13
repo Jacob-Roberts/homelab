@@ -65,6 +65,7 @@ services:
       - ./config/conf-external/geoblock-config.yaml:/traefik/conf/geoblock-config.yaml:ro
       - ./config/conf-external/https.yaml:/traefik/conf/https.yaml:ro
       - ./config/conf-shared/identify-node.yaml:/traefik/conf/identify-node.yaml:ro
+      - ./config/conf-shared/insecure-skip-verify-cert.yaml:/traefik/conf/insecure-skip-verify-cert.yaml:ro
       - ./config/conf-shared/ping-https.yaml:/traefik/conf/ping-https.yaml:ro
       - ./config/conf-shared/websecure-redirect.yaml:/traefik/conf/websecure-redirect.yaml:ro
       - ./config/ban.html:/traefik/ban.html:ro
