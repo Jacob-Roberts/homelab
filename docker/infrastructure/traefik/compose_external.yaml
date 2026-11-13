@@ -4,6 +4,8 @@
 networks:
   crowdsec-traefik:
     external: false
+  internal-external:
+    external: false
 
 volumes:
   crowdsec-config:
@@ -13,6 +15,9 @@ volumes:
   logs-external:
 
 services:
+  traefik-internal:
+    networks:
+      - internal-external
   traefik-external:
     image: docker.io/traefik:v3
     container_name: traefik-external
@@ -53,6 +58,7 @@ services:
       NODE_NAME: "${NODE_NAME}-external"
     networks:
       - crowdsec-traefik
+      - internal-external
     volumes:
       - ./config/traefik-external.yaml:/traefik/traefik.yaml:ro
       - ./config/conf-external/crowdsec-config.yaml:/traefik/conf/crowdsec-config.yaml:ro
