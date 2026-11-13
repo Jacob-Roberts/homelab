@@ -1,7 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:best-practices"
+    "config:best-practices",
+    ":dependencyDashboard",
+    ":separateMajorReleases"
   ],
   "labels": [
     "dependencies"
@@ -11,7 +13,21 @@
     "on monday"
   ],
   "minimumReleaseAge": "7 days",
+  "automergeSchedule": ["* 3-7 * * *"],
+  "platformAutomerge": false,
   "packageRules": [
+    {
+      "matchUpdateTypes": ["patch", "pin"],
+      "automerge": true
+    },
+    {
+      "matchUpdateTypes": ["minor"],
+      "automerge": false
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
     {
       "groupName": "immich",
       "matchDepNames": [
