@@ -104,8 +104,9 @@ entryPoints:
       aliasHeadersStrategy: reject
   # Dashboard only. Not published to the host; traefik-internal proxies to it
   # over the internal-external docker network (see compose_external.yaml).
+  # Not :8080 -- that is the implicit `traefik` entrypoint serving `ping`.
   dashboard:
-    address: :8080
+    address: :8081
 
 # -- Configure your CertificateResolver here...
 certificatesResolvers:

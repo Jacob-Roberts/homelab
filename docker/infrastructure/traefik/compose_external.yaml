@@ -84,7 +84,7 @@ services:
       # is only reachable through the VPN-bound internal instance.
       traefik.enable: "true"
       traefik.docker.network: traefik_internal-external
-      traefik.http.services.traefikexternal-prod-1.loadbalancer.server.port: 8080
+      traefik.http.services.traefikexternal-prod-1.loadbalancer.server.port: 8081
       traefik.http.routers.traefikexternal-prod-1-http.service: traefikexternal-prod-1
       traefik.http.routers.traefikexternal-prod-1-http.entrypoints: web
       traefik.http.routers.traefikexternal-prod-1-http.rule: "Host(`${TRAEFIK_EXTERNAL_URL}`) && !PathPrefix(`/ping`)"
