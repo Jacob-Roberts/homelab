@@ -1,0 +1,10 @@
+# Serves this instance's dashboard on the `dashboard` entrypoint only.
+# That entrypoint is not published to the host; traefik-internal reaches it
+# over the `internal-external` docker network, so the dashboard is VPN-only.
+http:
+  routers:
+    dashboard:
+      rule: Host(`{{ env "TRAEFIK_URL" }}`) && !PathPrefix(`/ping`)
+      service: api@internal
+      entryPoints:
+        - dashboard
