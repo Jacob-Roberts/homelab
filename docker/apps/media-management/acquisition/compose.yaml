@@ -247,7 +247,7 @@ services:
           memory: 512M
 
   bazarr:
-    image: lscr.io/linuxserver/bazarr:1.5.4
+    image: lscr.io/linuxserver/bazarr:1.5.4@sha256:d6492cc79ca5e12fe617c7285e7ebd60d4e7f0e93ec7faa78338dba91f07a91e
     container_name: bazarr
     user: "${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022}"
     group_add:
@@ -300,7 +300,7 @@ services:
           memory: 512M
 
   flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:v3.5.0
+    image: ghcr.io/flaresolverr/flaresolverr:v3.5.0@sha256:139dfee1c6f89249c8d665d1333a42e8ec74ec0a86bc6bb1c8461e10d3a66a47
     container_name: flaresolverr
     security_opt:
       - no-new-privileges:true

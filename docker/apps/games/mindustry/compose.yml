@@ -3,7 +3,7 @@ name: mindustry
 
 services:
   mindsutry:
-    image: ghcr.io/jacob-roberts/mindustry:0.0.1
+    image: ghcr.io/jacob-roberts/mindustry:0.0.1@sha256:ea1bd26e16e4badc285a818b614608bf43a42f8d73d0b774b530a2ce7db5d49d
     container_name: mindustry
     security_opt:
       - no-new-privileges:true

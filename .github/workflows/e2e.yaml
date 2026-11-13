@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@main
+        uses: fluxcd/flux2/action@6f81f5c8fa69fc5aea343989a2958212d827121c # main
 
       - name: Cache talosctl
         id: cache-talosctl

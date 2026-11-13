@@ -10,7 +10,7 @@ volumes:
 
 services:
   convertx:
-    image: ghcr.io/c4illin/convertx:v0.19.0
+    image: ghcr.io/c4illin/convertx:v0.19.0@sha256:8590a21a16adb8514a8be55b74ad0112bf58ba772328a53f7b40528fcf8fa013
     user: "${CONVERTX_SRV_ID:-2025}:${CONVERTX_GROUP_ID:-2025}"
     container_name: convertx
     restart: unless-stopped

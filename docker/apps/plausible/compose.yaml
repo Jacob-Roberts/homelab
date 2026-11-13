@@ -17,7 +17,7 @@ services:
   plausible_db:
     # Plausible v2.0.0 was tested against PostgreSQL versions 12, 13, and 14
     # https://github.com/plausible/analytics/blob/v2.0.0/.github/workflows/elixir.yml#L16
-    image: docker.io/postgres:16-alpine
+    image: docker.io/postgres:16-alpine@sha256:f377d590e5474681d4d7838635031a2b50647923b7abfa803ce9b5ff35d5c663
     container_name: plausible-db
     restart: unless-stopped
     healthcheck:
@@ -70,7 +70,7 @@ services:
           memory: 4G
 
   plausible:
-    image: ghcr.io/plausible/community-edition:v3.2.0
+    image: ghcr.io/plausible/community-edition:v3.2.0@sha256:3d8af8d4a1be32c3dcc5e8dc01496639d945edd9963827e18abe984dd6bda086
     container_name: plausible
     command: "sh -c \"/entrypoint.sh db createdb && /entrypoint.sh db migrate && /entrypoint.sh run\""
     depends_on:

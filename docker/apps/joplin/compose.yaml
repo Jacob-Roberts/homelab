@@ -62,7 +62,7 @@ services:
       traefik.http.routers.joplin-prod-1-https.tls.certresolver: letsencrypt
 
   db:
-    image: docker.io/postgres:18
+    image: docker.io/postgres:18@sha256:b9f6b8ff03b62f3cfd9d9ba3fe56226a9991c79d3fb46fd46536263bf02be553
     # prevents write access to the image itself
     read_only: true
     user: "${DOCKER_USER_ID:-2021}:${DOCKER_GROUP_ID:-2021}"

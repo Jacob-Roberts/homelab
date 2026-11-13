@@ -11,7 +11,7 @@ volumes:
 
 services:
   omada-controller:
-    image: docker.io/mbentley/omada-controller:6.3
+    image: docker.io/mbentley/omada-controller:6.3@sha256:cb5c48351028e06c3324fc9f6a421e9319b6af2a72b8d9ac47d58505b4fa1b37
     container_name: omada-controller
     restart: unless-stopped
     environment:
