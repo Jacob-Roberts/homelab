@@ -32,7 +32,7 @@ docker run --rm \
   -e GIT_ACCESS_TOKEN="${GIT_ACCESS_TOKEN:-}" \
   -e GIT_AUTH_DOMAINS="$GIT_AUTH_DOMAINS" \
   -e GIT_AUTH_ALLOW_ANY_HOST="${GIT_AUTH_ALLOW_ANY_HOST:-false}" \
-  -e DEPLOY_CONFIG_BASE_DIR="docker/clusters/slc1" \
+  -e DEPLOY_CONFIG_BASE_DIR="docker/clusters/sgu1" \
   -e POLL_CONFIG="- url: $REPO_URL
   reference: main" \
   "$IMAGE" apply-self --bootstrap
