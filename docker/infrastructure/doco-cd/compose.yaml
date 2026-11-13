@@ -12,6 +12,11 @@ services:
     # zero-downtime handover. If either is required, auto uses applier instead.
     # Reach the API through a reverse proxy on this network.
 
+    depends_on:
+      - dockerproxy
+    cap_drop:
+      - ALL
+
     environment:
       TZ: ${TZ}
       SELF_UPDATE_ENABLED: "true"
@@ -21,6 +26,7 @@ services:
           reference: main
           interval: 300
       DEPLOY_CONFIG_BASE_DIR: ${DEPLOY_CONFIG_BASE_DIR}
+      DOCKER_HOST: tcp://dockerproxy:2375
       SECRET_PROVIDER: infisical
       SECRET_PROVIDER_SITE_URL: https://app.infisical.com
       SECRET_PROVIDER_CLIENT_ID: ${SECRET_PROVIDER_CLIENT_ID}
@@ -46,7 +52,36 @@ services:
 
     secrets:
       - infisical_client_secret
-    #   - git_access_token-
+    #   - git_access_token
+
+  dockerproxy:
+    image: ghcr.io/tecnativa/docker-socket-proxy:v0.5.0
+    environment:
+      # Required by every installation
+      PING: 1
+      VERSION: 1
+      INFO: 1
+      EVENTS: 1
+      CONTAINERS: 1
+      IMAGES: 1
+      NETWORKS: 1
+      VOLUMES: 1
+      DISTRIBUTION: 1
+      # Required to deploy anything
+      POST: 1
+      DELETE: 1
+      # Endpoints doco-cd never uses
+      AUTH: 0
+      BUILD: 0
+      COMMIT: 0
+      EXEC: 0
+      PLUGINS: 0
+      SESSION: 0
+      SWARM: 0
+      SYSTEM: 0
+    volumes:
+      # mount host docker socket, the :ro does not mean read-only for the socket, just for the actual file
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
 volumes:
   data:
