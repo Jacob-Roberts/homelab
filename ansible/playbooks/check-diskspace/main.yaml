@@ -18,7 +18,7 @@
         url: "{{ lookup('env', 'DISCORD_WEBHOOK_URL') }}"
         method: POST
         body_format: json
-        body: '{"content": "Disk space on {{ inventory_hostname }} is above 80%!"}'
+        body: '{"content": "Disk usage on {{ inventory_hostname }} is at {{ disk_usage.stdout[:-1]|int }}%!"}'
         headers:
           Content-Type: application/json
         status_code: 204
