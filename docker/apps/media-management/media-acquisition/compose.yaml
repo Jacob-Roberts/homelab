@@ -146,11 +146,11 @@ services:
         chown -R ${DOCKER_USER_ID:-2022}:${DOCKER_GROUP_ID:-2022} /prowlarr/etc
     networks: []
     volumes:
-      - qbittorrent-config-etc:/qbittorrent/etc
-      - qbittorrent-config-var:/qbittorrent/var
+      - qbittorrent-config-etc:/qbittorrent/etc/
+      - qbittorrent-config-var:/qbittorrent/var/
       - radarr-config:/radarr/etc/
       - sonarr-config:/sonarr/etc/
-      - bazarr-config:/bazarr/config
+      - bazarr-config:/bazarr/config/
       - prowlarr-config:/prowlarr/etc/
     entrypoint: [/bin/ash, "-c"]
     deploy:
@@ -171,7 +171,10 @@ services:
     security_opt:
       - no-new-privileges=true
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
+      chown:
+        condition: service_completed_successfully
     restart: unless-stopped
     environment:
       TZ: ${TZ:-UTC}
@@ -199,6 +202,11 @@ services:
     # prevents any process within the container to gain more privileges
     security_opt:
       - no-new-privileges=true
+    depends_on:
+      gluetun:
+        condition: service_healthy
+      chown:
+        condition: service_completed_successfully
     restart: unless-stopped
     environment:
       TZ: "${TZ:-UTC}"
@@ -229,6 +237,11 @@ services:
     # prevents any process within the container to gain more privileges
     security_opt:
       - no-new-privileges=true
+    depends_on:
+      gluetun:
+        condition: service_healthy
+      chown:
+        condition: service_completed_successfully
     restart: unless-stopped
     environment:
       TZ: "${TZ:-UTC}"
@@ -255,6 +268,11 @@ services:
       - "${DOCKER_GROUP_ID_JELLYFIN:-2003}"
     security_opt:
       - no-new-privileges:true
+    depends_on:
+      gluetun:
+        condition: service_healthy
+      chown:
+        condition: service_completed_successfully
     restart: unless-stopped
     environment:
       TZ: ${TZ:-UTC}
@@ -285,6 +303,11 @@ services:
     # prevents any process within the container to gain more privileges
     security_opt:
       - no-new-privileges=true
+    depends_on:
+      gluetun:
+        condition: service_healthy
+      chown:
+        condition: service_completed_successfully
     restart: unless-stopped
     environment:
       TZ: "${TZ:-UTC}"
