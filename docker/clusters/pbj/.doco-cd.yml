@@ -119,21 +119,20 @@ environment:
     SYNCTHING_URL: "syncthing.pbj.jakerob.pro"
     JELLYDATA_HOST_PATH: "/media/jellydata"
 
-# ---
-# # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
-# name: media-acquisition
-# pause: true
-# working_dir: docker/apps/media-management/acquisition
-# compose_files: [compose.yaml]
-# environment:
-#     JELLYDATA_HOST_PATH: /media/jellydata
-#     BAZARR_URL: "bazarr.pbj.jakerob.pro"
-#     PROWLARR_URL: "prowlarr.pbj.jakerob.pro"
-#     QBITTORRENT_URL: "qbittorrent.pbj.jakerob.pro"
-#     RADARR_URL: "radarr.pbj.jakerob.pro"
-#     SHELFMARK_URL: "shelfmark.pbj.jakerob.pro"
-#     SONARR_URL: "sonarr.pbj.jakerob.pro"
-#     TDARR_URL: "tdarr.pbj.jakerob.pro"
-# external_secrets:
-#     HARDCOVER_API_KEY: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/media-management/HARDCOVER_API_KEY"
-#     WIREGUARD_PRIVATE_KEY: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/media-management/WIREGUARD_PRIVATE_KEY"
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: media-acquisition
+working_dir: docker/apps/media-management/acquisition
+compose_files: [compose.yaml]
+environment:
+    JELLYDATA_HOST_PATH: /media/jellydata
+    BAZARR_URL: "bazarr.pbj.jakerob.pro"
+    PROWLARR_URL: "prowlarr.pbj.jakerob.pro"
+    QBITTORRENT_URL: "qbittorrent.pbj.jakerob.pro"
+    RADARR_URL: "radarr.pbj.jakerob.pro"
+    SHELFMARK_URL: "shelfmark.pbj.jakerob.pro"
+    SONARR_URL: "sonarr.pbj.jakerob.pro"
+    TDARR_URL: "tdarr.pbj.jakerob.pro"
+external_secrets:
+    HARDCOVER_API_KEY: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/media-management/HARDCOVER_API_KEY"
+    WIREGUARD_PRIVATE_KEY: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/media-management/WIREGUARD_PRIVATE_KEY"
