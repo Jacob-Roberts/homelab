@@ -6,6 +6,7 @@ name: crowdsec
 networks:
   crowdsec:
     external: true
+    name: traefik_crowdsec-traefik
 
 volumes:
   crowdsec-config:
