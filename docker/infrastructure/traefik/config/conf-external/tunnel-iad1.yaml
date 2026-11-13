@@ -9,14 +9,25 @@
 # which hands the request to that site's traefik-external
 # (see conf-internal/tunnel-<site>.yaml).
 http:
+  # The remote traefik-internal has no certificate for its <node>.vpn name, so
+  # it answers this hop with TRAEFIK DEFAULT CERT and verification fails (500).
+  # The hop runs inside Netbird's WireGuard tunnel, which already encrypts and
+  # authenticates the peer, so skip verification here (same reasoning as the
+  # plain-HTTP k8s-gateway hop below).
+  serversTransports:
+    netbird-tunnel:
+      insecureSkipVerify: true
+
   services:
     pbj-tunnel:
       loadBalancer:
+        serversTransport: netbird-tunnel
         servers:
           - url: https://pbj-node-1.vpn.jakerob.pro
 
     slc1-tunnel:
       loadBalancer:
+        serversTransport: netbird-tunnel
         servers:
           - url: https://slc1-node-3.vpn.jakerob.pro
 
