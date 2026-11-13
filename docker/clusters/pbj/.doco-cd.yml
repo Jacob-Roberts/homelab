@@ -121,7 +121,7 @@ environment:
 ---
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
 name: media-acquisition
-working_dir: docker/apps/media-management/acquisition
+working_dir: docker/apps/media-management/media-acquisition
 compose_files: [compose.yaml]
 environment:
     JELLYDATA_HOST_PATH: /media/jellydata
