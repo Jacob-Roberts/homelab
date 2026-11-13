@@ -102,9 +102,10 @@ entryPoints:
         allowEncodedSemicolon: false
         allowEncodedSlash: false
       aliasHeadersStrategy: reject
-  # -- (Optional) Add custom Entrypoint
-  # custom:
-  #   address: :8080
+  # Dashboard only. Not published to the host; traefik-internal proxies to it
+  # over the internal-external docker network (see compose_external.yaml).
+  dashboard:
+    address: :8080
 
 # -- Configure your CertificateResolver here...
 certificatesResolvers:
