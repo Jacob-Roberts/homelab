@@ -28,6 +28,9 @@ networks:
   whoami-external:
     external: true
     name: whoami_frontend-external
+  pocket-id:
+    external: true
+    name: pocket-id_frontend
 
 services:
   traefik-internal:
@@ -44,3 +47,4 @@ services:
       - calibre
       - karakeep
       - jellyfin
+      - pocket-id
