@@ -47,7 +47,7 @@ services:
     networks:
       - crowdsec-traefik
     volumes:
-      - ./config/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
+      - ./acquis.yaml:/etc/crowdsec/acquis.yaml:ro
       - crowdsec-config:/etc/crowdsec
       - crowdsec-db:/var/lib/crowdsec/data
       - traefik-logs-external:/var/log/traefik
