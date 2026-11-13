@@ -27,8 +27,6 @@ services:
     image: docker.io/qmcgaw/gluetun:v3@sha256:fa19cc76b2af13d57a8d3dc3066f2ada061b1c761b8aecf989b3877c0486e027
     container_name: gluetun
     hostname: gluetun
-    healthcheck:
-      disable: true
     security_opt:
       - no-new-privileges:true
     cap_add:
