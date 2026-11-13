@@ -16,7 +16,7 @@ http:
           crowdsecAppsecHost: crowdsec:7422
           crowdsecAppsecUnreachableBlock: true
           crowdsecLapiHost: crowdsec:8080
-          crowdsecLapiKey: {{ env "CROWDSEC_TRAEFIK_BOUNCER_TOKEN" }}
+          crowdsecLapiKey: "{{ env "CROWDSEC_TRAEFIK_BOUNCER_TOKEN" }}"
           crowdsecLapiScheme: http
           crowdsecMode: live
           defaultDecisionSeconds: 15
