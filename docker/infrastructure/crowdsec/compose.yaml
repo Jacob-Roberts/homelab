@@ -31,7 +31,7 @@ services:
       test:
         - CMD
         - cscli
-        - capi
+        - lapi
         - status
       timeout: 10s
     environment:
