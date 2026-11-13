@@ -8,12 +8,13 @@
   ],
   "timezone": "America/Denver",
   "schedule": [
-    "before 6am on monday"
+    "on monday"
   ],
   "minimumReleaseAge": "7 days",
-  "prCreation": "not-pending",
-  "dependencyDashboard": true,
-  "dependencyDashboardOSVVulnerabilitySummary": "all",
+  "dependencyDashboard": {
+    "enabled": true,
+    "osvVulnerabilitySummary": "all"
+  },
   "osvVulnerabilityAlerts": true,
   "vulnerabilityAlerts": {
     "enabled": true,
