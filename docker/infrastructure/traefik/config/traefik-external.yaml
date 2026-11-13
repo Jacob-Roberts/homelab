@@ -126,6 +126,17 @@ certificatesResolvers:
       httpChallenge:
         entryPoint: web
 
+  cloudflare:
+    acme:
+      email: jroberts.g1ql8@simplelogin.com
+      storage: /traefik/certs/cloudflare-acme.json
+      caServer: "https://acme-v02.api.letsencrypt.org/directory"
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
+
 # -- (Optional) Overwrite Default Certificates
 # tls:
 #   stores:

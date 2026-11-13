@@ -46,6 +46,7 @@ services:
       - "${HOST_IP_V4}:443:443/tcp"
       - "${HOST_IP_V4}:443:443/udp"
     environment:
+      CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
       CROWDSEC_TRAEFIK_BOUNCER_TOKEN: "${CROWDSEC_TRAEFIK_BOUNCER_TOKEN}"
       TZ: "${TZ:-UTC}"
       TRAEFIK_URL: "${TRAEFIK_EXTERNAL_URL}"
