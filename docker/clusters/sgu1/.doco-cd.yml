@@ -35,4 +35,6 @@ environment:
     DOCKER_GROUP_ID: 2003
     APP_URL: "https://jellyfin.sgu1.jakerob.pro"
     JELLYFIN_URL: "jellyfin.sgu1.jakerob.pro"
+    # sgu1 only runs traefik-internal
+    TRAEFIK_EXTERNAL: "false"
     JELLYDATA_HOST_PATH: "/media/jellydata"

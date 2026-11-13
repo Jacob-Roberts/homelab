@@ -20,7 +20,7 @@ services:
       - mongo
     restart: unless-stopped
     environment:
-      API_ENDPOINT: https://api.spotify.iad1.jakerob.pro # This MUST be included as a valid URL in the spotify dashboard
+      API_ENDPOINT: https://spotify-api.jakerob.pro # This MUST be included as a valid URL in the spotify dashboard
       CLIENT_ENDPOINT: https://spotify.jakerob.pro
       SPOTIFY_PUBLIC: "${SPOTIFY_PUBLIC}"
       SPOTIFY_SECRET: "${SPOTIFY_SECRET}"
@@ -39,10 +39,10 @@ services:
       traefik.docker.network: spotify-analytics_frontend
       traefik.http.services.spotifyapi-prod-1.loadBalancer.server.port: 8080
       traefik.http.routers.spotifyapi-prod-1-http.entrypoints: web
-      traefik.http.routers.spotifyapi-prod-1-http.rule: Host(`${API_SPOTIFY_URL:-api.spotify.iad1.jakerob.pro}`)
+      traefik.http.routers.spotifyapi-prod-1-http.rule: Host(`${API_SPOTIFY_URL:-spotify-api.jakerob.pro}`)
       traefik.http.routers.spotifyapi-prod-1-http.middlewares: "websecure-redirect-permanent@file"
       traefik.http.routers.spotifyapi-prod-1-https.entrypoints: websecure
-      traefik.http.routers.spotifyapi-prod-1-https.rule: Host(`${API_SPOTIFY_URL:-api.spotify.iad1.jakerob.pro}`)
+      traefik.http.routers.spotifyapi-prod-1-https.rule: Host(`${API_SPOTIFY_URL:-spotify-api.jakerob.pro}`)
       traefik.http.routers.spotifyapi-prod-1-https.tls: "true"
       traefik.http.routers.spotifyapi-prod-1-https.tls.certresolver: letsencrypt
 
@@ -70,7 +70,7 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     environment:
-      API_ENDPOINT: https://api.spotify.iad1.jakerob.pro
+      API_ENDPOINT: https://spotify-api.jakerob.pro
     networks:
       - frontend
     deploy:

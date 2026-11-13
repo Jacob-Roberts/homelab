@@ -16,12 +16,25 @@ networks:
   syncthing:
     external: true
     name: syncthing_frontend
+  whoami:
+    external: true
+    name: whoami_frontend
+  whoami-external:
+    external: true
+    name: whoami_frontend-external
 
 services:
+  # *.slc1.jakerob.pro, VPN only
   traefik-internal:
     networks:
+      - whoami
       - webnut
-      - immich
       - jellyfin
-      - pocket-id
       - syncthing
+
+  # Public hostnames, reached through iad1 -> Netbird -> traefik-internal
+  traefik-external:
+    networks:
+      - whoami-external
+      - immich
+      - pocket-id

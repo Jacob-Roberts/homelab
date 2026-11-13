@@ -1,3 +1,13 @@
+# Public edge routes on iad1 for services that live elsewhere.
+#
+# Every hostname here is a top-level *.jakerob.pro (or another public zone)
+# name whose public DNS points at iad1-node-1. Site hostnames
+# (*.pbj / *.iad1 / *.slc1.jakerob.pro) are VPN-only and must never be routed
+# by a traefik-external instance.
+#
+# Each tunnel lands on the remote site's traefik-internal (its Netbird IP),
+# which hands the request to that site's traefik-external
+# (see conf-internal/tunnel-<site>.yaml).
 http:
   services:
     pbj-tunnel:
@@ -20,16 +30,16 @@ http:
           - url: http://192.168.42.200
 
   routers:
-    # WHOAMI pbj
-    whoami-tunnel-pbj-http:
+    # WHOAMI pbj (public test endpoint)
+    whoami-pbj-http:
       entrypoints: web
-      rule: "Host(`whoami-tunnel.pbj.jakerob.pro`)"
+      rule: "Host(`whoami-pbj.jakerob.pro`)"
       middlewares:
         - websecure-redirect-permanent@file
       service: pbj-tunnel
-    whoami-tunnel-pbj-https:
+    whoami-pbj-https:
       entrypoints: websecure
-      rule: "Host(`whoami-tunnel.pbj.jakerob.pro`)"
+      rule: "Host(`whoami-pbj.jakerob.pro`)"
       service: pbj-tunnel
       tls:
         certResolver: letsencrypt
@@ -86,19 +96,6 @@ http:
       tls:
         certResolver: letsencrypt
 
-    pocket-id-pbj-http:
-      entrypoints: web
-      rule: "Host(`pocket-id.lhr1.jakerob.pro`)"
-      middlewares:
-        - websecure-redirect-permanent@file
-      service: pbj-tunnel
-    pocket-id-pbj-https:
-      entrypoints: websecure
-      rule: "Host(`pocket-id.lhr1.jakerob.pro`)"
-      service: pbj-tunnel
-      tls:
-        certResolver: letsencrypt
-
     # Kubernetes apps published through iad1. The certificate is minted here
     # with HTTP-01 (the public hostname points at iad1). The route stays on
     # my-gateway so the local split-horizon path keeps working unchanged.
@@ -115,15 +112,16 @@ http:
       tls:
         certResolver: letsencrypt
 
-    whoami-tunnel-slc1-http:
+    # WHOAMI slc1 (public test endpoint)
+    whoami-slc1-http:
       entrypoints: web
-      rule: "Host(`whoami-tunnel.slc1.jakerob.pro`)"
+      rule: "Host(`whoami-slc1.jakerob.pro`)"
       middlewares:
         - websecure-redirect-permanent@file
       service: slc1-tunnel
-    whoami-tunnel-slc1-https:
+    whoami-slc1-https:
       entrypoints: websecure
-      rule: "Host(`whoami-tunnel.slc1.jakerob.pro`)"
+      rule: "Host(`whoami-slc1.jakerob.pro`)"
       service: slc1-tunnel
       tls:
         certResolver: letsencrypt
@@ -153,31 +151,3 @@ http:
       service: slc1-tunnel
       tls:
         certResolver: letsencrypt
-
-    # WHOAMI SLC1
-    # whoami-slc1-http:
-    #   entrypoints: web
-    #   rule: "Host(`whoami-tunnel-slc1.jakerob.pro`)"
-    #   middlewares:
-    #     - websecure-redirect-permanent@file
-    #   service: slc1-tunnel
-    # whoami-slc1-https:
-    #   entrypoints: websecure
-    #   rule: "Host(`whoami-tunnel-slc1.jakerob.pro`)"
-    #   service: slc1-tunnel
-    #   tls:
-    #     certresolver: production
-
-    # # WORDPRESS PERSONAL pbj
-    # wordpress-personal-pbj-http:
-    #   entrypoints: web
-    #   rule: "Host(`wordpress.jakerob.pro`)"
-    #   middlewares:
-    #     - websecure-redirect-permanent@file
-    #   service: pbj-tunnel
-    # wordpress-personal-pbj-https:
-    #   entrypoints: websecure
-    #   rule: "Host(`wordpress.jakerob.pro`)"
-    #   service: pbj-tunnel
-    #   tls:
-    #     certresolver: production
