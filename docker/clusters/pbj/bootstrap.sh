@@ -27,7 +27,7 @@ docker compose -f "$PROXY_COMPOSE" up -d --wait
 # e.g. GIT_ACCESS_TOKEN or SOPS_AGE_KEY
 docker run --rm \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -v "/opt/doco-cd/infisical_client_secret:/run/secrets/infisical_client_secret:ro"
+  -v "/opt/doco-cd/infisical_client_secret:/run/secrets/infisical_client_secret:ro" \
   -v "$DATA_VOLUME":/data \
   -e SELF_UPDATE_ENABLED=true \
   -e GIT_ACCESS_TOKEN="${GIT_ACCESS_TOKEN:-}" \
