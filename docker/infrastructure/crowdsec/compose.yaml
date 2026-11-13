@@ -4,7 +4,7 @@
 name: crowdsec
 
 networks:
-  crowdsec:
+  crowdsec-traefik:
     external: true
     name: traefik_crowdsec-traefik
 
