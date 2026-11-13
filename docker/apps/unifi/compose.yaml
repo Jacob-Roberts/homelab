@@ -13,7 +13,7 @@ volumes:
 
 services:
   unifi-network-application:
-    image: lscr.io/linuxserver/unifi-network-application:10.0.162-ls112
+    image: lscr.io/linuxserver/unifi-network-application:10.0.162-ls112@sha256:268340299e6a8a85c29800923e242c60ed7baa24557943f0ff5ec4ea52804232
     container_name: unifi-network-application
     restart: unless-stopped
     ports:
@@ -63,7 +63,7 @@ services:
       traefik.http.services.unifi-prod-1.loadbalancer.server.scheme: https
 
   unifi-db:
-    image: docker.io/mongo:8.0
+    image: docker.io/mongo:8.0@sha256:d97fea17ccb8d004cd137be8dab54d70d0df11be69c9f422aefe4484c8414ab7
     container_name: unifi-db
     restart: unless-stopped
     environment:

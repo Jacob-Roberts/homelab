@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@main
+        uses: fluxcd/flux2/action@6f81f5c8fa69fc5aea343989a2958212d827121c # main
       - name: Setup Flux Schema CLI
         uses: fluxcd/flux-schema/actions/setup@e0c1965b73a3743ac7924c68779336589f53e94d # main
       - name: Validate manifests

@@ -11,7 +11,7 @@ volumes:
 
 services:
   pocket-id:
-    image: ghcr.io/pocket-id/pocket-id:v2-distroless
+    image: ghcr.io/pocket-id/pocket-id:v2-distroless@sha256:a21166a4eb513d2ffcbf815398480998d996a9e719cfba029395517658626f9e
     read_only: true
     user: "${DOCKER_USER_ID:-2010}:${DOCKER_GROUP_ID:-2010}"
     depends_on:
