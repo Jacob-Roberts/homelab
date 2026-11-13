@@ -1,4 +1,8 @@
-# This tunnel only uses http
+# Public hostnames that iad1 tunnels to pbj over Netbird arrive at pbj's
+# traefik-internal (the only Traefik bound to the Netbird IP). Hand them to
+# the local traefik-external so public traffic always goes through the DMZ
+# instance (crowdsec, geoblock). Keep this list in sync with the pbj routers in
+# conf-external/tunnel-iad1.yaml.
 http:
   services:
     traefik-external:
@@ -12,10 +16,10 @@ http:
   routers:
     ### PBJ
 
-    # WHOAMI PBJ
+    # WHOAMI PBJ (public test endpoint)
     whoami-pbj-https:
       entrypoints: websecure
-      rule: "Host(`whoami-tunnel.pbj.jakerob.pro`)"
+      rule: "Host(`whoami-external-pbj.jakerob.pro`)"
       service: traefik-external
       tls: true
 

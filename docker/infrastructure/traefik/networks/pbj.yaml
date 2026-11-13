@@ -21,7 +21,7 @@ networks:
     name: syncthing_frontend
   media-acquisition:
     external: true
-    name: media-acquisition_frontend
+    name: media-management_frontend
   whoami:
     external: true
     name: whoami_frontend

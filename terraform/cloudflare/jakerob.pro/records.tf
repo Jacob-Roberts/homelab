@@ -103,6 +103,52 @@ locals {
       ttl     = 1
       proxied = false
     },
+    "plausible" = {
+      name    = "plausible.jakerob.pro"
+      type    = "CNAME"
+      content = "iad1-node-1.jakerob.pro"
+      ttl     = 1
+      proxied = false
+    },
+    "pocket-id-iad1" = {
+      name    = "auth-iad1.jakerob.pro"
+      type    = "CNAME"
+      content = "iad1-node-1.jakerob.pro"
+      ttl     = 1
+      proxied = false
+      comment = "docker pocket-id on iad1 (used by mealie)"
+    },
+    "spotify-api" = {
+      name    = "spotify-api.jakerob.pro"
+      type    = "CNAME"
+      content = "iad1-node-1.jakerob.pro"
+      ttl     = 1
+      proxied = false
+    },
+    "whoami-iad1" = {
+      name    = "whoami-external-iad1.jakerob.pro"
+      type    = "CNAME"
+      content = "iad1-node-1.jakerob.pro"
+      ttl     = 1
+      proxied = false
+      comment = "public test endpoint served on iad1"
+    },
+    "whoami-pbj" = {
+      name    = "whoami-external-pbj.jakerob.pro"
+      type    = "CNAME"
+      content = "iad1-node-1.jakerob.pro"
+      ttl     = 1
+      proxied = false
+      comment = "public test endpoint tunnelled iad1 -> pbj"
+    },
+    "whoami-slc1" = {
+      name    = "whoami-external-slc1.jakerob.pro"
+      type    = "CNAME"
+      content = "iad1-node-1.jakerob.pro"
+      ttl     = 1
+      proxied = false
+      comment = "public test endpoint tunnelled iad1 -> slc1"
+    },
 
     ////////////////////////
     //        IAD1        //
@@ -132,9 +178,10 @@ locals {
     "iad1_catch_all" = {
       name    = "*.iad1.jakerob.pro"
       type    = "CNAME"
-      content = "iad1-node-1.jakerob.pro"
+      content = "iad1-node-1.vpn.jakerob.pro"
       ttl     = 1
       proxied = false
+      comment = "VPN only: served by iad1 traefik-internal"
     },
 
     ////////////////////////
@@ -169,13 +216,6 @@ locals {
     #   ttl     = 1
     #   proxied = false
     # },
-    "iad1_vpn_catch_all" = {
-      name    = "*.iad1vpn.jakerob.pro"
-      type    = "CNAME"
-      content = "iad1-node-1.vpn.jakerob.pro"
-      ttl     = 1
-      proxied = false
-    },
     "pbj-router" = {
       name    = "pbj-router.jakerob.pro"
       type    = "A"
@@ -284,7 +324,7 @@ locals {
     "wildcard-pbj-pi-1" = {
       name    = "*.pbj-pi-1.jakerob.pro"
       type    = "CNAME"
-      content = "pbj-pi-1.jakerob.pro"
+      content = "pbj-pi-1.vpn.jakerob.pro"
       ttl     = 1
       proxied = false
     },
@@ -371,6 +411,7 @@ locals {
       content = "pbj-node-1.vpn.jakerob.pro"
       ttl     = 1
       proxied = false
+      comment = "VPN only: served by pbj traefik-internal"
     },
     "truenas-pbj" = {
       name    = "truenas.pbj.jakerob.pro"
@@ -569,20 +610,6 @@ locals {
       ttl     = 1
       proxied = false
     },
-    "api-spotify-iad1" = {
-      name    = "api.spotify.iad1.jakerob.pro"
-      type    = "CNAME"
-      content = "iad1-node-1.jakerob.pro"
-      ttl     = 1
-      proxied = false
-    },
-    "pocket-id-pbj" = {
-      name    = "pocket-id.pbj.jakerob.pro"
-      type    = "CNAME"
-      content = "iad1-node-1.jakerob.pro"
-      ttl     = 1
-      proxied = false
-    },
     "cdn" = {
       name    = "cdn.jakerob.pro"
       type    = "CNAME"
@@ -643,7 +670,7 @@ locals {
     "uptime-pbj" = {
       name    = "uptime.pbj.jakerob.pro"
       type    = "CNAME"
-      content = "pbj-pi-1.jakerob.pro"
+      content = "pbj-pi-1.vpn.jakerob.pro"
       ttl     = 1
       proxied = false
     },
@@ -689,13 +716,6 @@ locals {
       ttl     = 1
       proxied = false
     },
-    "pma2-iad1vpn" = {
-      name    = "pma2.iad1vpn.jakerob.pro"
-      type    = "CNAME"
-      content = "iad1-node-2.vpn.jakerob.pro"
-      ttl     = 1
-      proxied = false
-    },
     "proxmox-sgu1" = {
       name    = "proxmox.sgu1.jakerob.pro"
       type    = "CNAME"
@@ -720,9 +740,10 @@ locals {
     "catch_all-slc1" = {
       name    = "*.slc1.jakerob.pro"
       type    = "CNAME"
-      content = "slc1-node-3.jakerob.pro"
+      content = "slc1-node-3.vpn.jakerob.pro"
       ttl     = 1
       proxied = false
+      comment = "VPN only: served by slc1 traefik-internal"
     },
     "split" = {
       name    = "split.jakerob.pro"
@@ -742,20 +763,6 @@ locals {
       name    = "truenas.slc1.jakerob.pro"
       type    = "CNAME"
       content = "slc1-storage-1.jakerob.pro"
-      ttl     = 1
-      proxied = false
-    },
-    "whoami-tunnel-pbj" = {
-      name    = "whoami-tunnel.pbj.jakerob.pro"
-      type    = "CNAME"
-      content = "iad1-node-1.jakerob.pro"
-      ttl     = 1
-      proxied = false
-    },
-    "whoami-tunnel-slc1" = {
-      name    = "whoami-tunnel.slc1.jakerob.pro"
-      type    = "CNAME"
-      content = "iad1-node-1.jakerob.pro"
       ttl     = 1
       proxied = false
     },

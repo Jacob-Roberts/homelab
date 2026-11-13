@@ -42,7 +42,33 @@ The name of the router should be `servicenamewithnospaces-env-node-protocol`
 
 > Note that we've dropped the region. That's because by the time something hits traefik, the region has been decided. (and it's in the domain anyway)
 
-The HostName should be `service{.env?}.region.jakerob.pro
+### Hostnames: internal vs external
+
+Every docker host runs a `traefik-internal` bound only to its Netbird (VPN)
+IP. Hosts that serve public traffic also run a `traefik-external` (crowdsec,
+geoblock) bound to the host IP. A container picks one with the
+`traefik.external` label (`"true"` = external, anything else = internal).
+
+| Hostname | Reachable from | Served by | DNS |
+| -------- | -------------- | --------- | --- |
+| `service{.env?}.<site>.jakerob.pro` (`pbj`, `iad1`, `slc1`) | VPN only | that site's `traefik-internal`, `cloudflare` (DNS-01) resolver | `*.<site>.jakerob.pro` wildcard -> `<node>.vpn.jakerob.pro` |
+| `service.jakerob.pro` | Internet | `traefik-external` | explicit CNAME -> `iad1-node-1.jakerob.pro` |
+
+Rules:
+
+- A `*.pbj`, `*.iad1` or `*.slc1.jakerob.pro` hostname is **never** routed by a
+  `traefik-external` and never has a public DNS record. If something must be
+  reachable outside the VPN, give it a top-level `*.jakerob.pro` name.
+- Public names always enter through iad1. Apps hosted on iad1 are served by
+  iad1's `traefik-external` with the `letsencrypt` (HTTP-01) resolver. Apps
+  hosted on another site are added to
+  `docker/infrastructure/traefik/config/conf-external/tunnel-iad1.yaml`, which
+  forwards over Netbird to that site's `traefik-internal`, which hands them to
+  the local `traefik-external` (`config/conf-internal/tunnel-<site>.yaml`).
+  On those sites the app uses the `cloudflare` (DNS-01) resolver.
+- The `*.iad1vpn.jakerob.pro` zone is retired; use `*.iad1.jakerob.pro`.
+
+See `docs/decisions/004-internal-external-hostnames.md` for the reasoning.
 
 e.g:
 

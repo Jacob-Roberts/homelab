@@ -20,8 +20,8 @@ environment:
     DOCKER_GROUP_ID: "999"
     HOST_IP_V4: "10.0.0.13"
     NETBIRD_IP_V4: "100.107.140.137"
-    TRAEFIK_INTERNAL_URL: "traefik-internal.iad1vpn.jakerob.pro"
-    TRAEFIK_EXTERNAL_URL: "traefik-external.iad1vpn.jakerob.pro"
+    TRAEFIK_INTERNAL_URL: "traefik.iad1.jakerob.pro"
+    TRAEFIK_EXTERNAL_URL: "traefik-external.iad1.jakerob.pro"
     NODE_NAME: "iad1-node-1"
 external_secrets:
     CF_DNS_API_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/traefik/CF_DNS_API_TOKEN"
@@ -32,8 +32,6 @@ external_secrets:
 name: crowdsec
 working_dir: docker/infrastructure/crowdsec
 compose_files: [compose.yaml]
-environment:
-    DOCKER_GROUP_ID: "999"
 external_secrets:
     CROWDSEC_TRAEFIK_BOUNCER_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/traefik/CROWDSEC_TRAEFIK_BOUNCER_TOKEN"
 
@@ -66,7 +64,7 @@ name: mealie
 working_dir: docker/apps/mealie
 compose_files: [compose.yaml]
 environment:
-    OIDC_CONFIGURATION_URL: "https://pocket-id.iad1.jakerob.pro/.well-known/openid-configuration"
+    OIDC_CONFIGURATION_URL: "https://auth-iad1.jakerob.pro/.well-known/openid-configuration"
     OIDC_CLIENT_ID: "1f3f8740-8220-4ea8-9168-11633e79a218"
     TZ: UTC
 external_secrets:
@@ -78,8 +76,8 @@ name: pocket-id
 working_dir: docker/apps/pocket-id
 compose_files: [compose.yaml]
 environment:
-    APP_URL: "https://pocket-id.iad1.jakerob.pro"
-    APP_HOST: pocket-id.iad1.jakerob.pro
+    APP_URL: "https://auth-iad1.jakerob.pro"
+    APP_HOST: auth-iad1.jakerob.pro
     EMAILS_VERIFIED: "true"
     HTTPS_TLS_CERTRESOLVER: "letsencrypt"
 external_secrets:
@@ -124,6 +122,6 @@ name: whoami
 working_dir: docker/apps/whoami
 compose_files: [compose.yaml, compose.external.yaml]
 environment:
-    WHOAMI_INTERNAL_URL: whoami.iad1vpn.jakerob.pro
-    WHOAMI_EXTERNAL_URL: whoami-external.iad1.jakerob.pro
+    WHOAMI_INTERNAL_URL: whoami.iad1.jakerob.pro
+    WHOAMI_EXTERNAL_URL: whoami-external-iad1.jakerob.pro
     EXTERNAL_TLS_CERTRESOLVER: letsencrypt

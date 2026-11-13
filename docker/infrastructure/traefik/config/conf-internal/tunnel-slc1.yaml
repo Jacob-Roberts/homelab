@@ -1,0 +1,51 @@
+# Public hostnames that iad1 tunnels to slc1 over Netbird arrive at slc1's
+# traefik-internal (the only Traefik bound to the Netbird IP). Hand them to
+# the local traefik-external so public traffic always goes through the DMZ
+# instance (crowdsec, geoblock). Keep this list in sync with the slc1 routers in
+# conf-external/tunnel-iad1.yaml.
+http:
+  services:
+    traefik-external:
+      loadBalancer:
+        # traefik-external has no cert for the container hostname, so it serves
+        # its self-signed default; skip verification on this local docker hop.
+        serversTransport: ignorecert@file
+        servers:
+          - url: https://traefik-external
+
+  routers:
+    # These routers mint real certificates (DNS-01) so the iad1 -> slc1 hop
+    # keeps presenting a valid certificate for the requested name, as it did
+    # when these apps were served directly by this instance.
+
+    # WHOAMI SLC1 (public test endpoint)
+    whoami-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`whoami-external-slc1.jakerob.pro`)"
+      service: traefik-external
+      tls:
+        certResolver: cloudflare
+
+    # Pocket ID (autovation)
+    pocket-id-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`auth.autovation.com`)"
+      service: traefik-external
+      tls:
+        certResolver: cloudflare
+
+    # Immich (autovation)
+    immich-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`photos.autovation.com`)"
+      service: traefik-external
+      tls:
+        certResolver: cloudflare
+
+    # Jellyfin (autovation)
+    jellyfin-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`jellyfin.autovation.com`)"
+      service: traefik-external
+      tls:
+        certResolver: cloudflare

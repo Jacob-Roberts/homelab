@@ -53,7 +53,7 @@ route from external-dns so Terraform can own the public record:
 2. Add a CNAME in `terraform/cloudflare/jakerob.pro/records.tf` pointing the
    hostname to `iad1-node-1.jakerob.pro`.
 3. Add an http redirect + https router in
-   `docker-compose/traefik/iad1-node-1/config-external/conf/tunnel.yaml` using
+   `docker/infrastructure/traefik/config/conf-external/tunnel-iad1.yaml` using
    the `k8s-gateway` service (`http://192.168.42.200`) and the `letsencrypt`
    (HTTP-01) resolver. iad1 terminates TLS publicly and forwards to the
    existing gateway over Netbird with the original `Host` header.
