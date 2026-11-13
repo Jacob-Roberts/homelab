@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-go/master/schema/compose-spec.json
+
+networks:
+  convertx:
+    external: true
+    name: convertx_frontend
+  spotify-analytics:
+    external: true
+    name: spotify-analytics_frontend
+  it-tools:
+    external: true
+    name: it-tools_frontend
+  mealie:
+    external: true
+    name: mealie_frontend
+  pocket-id:
+    external: true
+    name: pocket-id_frontend
+  joplin:
+    external: true
+    name: joplin_frontend
+  plausible:
+    external: true
+    name: plausible_frontend
+  whoami:
+    external: true
+    name: whoami_frontend
+  whoami-external:
+    external: true
+    name: whoami-external_frontend
+
+services:
+  traefik-internal:
+    networks:
+      - whoami
+
+  traefik-external:
+    networks:
+      - whoami-external
+      - convertx
+      - spotify-analytics
+      - it-tools
+      - mealie
+      - pocket-id
+      - joplin
+      - plausible

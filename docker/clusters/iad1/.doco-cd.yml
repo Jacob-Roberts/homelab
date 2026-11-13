@@ -117,3 +117,12 @@ external_secrets:
     MAILER_EMAIL: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/plausible/MAILER_EMAIL"
     SMTP_USER_NAME: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/plausible/SMTP_USER_NAME"
     SMTP_USER_PWD: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/plausible/SMTP_USER_PWD"
+
+---
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+name: whoami
+working_dir: docker/apps/whoami
+compose_files: [compose.yaml, compose.external.yaml]
+environment:
+    WHOAMI_INTERNAL_URL: whoami.iad1.jakerob.pro
+    WHOAMI_EXTERNAL_URL: whoami-external.iad1.jakerob.pro
