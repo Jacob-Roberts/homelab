@@ -12,8 +12,12 @@ services:
     # zero-downtime handover. If either is required, auto uses applier instead.
     # Reach the API through a reverse proxy on this network.
 
-    depends_on:
-      - dockerproxy
+    # The Docker API proxy runs in its own Compose project
+    # (docker/infrastructure/docker-socket-proxy). Keeping it here would let
+    # self-update recreate it mid-deploy and cut off doco-cd's API access.
+    networks:
+      - default
+      - docker-socket-proxy
     cap_drop:
       - ALL
 
@@ -26,7 +30,7 @@ services:
           reference: main
           interval: 300
       DEPLOY_CONFIG_BASE_DIR: ${DEPLOY_CONFIG_BASE_DIR}
-      DOCKER_HOST: tcp://dockerproxy:2375
+      DOCKER_HOST: tcp://docker-socket-proxy:2375
       SECRET_PROVIDER: infisical
       SECRET_PROVIDER_SITE_URL: https://app.infisical.com
       SECRET_PROVIDER_CLIENT_ID: ${SECRET_PROVIDER_CLIENT_ID}
@@ -38,7 +42,6 @@ services:
       # GIT_AUTH_DOMAINS: "- domains: [github.com]"
 
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - data:/data
 
     # The health gate decides whether the new version is kept. Without a
@@ -54,37 +57,13 @@ services:
       - infisical_client_secret
     #   - git_access_token
 
-  dockerproxy:
-    image: ghcr.io/tecnativa/docker-socket-proxy:v0.5.0@sha256:1f5038b54f06c3e18422902cf00ba21803d1c97805aae032e5e6673d532d3459
-    environment:
-      # Required by every installation
-      PING: 1
-      VERSION: 1
-      INFO: 1
-      EVENTS: 1
-      CONTAINERS: 1
-      IMAGES: 1
-      NETWORKS: 1
-      VOLUMES: 1
-      DISTRIBUTION: 1
-      # Required to deploy anything
-      POST: 1
-      DELETE: 1
-      # Endpoints doco-cd never uses
-      AUTH: 0
-      BUILD: 0
-      COMMIT: 0
-      EXEC: 0
-      PLUGINS: 0
-      SESSION: 0
-      SWARM: 0
-      SYSTEM: 0
-    volumes:
-      # mount host docker socket, the :ro does not mean read-only for the socket, just for the actual file
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-
 volumes:
   data:
+
+networks:
+  # Created by bootstrap.sh and shared with the docker-socket-proxy project.
+  docker-socket-proxy:
+    external: true
 
 # Path of the token file.
 secrets:

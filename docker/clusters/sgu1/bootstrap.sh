@@ -14,6 +14,15 @@ GIT_AUTH_DOMAINS="${GIT_AUTH_DOMAINS:-"- domains: [github.com]"}"
 
 docker volume create "$DATA_VOLUME" >/dev/null
 
+# The Docker API proxy is its own Compose project, outside doco-cd's stack, so
+# doco-cd's self-update can never recreate it mid-deploy. Start it first and
+# update it by hand (re-running this block is safe).
+SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+PROXY_COMPOSE="$SCRIPT_DIR/../../infrastructure/docker-socket-proxy/compose.yaml"
+docker network inspect docker-socket-proxy >/dev/null 2>&1 \
+  || docker network create --internal docker-socket-proxy >/dev/null
+docker compose -f "$PROXY_COMPOSE" up -d --wait
+
 # Add other app settings via environment variables as needed,
 # e.g. GIT_ACCESS_TOKEN or SOPS_AGE_KEY
 docker run --rm \
@@ -23,7 +32,7 @@ docker run --rm \
   -e GIT_ACCESS_TOKEN="${GIT_ACCESS_TOKEN:-}" \
   -e GIT_AUTH_DOMAINS="$GIT_AUTH_DOMAINS" \
   -e GIT_AUTH_ALLOW_ANY_HOST="${GIT_AUTH_ALLOW_ANY_HOST:-false}" \
-  -e DEPLOY_CONFIG_BASE_DIR="docker/clusters/slc1" \
+  -e DEPLOY_CONFIG_BASE_DIR="docker/clusters/sgu1" \
   -e POLL_CONFIG="- url: $REPO_URL
   reference: main" \
   "$IMAGE" apply-self --bootstrap
