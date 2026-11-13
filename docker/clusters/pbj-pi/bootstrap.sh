@@ -27,12 +27,17 @@ docker compose -f "$PROXY_COMPOSE" up -d --wait
 # e.g. GIT_ACCESS_TOKEN or SOPS_AGE_KEY
 docker run --rm \
   -v /var/run/docker.sock:/var/run/docker.sock \
+  -v "/opt/doco-cd/infisical_client_secret:/run/secrets/infisical_client_secret:ro" \
   -v "$DATA_VOLUME":/data \
   -e SELF_UPDATE_ENABLED=true \
   -e GIT_ACCESS_TOKEN="${GIT_ACCESS_TOKEN:-}" \
   -e GIT_AUTH_DOMAINS="$GIT_AUTH_DOMAINS" \
   -e GIT_AUTH_ALLOW_ANY_HOST="${GIT_AUTH_ALLOW_ANY_HOST:-false}" \
   -e DEPLOY_CONFIG_BASE_DIR="docker/clusters/pbj-pi" \
+  -e SECRET_PROVIDER="infisical" \
+  -e SECRET_PROVIDER_SITE_URL="https://app.infisical.com" \
+  -e SECRET_PROVIDER_CLIENT_ID="bee04ce7-0037-4531-9e59-a2d015f7f2a2" \
+  -e SECRET_PROVIDER_CLIENT_SECRET_FILE="/run/secrets/infisical_client_secret" \
   -e POLL_CONFIG="- url: $REPO_URL
   reference: main" \
   "$IMAGE" apply-self --bootstrap
