@@ -22,7 +22,8 @@ environment:
     HOST_IP_V6: "2601:640:8000:1750:be24:11ff:feea:1964"
     NETBIRD_IP_V4: "100.107.80.160"
     NETBIRD_IP_V6: "fdbd:db6a:5351:2c4:4c58:8c56:c12c:5498"
-    TRAEFIK_URL: "traefik.pbj.jakerob.pro"
+    TRAEFIK_INTERNAL_URL: "traefik.pbj.jakerob.pro"
+    TRAEFIK_EXTERNAL_URL: "traefik-external.pbj.jakerob.pro"
     NODE_NAME: "pbj-node-1"
 external_secrets:
     CF_DNS_API_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/traefik/CF_DNS_API_TOKEN"

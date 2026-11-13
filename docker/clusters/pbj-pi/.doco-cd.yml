@@ -20,7 +20,7 @@ environment:
     DOCKER_GROUP_ID: "992"
     HOST_IP_V4: "192.168.42.46"
     HOST_IP_V6: "2601:640:8000:1750:509f:96be:61ce:4c88"
-    TRAEFIK_URL: "traefik.pbj-pi-1.jakerob.pro"
+    TRAEFIK_INTERNAL_URL: "traefik.pbj-pi-1.jakerob.pro"
     WHOAMI_URL: "whoami.pbj-pi-1.jakerob.pro"
     NODE_NAME: "pbj-pi-1"
 external_secrets:

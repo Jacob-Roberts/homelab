@@ -19,7 +19,7 @@ compose_files: [compose.yaml, networks/sgu1.yaml]
 environment:
     DOCKER_GROUP_ID: "996"
     HOST_IP_V4: "192.168.59.194"
-    TRAEFIK_URL: "traefik.sgu1.jakerob.pro"
+    TRAEFIK_INTERNAL_URL: "traefik.sgu1.jakerob.pro"
     WHOAMI_URL: "whoami.sgu1.jakerob.pro"
     NODE_NAME: "sgu-node-1"
 external_secrets:

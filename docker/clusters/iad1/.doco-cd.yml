@@ -20,7 +20,8 @@ environment:
     DOCKER_GROUP_ID: "999"
     HOST_IP_V4: "10.0.0.13"
     NETBIRD_IP_V4: "100.107.140.137"
-    TRAEFIK_URL: "traefik.iad1vpn.jakerob.pro"
+    TRAEFIK_INTERNAL_URL: "traefik-internal.iad1vpn.jakerob.pro"
+    TRAEFIK_EXTERNAL_URL: "traefik-external.iad1vpn.jakerob.pro"
     NODE_NAME: "iad1-node-1"
 external_secrets:
     CF_DNS_API_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/iad1-node-1/traefik/CF_DNS_API_TOKEN"
