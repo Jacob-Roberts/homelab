@@ -2,11 +2,17 @@ http:
   services:
     pbj-tunnel:
       loadBalancer:
+        # traefik-internal has no cert here, so it serves
+        # its self-signed default; skip verification on this VPN hop.
+        serversTransport: ignorecert@file
         servers:
           - url: https://pbj-node-1.vpn.jakerob.pro
 
     slc1-tunnel:
       loadBalancer:
+        # traefik-internal has no cert here, so it serves
+        # its self-signed default; skip verification on this VPN hop.
+        serversTransport: ignorecert@file
         servers:
           - url: https://slc1-node-3.vpn.jakerob.pro
 
