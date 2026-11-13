@@ -33,13 +33,13 @@ http:
     # WHOAMI pbj (public test endpoint)
     whoami-pbj-http:
       entrypoints: web
-      rule: "Host(`whoami-pbj.jakerob.pro`)"
+      rule: "Host(`whoami-external-pbj.jakerob.pro`)"
       middlewares:
         - websecure-redirect-permanent@file
       service: pbj-tunnel
     whoami-pbj-https:
       entrypoints: websecure
-      rule: "Host(`whoami-pbj.jakerob.pro`)"
+      rule: "Host(`whoami-external-pbj.jakerob.pro`)"
       service: pbj-tunnel
       tls:
         certResolver: letsencrypt
@@ -115,13 +115,13 @@ http:
     # WHOAMI slc1 (public test endpoint)
     whoami-slc1-http:
       entrypoints: web
-      rule: "Host(`whoami-slc1.jakerob.pro`)"
+      rule: "Host(`whoami-external-slc1.jakerob.pro`)"
       middlewares:
         - websecure-redirect-permanent@file
       service: slc1-tunnel
     whoami-slc1-https:
       entrypoints: websecure
-      rule: "Host(`whoami-slc1.jakerob.pro`)"
+      rule: "Host(`whoami-external-slc1.jakerob.pro`)"
       service: slc1-tunnel
       tls:
         certResolver: letsencrypt
@@ -135,6 +135,19 @@ http:
     pocket-id-slc1-https:
       entrypoints: websecure
       rule: "Host(`auth.autovation.com`)"
+      service: slc1-tunnel
+      tls:
+        certResolver: letsencrypt
+
+    jellyfin-slc1-http:
+      entrypoints: web
+      rule: "Host(`jellyfin.autovation.com`)"
+      middlewares:
+        - websecure-redirect-permanent@file
+      service: slc1-tunnel
+    jellyfin-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`jellyfin.autovation.com`)"
       service: slc1-tunnel
       tls:
         certResolver: letsencrypt

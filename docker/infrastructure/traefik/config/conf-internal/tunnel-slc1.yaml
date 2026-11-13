@@ -21,7 +21,7 @@ http:
     # WHOAMI SLC1 (public test endpoint)
     whoami-slc1-https:
       entrypoints: websecure
-      rule: "Host(`whoami-slc1.jakerob.pro`)"
+      rule: "Host(`whoami-external-slc1.jakerob.pro`)"
       service: traefik-external
       tls:
         certResolver: cloudflare
@@ -38,6 +38,14 @@ http:
     immich-slc1-https:
       entrypoints: websecure
       rule: "Host(`photos.autovation.com`)"
+      service: traefik-external
+      tls:
+        certResolver: cloudflare
+
+    # Jellyfin (autovation)
+    jellyfin-slc1-https:
+      entrypoints: websecure
+      rule: "Host(`jellyfin.autovation.com`)"
       service: traefik-external
       tls:
         certResolver: cloudflare

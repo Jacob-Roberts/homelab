@@ -110,8 +110,8 @@ locals {
       ttl     = 1
       proxied = false
     },
-    "pocket-id" = {
-      name    = "pocket-id.jakerob.pro"
+    "pocket-id-iad1" = {
+      name    = "auth-iad1.jakerob.pro"
       type    = "CNAME"
       content = "iad1-node-1.jakerob.pro"
       ttl     = 1
@@ -126,7 +126,7 @@ locals {
       proxied = false
     },
     "whoami-iad1" = {
-      name    = "whoami-iad1.jakerob.pro"
+      name    = "whoami-external-iad1.jakerob.pro"
       type    = "CNAME"
       content = "iad1-node-1.jakerob.pro"
       ttl     = 1
@@ -134,7 +134,7 @@ locals {
       comment = "public test endpoint served on iad1"
     },
     "whoami-pbj" = {
-      name    = "whoami-pbj.jakerob.pro"
+      name    = "whoami-external-pbj.jakerob.pro"
       type    = "CNAME"
       content = "iad1-node-1.jakerob.pro"
       ttl     = 1
@@ -142,7 +142,7 @@ locals {
       comment = "public test endpoint tunnelled iad1 -> pbj"
     },
     "whoami-slc1" = {
-      name    = "whoami-slc1.jakerob.pro"
+      name    = "whoami-external-slc1.jakerob.pro"
       type    = "CNAME"
       content = "iad1-node-1.jakerob.pro"
       ttl     = 1

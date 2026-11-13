@@ -23,7 +23,7 @@ environment:
     NETBIRD_IP_V4: "100.107.80.160"
     NETBIRD_IP_V6: "fdbd:db6a:5351:2c4:4c58:8c56:c12c:5498"
     TRAEFIK_INTERNAL_URL: "traefik.pbj.jakerob.pro"
-    TRAEFIK_EXTERNAL_URL: "pbj-node-1.jakerob.pro"
+    TRAEFIK_EXTERNAL_URL: "traefik-external.pbj.jakerob.pro"
     NODE_NAME: "pbj-node-1"
 external_secrets:
     CF_DNS_API_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/traefik/CF_DNS_API_TOKEN"
@@ -34,8 +34,6 @@ external_secrets:
 name: crowdsec
 working_dir: docker/infrastructure/crowdsec
 compose_files: [compose.yaml]
-environment:
-    DOCKER_GROUP_ID: "999"
 external_secrets:
     CROWDSEC_TRAEFIK_BOUNCER_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/pbj/traefik/CROWDSEC_TRAEFIK_BOUNCER_TOKEN"
 
@@ -46,7 +44,7 @@ working_dir: docker/apps/whoami
 compose_files: [compose.yaml, compose.external.yaml]
 environment:
     WHOAMI_INTERNAL_URL: whoami.pbj.jakerob.pro
-    WHOAMI_EXTERNAL_URL: whoami-pbj.jakerob.pro
+    WHOAMI_EXTERNAL_URL: whoami-external-pbj.jakerob.pro
     EXTERNAL_TLS_CERTRESOLVER: cloudflare
 
 ---

@@ -19,7 +19,7 @@ http:
     # WHOAMI PBJ (public test endpoint)
     whoami-pbj-https:
       entrypoints: websecure
-      rule: "Host(`whoami-pbj.jakerob.pro`)"
+      rule: "Host(`whoami-external-pbj.jakerob.pro`)"
       service: traefik-external
       tls: true
 

@@ -20,7 +20,7 @@ services:
     image: docker.io/crowdsecurity/crowdsec:latest@sha256:65b74942f7e7ed5c60fde4ac15fc4ba715904c398c8b16dd451f4907d90347d4
     container_name: crowdsec
     command: "-t"
-    user: "${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001}"
+    user: "${TRAEFIK_SRV_ID:-2002}:${TRAEFIK_GROUP_ID:-2002}"
     restart: unless-stopped
     depends_on:
       chown:
@@ -40,8 +40,8 @@ services:
       CUSTOM_HOSTNAME: crowdsec
       ENROLL_INSTANCE_NAME: pangolin-crowdsec
       ENROLL_TAGS: docker
-      GID: "${DOCKER_GROUP_ID:-2001}"
-      UID: "${DOCKER_USER_ID:-2001}"
+      GID: "${TRAEFIK_GROUP_ID:-2002}"
+      UID: "${TRAEFIK_SRV_ID:-2002}"
       PARSERS: crowdsecurity/whitelists
       BOUNCER_KEY_TRAEFIK: "${CROWDSEC_TRAEFIK_BOUNCER_TOKEN}"
     networks:
@@ -64,8 +64,8 @@ services:
     image: alpine@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
     command:
       - |
-        chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /var/lib/crowdsec/data
-        chown -R ${DOCKER_USER_ID:-2001}:${DOCKER_GROUP_ID:-2001} /etc/crowdsec
+        chown -R ${TRAEFIK_SRV_ID:-2002}:${TRAEFIK_GROUP_ID:-2002} /var/lib/crowdsec/data
+        chown -R ${TRAEFIK_SRV_ID:-2002}:${TRAEFIK_GROUP_ID:-2002} /etc/crowdsec
     networks: []
     volumes:
       - crowdsec-config:/etc/crowdsec

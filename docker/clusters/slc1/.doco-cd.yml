@@ -22,7 +22,7 @@ environment:
     NETBIRD_IP_V4: "100.107.184.93"
     NETBIRD_IP_V6: "fdbd:db6a:5351:2c4:11e3:6773:f852:32d5"
     TRAEFIK_INTERNAL_URL: "traefik.slc1.jakerob.pro"
-    TRAEFIK_EXTERNAL_URL: "slc1-node-3.jakerob.pro"
+    TRAEFIK_EXTERNAL_URL: "traefik-external.slc1.jakerob.pro"
     NODE_NAME: "slc1-node-3"
 external_secrets:
     CF_DNS_API_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/traefik/CF_DNS_API_TOKEN"
@@ -33,8 +33,6 @@ external_secrets:
 name: crowdsec
 working_dir: docker/infrastructure/crowdsec
 compose_files: [compose.yaml]
-environment:
-    DOCKER_GROUP_ID: "999"
 external_secrets:
     CROWDSEC_TRAEFIK_BOUNCER_TOKEN: "f3732b81-3a85-430d-a547-43b85c363ad6:prod:/slc1-node-3/traefik/CROWDSEC_TRAEFIK_BOUNCER_TOKEN"
 
@@ -45,7 +43,7 @@ working_dir: docker/apps/whoami
 compose_files: [compose.yaml, compose.external.yaml]
 environment:
     WHOAMI_INTERNAL_URL: whoami.slc1.jakerob.pro
-    WHOAMI_EXTERNAL_URL: whoami-slc1.jakerob.pro
+    WHOAMI_EXTERNAL_URL: whoami-external-slc1.jakerob.pro
     EXTERNAL_TLS_CERTRESOLVER: cloudflare
 
 ---
@@ -79,10 +77,8 @@ compose_files: [compose.yaml]
 environment:
     DOCKER_USER_ID: 1000
     DOCKER_GROUP_ID: 1000
-    APP_URL: "https://jellyfin.slc1.jakerob.pro"
-    JELLYFIN_URL: "jellyfin.slc1.jakerob.pro"
-    # VPN only: served by traefik-internal
-    TRAEFIK_EXTERNAL: "false"
+    APP_URL: "https://jellyfin.autovation.com"
+    JELLYFIN_URL: "jellyfin.autovation.com"
     JELLYDATA_HOST_PATH: "/nfs/jellydata"
 
 ---
