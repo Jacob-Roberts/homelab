@@ -126,3 +126,4 @@ compose_files: [compose.yaml, compose.external.yaml]
 environment:
     WHOAMI_INTERNAL_URL: whoami.iad1.jakerob.pro
     WHOAMI_EXTERNAL_URL: whoami-external.iad1.jakerob.pro
+    EXTERNAL_TLS_CERTRESOLVER: letsencrypt

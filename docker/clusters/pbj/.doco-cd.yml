@@ -47,6 +47,7 @@ compose_files: [compose.yaml, compose.external.yaml]
 environment:
     WHOAMI_INTERNAL_URL: whoami.pbj.jakerob.pro
     WHOAMI_EXTERNAL_URL: whoami-tunnel.pbj.jakerob.pro
+    EXTERNAL_TLS_CERTRESOLVER: cloudflare
 
 ---
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json

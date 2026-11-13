@@ -30,4 +30,4 @@ services:
       traefik.http.routers.whoamitunnel-prod-1-https.entrypoints: websecure
       traefik.http.routers.whoamitunnel-prod-1-https.rule: Host(`${WHOAMI_EXTERNAL_URL}`)
       traefik.http.routers.whoamitunnel-prod-1-https.tls: "true"
-      traefik.http.routers.whoamitunnel-prod-1-https.tls.certresolver: cloudflare
+      traefik.http.routers.whoamitunnel-prod-1-https.tls.certresolver: "${EXTERNAL_TLS_CERTRESOLVER}"
