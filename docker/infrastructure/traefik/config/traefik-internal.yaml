@@ -1,7 +1,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/traefik-v3.json
 
-# Needed for health check
+# Needed for health check. Pinned to its own entrypoint so Traefik does not
+# create the implicit `traefik` entrypoint on :8080.
 ping:
+  entryPoint: ping
   terminatingStatusCode: 204
 
 global:
@@ -32,6 +34,9 @@ api:
 
 # -- Change EntryPoints here...
 entryPoints:
+  # Container-local only (healthcheck); never published.
+  ping:
+    address: :8082
   web:
     address: :80
     http:
