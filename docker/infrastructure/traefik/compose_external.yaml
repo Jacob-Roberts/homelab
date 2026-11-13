@@ -40,7 +40,7 @@ services:
       driver: local
     healthcheck:
       # https://doc.traefik.io/traefik/operations/cli/#healthcheck
-      test: [CMD, traefik, healthcheck, "--ping"]
+      test: [CMD, traefik, healthcheck, "--ping", "--configFile=/traefik/traefik.yaml"]
       interval: 10s
       timeout: 5s
       retries: 3
