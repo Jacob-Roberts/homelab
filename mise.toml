@@ -1,6 +1,6 @@
 [tools]
 opentofu = "latest"
-talosctl = "1.14.2"
+talosctl = "1.14.5"
 infisical = "latest"
 trivy = "latest"
 flux2 = "latest"
