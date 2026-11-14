@@ -31,6 +31,8 @@ services:
       socket-proxy:
         condition: service_healthy
         restart: true
+      chown-internal:
+        condition: service_completed_successfully
     restart: unless-stopped
     logging:
       driver: local
@@ -104,3 +106,23 @@ services:
         limits:
           cpus: "0.20"
           memory: 128M
+
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown-internal:
+    image: alpine@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
+    command:
+      - |
+        chown -R ${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001} /plugins-storage
+        chown -R ${TRAEFIK_SRV_ID:-2001}:${TRAEFIK_GROUP_ID:-2001} /traefik/certs
+    networks: []
+    volumes:
+      - plugins:/plugins-storage/:rw
+      - certs-storage:/traefik/certs:rw
+    entrypoint: [/bin/ash, "-c"]
+    logging:
+      driver: local
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M

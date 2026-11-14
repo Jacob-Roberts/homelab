@@ -33,7 +33,7 @@ services:
       socket-proxy:
         condition: service_healthy
         restart: true
-      chown:
+      chown-external:
         condition: service_completed_successfully
     restart: unless-stopped
     logging:
@@ -97,7 +97,7 @@ services:
       traefik.http.routers.traefikexternal-prod-1-https.tls.certresolver: cloudflare
 
   # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
-  chown:
+  chown-external:
     image: alpine@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
     command:
       - |
