@@ -1,137 +1,99 @@
 ---
+# Connection user and shared settings live in group_vars/all.yaml.
+# Per-host settings (doco-cd cluster, service accounts, NFS) live in host_vars/.
 all:
   hosts:
     #### PBJ ####
-    # Raspberry Pi Model 3
-    pbj-pi-1:
-      ansible_user: ansible-robot
+    pbj-pi-1: # Raspberry Pi Model 3
       ansible_host: pbj-pi-1.vpn.jakerob.pro
-
     pbj-node-1:
-      ansible_user: ansible-robot
       ansible_host: pbj-node-1.vpn.jakerob.pro
-
     pbj-hv-1:
-      ansible_user: ansible-robot
       ansible_host: pbj-hv-1.jakerob.pro
-
     pbj-hv-2:
-      ansible_user: ansible-robot
       ansible_host: pbj-hv-2.jakerob.pro
-
     pbj-hv-3:
-      ansible_user: ansible-robot
       ansible_host: pbj-hv-3.jakerob.pro
-
-    # pbj-storage-1:
-    #   ansible_user: ansible-robot
+    # pbj-storage-1: TrueNAS, not managed by ansible
     #   ansible_host: pbj-storage-1.vpn.jakerob.pro
 
     #### IAD1 ####
-
     iad1-node-1:
-      ansible_user: ansible-robot
       ansible_host: iad1-node-1.vpn.jakerob.pro
 
-    # iad1-node-2:
-    #   ansible_user: ansible-robot
-    #   ansible_host: iad1-node-2.vpn.jakerob.pro
-
-    # iad1-node-3:
-    #   ansible_user: ansible-robot
-    #   ansible_host: iad1-node-3.vpn.jakerob.pro
-
     #### SLC1 ####
-
     slc1-hv-1:
-      ansible_user: ansible-robot
       ansible_host: slc1-hv-1.jakerob.pro
-
     slc1-node-3:
-      ansible_user: ansible-robot
       ansible_host: slc1-node-3.vpn.jakerob.pro
-
-    # slc1-storage-1:
-    #   ansible_user: ansible-robot
+    slc1-pi-1: # Raspberry Pi Model 3
+      ansible_host: slc1-pi-1.vpn.jakerob.pro
+    # slc1-storage-1: TrueNAS, not managed by ansible
     #   ansible_host: slc1-storage-1.vpn.jakerob.pro
 
-    # Raspberry Pi Model 3
-    slc1-pi-1:
-      ansible_user: ansible-robot
-      ansible_host: slc1-pi-1.vpn.jakerob.pro
-
     #### SGU1 ####
-
     # sgu1-hv-1:
-    #   ansible_user: ansible-robot
     #   ansible_host: sgu1-hv-1.jakerob.pro
-
     # sgu1-node-1:
-    #   ansible_user: ansible-robot
     #   ansible_host: sgu1-node-1.vpn.jakerob.pro
 
   children:
-    bootstrap:
+    # Proxmox hosts. Kept out of `hardened`: Proxmox clustering needs root SSH
+    # between nodes, which the security role disables.
+    hypervisors:
       hosts:
-        pbj-node-1:
-
-    docker:
-      hosts:
-        pbj-node-1:
-        iad1-node-1:
-        # iad1-node-2:
-        # iad1-node-3:
-        slc1-node-3:
-        # sgu1-node-1:
-
-    example:
-      hosts:
-        pbj-pi-1:
-        pbj-node-1:
-        pbj-hv-1:
-        iad1-node-1:
-        slc1-hv-1:
-        slc1-node-3:
-        slc1-pi-1:
-
-    updatable_apt:
-      hosts:
-        pbj-pi-1:
-        pbj-node-1:
         pbj-hv-1:
         pbj-hv-2:
         pbj-hv-3:
-        iad1-node-1:
-        # iad1-node-2:
-        # iad1-node-3:
         slc1-hv-1:
-        slc1-node-3:
+
+    raspberry_pis:
+      hosts:
+        pbj-pi-1:
         slc1-pi-1:
-        # sgu1-hv-1:
+
+    # Hosts that run Docker stacks deployed by doco-cd. Each one needs
+    # `doco_cd_cluster` in host_vars, matching docker/clusters/<cluster>/.
+    docker:
+      hosts:
+        pbj-node-1:
+        pbj-pi-1:
+        iad1-node-1:
+        slc1-node-3:
         # sgu1-node-1:
+
+    # Hosts that get admin users, SSH hardening and unattended upgrades.
+    hardened:
+      children:
+        docker:
+        raspberry_pis:
+
     qemu:
       hosts:
         pbj-node-1:
-        # sgu1-node-1:
         # slc1-node-3:
+        # sgu1-node-1:
 
     netbird:
       hosts:
         pbj-pi-1:
         pbj-node-1:
-        # pbj-storage-1:
         slc1-pi-1:
         slc1-node-3:
         iad1-node-1:
-        # slc1-storage-1:
         # sgu1-pi-1:
+
+    updatable_apt:
+      children:
+        hypervisors:
+        hardened:
 
     nut_primary_pbj:
       hosts:
         pbj-pi-1:
     nut_clients_pbj:
       hosts:
-        # pbj-storage-1: Truenas doesn't like to be configured by ansible
+        # pbj-storage-1: TrueNAS doesn't like to be configured by ansible
         pbj-hv-1:
 
     nut_primary_slc1:
@@ -139,5 +101,5 @@ all:
         slc1-pi-1:
     nut_clients_slc1:
       hosts:
-        # slc1-storage-1: Truenas doesn't like to be configured by ansible
+        # slc1-storage-1: TrueNAS doesn't like to be configured by ansible
         slc1-hv-1:

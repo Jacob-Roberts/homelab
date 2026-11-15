@@ -1,0 +1,14 @@
+---
+doco_cd_cluster: pbj
+
+# Accounts for the stacks in docker/clusters/pbj (IDs: group_vars/all.yaml).
+# arr: media-acquisition is temporarily removed but keeps its account.
+service_accounts: [traefik, crowdsec, calibre, immich, karakeep, jellyfin, syncthing, arr]
+
+nfs_mounts:
+  - path: /media/immich
+    src: truenas.pbj.jakerob.pro:/mnt/bulk-slow/encrypted/immich
+  - path: /media/jellydata
+    src: truenas.pbj.jakerob.pro:/mnt/bulk-slow/encrypted/jellyfin
+  - path: /media/roberts-data
+    src: truenas.pbj.jakerob.pro:/mnt/bulk-slow/encrypted/pbj-drive

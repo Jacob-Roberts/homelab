@@ -1,0 +1,9 @@
+---
+doco_cd_cluster: slc1
+
+# jellyfin on slc1 runs as 1000:1000 (see docker/clusters/slc1/.doco-cd.yml).
+service_accounts: [traefik, crowdsec, immich, jellyfin, pocket-id, syncthing]
+
+nfs_mounts:
+  - path: /media/immich
+    src: truenas.slc1.jakerob.pro:/mnt/default-pool/encrypted/immich
