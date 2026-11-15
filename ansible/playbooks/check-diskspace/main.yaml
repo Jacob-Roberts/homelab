@@ -1,25 +1,32 @@
 ---
-- name: Check to ensure all hosts have enough disk space
-  hosts: "all"
-  become: yes
+# Run: DISCORD_WEBHOOK_URL=... ansible-playbook playbooks/check-diskspace/main.yaml
+# (path kept stable for scheduled Semaphore runs)
+- name: Check that every host has enough disk space
+  hosts: all
+  become: false
+
+  vars:
+    disk_usage_threshold: 80
+    discord_webhook_url: "{{ lookup('ansible.builtin.env', 'DISCORD_WEBHOOK_URL') }}"
 
   tasks:
-    - name: Get disk usage
-      command: df -h
-      register: disk_usage
+    - name: Read root filesystem usage
+      ansible.builtin.command:
+        cmd: df --output=pcent /
+      register: root_usage
+      changed_when: false
+      check_mode: false
 
-    - name: Check disk space available
-      shell: df -h / | awk 'NR==2 {print $5}'
-      register: disk_usage
-
-    # Send Discord message when disk space is over 80%
-    - name: Send Discord message
-      uri:
-        url: "{{ lookup('env', 'DISCORD_WEBHOOK_URL') }}"
+    - name: Send Discord alert
+      vars:
+        usage_percent: "{{ root_usage.stdout_lines[-1] | trim | replace('%', '') | int }}"
+      ansible.builtin.uri:
+        url: "{{ discord_webhook_url }}"
         method: POST
         body_format: json
-        body: '{"content": "Disk usage on {{ inventory_hostname }} is at {{ disk_usage.stdout[:-1]|int }}%!"}'
-        headers:
-          Content-Type: application/json
+        body:
+          content: "Disk usage on {{ inventory_hostname }} is at {{ usage_percent }}%!"
         status_code: 204
-      when: disk_usage.stdout[:-1]|int > 80
+      when:
+        - usage_percent | int > disk_usage_threshold
+        - discord_webhook_url | length > 0

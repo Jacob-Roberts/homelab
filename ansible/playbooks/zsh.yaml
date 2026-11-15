@@ -1,60 +1,77 @@
 ---
-- name: install latest zsh on all hosts
-  hosts: all
+# =============================================================================
+# zsh + dotfiles for the human admin
+# =============================================================================
+# Run: ansible-playbook playbooks/zsh.yaml [-l <host>] [-e dotfiles_user=<name>]
+#
+# Sets up zsh, Oh My Zsh and the stowed dotfiles for `dotfiles_user`, not for
+# the account ansible connects as (ansible-robot).
+# =============================================================================
+
+- name: Zsh and dotfiles
+  hosts: hardened
+  become: true
+
+  vars:
+    dotfiles_user: jacobroberts
+    dotfiles_repo: https://github.com/Jacob-Roberts/dotfiles.git
+    dotfiles_home: "/home/{{ dotfiles_user }}"
+
   tasks:
-    - name: install zsh
-      apt:
-        name: zsh
+    - name: Install zsh, git and stow
+      ansible.builtin.apt:
+        name: [zsh, git, stow]
         state: present
-        update_cache: yes
-      become: true
-    - name: Ensure zsh is the default shell
-      user:
-        name: "{{ ansible_user_id }}"
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Make zsh the default shell
+      ansible.builtin.user:
+        name: "{{ dotfiles_user }}"
         shell: /usr/bin/zsh
+
+    - name: Run as the dotfiles user
       become: true
-      when: ansible_user_id != 'root'
+      become_user: "{{ dotfiles_user }}"
+      block:
+        - name: Clone dotfiles # noqa: latest[git] track the dotfiles default branch
+          ansible.builtin.git:
+            repo: "{{ dotfiles_repo }}"
+            dest: "{{ dotfiles_home }}/.dotfiles"
+            version: HEAD
+            update: true
 
-    - name: Clone my dotfiles
-      ansible.builtin.git:
-        repo: https://github.com/Jacob-Roberts/dotfiles.git
-        dest: "{{ ansible_env.HOME }}/.dotfiles"
-        clone: yes
-        update: yes
+        - name: Find dotfile packages
+          ansible.builtin.find:
+            paths: "{{ dotfiles_home }}/.dotfiles"
+            recurse: false
+            file_type: directory
+            excludes: [".git"]
+            hidden: false
+          register: dotfile_packages
 
-    - name: Build directories list
-      ansible.builtin.find:
-        paths: ["{{ ansible_env.HOME }}/.dotfiles"]
-        recurse: no
-        file_type: directory
-      register: files
-      become: false
+        - name: Stow dotfiles
+          ansible.builtin.command:
+            cmd: stow --target={{ dotfiles_home }} {{ item.path | basename }} --verbose=2
+            chdir: "{{ dotfiles_home }}/.dotfiles"
+          loop: "{{ dotfile_packages.files }}"
+          loop_control:
+            label: "{{ item.path | basename }}"
+          register: stow_result
+          changed_when: 'stow_result.stderr is search("LINK: ")'
 
-    - name: Deploy dotfiles
-      with_items: "{{ files.files }}"
-      ansible.builtin.command:
-        cmd: stow --target={{ ansible_env.HOME }} {{ item.path | basename }} --verbose=2
-        chdir: "{{ ansible_env.HOME }}/.dotfiles"
-      register: result
-      changed_when: 'result.stderr is search("LINK: ")'
-      become: false
+        - name: Install Oh My Zsh
+          ansible.builtin.git:
+            repo: https://github.com/ohmyzsh/ohmyzsh.git
+            dest: "{{ dotfiles_home }}/.oh-my-zsh"
+            version: master
+            depth: 1
+            update: false
 
-    - name: Download Oh My Zsh installation script
-      get_url:
-        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-        dest: /tmp/install-oh-my-zsh.sh
-        mode: 0755
-
-    - name: Run Oh My Zsh installation script
-      command: /tmp/install-oh-my-zsh.sh --unattended
-      register: ohmyzsh_result
-      failed_when: "'FAILED' in ohmyzsh_result.stderr"
-      args:
-        creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
-
-    - name: Add zsh-autosuggestions
-      ansible.builtin.git:
-        repo: https://github.com/zsh-users/zsh-autosuggestions.git
-        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-        clone: yes
-        update: yes
+        - name: Install zsh-autosuggestions
+          ansible.builtin.git:
+            repo: https://github.com/zsh-users/zsh-autosuggestions.git
+            dest: "{{ dotfiles_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+            version: master
+            depth: 1
+            update: true
