@@ -1,0 +1,33 @@
+---
+# =============================================================================
+# Full host setup
+# =============================================================================
+# Run: ansible-playbook playbooks/site.yaml -l <host> [--check --diff]
+#
+# Brings a host to its desired state. Each play targets its own group, so a
+# host only gets what applies to it. For a brand-new host run
+# bootstrap-users.yaml first (it connects as a different user).
+#
+# Order matters: users before NFS (mount ownership), Docker before doco-cd.
+# =============================================================================
+
+- name: Security & SSH hardening
+  ansible.builtin.import_playbook: security.yaml
+
+- name: NetBird
+  ansible.builtin.import_playbook: netbird.yaml
+
+- name: QEMU guest agent
+  ansible.builtin.import_playbook: qemu-guest-agent.yaml
+
+- name: Docker Engine
+  ansible.builtin.import_playbook: docker.yaml
+
+- name: Service accounts
+  ansible.builtin.import_playbook: service-users.yaml
+
+- name: NFS mounts
+  ansible.builtin.import_playbook: nfs-mounts.yaml
+
+- name: Bootstrap doco-cd
+  ansible.builtin.import_playbook: doco-cd.yaml

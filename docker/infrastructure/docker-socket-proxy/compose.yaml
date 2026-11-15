@@ -9,7 +9,8 @@
 # Deploying this project through doco-cd has the same problem, since doco-cd
 # would be talking through the container it is replacing.
 #
-# Start it before doco-cd (bootstrap.sh does this) and update it by hand:
+# Start it before doco-cd (bootstrap.sh does this) and update it with
+# ansible/playbooks/doco-cd.yaml, or by hand:
 #   docker network create --internal docker-socket-proxy   # once per host
 #   docker compose -f docker/infrastructure/docker-socket-proxy/compose.yaml up -d
 name: docker-socket-proxy

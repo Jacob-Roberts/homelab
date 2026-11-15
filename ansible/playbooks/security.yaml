@@ -1,0 +1,38 @@
+---
+# =============================================================================
+# Security & SSH hardening
+# =============================================================================
+# Run: ansible-playbook playbooks/security.yaml [-l <host>]
+#
+# geerlingguy.security (settings in inventory/group_vars/hardened.yaml):
+# SSH hardening, AllowUsers = admin_users, fail2ban, unattended upgrades.
+# Plus: no SSH agent forwarding.
+#
+# Not for hypervisors: Proxmox needs root SSH between cluster nodes.
+# =============================================================================
+
+- name: Security & SSH hardening
+  hosts: hardened
+  become: true
+
+  pre_tasks:
+    - name: Refuse to lock out the automation user
+      ansible.builtin.assert:
+        that: ansible_user in security_ssh_allowed_users
+        fail_msg: >-
+          {{ ansible_user }} is not in admin_users; applying AllowUsers would
+          lock it out. Add it to admin_users in group_vars/all.yaml.
+        quiet: true
+
+  roles:
+    - geerlingguy.security
+
+  tasks:
+    - name: Disable SSH agent forwarding
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "^#?AllowAgentForwarding"
+        line: "AllowAgentForwarding no"
+        state: present
+        validate: sshd -T -f %s
+      notify: restart ssh

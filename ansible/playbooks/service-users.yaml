@@ -1,0 +1,51 @@
+---
+# =============================================================================
+# Service accounts
+# =============================================================================
+# Run: ansible-playbook playbooks/service-users.yaml [-l <host>]
+#
+# Creates the system users/groups the Compose stacks run as, with the fixed
+# IDs from service_account_ids (group_vars/all.yaml), so files in volumes and
+# NFS shares have the same owner on every host. Each host lists its accounts
+# in `service_accounts` (host_vars).
+#
+# Accounts dropped from a host's list are left in place, not deleted.
+# =============================================================================
+
+- name: Service accounts
+  hosts: docker
+  become: true
+
+  vars:
+    host_service_accounts: "{{ service_accounts | default([]) }}"
+
+  tasks:
+    - name: Ensure every account has a registered ID
+      ansible.builtin.assert:
+        that: item in service_account_ids
+        fail_msg: "{{ item }} has no ID in service_account_ids (group_vars/all.yaml)"
+        quiet: true
+      loop: "{{ host_service_accounts }}"
+
+    - name: Create service groups
+      ansible.builtin.group:
+        name: "{{ item }}"
+        gid: "{{ service_account_ids[item] }}"
+        system: true
+        state: present
+      loop: "{{ host_service_accounts }}"
+
+    - name: Create service users
+      ansible.builtin.user:
+        name: "{{ item }}"
+        uid: "{{ service_account_ids[item] }}"
+        group: "{{ item }}"
+        groups: >-
+          {{ service_account_groups[item] | default([])
+             | select('in', host_service_accounts) | list }}
+        append: true
+        system: true
+        shell: /usr/sbin/nologin
+        create_home: false
+        state: present
+      loop: "{{ host_service_accounts }}"
