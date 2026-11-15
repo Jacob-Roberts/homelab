@@ -1,19 +1,21 @@
 ---
-# Everything connects as the automation user (also used by Semaphore).
-# For a fresh host, run playbooks/bootstrap-users.yaml with
-# `-e ansible_user=<cloud-default-user>` first. Inventory variables beat `-u`,
-# so `-u` alone will not override this.
+# Everything connects as the automation user Semaphore logs in as. For a
+# fresh host, run playbooks/bootstrap-users.yaml with the extra variable
+# {"ansible_user": "<image default user>"} first; inventory variables beat
+# the login set on a Semaphore key, so only an extra variable overrides this.
 ansible_user: ansible-robot
 
 # Admin accounts on every `hardened` host: passwordless sudo, the only users
-# sshd accepts. Public keys are read from ansible/ssh_keys/<name>.pub
-# (gitignored). Keep the automation user in this list or the security
-# playbook will lock it out of SSH.
+# sshd accepts. Keys are public, so they live here: Semaphore's checkout is
+# all the playbooks get. Keep the automation user in this list (with the
+# public half of Semaphore's key) or the security playbook will lock it out.
 admin_users:
   - name: jacobroberts
     shell: /bin/bash
+    ssh_keys: [] # TODO: paste the public key(s), e.g. "ssh-ed25519 AAAA... jacob@laptop"
   - name: ansible-robot
     shell: /bin/bash
+    ssh_keys: [] # TODO: public half of the Semaphore key store's SSH key
 
 # Networks that must stay routable from every host. Docker bridge networks
 # must never overlap these, or the host treats them as on-link and stops

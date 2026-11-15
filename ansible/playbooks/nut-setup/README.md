@@ -1,13 +1,12 @@
 # NUT (UPS) setup
 
-Run from `ansible/`, with the NUT passwords in the environment:
+Semaphore template: playbook `ansible/playbooks/nut-setup/main.yaml`, with an
+environment that sets the secrets `NUT_UPS_ADMIN_PASSWORD` and
+`NUT_CLIENT_PASSWORD`. Run it once per site:
 
-```zsh
-NUT_UPS_ADMIN_PASSWORD=... NUT_CLIENT_PASSWORD=... \
-  ansible-playbook playbooks/nut-setup/main.yaml -e site=pbj -l pbj-pi-1,pbj-hv-1
-NUT_UPS_ADMIN_PASSWORD=... NUT_CLIENT_PASSWORD=... \
-  ansible-playbook playbooks/nut-setup/main.yaml -e site=slc1 -l slc1-pi-1,slc1-hv-1
-```
+| Extra variables | Limit |
+| --- | --- |
+| `{"site": "pbj"}` | `pbj-pi-1,pbj-hv-1` |
+| `{"site": "slc1"}` | `slc1-pi-1,slc1-hv-1` |
 
-Use `-t primary` or `-t client` to run only the server or client play.
-`requirements.yml` here duplicates `ansible/requirements.yml` for Semaphore.
+Tags `primary` or `client` run only the server or the client play.

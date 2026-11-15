@@ -2,12 +2,13 @@
 # =============================================================================
 # Admin users (first run on a new host)
 # =============================================================================
-# Run once per new host, connecting as whatever user the image ships with:
-#   ansible-playbook playbooks/bootstrap-users.yaml -l <host> -e ansible_user=ubuntu
+# Run once per new host, connecting as whatever user the image ships with
+# (Semaphore: limit to the host, extra variables {"ansible_user": "ubuntu"}).
+# That user must already accept Semaphore's key (cloud-init / authorized_keys).
 #
-# Creates every account in admin_users (group_vars/all.yaml), installs its
-# key from ansible/ssh_keys/<name>.pub and grants passwordless sudo. After
-# this, every other playbook connects as ansible-robot.
+# Creates every account in admin_users (group_vars/all.yaml), adds its
+# ssh_keys and grants passwordless sudo. Existing keys are kept. After this,
+# every other playbook connects as ansible-robot.
 # Safe to re-run, e.g. after adding an admin or rotating a key.
 # =============================================================================
 
@@ -15,20 +16,15 @@
   hosts: hardened
   become: true
 
-  vars:
-    ssh_keys_dir: "{{ playbook_dir | dirname }}/ssh_keys"
-
   tasks:
     - name: Ensure every admin has a public key
       ansible.builtin.assert:
-        that: (ssh_keys_dir ~ '/' ~ item.name ~ '.pub') is file
-        fail_msg: "Missing {{ ssh_keys_dir }}/{{ item.name }}.pub"
+        that: item.ssh_keys | default([]) | length > 0
+        fail_msg: "Add {{ item.name }}'s public key(s) to admin_users in inventory/group_vars/all.yaml"
         quiet: true
       loop: "{{ admin_users }}"
       loop_control:
         label: "{{ item.name }}"
-      delegate_to: localhost
-      become: false
 
     - name: Create admin users
       ansible.builtin.user:
@@ -45,7 +41,7 @@
     - name: Install admin SSH keys
       ansible.posix.authorized_key:
         user: "{{ item.name }}"
-        key: "{{ lookup('ansible.builtin.file', ssh_keys_dir ~ '/' ~ item.name ~ '.pub') }}"
+        key: "{{ item.ssh_keys | join('\n') }}"
         state: present
       loop: "{{ admin_users }}"
       loop_control:
@@ -67,5 +63,5 @@
     - name: Next step
       ansible.builtin.debug:
         msg: >-
-          Admin users are ready. Run the rest as the automation user, e.g.
-          ansible-playbook playbooks/site.yaml -l {{ inventory_hostname }}
+          Admin users are ready. Run playbooks/site.yaml for
+          {{ inventory_hostname }} next, without the ansible_user override.

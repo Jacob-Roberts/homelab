@@ -1,7 +1,7 @@
----
-# Install with: ansible-galaxy install -r requirements.yml
-# Roles land in ./roles and collections in ./collections (see ansible.cfg);
-# both directories are gitignored.
+# Ansible roles and collections for everything under ansible/.
+# Lives at the repo root because Semaphore runs from the repo root and
+# installs <repo>/requirements.yml (roles and collections) before every task.
+# Locally: cd ansible && ansible-galaxy install -r ../requirements.yml
 roles:
   - name: geerlingguy.docker
     version: 8.0.0

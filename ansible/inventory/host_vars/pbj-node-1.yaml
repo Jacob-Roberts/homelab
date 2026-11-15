@@ -12,3 +12,7 @@ nfs_mounts:
     src: truenas.pbj.jakerob.pro:/mnt/bulk-slow/encrypted/jellyfin
   - path: /media/roberts-data
     src: truenas.pbj.jakerob.pro:/mnt/bulk-slow/encrypted/pbj-drive
+
+# Semaphore runs here (docker/apps/semaphore); docker.yaml refuses to restart
+# dockerd unless live-restore keeps it alive.
+docker_runs_semaphore: true

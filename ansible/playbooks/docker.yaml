@@ -21,6 +21,31 @@
   hosts: docker
   become: true
 
+  pre_tasks:
+    # Semaphore runs inside Docker on this host. If dockerd restarts without
+    # live-restore, the Semaphore container stops and takes this run with it.
+    - name: Check live-restore on the Semaphore host
+      when: docker_runs_semaphore | default(false) | bool
+      block:
+        - name: Read live-restore
+          ansible.builtin.command:
+            cmd: docker info --format '{{ "{{" }}.LiveRestoreEnabled{{ "}}" }}'
+          register: docker_live_restore
+          changed_when: false
+          failed_when: false
+          check_mode: false
+
+        - name: Refuse to restart dockerd under Semaphore without live-restore
+          ansible.builtin.assert:
+            that: docker_live_restore.rc != 0 or docker_live_restore.stdout == 'true'
+            fail_msg: >-
+              live-restore is off on {{ inventory_hostname }}, which runs Semaphore.
+              Applying daemon.json would restart dockerd and kill this task. Add
+              "live-restore": true to /etc/docker/daemon.json and run
+              `systemctl reload docker` on the host (a reload applies it without
+              a restart), then re-run.
+            quiet: true
+
   roles:
     - geerlingguy.docker
 
