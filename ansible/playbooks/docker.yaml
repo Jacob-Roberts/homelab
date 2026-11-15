@@ -1,0 +1,85 @@
+---
+# =============================================================================
+# Docker Engine
+# =============================================================================
+# Run: ansible-playbook playbooks/docker.yaml [-l <host>] [--check --diff]
+#
+# - Installs Docker CE + compose plugin (geerlingguy.docker; Debian/Ubuntu,
+#   amd64 and arm64)
+# - Writes /etc/docker/daemon.json from docker_daemon_options
+#   (inventory/group_vars/docker.yaml) and restarts dockerd if it changed
+# - Fails if any Docker network overlaps a site network
+#
+# The role overwrites daemon.json as a whole. Run with --check --diff first
+# on a host whose daemon.json was edited by hand.
+#
+# Docker networks themselves are created by the Compose stacks doco-cd
+# deploys (and doco-cd.yaml for docker-socket-proxy), not here.
+# =============================================================================
+
+- name: Docker Engine
+  hosts: docker
+  become: true
+
+  roles:
+    - geerlingguy.docker
+
+  tasks:
+    # The role only notifies its handler; flush it so the checks below see
+    # the new daemon.json.
+    - name: Apply daemon.json changes now
+      ansible.builtin.meta: flush_handlers
+
+    - name: Read Docker's active address pools
+      ansible.builtin.command:
+        cmd: docker info --format '{{ "{{" }}json .DefaultAddressPools{{ "}}" }}'
+      register: docker_active_pools
+      changed_when: false
+      check_mode: false
+
+    - name: Ensure dockerd loaded the configured address pools
+      ansible.builtin.assert:
+        that:
+          - >-
+            (docker_active_pools.stdout | from_json | default([], true) | map(attribute='Base') | list)
+            == (docker_daemon_options['default-address-pools'] | map(attribute='base') | list)
+        fail_msg: >-
+          dockerd is running with {{ docker_active_pools.stdout }}, not the pools
+          in daemon.json. Restart it: systemctl restart docker
+          (live-restore keeps containers running).
+        quiet: true
+      when: not ansible_check_mode
+
+    - name: Find Docker networks that overlap site networks
+      ansible.builtin.script:
+        cmd: >-
+          files/check-docker-subnets.py
+          {{ (site_networks + (host_networks | default([]))) | map('quote') | join(' ') }}
+        executable: python3
+      register: docker_subnet_check
+      changed_when: false
+      check_mode: false
+
+    - name: Report overlapping Docker networks
+      vars:
+        overlaps: "{{ (docker_subnet_check.stdout | from_json).overlaps }}"
+        overlap_msg: |-
+          These Docker networks shadow a site network, so traffic to it never
+          leaves the host:
+          {% for o in overlaps %}
+            - {{ o.name }} {{ o.subnet }} (overlaps {{ o.protected }})
+          {% endfor %}
+          Recreate them so they get a subnet from the new pools: take the
+          owning Compose project down (disconnect traefik from it first if it
+          joins that network) and let doco-cd redeploy it. See
+          ansible/README.md ("Migrating Docker networks").
+      when: overlaps | length > 0
+      block:
+        - name: Fail on overlapping Docker networks
+          ansible.builtin.fail:
+            msg: "{{ overlap_msg }}"
+          when: docker_subnet_overlap_fatal | bool
+
+        - name: Warn about overlapping Docker networks
+          ansible.builtin.debug:
+            msg: "{{ overlap_msg }}"
