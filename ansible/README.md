@@ -27,11 +27,16 @@ What its project needs:
 - **Templates**: playbook paths are relative to the repo root, e.g.
   `ansible/playbooks/docker.yaml`. Limit to one host with the template's
   *Limit* field. Use *Dry run* (`--check`) and *Diff* for a preview.
+- **Environment variable** `ANSIBLE_CONFIG=ansible/ansible.cfg`. Semaphore
+  always runs from the repo root, so without it Ansible never finds
+  `ansible.cfg`. Paths in that file resolve against the file itself, and
+  `ansible-galaxy` reads it too, so roles and collections install into
+  `ansible/roles` and `ansible/collections` (gitignored). Playbooks still
+  work without the variable, just without pipelining and the YAML output.
 
-Semaphore runs from the repo root, so it never reads `ansible/ansible.cfg`;
-that file only serves local lint and syntax checks. Before each task it
-installs `requirements.yml` from the repo root, which pins every role and
-collection here.
+Before each task Semaphore installs `requirements.yml` from the playbook's
+directory: `playbooks/requirements.yml` pins every role and collection, and
+`nut-setup/` and `cleanup-docker/` symlink to it.
 
 Preview before the first real run on a host, especially `docker.yaml`: the
 role rewrites `daemon.json` as a whole.
@@ -40,7 +45,7 @@ role rewrites `daemon.json` as a whole.
 
 | Path | What |
 | --- | --- |
-| `../requirements.yml` | Roles and collections (repo root, for Semaphore) |
+| `playbooks/requirements.yml` | Pinned roles and collections |
 | `inventory/hosts.yaml` | Hosts and groups |
 | `inventory/group_vars/all.yaml` | Connection user, admin users and keys, site networks, service-account ID registry |
 | `inventory/group_vars/docker.yaml` | Docker Engine + `daemon.json` |
@@ -120,9 +125,9 @@ For linting and syntax checks only, not for changing hosts:
 
 ```zsh
 cd ansible
-ansible-galaxy install -r ../requirements.yml   # into roles/ and collections/, gitignored
+ansible-galaxy install -r playbooks/requirements.yml   # into roles/ and collections/, gitignored
 ansible-playbook playbooks/site.yaml --syntax-check
-ansible-lint playbooks
+ansible-lint                     # config in .ansible-lint
 ```
 
 ## Docker address pools
