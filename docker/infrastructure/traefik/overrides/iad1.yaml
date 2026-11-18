@@ -4,3 +4,4 @@ services:
   traefik-external:
     volumes:
       - ./config/conf-external/tunnel-iad1.yaml:/traefik/conf/tunnel.yaml:ro
+      - ./config/conf-external/redirects-iad1.yaml:/traefik/conf/redirects.yaml:ro
