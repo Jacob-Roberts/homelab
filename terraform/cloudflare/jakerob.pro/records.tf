@@ -53,6 +53,14 @@ locals {
       ttl     = 1
       proxied = false
     },
+    // Redirects to jellyfin (conf-external/redirects-iad1.yaml)
+    "plex" = {
+      name    = "plex.jakerob.pro"
+      type    = "CNAME"
+      content = "iad1-node-1.jakerob.pro"
+      ttl     = 1
+      proxied = false
+    },
     "auth" = {
       name    = "auth.jakerob.pro"
       type    = "CNAME"

@@ -1,0 +1,28 @@
+# Public host-to-host redirects on iad1's traefik-external.
+#
+# These hostnames resolve publicly to iad1-node-1 and have no backend: the
+# router answers with a redirect and never forwards the request.
+http:
+  middlewares:
+    plex-to-jellyfin:
+      redirectRegex:
+        regex: '^https?://plex\.jakerob\.pro/(.*)'
+        replacement: 'https://jellyfin.jakerob.pro/${1}'
+        permanent: true
+
+  routers:
+    # plex.jakerob.pro -> jellyfin.jakerob.pro (path and query preserved)
+    plex-redirect-http:
+      entrypoints: web
+      rule: "Host(`plex.jakerob.pro`)"
+      middlewares:
+        - plex-to-jellyfin
+      service: noop@internal
+    plex-redirect-https:
+      entrypoints: websecure
+      rule: "Host(`plex.jakerob.pro`)"
+      middlewares:
+        - plex-to-jellyfin
+      service: noop@internal
+      tls:
+        certResolver: letsencrypt
