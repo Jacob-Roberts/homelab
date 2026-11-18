@@ -1,0 +1,59 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cf-token-rotator
+  namespace: cf-token-rotator
+spec:
+  # Runs daily, but most runs change nothing: a token is replaced only once
+  # it reaches rotation.interval, and an old one is revoked only after
+  # rotation.grace.
+  schedule: "17 10 * * *"
+  timeZone: America/Los_Angeles
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 3600
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 5
+  # Ships suspended. Do a manual dry run first (see
+  # tools/cf-token-rotator/README.md), then unsuspend in a PR.
+  suspend: true
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 3000
+      template:
+        spec:
+          serviceAccountName: cf-token-rotator
+          restartPolicy: Never
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65532
+            runAsGroup: 65532
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: rotator
+              image: ghcr.io/jacob-roberts/cf-token-rotator:0.1.0
+              args: ["-config", "/etc/cf-token-rotator/config.yaml"]
+              envFrom:
+                - secretRef:
+                    name: cf-token-rotator-identity
+              volumeMounts:
+                - name: config
+                  mountPath: /etc/cf-token-rotator
+                  readOnly: true
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: [ALL]
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 64Mi
+                requests:
+                  cpu: 10m
+                  memory: 16Mi
+          volumes:
+            - name: config
+              configMap:
+                name: cf-token-rotator-config

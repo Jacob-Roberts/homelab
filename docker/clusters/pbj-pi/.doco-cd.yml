@@ -4,12 +4,14 @@
 # the stack as its own after the bootstrap.
 name: doco-cd
 working_dir: docker/infrastructure/doco-cd
-compose_files: [compose.yaml]
+compose_files: [compose.yaml, compose.api.yaml]
 timeout: 120
 environment:
     TZ: America/Los_Angeles
     DEPLOY_CONFIG_BASE_DIR: docker/clusters/pbj-pi
     SECRET_PROVIDER_CLIENT_ID: bee04ce7-0037-4531-9e59-a2d015f7f2a2
+    # REST API for the Cloudflare token rotator (see compose.api.yaml)
+    NETBIRD_IP_V4: "100.107.156.239"
 
 ---
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json

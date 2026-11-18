@@ -1,0 +1,110 @@
+# cf-token-rotator config. Schema and setup: tools/cf-token-rotator/README.md
+# Every secret below lives in the Infisical project; all are prod.
+infisical:
+  siteUrl: https://app.infisical.com
+  projectId: f3732b81-3a85-430d-a547-43b85c363ad6
+
+cloudflare:
+  accountId: {environment: prod, path: /global/cf-token-rotator, key: CLOUDFLARE_ACCOUNT_ID}
+  # Account-owned token with only "Account API Tokens: Edit", IP-filtered to
+  # the cluster's egress IP. Rotate this one by hand (the job warns 30 days
+  # before it expires).
+  rotatorToken: {environment: prod, path: /global/cf-token-rotator, key: CLOUDFLARE_ROTATOR_TOKEN}
+
+rotation:
+  interval: 30d   # issue a new token once the current one is this old
+  grace: 24h      # keep the previous token valid this long after every reload succeeds
+  settle: 1h      # previous token used later than reload+settle -> do not revoke, alert
+  expiry: 60d     # expires_on for new tokens, so a dead rotator fails loudly
+
+state: {environment: prod, path: /global/cf-token-rotator, key: STATE}
+
+ntfy:
+  url: {environment: prod, path: /global/cf-token-rotator, key: NTFY_URL}
+  # token: {environment: prod, path: /global/cf-token-rotator, key: NTFY_TOKEN}
+
+# The first target of each consumer is its source of truth. Bootstrap: create
+# an account-owned token named exactly `tokenName` with the permissions it
+# needs, and store its value at the first target.
+consumers:
+  - name: cert-manager
+    tokenName: homelab/cert-manager
+    targets:
+      - {environment: prod, path: /pbj/k8s, key: CLOUDFLARE_API_TOKEN_CERT_MANAGER}
+    reload:
+      # cert-manager reads the Secret for every challenge, so no restart.
+      - {type: k8s-secret, namespace: cert-manager, secret: cloudflare-api-token, secretKey: api-token}
+
+  - name: external-dns
+    tokenName: homelab/external-dns
+    targets:
+      - {environment: prod, path: /pbj/k8s, key: CLOUDFLARE_API_TOKEN_EXTERNAL_DNS}
+    reload:
+      - {type: k8s-secret, namespace: external-dns, secret: cloudflare-api-token, secretKey: api-token}
+      - {type: k8s-rollout, namespace: external-dns, deployment: external-dns}
+
+  - name: traefik-pbj
+    tokenName: homelab/traefik-pbj
+    targets:
+      - {environment: prod, path: /pbj/traefik, key: CF_DNS_API_TOKEN}
+    reload:
+      - type: doco-cd
+        url: http://100.107.80.160:9120
+        project: traefik
+        apiKey: {environment: prod, path: /pbj/doco-cd, key: API_SECRET}
+
+  - name: traefik-pbj-pi
+    tokenName: homelab/traefik-pbj-pi
+    targets:
+      - {environment: prod, path: /pbj-pi-1/traefik, key: CF_DNS_API_TOKEN}
+    reload:
+      - type: doco-cd
+        url: http://100.107.156.239:9120
+        project: traefik
+        apiKey: {environment: prod, path: /pbj-pi-1/doco-cd, key: API_SECRET}
+
+  - name: traefik-sgu1
+    tokenName: homelab/traefik-sgu1
+    # Disabled: sgu1 has no Netbird IP in the repo, so its doco-cd API is not
+    # exposed yet. Set the URL, add the API override to docker/clusters/sgu1,
+    # then enable.
+    disabled: true
+    targets:
+      - {environment: prod, path: /sgu1-node-1/traefik, key: CF_DNS_API_TOKEN}
+    reload:
+      - type: doco-cd
+        url: http://SGU1-NETBIRD-IP:9120
+        project: traefik
+        apiKey: {environment: prod, path: /sgu1-node-1/doco-cd, key: API_SECRET}
+
+  - name: traefik-slc1
+    tokenName: homelab/traefik-slc1
+    targets:
+      - {environment: prod, path: /slc1-node-3/traefik, key: CF_DNS_API_TOKEN}
+    reload:
+      - type: doco-cd
+        url: http://100.107.184.93:9120
+        project: traefik
+        apiKey: {environment: prod, path: /slc1-node-3/doco-cd, key: API_SECRET}
+
+  - name: traefik-iad1
+    tokenName: homelab/traefik-iad1
+    targets:
+      - {environment: prod, path: /iad1-node-1/traefik, key: CF_DNS_API_TOKEN}
+    reload:
+      - type: doco-cd
+        url: http://100.107.140.137:9120
+        project: traefik
+        apiKey: {environment: prod, path: /iad1-node-1/doco-cd, key: API_SECRET}
+
+  - name: proxmox
+    tokenName: homelab/proxmox
+    targets:
+      - {environment: prod, path: /pbj/proxmox, key: CF_DNS_API_TOKEN}
+    reload:
+      - type: proxmox
+        url: https://proxmox.pbj.jakerob.pro:8006
+        plugin: cloudflare          # Datacenter -> ACME -> Challenge Plugins -> ID
+        tokenVar: CF_Token
+        # "user@realm!tokenid=uuid" for a PVE API token with Sys.Modify on /
+        apiKey: {environment: prod, path: /pbj/proxmox, key: CF_ROTATOR_PVE_API_TOKEN}

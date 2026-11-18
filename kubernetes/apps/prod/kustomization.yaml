@@ -9,6 +9,7 @@ resources:
   - ../base/pocket-id
   - ../base/wazuh
   - ../base/webnut
+  - ../base/cf-token-rotator
 patches:
   - path: podinfo-values.yaml
     target:

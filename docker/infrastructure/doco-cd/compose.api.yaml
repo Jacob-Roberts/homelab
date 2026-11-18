@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-go/master/schema/compose-spec.json
+# Enables the doco-cd REST API on the host's Netbird IP only, so the Cloudflare
+# token rotator in the k8s cluster can recreate the traefik stack after it
+# rotates CF_DNS_API_TOKEN. The API key grants full control of this host's
+# stacks: limit who can reach <netbird-ip>:9120 with Netbird ACLs.
+#
+# Host setup (once): write the same random value to the host file and to
+# Infisical at prod:/<host>/doco-cd/API_SECRET:
+#   openssl rand -hex 32 | sudo tee /opt/doco-cd/api_secret >/dev/null
+#   sudo chmod 600 /opt/doco-cd/api_secret
+#
+# A published host port makes SELF_UPDATE_STRATEGY=auto use the "applier"
+# strategy instead of scale_out, because two containers can't bind one port.
+services:
+  doco-cd:
+    environment:
+      API_SECRET_FILE: /run/secrets/api_secret
+    ports:
+      - "${NETBIRD_IP_V4:?set NETBIRD_IP_V4 in the doco-cd deploy config}:9120:80"
+    secrets:
+      - api_secret
+
+secrets:
+  api_secret:
+    file: /opt/doco-cd/api_secret
