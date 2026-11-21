@@ -1,0 +1,62 @@
+---
+# Everything connects as the automation user Semaphore logs in as. For a
+# fresh host, run playbooks/bootstrap-users.yaml with the extra variable
+# {"ansible_user": "<image default user>"} first; inventory variables beat
+# the login set on a Semaphore key, so only an extra variable overrides this.
+ansible_user: ansible-robot
+
+# Admin accounts on every `hardened` host: passwordless sudo, the only users
+# sshd accepts. Keys are public, so they live here: Semaphore's checkout is
+# all the playbooks get. Keep the automation user in this list (with the
+# public half of Semaphore's key) or the security playbook will lock it out.
+admin_users:
+  - name: jacobroberts
+    shell: /bin/bash
+    ssh_keys: [] # TODO: paste the public key(s), e.g. "ssh-ed25519 AAAA... jacob@laptop"
+  - name: ansible-robot
+    shell: /bin/bash
+    ssh_keys: [] # TODO: public half of the Semaphore key store's SSH key
+
+# Networks that must stay routable from every host. Docker bridge networks
+# must never overlap these, or the host treats them as on-link and stops
+# routing to the real network (this is what broke auth.jakerob.pro via iad1:
+# a 192.168.32.0/20 Docker network shadowed the PBJ LAN).
+# Checked by playbooks/docker.yaml.
+site_networks:
+  - 192.168.42.0/24 # PBJ LAN (incl. the k8s Gateway at 192.168.42.200)
+  - 192.168.97.0/24 # SLC1 LAN
+  - 192.168.59.0/24 # SGU1 LAN
+  - 100.64.0.0/10 # NetBird overlay
+
+# Fixed UID/GID registry for service accounts. Compose files default to these
+# IDs (`user: "${DOCKER_USER_ID:-<id>}:..."`), so they must stay identical on
+# every host. Which accounts a host gets is set by `service_accounts` in its
+# host_vars. Never reuse a retired ID: files on disk and in NFS shares may
+# still be owned by it.
+#
+# Retired: 2005 paperless, 2008 homepage (moved to k8s), 2012 opencloud,
+# 2013 cert-manager (group), 2014 obsidian, 2015 obsidian-note-manager,
+# 2019 paperless (duplicate entry).
+service_account_ids:
+  traefik: 2001
+  crowdsec: 2002
+  jellyfin: 2003
+  immich: 2004
+  calibre: 2006
+  karakeep: 2009
+  pocket-id: 2010
+  syncthing: 2011
+  unifi: 2016
+  myspeed: 2017
+  uptimekuma: 2018
+  factorio: 2020
+  joplin: 2021
+  arr: 2022
+  minecraft: 2023
+  convertx: 2025
+  mealie: 2085 # outside the 20xx sequence; matches docker/apps/mealie
+
+# Extra groups per service account, e.g. the *arr stack writes into
+# Jellyfin's library.
+service_account_groups:
+  arr: [jellyfin]

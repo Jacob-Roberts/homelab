@@ -1,4 +1,1 @@
----
-roles:
-  - name: geerlingguy.nut_client
-    version: 2.0.0
+../requirements.yml

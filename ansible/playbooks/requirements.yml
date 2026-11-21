@@ -1,0 +1,20 @@
+# Ansible roles and collections for everything under ansible/.
+# Lives next to the playbooks because Semaphore installs requirements.yml from
+# the playbook's own directory before every task. The directory-style
+# playbooks that need it (nut-setup, cleanup-docker) symlink to this file.
+# Locally: cd ansible && ansible-galaxy install -r playbooks/requirements.yml
+roles:
+  - name: geerlingguy.docker
+    version: 8.0.0
+  - name: geerlingguy.security
+    version: 3.1.0
+  - name: geerlingguy.nut_client
+    version: 2.0.0
+
+collections:
+  - name: community.docker
+    version: 5.4.0
+  - name: ansible.posix
+    version: 2.2.2
+  - name: community.general
+    version: 14.0.1

@@ -1,0 +1,10 @@
+---
+doco_cd_cluster: iad1
+
+# factorio/minecraft: game servers, not currently deployed by doco-cd.
+service_accounts: [traefik, crowdsec, convertx, mealie, pocket-id, joplin, factorio, minecraft]
+
+# Networks local to this host that Docker must not shadow, on top of
+# site_networks (group_vars/all.yaml).
+host_networks:
+  - 10.0.0.0/24 # OCI VCN subnet (host IP 10.0.0.13)

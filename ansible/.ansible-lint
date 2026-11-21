@@ -1,0 +1,7 @@
+---
+profile: production
+exclude_paths:
+  - roles/
+  - collections/
+kinds:
+  - requirements: "**/requirements.yml"
