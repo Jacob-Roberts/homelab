@@ -63,7 +63,7 @@ services:
           memory: 1G
 
   web:
-    image: docker.io/yooooomi/your_spotify_client:1.14.0@sha256:a39557a0772a825e6d0f00de31ce813771a2f158be718b40ec58eb3aa8bd76c3
+    image: docker.io/yooooomi/your_spotify_client:1.20.0@sha256:e4da90a0634c7862f9f4e893026ee8cd91380234fa2125b88b26c6fb9da3d47e
     container_name: spotify-analytics-web
     security_opt:
       - no-new-privileges:true
