@@ -12,7 +12,7 @@ volumes:
 
 services:
   server:
-    image: docker.io/yooooomi/your_spotify_server:1.14.0@sha256:73a67b06ad9566ee7df6138dce56358cdea499d8c7fa4aedc8f1d1bc8a9baada
+    image: docker.io/yooooomi/your_spotify_server:1.20.0@sha256:624ea009f2ef9d877989bee9c7913ac66840449f566517871696c31a8ea13ddf
     container_name: spotify-analytics
     security_opt:
       - no-new-privileges:true
