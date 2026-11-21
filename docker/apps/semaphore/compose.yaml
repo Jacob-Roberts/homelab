@@ -17,7 +17,7 @@ networks:
 
 services:
   semaphore:
-    image: semaphoreui/semaphore:v2.18.12@sha256:f6651f30d5bf962afe13831b579c3e0f02a13a45735f852b4de3225d98859c8e
+    image: semaphoreui/semaphore:v2.20.24@sha256:c547d31cba238bee4a9f2b5eec9d0f42b2d5ecb399377a2e63008500d74fbf3a
     environment:
       SEMAPHORE_DB_DIALECT: sqlite
       SEMAPHORE_ADMIN: ${SEMAPHORE_ADMIN}
