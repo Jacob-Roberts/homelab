@@ -1,0 +1,138 @@
+---
+# =============================================================================
+# doco-cd
+# =============================================================================
+# Run: ansible-playbook playbooks/doco-cd.yaml -l <host>
+#
+# Gets a Docker host to the point where doco-cd manages it:
+# - Installs the Infisical machine-identity client secret doco-cd reads
+#   (/opt/doco-cd/infisical_client_secret) if it is missing
+# - Starts/updates the docker-socket-proxy project (not managed by doco-cd,
+#   see docker/infrastructure/docker-socket-proxy/compose.yaml)
+# - Runs docker/clusters/<doco_cd_cluster>/bootstrap.sh once, if doco-cd is
+#   not running yet. After that doco-cd deploys itself and every stack from
+#   the repo; nothing on the host needs a checkout.
+#
+# The secret is only needed when the file does not exist yet (new host) or
+# with -e doco_cd_rotate_secret=true. Pass it through the environment, never
+# on the command line:
+#   DOCO_CD_INFISICAL_CLIENT_SECRET=... ansible-playbook playbooks/doco-cd.yaml -l <host>
+#
+# Requires: docker.yaml has run on the host.
+# =============================================================================
+
+- name: Bootstrap doco-cd
+  hosts: docker
+  become: true
+
+  vars:
+    repo_root: "{{ playbook_dir | dirname | dirname }}"
+    doco_cd_bootstrap_dir: "{{ doco_cd_dir }}/bootstrap"
+    doco_cd_secret_path: "{{ doco_cd_dir }}/infisical_client_secret"
+    doco_cd_infisical_client_secret: "{{ lookup('ansible.builtin.env', 'DOCO_CD_INFISICAL_CLIENT_SECRET') }}"
+    doco_cd_rotate_secret: false
+
+  tasks:
+    - name: Ensure the host maps to a doco-cd cluster
+      ansible.builtin.assert:
+        that:
+          - doco_cd_cluster is defined
+          - (repo_root ~ '/docker/clusters/' ~ doco_cd_cluster ~ '/.doco-cd.yml') is file
+        fail_msg: >-
+          Set doco_cd_cluster in inventory/host_vars/{{ inventory_hostname }}.yaml
+          to a directory under docker/clusters/.
+        quiet: true
+
+    - name: Create doco-cd directory
+      ansible.builtin.file:
+        path: "{{ doco_cd_dir }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Check for the Infisical client secret
+      ansible.builtin.stat:
+        path: "{{ doco_cd_secret_path }}"
+      register: doco_cd_secret_file
+
+    - name: Require the client secret when it has to be written
+      ansible.builtin.assert:
+        that: doco_cd_infisical_client_secret | length > 0
+        fail_msg: >-
+          {{ doco_cd_secret_path }} is missing (or rotation was requested).
+          Set DOCO_CD_INFISICAL_CLIENT_SECRET in the environment and re-run.
+        quiet: true
+      when: not doco_cd_secret_file.stat.exists or (doco_cd_rotate_secret | bool)
+
+    - name: Write the Infisical client secret
+      ansible.builtin.copy:
+        content: "{{ doco_cd_infisical_client_secret }}"
+        dest: "{{ doco_cd_secret_path }}"
+        owner: root
+        group: root
+        mode: "0600"
+      no_log: true
+      when: not doco_cd_secret_file.stat.exists or (doco_cd_rotate_secret | bool)
+
+    # bootstrap.sh finds the proxy compose file relative to itself, so mirror
+    # the repo layout.
+    - name: Create bootstrap directories
+      ansible.builtin.file:
+        path: "{{ doco_cd_bootstrap_dir }}/{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+      loop:
+        - docker/clusters/{{ doco_cd_cluster }}
+        - docker/infrastructure/docker-socket-proxy
+
+    - name: Copy bootstrap files from the repo
+      ansible.builtin.copy:
+        src: "{{ repo_root }}/{{ item.path }}"
+        dest: "{{ doco_cd_bootstrap_dir }}/{{ item.path }}"
+        owner: root
+        group: root
+        mode: "{{ item.mode }}"
+      loop:
+        - { path: "docker/clusters/{{ doco_cd_cluster }}/bootstrap.sh", mode: "0755" }
+        - { path: docker/infrastructure/docker-socket-proxy/compose.yaml, mode: "0644" }
+
+    # Not docker_network: it would recreate (and disconnect) an existing
+    # network whose options differ.
+    - name: Check for the docker-socket-proxy network
+      ansible.builtin.command:
+        cmd: docker network inspect docker-socket-proxy
+      register: doco_cd_proxy_network
+      changed_when: false
+      failed_when: false
+      check_mode: false
+
+    - name: Create the docker-socket-proxy network
+      ansible.builtin.command:
+        cmd: docker network create --internal docker-socket-proxy
+      changed_when: true
+      when: doco_cd_proxy_network.rc != 0
+
+    # doco-cd deliberately does not manage this project; this task is how it
+    # gets updated (e.g. after a Renovate digest bump).
+    - name: Start docker-socket-proxy
+      community.docker.docker_compose_v2:
+        project_src: "{{ doco_cd_bootstrap_dir }}/docker/infrastructure/docker-socket-proxy"
+        state: present
+        wait: true
+
+    - name: Check whether doco-cd is running
+      ansible.builtin.command:
+        cmd: docker ps -q --filter label=com.docker.compose.project=doco-cd
+      register: doco_cd_containers
+      changed_when: false
+      check_mode: false
+
+    - name: Bootstrap doco-cd
+      ansible.builtin.command:
+        cmd: sh ./bootstrap.sh
+        chdir: "{{ doco_cd_bootstrap_dir }}/docker/clusters/{{ doco_cd_cluster }}"
+      changed_when: true
+      when: doco_cd_containers.stdout | length == 0

@@ -1,0 +1,4 @@
+---
+doco_cd_cluster: pbj-pi
+
+service_accounts: [traefik, uptimekuma]

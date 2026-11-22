@@ -1,0 +1,40 @@
+---
+# =============================================================================
+# geerlingguy.docker role
+# =============================================================================
+docker_edition: ce
+docker_install_compose_plugin: true
+docker_users:
+  - jacobroberts
+
+# Rendered to /etc/docker/daemon.json. Changing it restarts dockerd;
+# live-restore keeps running containers up across that restart.
+docker_daemon_options:
+  log-driver: local
+  no-new-privileges: true
+  live-restore: true
+  icc: false
+  # Docker's built-in pools end with 192.168.0.0/16 in /20 blocks, which
+  # collides with the site LANs once a host has more than 15 networks.
+  # Same 172.17-172.31 /16 pools as the defaults, then 10.203.0.0/16 in /24s
+  # (256 more networks) instead of 192.168.0.0/16.
+  # Existing networks keep their subnets: recreate any that overlap
+  # (see the check at the end of playbooks/docker.yaml).
+  default-address-pools:
+    - { base: 172.17.0.0/16, size: 16 }
+    - { base: 172.18.0.0/16, size: 16 }
+    - { base: 172.19.0.0/16, size: 16 }
+    - { base: 172.20.0.0/14, size: 16 }
+    - { base: 172.24.0.0/14, size: 16 }
+    - { base: 172.28.0.0/14, size: 16 }
+    - { base: 10.203.0.0/16, size: 24 }
+
+# Fail playbooks/docker.yaml when a Docker network overlaps site_networks.
+# Set to false (-e docker_subnet_overlap_fatal=false) to only warn, e.g.
+# while migrating networks.
+docker_subnet_overlap_fatal: true
+
+# =============================================================================
+# doco-cd (playbooks/doco-cd.yaml)
+# =============================================================================
+doco_cd_dir: /opt/doco-cd

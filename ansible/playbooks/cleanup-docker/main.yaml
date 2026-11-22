@@ -1,19 +1,22 @@
 ---
-- name: Cleanup Docker extra used space
+# Run: ansible-playbook playbooks/cleanup-docker/main.yaml
+# (path kept stable for scheduled Semaphore runs)
+#
+# Frees space without touching anything doco-cd manages: stopped containers
+# that belong to a Compose project (one-shot init containers such as the
+# chown-* services, stacks stopped on purpose) are left alone.
+- name: Clean up Docker disk usage
   hosts: docker
+  become: true
+
   tasks:
-    - name: Prune containers without traefik labels
+    - name: Prune stopped containers not owned by a Compose project
       community.docker.docker_prune:
         containers: true
         containers_filters:
-          # Prune containers whose label "traefik.enable" does *not* have value
-          # "true". If you want to avoid more than one label, you can
-          # provide a list of multiple label-value pairs.
-          "label!": traefik.enable=true
-    - name: Prune images
+          "label!": com.docker.compose.project
+
+    - name: Prune dangling images and build cache
       community.docker.docker_prune:
-        containers: false
         images: true
-        networks: false
-        volumes: false
-        builder_cache: false
+        builder_cache: true
