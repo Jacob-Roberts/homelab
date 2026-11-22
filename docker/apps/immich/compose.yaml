@@ -98,7 +98,7 @@ services:
           memory: 8G
 
   redis:
-    image: "docker.io/valkey/valkey:9@sha256:70739f85ad2ee01a726a965584a0f94895f01b0c60b3cc8b0aeef11eaa6888cf"
+    image: "docker.io/valkey/valkey:9@sha256:1c2b25b09f354c66fe994733acdf12fcfd4bdf6f3bd92b88a93a70378d884056"
     container_name: immich_redis
     restart: unless-stopped
     user: "${DOCKER_USER_ID:-2004}:${DOCKER_GROUP_ID:-2004}"
