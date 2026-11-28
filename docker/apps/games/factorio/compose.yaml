@@ -6,7 +6,7 @@ volumes:
 
 services:
   factorio:
-    image: docker.io/factoriotools/factorio:2.1.24-rootless@sha256:5826b1925d0a21149b0e812322d178976cc9f71289b7b9ac719efefe77962f25
+    image: docker.io/factoriotools/factorio:2.1.25-rootless@sha256:48569b7b8867578844bf41c558aed94d9dbe0ced03cfe711dfc6b6ca5dabf164
     container_name: factorio
     user: "${DOCKER_USER_ID:-2020}:${DOCKER_GROUP_ID:-2020}"
     restart: unless-stopped
